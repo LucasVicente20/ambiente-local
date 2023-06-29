@@ -1,0 +1,123 @@
+<!-- 220038-- -->
+<script type="text/javascript">
+  function enviar(valor) {
+      document.CadIndexacaoPrecos.Botao.value = valor;
+      document.CadIndexacaoPrecos.submit();
+    
+  }
+function abrirModal(){
+  var modal = document.getElementById('#myModal');
+  modal.style.display = "block";
+}
+
+  // $(document).ready(function() {
+  //
+  //
+  //
+  // });
+
+  function mascararCNPJ() {
+    $("#cnpj").mask("99.999.999/9999-99");
+  }
+  function AbreJanela(url,largura,altura) {
+        window.open(url,'pagina','status=no,scrollbars=no,left=20,top=150,width='+largura+',height='+altura);
+    }
+
+  function limpar() {
+    document.CadIndexacaoPrecos.GerarNumeracaoAno.value = "";
+    document.CadIndexacaoPrecos.UnidadeCodigo.value = "";
+    document.CadIndexacaoPrecos.cnpj.value = "";
+    document.CadIndexacaoPrecos.cclamscodi.value = "";
+    document.CadIndexacaoPrecos.ematepdesc.value = "";
+    document.CadIndexacaoPrecos.DataInicio.value = "";
+    document.CadIndexacaoPrecos.DataFim.value = "";
+    document.CadIndexacaoPrecos.prioridade.value = "";
+    document.CadIndexacaoPrecos.vincular.value = "";
+    document.CadIndexacaoPrecos.submit();
+  }
+
+</script>
+<script language="javascript" src="../funcoes.js" type="text/javascript"></script>
+<form action="CadIndexacaoPrecos.php" method="post" name="CadIndexacaoPrecos">
+
+          <!--BEGIN BLOCO_MENSAGEM -->
+          <tr class="removeresult">
+            <td align="center"  colspan="4" class="titulo3">
+              {MENSAGEM}
+            </td>
+          </tr>
+          <!-- END BLOCO_MENSAGEM-->
+          <tr>
+            <td colspan="2">
+              <table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 1000px;">
+                <tr>
+                  <td align="center"  valign="middle" class="titulo2" width="100%" colspan=12>
+                      <font  class="titulo2" color="black">Pagina de indexação de Preços.</font>
+                  </td>
+                </tr>  <tr>
+                  <td align="center"  valign="middle" class="titulo3 textonormal" width="100%" colspan=12>
+                    <input type="button" value="Incluir" onclick="javascript:AbreJanela('janelaIncluirPreco.php',700,370);" class="botao"></font>
+                  </td>
+                </tr>
+                <tr>
+                  <td width="20%" class="titulo3" bgcolor="#F7F7F7"  align="center">Sequencial do Índice</td>
+                  <td class="titulo3" bgcolor="#F7F7F7" size="5" align="center">Índice de Reajuste</td>
+                  <td class="t titulo3" bgcolor="#F7F7F7" align="center">Data do Reajuste</td>
+                </tr>
+                <!-- BEGIN DADOS_INDEX -->
+                <tr>
+                  <td class="textonormal" bgcolor="#DCEDF7" align="center">{CODIGO_INDICE}</td>
+                  <td class="textonormal" bgcolor="#DCEDF7" class="dinheiro4casas" align="center">{VALOR_INDICE}</td>
+                  <td class="textonormal" bgcolor="#DCEDF7" align="center">{DATA_INDICE}</td>
+                </tr>
+                <!-- END DADOS_INDEX -->
+          
+              </table>
+            </td>
+          </tr>
+         
+
+          <!-- BEGIN BLOCO_SEM_RESULTADO -->
+          <tr class="removeresult">
+            <td align="center"  colspan="4" class="titulo3">
+              Não há DFDs para serem Analisados.
+            </td>
+          </tr>
+          <!-- END BLOCO_SEM_RESULTADO -->
+
+          <tr>
+            <td class="textonormal" align="right">
+              <!-- BEGIN BOTAO_ANALISAR -->
+              <input type="button" name="Analisar" value="Marcar como Analisado" class="botao" onclick="javascript:enviar('Analisar')">
+              <input type="button" name="Devolver" value="Devolver para Unidade" class="botao" onclick="javascript:enviar('Exibir')">
+              <input type="button" name="Exportar" value="Exportar PDF" class="botao" onclick="javascript:ExportarPDF()">
+              <input type="button" name="Voltar" value="Voltar" class="botao" onclick="javascript:enviar('Voltar')">
+              <!-- END BOTAO_ANALISAR -->
+              <input type="hidden" name="Botao" value="" />
+              <input type="hidden" name="valorAuxiliar" value="" />
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+
+  <table style="display: none" class="justificativa" border="0" cellpadding="3" cellspacing="0"
+         bordercolor="#75ADE6" summary="" class="textonormal"
+         bgcolor="#FFFFFF" style="width: 1000px;">
+    <tr>
+      <td>Justificativa para Devolução.</td>
+    </tr>
+    <tr>
+            <textarea style="display: none" class="justificativa" name="Justificativa" placeholder="Escreva aqui o motivo da devolução do DFD">
+
+            </textarea>
+    </tr>
+    <tr>
+      <td>
+        <input type="button" name="Analisar" value="Confirmar" class="botao" onclick="javascript:enviar('Devolver')">
+        <input type="button" name="Cancelar" value="Cancelar" class="botao" onclick="javascript:enviar('Cancelar')">
+      </td>
+    </tr>
+  </table>
+</form>

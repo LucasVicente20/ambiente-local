@@ -1,0 +1,270 @@
+<!--
+ * Alterado: Eliakim Ramos   
+ * Data:     20/02/2020
+ * Objetivo: Tarefa Redmine #230327
+ * -----------------------------------------------------------------------------------------------------------------------------------------------------------
+ * Alterado: Lucas André   
+ * Data:     27/03/2023
+ * Objetivo: Tarefa Redmine #280982
+ * -----------------------------------------------------------------------------------------------------------------------------------------------------------
+ * Alterado : Lucas Vicente
+ * Data: 10/04/2023
+ * Objetivo: CR 281565
+ *---------------------------------------------------------------------------
+ * Alterado : Lucas Vicente
+ * Data: 10/04/2023
+ * Objetivo: CR 281566
+ *---------------------------------------------------------------------------
+ * Alterado : Lucas Vicente
+ * Data: 24/04/2023
+ * Objetivo: CR 282154
+ *---------------------------------------------------------------------------
+ * Alterado : Lucas Vicente
+ * Data: 25/04/2023
+ * Objetivo: Cr 282153
+ *---------------------------------------------------------------------------
+ * Alterado : Osmar Celestino
+ * Data: 09/05/2023
+ * Objetivo: Cr 282926
+ *---------------------------------------------------------------------------
+ * Alterado : Lucas Vicente
+ * Data: 17/05/2023
+ * Objetivo: Cr 283272
+ *---------------------------------------------------------------------------
+-->
+<script language="JavaScript" src="CadSolicitacaoCompraIncluirManterExcluir.js" ></script>
+<form action="{NOME_PROGRAMA}" method="post" name="CadSolicitacaoCompraIncluirManterExcluir"  id="CadSolicitacaoCompraIncluirManterExcluir" enctype="multipart/form-data">
+	<span {SEEXISTEIRP}></span>
+	<table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" width="100%" bgcolor="#FFFFFF" summary="">
+		<tr>
+			<td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3">
+				{ACESSO_TITULO} - SOLICITAÇÃO DE COMPRA E CONTRATAÇÃO DE MATERIAL OU SERVIÇO (SCC)
+			</td>
+		</tr>
+		<tr>
+			<td class="textonormal">
+				<p align="justify">{DESCRICAO}</p>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<table class="textonormal" border="0" align="left" width="100%" summary="">
+					<!-- BEGIN BLOCO_NUMERO_SCC -->
+					<tr>
+						<td class="textonormal" bgcolor="#DCEDF7" >Número</td>
+						<td class="textonormal">{NUMERO_SCC}</td>
+					</tr>
+					<!-- END BLOCO_NUMERO_SCC -->
+					<!-- BEGIN BLOCO_SEQUENCIAL_SCC -->
+					<tr>
+						<td class="textonormal" bgcolor="#DCEDF7" >Sequencial</td>
+						<td class="textonormal">
+							{SEQUENCIAL_SCC}
+							<input type="hidden" id="Numero" name="Numero" value="{SEQUENCIAL_SCC_VALOR}" />
+						</td>
+					</tr>
+					<!-- END BLOCO_SEQUENCIAL_SCC -->
+					<tr>
+						<td class="textonormal" bgcolor="#DCEDF7" width="150px">Data</td>
+						<td class="textonormal">
+							{DATA_SCC}
+							<input type="hidden" id="DataSolicitacao" name="DataSolicitacao" value="{DATA_SCC_VALOR}"/>
+						</td>
+					</tr>
+					<tr >
+						<td class="textonormal" bgcolor="#DCEDF7" height="20">Centro de Custo*</td>
+						<td class="textonormal">
+							<!-- BEGIN BLOCO_CENTRO_CUSTO_SELECIONAR -->
+							<a style="text-decoration: none" href="javascript:AbreJanela('../estoques/CadIncluirCentroCusto.php?ProgramaOrigem=CadSolicitacaoCompraIncluirManterExcluir&TipoUsuario={CC_TIPO_USUARIO}',700,370);" id='CentroCustoLink'>
+								<img src="../midia/lupa.gif" border="0">
+							</a>
+							<!-- END BLOCO_CENTRO_CUSTO_SELECIONAR -->
+							<br>
+							<!-- BEGIN BLOCO_CENTRO_CUSTO_NENHUM -->
+							Nenhum Centro de Custo cadastrado
+							<!-- END BLOCO_CENTRO_CUSTO_NENHUM -->
+							<!-- BEGIN BLOCO_CENTRO_CUSTO -->
+							{CC_ORGAO}<br>&nbsp;&nbsp;&nbsp;&nbsp;
+							RPA {CC_RPA}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							{CC_DESCRICAO}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							{CC_DETALHAMENTO}
+							<!-- END BLOCO_CENTRO_CUSTO -->
+							
+							<!-- BEGIN BLOCO_CENTRO_CUSTO_SELECIONAR_INATIVO -->
+							<a style="text-decoration: none" href="javascript:AbreJanela('../estoques/CadIncluirCentroCusto.php?ProgramaOrigem=CadSolicitacaoCompraIncluirManterExcluir&TipoUsuario={CC_TIPO_USUARIO}&orgaobase={Orgao_base}',700,370);" id='CentroCustoLink'>
+								<img src="../midia/lupa.gif" border="0">
+							</a>
+							<!-- END BLOCO_CENTRO_CUSTO_SELECIONAR_INATIVO -->
+
+							<input type="hidden" name="CentroCusto" value="{CC}">
+							<input type="hidden" name="administracao" id="administracao" value="{CC_ADMINISTRACAO}">
+						</td>
+					</tr>
+					<tr>
+						<td class="textonormal" bgcolor="#DCEDF7">Objeto*</td>
+						<td class="textonormal">{CAMPO_OBJETO}</td>
+					</tr>
+					<tr>
+						<td class="textonormal" bgcolor="#DCEDF7">Observação</td>
+						<td class="textonormal" maxlength="200">{CAMPO_OBSERVACAO}</td>
+					</tr>
+					<tr>
+					    <td class="textonormal" bgcolor="#DCEDF7">Tipo de Compra* </td>
+						<!-- BEGIN BLOCO_TIPO_COMPRA -->
+						<td class="textonormal">
+							<select name="TipoCompra" id="TipoCompra" {READ_ONLY} size="1" value="A" class="textonormal" onChange="submit();">
+		      	            	<option value="">Selecione um tipo de compra...</option>
+		      	            	<!-- BEGIN BLOCO_TIPO_COMPRA_ITEM -->
+	      	            		<option value="{TIPO_COMPRA_VALOR}" {TIPO_COMPRA_SELECTED} >{TIPO_COMPRA}</option>
+		      	            	<!-- END BLOCO_TIPO_COMPRA_ITEM -->
+		        	        </select>
+						</td>
+						<!-- END BLOCO_TIPO_COMPRA -->
+						<!-- BEGIN BLOCO_TIPO_COMPRA_VISUALIZAR -->
+						<td class="textonormal">
+							{TIPO_COMPRA}
+							<input type="hidden" name="TipoCompra" value="{VALOR_TIPO_COMPRA}">
+						</td>
+						<!-- END BLOCO_TIPO_COMPRA_VISUALIZAR -->
+					</tr>
+						{LEGISLACAO}
+						<!-- BEGIN BLOCO_COMPROMISSO -->
+						<tr>
+							<td class="textonormal" bgcolor="#DCEDF7" >Termo de Compromisso/Credenciamento/Arrecadação de Receitas</td>
+							<td class="textonormal">{CAMPO_COMPROMISSO}</td>
+						</tr>
+						<!-- END BLOCO_COMPROMISSO -->
+						<!-- BEGIN BLOCO_DISPUTA -->
+						<tr>
+							<td class="textonormal" bgcolor="#DCEDF7" >Haverá Disputa?*</td>
+							<td class="textonormal">{CAMPO_DISPUTA}</td>
+						</tr>
+						<!-- END BLOCO_DISPUTA -->  
+						<!-- BEGIN BLOCO_DISPUTA_ACOMPANHAR -->
+						<tr>
+							<td class="textonormal" bgcolor="#DCEDF7" >Haverá Disputa?*</td>
+							{CAMPO_DISPUTA}
+						</tr>
+						<!-- END BLOCO_DISPUTA_ACOMPANHAR -->  
+						<!-- BEGIN BLOCO_PUBLICAR_ACOMPANHAR -->
+						<!-- <tr>
+							<td class="textonormal" bgcolor="#DCEDF7" >	Publicar na internet?*</td>
+							{CAMPO_PUBLICAR}
+						</tr> -->
+						<!-- END BLOCO_PUBLICAR_ACOMPANHAR -->
+						<!-- BEGIN BLOCO_PUBLICAR -->
+						<!-- <tr>
+							<td class="textonormal" bgcolor="#DCEDF7" >	Publicar na internet?*</td>
+							<td class="textonormal">{CAMPO_PUBLICAR}</td>
+						</tr> -->
+						<!-- END BLOCO_PUBLICAR -->
+					<!-- BEGIN BLOCO_REGISTRO_PRECO -->
+					<tr>
+						<td class="textonormal" bgcolor="#DCEDF7" >Registro de Preço*</td>
+						<td class="textonormal">{CAMPO_REGISTRO_PRECO}</td>
+					</tr>
+					<!-- END BLOCO_REGISTRO_PRECO -->
+					<!-- BEGIN BLOCO_SARP -->
+					<tr>
+						<td class="textonormal" bgcolor="#DCEDF7" >Tipo de SARP*</td>
+						<td class="textonormal" >{CAMPO_SARP}</td>
+					</tr>
+					<!-- END BLOCO_SARP -->
+					<!-- BEGIN BLOCO_LICITACAO -->
+					<tr>
+					  	<td class="textonormal" bgcolor="#DCEDF7" height="20">Processo Licitatório*</td>
+						<td class="textonormal">
+				    		<!-- BEGIN BLOCO_LICITACAO_SELECIONAR -->
+						    <a id="SarpLicitacaoLink" href="javascript:AbreJanela('ConsProcessoPesquisar.php?Programa=CadSolicitacaoCompraIncluir&CampoProcessoSARP=NumProcessoSARP&CampoAnoSARP=AnoProcessoSARP&CampoComissaoCodigoSARP=ComissaoCodigoSARP&CampoOrgaoLicitanteCodigoSARP=OrgaoLicitanteCodigoSARP&CampoGrupoEmpresaCodigoSARP=GrupoEmpresaCodigoSARP&CampoCarregaProcessoSARP=CarregaProcessoSARP',900,470);">
+						        <img src="../midia/lupa.gif" border="0">
+						    </a>
+						    <!-- END BLOCO_LICITACAO_SELECIONAR -->						            
+						    <!-- BEGIN BLOCO_LICITACAO_VISUALIZAR -->
+	                        <div name="ProcessoAnoSARP" id="ProcessoAnoSARP"> <b>PROCESSO:</b> {SARP_LICITACAO_ANO} </div>
+	                       	<div name="ComissaoDescricaoSARP" id="ComissaoDescricaoSARP"> <b>COMISSÃO:</b> {SARP_LICITACAO_COMISSAO} </div>
+                        	<div name="OrgaoLicitanteDescricaoSARP" id="OrgaoLicitanteDescricaoSARP"> <b>ÓRGÃO LICITANTE:</b> {SARP_LICITACAO_ORGAO} </div>
+				            <!-- END BLOCO_LICITACAO_VISUALIZAR -->
+							<input type="hidden" name="NumProcessoSARP" id="NumProcessoSARP" value="{SARP_LICITACAO_PROCESSO}"/>
+			                <input type="hidden" name="AnoProcessoSARP" id="AnoProcessoSARP" value="{SARP_LICITACAO_ANO_VALOR}"/>
+			                <input type="hidden" name="ComissaoCodigoSARP" id="ComissaoCodigoSARP" value="{SARP_LICITACAO_COMISSAO_VALOR}"/>
+			                <input type="hidden" name="OrgaoLicitanteCodigoSARP" id="OrgaoLicitanteCodigoSARP" value="{SARP_LICITACAO_ORGAO_VALOR}"/>
+			                <input type="hidden" name="GrupoEmpresaCodigoSARP" id="GrupoEmpresaCodigoSARP" value="{SARP_LICITACAO_EMPRESA}"/>
+			                <input type="hidden" name="CarregaProcessoSARP" id="CarregaProcessoSARP" value="{SARP_LICITACAO_CARREGA}"/>
+				        </td>
+				    </tr>			
+                    <!-- END BLOCO_LICITACAO -->
+                    
+				   	<!-- BEGIN BLOCO_SELECT_INTENCAO_REGISTRO_PRECO -->
+                    <tr>
+                        <td class="textonormal" bgcolor="#DCEDF7" height="20">Intenção de Registro de Preço</td>
+                        <td class="textonormal">
+                            <div>                
+                                <!-- BEGIN BLOCO_INTENCAO_REGISTRO_PRECO_NENHUM -->
+                                Nenhuma Intenção de Registro de Preço informada
+                                <!-- END BLOCO_INTENCAO_REGISTRO_PRECO_NENHUM -->
+                                
+                                <!-- BEGIN BLOCO_INTENCAO_REGISTRO_PRECO -->
+                                <span style="float: left; line-height: 16px">{NUMERO_INTENCAO_REGISTRO_PRECO}</span> &nbsp;  &nbsp; &nbsp; &nbsp;
+                                <!-- END BLOCO_INTENCAO_REGISTRO_PRECO -->
+                                
+                                <a style="float: left" href="javascript:AbreJanela('../registropreco/CadIncluirIntencaoRegistroPreco.php?ProgramaOrigem=CadSolicitacaoCompraIncluirManterExcluir&TipoUsuario={CC_TIPO_USUARIO}&CentroCusto={CC}',700,370);" id='IntencaoRegistroPrecoLink'><img src="../midia/lupa.gif" border="0"></a><br>
+                            </div>
+                            <input type="hidden" name="sequencialIntencao" id="sequencialIntencao" value="{SEQUENCIAL_INTENCAO}">
+                            <input type="hidden" name="anoIntencao" id="anoIntencao" value="{ANO_INTENCAO}">
+                        </td>
+                    </tr>
+                    <!-- END BLOCO_SELECT_INTENCAO_REGISTRO_PRECO -->
+
+					<!-- BEGIN BLOCO_CONTRATO -->
+					<tr>
+						<td class="textonormal" bgcolor="#DCEDF7" >Gera Contrato*</td>
+						<td class="textonormal" >{CAMPO_CONTRATO}</td>
+					</tr>
+					<!-- END BLOCO_CONTRATO -->
+					<!-- BEGIN BLOCO_DATA_INICIO_PROPOSTA -->
+					<tr>
+						<td class="textonormal" bgcolor="#DCEDF7" >Data de Início de Recebimento das Propostas*</td>
+						<td class="textonormal">
+							<input name="DataInicioProposta" id="DataInicioProposta" class="data" size="10" maxlength="10" value="{DATA_INICIO_PROPOSTA}" type="text">
+							<a href="javascript:janela('../calendario.php?Formulario=CadSolicitacaoCompraIncluirManterExcluir&amp;Campo=DataInicioProposta','Calendario',220,170,1,0)">
+								<img src="../midia/calendario.gif" alt="" border="0">
+							</a>
+						</td>
+					</tr>
+					<!-- END BLOCO_DATA_INICIO_PROPOSTA -->
+					<!-- BEGIN BLOCO_DATA_FIM_PROPOSTA -->
+					<tr>
+						<td class="textonormal" bgcolor="#DCEDF7" >Data Fim de Recebimento de Propostas*</td>
+						<td class="textonormal">
+							<input name="DataFimProposta" id="DataFimProposta" class="data" size="10" maxlength="10" value="{DATA_FIM_PROPOSTA}" type="text">
+							<a href="javascript:janela('../calendario.php?Formulario=CadSolicitacaoCompraIncluirManterExcluir&amp;Campo=DataFimProposta','Calendario',220,170,1,0)">
+								<img src="../midia/calendario.gif" alt="" border="0">
+							</a>
+						</td>
+					</tr>
+					<!-- END BLOCO_DATA_FIM_PROPOSTA --> 
+					<!-- BEGIN BLOCO_ACOMPANHAR_DATA_INICIO_PROPOSTA -->
+					<tr>
+						<td class="textonormal" bgcolor="#DCEDF7">Data de Início de Recebimento das Propostas</td>
+						<td class="textonormal">{ACOMPANHAR_DATA_INICIO_PROPOSTA}</td>
+					</tr>
+					<!-- END BLOCO_ACOMPANHAR_DATA_INICIO_PROPOSTA --> 
+					<!-- BEGIN BLOCO_ACOMPANHAR_DATA_FIM_PROPOSTA -->
+					<tr>
+						<td class="textonormal" bgcolor="#DCEDF7">Data Fim de Recebimento de Propostas</td>
+						<td class="textonormal">{ACOMPANHAR_DATA_FIM_PROPOSTA}</td>
+					</tr>
+					<!-- END BLOCO_ACOMPANHAR_DATA_FIM_PROPOSTA -->
+					<!-- BEGIN BLOCO_FORNECEDOR -->
+					<tr>
+						<td class="textonormal" bgcolor="#DCEDF7" >CPF/CNPJ do Fornecedor</td>
+						<td class="textonormal">
+							<input name="CnpjFornecedor" id="CnpjFornecedor" size="18" maxlength="18" value="{FORNECEDOR_CNPJ}" type="text"  />
+							<input name="BotaoIncluirFornecedor" value="Confirmar" class="botao" type="button" onClick="incluirFornecedorNosItens(); document.getElementById('CadSolicitacaoCompraIncluirManterExcluir').submit();" />
+							<input name="BotaoLimparFornecedor" value="Limpar" class="botao" type="button" onClick="limparFornecedorNosItens();" ;/>
+							<br>
+							<div align="left" id='CnpjFornecedorNome'>{FORNECEDOR}</div>
+						</td>
+					</tr>							   
+					<!-- END BLOCO_FORNECEDOR -->
+					{FINAL}

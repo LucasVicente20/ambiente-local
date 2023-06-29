@@ -1,0 +1,160 @@
+<!-- 220038-- -->
+<html>
+<head>
+<title>Portal Compras - Incluir Intenção de Registro de Preço</title>
+<script src="../import/jquery/jquery.js" type="text/javascript"></script>
+<script src="../import/jquery/jquery.maskmoney.js" type="text/javascript"></script>
+<script src="../import/jquery/jquery.maskedinput.js" type="text/javascript"></script>
+<script src="../funcoes.js" type="text/javascript"></script>
+<script type="text/javascript">
+<!--
+function enviar(valor){
+    document.CadRegistroPrecoIntencaoPesquisar.Botao.value = valor;
+    document.CadRegistroPrecoIntencaoPesquisar.submit();
+}
+function AbreJanela(url,largura,altura){
+    window.open(url,'paginadetalhe','status=no,scrollbars=yes,left=90,top=150,width='+largura+',height='+altura);
+}
+function AbreJanelaItem(url,largura,altura){
+    window.open(url,'paginaitem','status=no,scrollbars=yes,left=90,top=150,width='+largura+',height='+altura);
+}
+function ncaracteresO(valor){
+    document.CadRegistroPrecoIntencaoPesquisar.NCaracteresO.value = '' +  document.CadRegistroPrecoIntencaoPesquisar.Observacao.value.length;
+    if( navigator.appName == 'Netscape' && valor ){ //Netscape Only
+        document.CadRegistroPrecoIntencaoPesquisar.NCaracteresO.focus();
+    }
+}
+jQuery(document).ready(function($) {
+    jQuery(".mascara-numero-intencao").mask("9999/9999");
+
+    jQuery(".reset").click(function (event) {
+        event.preventDefault();
+
+        jQuery(":text").each(function () {
+            jQuery(this).val("");
+        });
+
+        jQuery(":radio").each(function () {
+            jQuery(this).prop({ checked: false })
+        });
+
+        jQuery(":checkbox").each(function () {
+            jQuery(this).prop({ checked: false })
+        });
+
+        jQuery("select").each(function () {
+            jQuery(this).val("");
+        });
+    });
+});
+//-->
+</script>
+<link rel="stylesheet" type="text/css" href="../estilo.css">
+</head>
+<body background="../midia/bg.jpg" marginwidth="0" marginheight="0">
+    <!-- BEGIN BLOCO_ERRO -->
+    <tr>
+      <td width='100'></td>
+      <td align='left' colspan='2'>{MENSAGEM_ERRO}</td>
+    </tr>
+    <!-- END BLOCO_ERRO -->
+
+    <form action="" method="post" name="CadRegistroPrecoIntencaoPesquisar">
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+            <tr>
+                <td align="left" colspan="4"></td>
+            </tr>
+
+            <tr>
+                <td class="textonormal">
+                    <table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" bgcolor="#FFFFFF" style="width: 692px">
+                        <tr>
+                            <td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3">PESQUISAR – INTENÇÃO DE REGISTRO DE PREÇOS</td>
+                        </tr>
+                        <tr>
+                            <td class="textonormal">
+                                <p align="justify">
+                                    Preencha os dados abaixo para pesquisar uma Intenção de Registro de Preços e clique no número  desejado.
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table class="textonormal" border="0" align="left" summary="">
+                                    <tr>
+                                        <td class="textonormal" bgcolor="#DCEDF7" width="30%">Número da intenção</td>
+                                        <td class="textonormal">
+                                            <input type="text" name="NumeroIntencao" size="10" maxlength="9" value="{VALOR_NUMERO_INTENCAO}" class="textonormal mascara-numero-intencao"/>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="textonormal" bgcolor="#DCEDF7" width="30%">Data de cadastramento</td>
+                                        <td class="textonormal">
+                                            <span>
+                                                <input type="text" name="DataInicioCadastro" size="10" maxlength="10" value="{VALOR_DATA_INICIO_CADASTRO}" class="textonormal">
+                                                <a href="javascript:janela('../calendario.php?Formulario=CadRegistroPrecoIntencaoPesquisar&Campo=DataInicioCadastro','Calendario',220,170,1,0)">
+                                                    <img src="../midia/calendario.gif" border="0" alt=""></a> <font class="textonormal"> a </font>
+                                            </span>
+                                            <span>
+                                                <input type="text" name="DataFimCadastro" size="10" maxlength="10" value="{VALOR_DATA_FIM_CADASTRO}" class="textonormal">
+                                                <a href="javascript:janela('../calendario.php?Formulario=CadRegistroPrecoIntencaoPesquisar&Campo=DataFimCadastro','Calendario',220,170,1,0)">
+                                                    <img src="../midia/calendario.gif" border="0" alt=""></a>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="textonormal" align="right">
+                                <input type="hidden" name="InicioPrograma" value="1" />
+                                <input type="button" name="Pesquisar" value="Pesquisar" class="botao" onClick="javascript:enviar('Pesquisar');" />
+                                <input type="button" name="Limpar" value="Limpar" class="botao reset" />
+                                <input type="hidden" name="Botao" value="" />
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- BEGIN BLOCO_RESULTADO_PEQUISA -->
+                    <table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" bgcolor="#FFFFFF" style="width: 692px">
+                        <tr>
+                            <td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3" colspan="9">
+                                RESULTADO DA PESQUISA
+                            </td>
+                        </tr>
+
+                        <!-- BEGIN BLOCO_HEADER_LISTAGEM_ITEM -->
+                        <tr>
+                            <td class="textoabason" bgcolor="#DCEDF7" width="30%" align="center">NÚMERO DA INTENÇÃO</td>
+                            <td class="textoabason" bgcolor="#DCEDF7" width="20%" align="center">DATA DE CADASTRAMENTO</td>
+                            <td class="textoabason" bgcolor="#DCEDF7" width="50%" align="center">OBJETO</td>
+                        </tr>
+                         <!-- END BLOCO_HEADER_LISTAGEM_ITEM -->
+
+                        <!-- BEGIN BLOCO_LISTAGEM_ITEM -->
+                        <tr>
+                            <td class="textonormal" width="30%" align="center">
+                                <a href="CadVisualizarIntencaoRegistroPreco.php?numero={VALOR_NUMERO_INTENCAO_ITEM}&ProgramaOrigem={VALOR_PROGRAMA_ORIGEM}">{VALOR_NUMERO_INTENCAO_ITEM}</a>
+                                <input type="hidden" name="Tipo[]" value="{VALOR_NUMERO_INTENCAO_ITEM}">
+                            </td>
+
+                            <td class="textonormal" width="20%" align="center">
+                                {VALOR_DATA_CADASTRO_ITEM}
+                                <input type="hidden" name="Tipo[]" value="{VALOR_DATA_CADASTRO_ITEM}">
+                            </td>
+
+                            <td class="textonormal" width="50%" align="center">
+                                {VALOR_OBJETO_ITEM}
+                                <input type="hidden" name="Tipo[]" value="{VALOR_OBJETO_ITEM}">
+                            </td>
+                        </tr>
+                        <!-- END BLOCO_LISTAGEM_ITEM -->
+                    </table>
+                    <!-- END BLOCO_RESULTADO_PEQUISA -->
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>

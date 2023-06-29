@@ -1,0 +1,118 @@
+<script language="javascript" src="../import/jquery/jquery.js" type="text/javascript"></script>
+<script language="javascript" src="../import/jquery/jquery.maskmoney.js" type="text/javascript"></script>
+<script language="javascript" src="../import/jquery/jquery.maskedinput.js" type="text/javascript"></script>
+<script language="javascript" src="../funcoes.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="../estilo.css">
+<form action="{NOME_PROGRAMA}.php" method="post" name="{NOME_PROGRAMA}"  enctype="multipart/form-data">
+    {FORNECEDOR}
+<script language="javascript" type="">
+
+function enviar(valor)
+{
+document.{NOME_PROGRAMA}.Botao.value = valor;
+document.{NOME_PROGRAMA}.submit();
+}
+</script>
+
+    <table class="textonormal" cellpadding="3" cellspacing="0" border="1" bordercolor="#75ADE6" align="left" width="100%" summary=""> 
+                
+        <tr align="center">
+            <td align="center" bgcolor="#75ADE6" valign="middle" colspan="{COLSPAN}" class="titulo3">
+                {ACESSO_TITULO_ATA}
+                
+            </td>
+        </tr>
+        <tr class="head_principal">
+            <td class="textoabason" align="center" bgcolor="#DCEDF7" width="40px">ORD</td>
+            <td class="textoabason" align="center" bgcolor="#DCEDF7">TIPO</td>
+            <td class="textoabason" align="center" bgcolor="#DCEDF7">COD REDUZIDO</td>
+            <td class="textoabason" align="center" bgcolor="#DCEDF7">DESCRIÇÃO</td>
+            <td class="textoabason" align="center" bgcolor="#DCEDF7">DESCRIÇAO DETALHADA</td>
+            <td class="textoabason" align="center" bgcolor="#DCEDF7">UND</td>
+            <td class="textoabason" align="center" bgcolor="#DCEDF7">QUANTIDADE</td>
+            <td class="textoabason" align="center" bgcolor="#DCEDF7">SALDO</td>
+            <td class="textoabason" align="center" bgcolor="#DCEDF7">QUANTIDADE SOLICITADA</td>
+            <!--<td style="{DISPLAY_TIPO_2}" class="textoabason" align="center" bgcolor="#DCEDF7">VALOR SOLICITAD0</td>-->
+        </tr>
+        <!-- BEGIN bloco_lista_ata -->
+        <tr class="itens_">
+            {INPUT_TIPO}
+            {INPUT_DESC}
+            {INPUT_DESC_DET}
+            {INPUT_UND}
+            {INPUT_COD}
+            {INPUT_UNI}
+            {INPUT_MARC}
+            {INPUT_MOD}
+            {INPUT_CARONA}
+            <td class="textonormal">{CHECKBOX_ITEM}</td>
+            <td class="textonormal">{TIPO_ATA}</td>
+            <td class="textonormal">{CODIGO_ATA}</td>
+            <td class="textonormal">{DESCRICAO_ATA}</td>
+            <td class="textonormal">{DESCRICAO_DET_ATA}</td>
+            <td class="textonormal">{UNIDADE_ATA}</td>
+            <td class="textonormal">{QUANTIDADE_ITEM_ATA}</td>
+            <td class="textonormal">{SALDO_CARONA_ATA}</td>
+            <td class="textonormal">{CHECKBOX_QTD}</td>
+            <!-- <td style="{DISPLAY_TIPO_2}" class="textonormal">{CHECKBOX_VALOR_SLCT}</td> -->
+        </tr>
+        <!-- END bloco_lista_ata -->
+        <tr>
+            <td align="right" colspan="{COLSPAN}">
+            <input name="{NAME_BOTAO}" value="{VALOR_BOTAO}" class="botao" type="button" onClick="{CLICK_BOTAO}" />
+            <input name="{NAME_BOTAO_VOLTAR}" value="{VALOR_BOTAO_VOLTAR}" class="botao" type="button" onClick="{CLICK_BOTAO_VOLTAR}" />
+            <input name="id_ata" value="{ID_ATA}" type="hidden"/>
+            <input name="incluir" value="{VALOR_BOTAO}" type="hidden"/>
+            </td>
+        </tr>
+    </table>
+    
+    
+</form>
+
+<script>
+    $(document).ready(function(){
+        $("form[name='ConsSelecionarItensAtaProcesso']").submit(function(){
+            var itens = $('.itens_').length
+                        
+            // Validar os valores selecionados
+            for(i = 0; i < itens; i++) {
+                // Verificar se marcou o item mas não informou a quantidade
+                checked = $("input[name='item["+i+"]']").is(':checked');
+                if(checked) {
+                    quantidade = $("input[name='quantidade["+i+"]']").val();
+                    if(quantidade == 0) {
+                        alert('Informe a quantidade para todos os itens selecionados');
+                        return false;
+                    }
+                }
+
+                // Verificar informou a quantidade  mas não marcou o item
+                quantidade_ = $("input[name='quantidade["+i+"]']").val();
+                if(quantidade_ != 0) {
+                    checked_ = $("input[name='item["+i+"]']").is(':checked');
+                    if(!checked_) {
+                        alert('Marque todos os itens que deseja informar a quantidade');
+                        return false;
+                    }
+                }
+            }
+        });
+
+        // Verificar saldo carona        
+        $(".verificarQuantidade").focusout(function() {
+            i = $(this).attr('data-pos');
+            valor = $(this).val().replace(',','.');
+            carona = $("input[name='carona["+i+"]']").val().replace(',','.');
+
+            valor = new Number(valor);
+            carona = new Number(carona);
+
+            if(valor > carona) {
+                alert('A quantidade não pode ser maior que o saldo');
+                $(this).val(0);
+            }
+        })
+
+    });
+</script>

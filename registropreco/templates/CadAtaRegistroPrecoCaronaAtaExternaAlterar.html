@@ -1,0 +1,121 @@
+<!-- 220038-- -->
+<script type="text/javascript">
+<!--
+function enviar(valor){
+    document.CadAtaRegistroPrecoCaronaAtaExternaIncluir.Botao.value = valor;    
+    document.CadAtaRegistroPrecoCaronaAtaExternaIncluir.submit();
+}
+-->
+
+</script>
+   <!-- BEGIN BLOCO_FORMULARIO_MANTER -->
+	<form action="CadAtaRegistroPrecoCaronaAtaExternaIncluir.php" method="post" name="CadAtaRegistroPrecoCaronaAtaExternaIncluir">
+       <table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 633px;">
+		    <tr>
+               <td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3" colspan="9">
+                INCLUIR - CARONA ORGÃO EXTERNO
+               </td>
+            
+            </tr>
+		   
+		   <tr>
+		     <table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 633px;">
+		     <tr>
+              <td align="center" bgcolor="#DCEDF7" valign="middle" class="titulo3">Nº da Ata Interna</td>
+              <td align="center"  valign="middle" class="titulo3">{ATA}</td>
+           </tr>
+           
+           <tr>
+            <td align="center" bgcolor="#DCEDF7" valign="middle" class="titulo3">Processo Licitatório</td>
+            <td align="center"  valign="middle" class="titulo3">{PROCESSO}</td>
+           </tr>
+           
+           <tr>
+              <td align="center" bgcolor="#DCEDF7" valign="middle" class="titulo3">Orgão Externo Solicitante da Carona</td>
+               <td align="left"  valign="middle" class="titulo3">
+                 <input type="text" value="" name="orgaoCarona">
+               </td>
+             </tr>
+		
+		   </table>
+		</tr>
+		
+		<tr>
+		   <table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 633px;">
+             <tr>
+                <td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3">ITENS DA ATA</td>
+             </tr>
+           <tr>
+              <td>
+                <table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF">
+                 
+                 <tr>
+                     <td class="textoabason" bgcolor="#DCEDF7" width="40px" align="center">ORD.</td>
+                     <td class="textoabason" bgcolor="#DCEDF7" width="40px" align="center">CADUS</td>
+                     <td class="textoabason" bgcolor="#DCEDF7" width="70px" align="center">DESCRICAO</td>
+                     <td class="textoabason" bgcolor="#DCEDF7" width="50px" align="center">UND.</td>
+                     <td class="textoabason" bgcolor="#DCEDF7" width="55px" align="center">QTD ORIGINAL</td>
+                     <td class="textoabason" bgcolor="#DCEDF7" width="50px" align="center">VALOR ORIGINAL UNIT.</td>
+                     <td class="textoabason" bgcolor="#DCEDF7" width="50px" align="center">VALOR TOTAL</td>
+                     <td class="textoabason" bgcolor="#DCEDF7" width="40px" align="center">LOTE</td>
+                     <td class="textoabason" bgcolor="#DCEDF7" width="50px" align="center">SALDO QTDE CARONA</td>
+                     <td class="textoabason" bgcolor="#DCEDF7" width="50px" align="center">QTDE SOLICITADA</td>
+                     <td class="textoabason" bgcolor="#DCEDF7" width="50px" align="center">VALOR TOTAL ATUAL</td>
+                 </tr> 
+                 <!-- BEGIN BLOCO_RESULTADO_ATAS -->
+                 <tr>   
+                   <td class="textonormal" width="40px" align="center">
+                         {VALOR_ORDEM}
+                     </td>
+                   
+                   <td class="textonormal" width="40px" align="center">
+                         {VALOR_TIPO}
+                   </td>
+                   <td class="textonormal" width="70px" align="center">
+                         {VALOR_DESCRICAO}
+                   </td>
+                    <td class="textonormal" width="50px" align="center">
+                         {VALOR_UND}
+                   </td>
+                    <td class="textonormal" width="55px" align="center">
+                         {VALOR_ORIGINAL}
+                   </td>
+                    <td class="textonormal" width="50px" align="center">
+                         {VALOR_QTD_ORIGINAL}
+                   </td>
+                   <td class="textonormal" width="50px" align="center">
+                         {VALOR_TOTAL_ORIGINAL}
+                    </td>
+                   
+                   <td class="textonormal" width="40px" align="center">
+                         {VALOR_LOTE}
+                   </td>
+                   <td class="textonormal" width="50px" align="center">
+                         {VALOR_QTD_ATUAL}
+                   </td>
+                    <td class="textonormal" width="50px" align="center">
+                         {VALOR_VALOR_ATUAL}
+                   </td>
+                   <td class="textonormal" width="50px" align="center">
+                         {VALOR_TOTAL_ATUAL}
+                   </td>
+                </tr>
+                <!-- END BLOCO_RESULTADO_ATAS --> 
+             </table>
+             <tr/>
+            <tr>
+            <td class="textonormal" align="right">
+                <input type="hidden" name="InicioPrograma" value="1" />
+                <input type="hidden" name="orgao" value="0" />
+                <input type="hidden" name="ano" value="0" />
+                <input type="hidden" name="processo" value="1" />
+                <input type="button" name="Salvar" value="Salvar" class="botao" onclick="javascript:enviar('salvar')" />
+                <input type="button" name="Voltar" value="Voltar" class="botao" onclick="javascript:enviar('voltar')" />
+                <input type="hidden" name="Botao" value="" />
+            </td>
+          </tr>
+        </table>
+      </tr>
+     </table>
+    </form>
+	<!-- END BLOCO_FORMULARIO_MANTER -->

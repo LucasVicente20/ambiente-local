@@ -1,0 +1,17 @@
+[Unit]
+Description=Open-iSCSI
+Documentation=man:iscsid(8) man:iscsiuio(8) man:iscsiadm(8)
+DefaultDependencies=no
+After=network.target network-online.target iscsiuio.service
+Before=remote-fs-pre.target
+
+[Service]
+Type=notify
+NotifyAccess=main
+ExecStart=/usr/sbin/iscsid -f
+KillMode=mixed
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+Also=iscsid.socket

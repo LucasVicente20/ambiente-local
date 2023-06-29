@@ -1,0 +1,149 @@
+<!-- 220038-- -->
+<script type="text/javascript">
+	function enviar(valor) {
+	    document.{NOMEPROGRAMA}.Botao.value = valor;
+	    document.{NOMEPROGRAMA}.submit();
+	}
+
+	function validarValor() {
+		var valorInput = document.{NOMEPROGRAMA}.vigencia.value;
+
+	 	if (valorInput < 1) {
+			document.{NOMEPROGRAMA}.vigencia.value = 0;
+	 	}
+	}
+
+	function inserirFile(valor) {
+		document.{NOMEPROGRAMA}.file.value = document.{NOMEPROGRAMA}.fileArquivo.value;
+		document.{NOMEPROGRAMA}.submit();
+	}
+
+	function AbreJanelaItem(url,largura,altura){
+		window.open(url,'paginaitem','status=no,scrollbars=yes,left=90,top=150,width='+largura+',height='+altura);
+	}
+
+	function AbreJanela(url, largura, altura) {
+		window.open(
+			url,
+			'paginadetalhe',
+			'status=no,scrollbars=yes,left=90,top=150,width='+largura+',height='+altura
+		);
+	}
+    function acrescentarParticipante(){
+    	var valor = undefined;
+    	
+		$('input:radio[name=idItem]').each(function() {
+        	if ($(this).is(':checked')) {
+				valor = parseInt($(this).val());
+            }
+		});
+		
+        var link = $("input[name=linkParticipante]").val();
+        
+		if (valor != undefined) {
+	        link = link + "&item=" + valor;
+		}
+        
+        AbreJanela(link, 700, 370);
+    }
+
+	$(document).ready(function() {
+		$(".ajustarSelecao").change(function() {
+			$(".ajustarSelecao").prop("checked", false);
+			$(this).prop("checked", true);
+		});
+	});
+</script>
+
+<form action="{NOMEPROGRAMA}.php?ano={ANO}&processo={PROCESSO}&orgao={ORGAO}&ata={ATA}" method="post" name="{NOMEPROGRAMA}">
+	<!-- BEGIN BLOCO_RESULTADO_PEQUISA -->
+	<table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 633px;">
+		<tr>
+			<td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3" colspan="9">MANTER MIGRAÇÃO - ATA EXTERNA - CARONA</td>
+		</tr>
+
+		<!-- BEGIN BLOCO_ATA -->
+		<tr>
+			<td class="textoabason" bgcolor="#DCEDF7" width="20%" align="center">Nº da Ata Externa</td>
+			<td class="textonormal" width="80%" align="center">{VALOR_ATA}</td>
+		</tr>
+        <!-- END BLOCO_ATA -->
+	</table>
+	<!-- END BLOCO_RESULTADO_PEQUISA -->
+
+	<table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 633px;">
+		
+        <tr>
+			<td align="center" bgcolor="#75ADE6" valign="middle" colspan="12" class="titulo3">QUANTITATIVOS DOS ITENS DA ATA POR ÓRGÃOS CARONA</td>
+		</tr>
+
+        <!--BEGIN BLOCO_ITEM_TOTAL -->
+        <tr style="border:0px;">
+			<td class="titulo3" width="80%" bgcolor="#75ADE6" style="border:0px;" align="center">
+				ÓRGÃO - {VALOR_ORGAO}
+            </td>
+        </tr>
+        <!-- BEGIN BLOCO_ORGAO_ITEM -->
+        
+        <!-- END BLOCO_ORGAO_ITEM -->
+		<tr>
+			<td colspan="12">
+				<table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF">
+					<tr>
+						<td class="textoabason" bgcolor="#DCEDF7" align="center"></td>
+						<td class="textoabason" bgcolor="#DCEDF7" width="127px" align="center">ORD</td>
+						<td class="textoabason" bgcolor="#DCEDF7" width="127px" align="center">DESCRIÇÃO MATERIAL/SERVIÇO</td>
+						<td class="textoabason" bgcolor="#DCEDF7" width="127px" align="center">TIPO</td>
+						<td class="textoabason" bgcolor="#DCEDF7" width="127px" align="center">COD. RED.</td>
+						<td class="textoabason" bgcolor="#DCEDF7" width="127px" align="center">LOTE</td>
+						<td class="textoabason" bgcolor="#DCEDF7" width="127px" align="center">UND.</td>
+						<td class="textoabason" bgcolor="#DCEDF7" width="127px" align="center">QUANTIDADE TOTAL</td>
+					</tr>
+                    
+                    <!-- BEGIN BLOCO_NENHUM_RESULTADO -->
+                    <tr>
+                       <td colspan="12">
+                         Nenhum Resultado Encontrando.
+                       </td>
+                    </tr>
+                   <!-- END BLOCO_NENHUM_RESULTADO -->
+
+					<!-- BEGIN BLOCO_RESULTADO_ATAS -->
+						<tr>
+				        	<td class="textonormal" width="" align="center">
+				        		<input type="radio" name="idItem" value="{VALOR_CODIGO_REDUZIDO}" class="ajustarSelecao" />
+				        	</td>
+							<td class="textonormal" width="50px" align="center">{VALOR_ORDEM}</td>
+							<td class="textonormal" width="70px" align="center">{VALOR_DESCRICAO_ITEM}</td>
+							<td class="textonormal" width="52px" align="center">{VALOR_TIPO}</td>
+							<td class="textonormal" width="52px" align="center">{VALOR_CODIGO_REDUZIDO}</td>
+							<td class="textonormal" width="50px" align="center">{VALOR_LOTE}</td>
+							<td class="textonormal" width="50px" align="center">{VALOR_UND}</td>
+							<td class="textonormal" width="50px" align="center">
+								<input value="{VALOR_QTD_TOTAL}" name="quantidadeItem" class="dinheiro4casas" size="5">
+							</td>
+						</tr>
+				     <!-- END BLOCO_RESULTADO_ATAS -->
+				</table>
+			</td>
+		</tr>
+        <!-- END BLOCO_ITEM_TOTAL -->
+		<tr>
+			<td class="textonormal" align="right" colspan="12" width="100%">
+				<!-- BEGIN BLOCO_BOTAO -->
+				<input type="hidden" name="InicioPrograma" value="1" />
+				<input type="hidden" name="ano" value="{VALOR_ANO_SESSAO}" class="botao" onclick="javascript:enviar('Alterar')" />
+				<input type="hidden" name="processo" value="{VALOR_PROCESSO_SESSAO}" class="botao" onclick="javascript:enviar('Visualizar')" />
+				<input type="hidden" name="ata" value="{VALOR_ATA_SESSAO}" class="botao" onclick="javascript:enviar('Inativar')" />
+				<input type="hidden" name="orgao" value="{VALOR_ORGAO_SESSAO}" class="botao" onclick="javascript:enviar('Inativar')" />
+				<input type="button" name="adicionarItem" value="Adicionar Carona" class="botao" onclick="javascript:AbreJanelaItem('../registropreco/CadAtaRegistroPrecoCaronaAtaExternaIncluir.php?ata={ATA}&tela=popup', 700, 350);" />
+				<input type="button" name="retirarItem" value="Inativar Carona" class="botao" onclick="javascript:enviar('RetirarItem')" />
+				<input type="button" name="adicionarParticipante" value="Retirar Carona" class="botao" onclick="javascript:acrescentarParticipante();" />
+                <input type="hidden" name="linkParticipante" value="{JANELA_ADICIONAR_PARTICIPANTE}">
+				<input type="button" name="voltar" value="Voltar" class="botao" onclick="javascript:enviar('Voltar')" />
+				<input type="hidden" name="Botao" value="" />
+				<!-- END BLOCO_BOTAO -->
+			</td>
+		</tr>
+	</table>
+</form>

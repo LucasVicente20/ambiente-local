@@ -1,0 +1,207 @@
+<!-- 220038-- -->
+<script type="text/javascript">
+  function enviar(valor){
+  
+    if(valor == 'Gerar') {
+      var element = document.getElementsByClassName('numeroAta');
+      var check = document.getElementsByClassName('check');
+      var array = [];
+      for (var i = 0; i < element.length; ++i) {
+          numero = element[i].value;  
+          array.push(numero);
+          if(check[i].checked == true && numero == '') {
+            alert('Informe corretamente os valores da ata');
+            return false;
+          }
+      }
+    }
+  
+    document.CadRegistroPrecoLicitacaoAtas.Botao.value = valor;
+    document.CadRegistroPrecoLicitacaoAtas.submit();
+  }
+</script>
+<form action="CadRegistroPrecoLicitacaoAtas.php" method="post" name="CadRegistroPrecoLicitacaoAtas">
+  <!-- BEGIN BLOCO_MENSAGEM -->
+  {VALOR_MENSAGEM}
+  <!-- END BLOCO_MENSAGEM -->
+
+  <table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 850px;">
+    <tr>
+      <td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3" colspan="9">
+        GERAR NUMERAÇÃO DE ATA INTERNA
+      </td>
+    </tr>
+      <!-- BEGIN BLOCO_RESULTADO_PESQUISA -->
+    <tr>
+      <td colspan="4">
+        <table border="0" cellpadding="3" cellspacing="2" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF">
+          <!-- BEGIN BLOCO_LICITACAO -->
+          <tr>
+            <td class="textonormal" bgcolor="#DCEDF7" width="30%" align="left">Comissão</td>
+            <td class="textonormal" width="70%" align="left">
+              {VALOR_COMISSSAO}
+            </td>
+          </tr>
+          <tr>
+            <td class="textonormal" bgcolor="#DCEDF7" width="30%" align="left">Processo</td>
+            <td class="textonormal" width="70%" align="left">
+              {VALOR_PROCESSO}
+            </td>
+          </tr>
+          <tr>
+            <td class="textonormal" bgcolor="#DCEDF7" width="30%" align="left">Ano</td>
+            <td class="textonormal" width="70%" align="left">
+              {VALOR_ANO}
+            </td>
+          </tr>
+          <tr>
+            <td class="textonormal" bgcolor="#DCEDF7" width="30%" align="left">Modalidade</td>
+            <td class="textonormal" width="70%" align="left">
+              {VALOR_MODALIDADE}
+            </td>
+          </tr>
+          <tr>
+            <td class="textonormal" bgcolor="#DCEDF7" width="30%" align="left">Licitação</td>
+            <td class="textonormal" width="70%" align="left">
+              {VALOR_LICITACAO}
+            </td>
+          </tr>
+          <tr>
+            <td class="textonormal" bgcolor="#DCEDF7" width="30%" align="left">Ano Licitação</td>
+            <td class="textonormal" width="70%" align="left">
+              {VALOR_ANO_LICITACAO}
+            </td>
+          </tr>
+          <tr>
+            <td class="textonormal" bgcolor="#DCEDF7" width="30%" align="left">Órgão Licitante</td>
+            <td class="textonormal" width="70%" align="left">
+              {VALOR_ORG_LIMITE}
+            </td>
+          </tr>
+          <tr>
+            <td class="textonormal" bgcolor="#DCEDF7" width="30%" align="left">Objeto</td>
+            <td class="textonormal" width="70%" align="left">
+              {VALOR_OBJETO}
+            </td>
+          </tr>
+          <tr style="{EXIBIR_ATA_CORP}">
+            <td class="textonormal" bgcolor="#DCEDF7" width="30%" align="left">
+              Ata Corporativa?
+            </td>
+            <td class="textonormal" width="70%" align="left">
+              {VALOR_ATA_CORP}
+            </td>
+          </tr>
+          <tr style="{EXIBIR_GESTOR}">
+            <td class="textonormal" bgcolor="#DCEDF7" width="30%" align="left">
+              Incluir Gestor como Participante
+            </td>
+            <td class="textonormal" width="70%" align="left">
+              {VALOR_EXIBIR_GESTOR}
+            </td>
+          </tr>
+          <!-- END BLOCO_LICITACAO -->
+        </table>
+      </td>
+    </tr>
+<!-- END BLOCO_RESULTADO_PESQUISA -->
+
+    <!-- BEGIN BLOCO_RESULTADO_ATAS_TITULO -->
+    <tr>
+      <td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3" width="100%" colspan="4">
+        <font color="white"> ATA(S) REGISTRO DE PREÇO COM NUMERAÇÃO GERADA</font>
+
+      </td>
+    </tr>    
+    <tr>
+      <td class="textonormal" bgcolor="#DCEDF7" align="center">&nbsp;</td>
+      <td class="textonormal" bgcolor="#DCEDF7" align="center">Nº ATA</td>
+      <td class="textonormal" bgcolor="#DCEDF7" align="center">FORNECEDOR</td>
+      <td class="textonormal" bgcolor="#DCEDF7" align="center">LOTE (S)</td>
+    </tr>
+    <!-- END BLOCO_RESULTADO_ATAS_TITULO -->
+
+   <!-- BEGIN BLOCO_RESULTADO_ATAS -->
+    <tr>
+      <input type="hidden" value="{VALOR_NUMERO_ATA_HIDDEN}"/>
+      <td>
+          <input style="{DISPLAY_CHECKBOX_DESFAZER}" type="checkbox" name="desfazer_atas[]" value="{VALOR_CARPNOSEQU}">
+      </td>
+      <td class="textonormal"  align="center">
+        {VALOR_ENDERECO_DETALHE_ATA}
+      </td>
+      <td class="textonormal" align="center">
+        {VALOR_FORNECEDOR}
+      </td>
+      <td class="textonormal" align="center">
+        {VALOR_LOTE}
+      </td>
+    </tr>
+    <!-- END BLOCO_RESULTADO_ATAS -->
+    
+    <!-- BEGIN BLOCO_BOTAO_DESFAZER -->
+    <tr>
+      <td class="textonormal" align="right" colspan="4">
+        <input type="button" name="desfazer" value="Desfazer Numeração" class="botao" onclick="javascript:enviar('Desfazer')" />
+      </td>
+    </tr>
+    <!-- END BLOCO_BOTAO_DESFAZER -->        
+
+
+    <!-- BEGIN BLOCO_RESULTADO_ATAS_NAO_GERADAS_TITULO -->
+    <tr>
+      <td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3" width="100%" colspan="4">
+        <font color="white"> ATA(S) REGISTRO DE PREÇO SEM NUMERAÇÃO GERADA</font>
+      </td>
+    </tr>    
+    <tr>
+      <td class="textonormal" bgcolor="#DCEDF7" align="center">&nbsp;</td>
+      <td class="textonormal" bgcolor="#DCEDF7" align="center">Nº ATA</td>
+      <td class="textonormal" bgcolor="#DCEDF7" align="center">FORNECEDOR</td>
+      <td class="textonormal" bgcolor="#DCEDF7" align="center">LOTE (S)</td>
+    </tr>
+    <!-- END BLOCO_RESULTADO_ATAS_NAO_GERADAS_TITULO -->
+    
+    <!-- BEGIN BLOCO_RESULTADO_ATAS_NAO_GERADAS -->
+    <tr>
+      <td>
+          <input type="checkbox" class="check" name="gerar_ata[{VALOR_ID}]" value="{VALOR_ID_FORNECEDOR}">
+      </td>
+      <td class="textonormal"  align="center">
+          <input type="hidden" name="pre_ata[{VALOR_ID}]" value="{VALOR_PRE}">
+        {VALOR_PRE}.<input type="text" size="3" class="numeroAta" name="numero_ata[{VALOR_ID}]" value="{VALOR_NUMERO}">/<input type="text" size="3" name="ano_ata[{VALOR_ID}]" value="{VALOR_ANO}">
+      </td>
+
+      <td class="textonormal" align="center">
+        {VALOR_FORNECEDOR}
+      </td>
+      <td class="textonormal" align="center">
+        <input type="hidden" name="lote[{VALOR_ID}]" value="{VALOR_LOTE}">
+        {VALOR_LOTE}
+      </td>
+    </tr>
+    <!-- END BLOCO_RESULTADO_ATAS_NAO_GERADAS -->
+
+    <!-- BEGIN BLOCO_BOTAO_GERAR -->
+    <tr>
+        <td class="textonormal" align="right" colspan="4">
+            <input type="button" name="gerar" value="Gerar Numeração" class="botao" onclick="javascript:enviar('Gerar')" >
+        </td>
+      </tr>
+      <!-- END BLOCO_BOTAO_GERAR -->      
+
+
+    <tr>
+      <!-- BEGIN BLOCO_BOTOES -->
+      <td class="textonormal" align="right" colspan="4">
+        <input type="button" name="voltar" value="Voltar" class="botao" onclick="javascript:enviar('Voltar')" />
+        <input type="hidden" name="processo" value="{BOTAOPROCESSO}" />
+        <textarea name="obje" style="display:none">{BOTAOOBJE}</textarea>
+        <input type="hidden" name="ano" value="{BOTAOANO}" />
+        <input type="hidden" name="Botao" value="" />
+      </td>
+      <!-- END BLOCO_BOTOES -->
+    </tr>
+
+  </table>
+</form>

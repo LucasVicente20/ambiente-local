@@ -1,0 +1,349 @@
+<!-- 220038-- -->
+<script src="../import/jquery/jquery.maskedinput.js" type="text/javascript" ></script>
+<script type="text/javascript">
+
+function enviar(valor){
+    var validacao = true;
+    if (valor == "Salvar" && '{VALOR_BOTAO_TROCAR}' == "Efetuar Troca") {
+        var validacao = confirm("Uma nova numeração será gerada e a ata anterior será desativada. Confirma?");
+    }
+
+    if (validacao) {
+        document.CadAtaRegistroPrecoInternaTrocarFornecedorAtasAlterar.Botao.value = valor;
+        document.CadAtaRegistroPrecoInternaTrocarFornecedorAtasAlterar.submit();
+    }
+}
+
+function validarValor(){
+    var valorInput = document.CadAtaRegistroPrecoInternaTrocarFornecedorAtasAlterar.vigencia.value;
+    if(valorInput < 1){
+        document.CadAtaRegistroPrecoInternaTrocarFornecedorAtasAlterar.vigencia.value = 0;
+    }
+
+}
+
+function inserirFile(valor){
+    document.CadAtaRegistroPrecoInternaTrocarFornecedorAtasAlterar.file.value = document.CadAtaRegistroPrecoInternaTrocarFornecedorAtasAlterar.fileArquivo.value;
+    document.CadAtaRegistroPrecoInternaTrocarFornecedorAtasAlterar.submit();
+}
+
+function AbreJanela(url,largura,altura)
+{
+    window.open(url,'paginadetalhe','status=no,scrollbars=yes,left=15,top=15,width='+largura+',height='+altura);
+}
+
+
+$(document).ready(function(){
+    var cnpjOuCpf = '{VALOR_FORNECEDOR_ATUAL}';
+    console.log(cnpjOuCpf);
+    
+    if (cnpjOuCpf.length == 14) {
+        $('#cnpjFornecedorId').attr('checked', 'checked');
+        $("#cnpj").mask("99.999.999/9999-99");
+    } else if (cnpjOuCpf.length == 11) {
+        $('#cpfFornecedorId').attr('checked', 'checked');
+        $("#cnpj").mask("999.999.999-99");
+    }
+
+    if ('{VALOR_BOTAO_TROCAR}' === 'Desfazer Troca'){
+        var botaoProcurarDocumento = document.getElementsByName('fileArquivo');
+        var botaoInserirDocumento = document.getElementsByName('inserir');
+        
+        $(botaoInserirDocumento).remove();
+        $(botaoProcurarDocumento).remove();
+        $('#procuraFornecedor').remove();
+        
+        $('.removerDocumento').each(function(){
+            $(this).remove();
+        });
+
+        $('#seqNovaAta').val({SEQ_NOVA_ATA});
+    }
+
+    $('#cnpjFornecedorId').click(function() {
+        $('#cpfFornecedorId').removeAttr('checked');
+        $('#cnpjFornecedorId').attr('checked', 'checked');
+        $("#cnpj").mask("99.999.999/9999-99");
+    });
+
+    $('#cpfFornecedorId').click(function() {
+        $('#cnpjFornecedorId').removeAttr('checked');
+        $('#cpfFornecedorId').attr('checked', 'checked');
+        $("#cnpj").mask("999.999.999-99");
+    });
+
+    $('.removerDocumento').click(function(e){
+        e.preventDefault();
+        $('#documentoExcluir').val($(this).attr('doc'));
+        $('#Botao').val('Remover');
+        $("#CadAtaRegistroPrecoInternaTrocarFornecedorAtasAlterar").submit();
+    });
+
+    $(".numero").keydown(function(event){
+    /* Allow backspace, delete, tab, esc e enter */
+        if ( event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 27 || event.keyCode == 13 ||
+            /* Allow CTRL+A */ (event.keyCode == 65 && event.ctrlKey === true) ||
+                /* Allow CTRL+C */ (event.keyCode == 67 && event.ctrlKey === true) ||
+                /* Allow CTRL+X */ (event.keyCode == 88 && event.ctrlKey === true) ||
+                /* Allow CTRL+V */ (event.keyCode == 86 && event.ctrlKey === true) ||
+                /* Allow Command+A (Mac) */ (event.keyCode == 65 && event.metaKey === true) ||
+                /* Allow Command+C (Mac) */ (event.keyCode == 67 && event.metaKey === true) ||
+                /* Allow Command+X (Mac) */ (event.keyCode == 88 && event.metaKey === true) ||
+                /* Allow Command+V (Mac) */ (event.keyCode == 86 && event.metaKey === true) ||
+                /* Allow home, end, left e right keys */ (event.keyCode >= 35 && event.keyCode <= 39)
+        ){
+            /* Boo */
+            return;
+        } else {
+            /* Stop key press */
+            if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105 )) {
+                event.preventDefault();
+            }
+        }
+    });
+
+    $('#procuraFornecedor').click(function(e){
+        e.preventDefault();
+
+        if ($('#cnpj').val() == "")
+        {
+            return false;
+        } else {
+            enviar('procuraFornecedor');
+        }
+    });
+});
+</script>
+
+<form action="CadAtaRegistroPrecoInternaTrocarFornecedorAtasAlterar.php?ano={VALOR_ANO_SESSAO}&processo={VALOR_PROCESSO_SESSAO}&orgao={VALOR_ORGAO_SESSAO}&ata={VALOR_ATA_SESSAO}" method="post" name="CadAtaRegistroPrecoInternaTrocarFornecedorAtasAlterar" id="CadAtaRegistroPrecoInternaTrocarFornecedorAtasAlterar" enctype="multipart/form-data">
+    <input type="hidden" name="efetuarDesfazerTroca" value="{VALOR_BOTAO_TROCAR}" />
+    <input type="hidden" name="seqNovaAta" id="seqNovaAta" />
+    <input type="hidden" name="qtdArquivosInseridos" id="qtdArquivosInseridos" /> 
+    <input type="hidden" name="tipoControle" value="{VALOR_TIPO_CONTROLE}" /> 
+    <!-- BEGIN BLOCO_RESULTADO_PEQUISA -->
+    <table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 857px;">
+        <tr>
+            <td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3" colspan="9">
+                TROCAR FORNECEDOR - ATA INTERNA
+            </td>
+
+        </tr>
+        <tr>
+            <td>
+                <table>
+                    <!-- BEGIN BLOCO_LICITACAO -->
+                    <tr>
+                        <td class="textonormal" bgcolor="#DCEDF7" width="20%" align="left">Nº da Ata Interna</td>
+                        <td class="textonormal" width="80%" align="left">
+                            {VALOR_ATA_INTERNA}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="textonormal" bgcolor="#DCEDF7" width="20%" align="left">Novo Nº da Ata Interna *</td>
+                        <td class="textonormal" width="80%" align="left">
+                            {VALOR_NOVA_ATA_INTERNA} 
+                            <input name="novoNumAta" class="numero" size="4" maxlength="4" type="text" id="novoNumAta" value="{VALOR_NOVO_NUM_ATA}" {DISABLED_CAMPO_ATA} /> 
+                            / <input name="novoAnoAta" class="numero" type="text" id="novoAnoAta" value="{VALOR_NOVO_ANO_ATA}" size="4" maxlength="4" {DISABLED_CAMPO_ATA} />
+                        </td>
+                    </tr>
+                    <tr>
+                     <td class="textonormal" bgcolor="#DCEDF7" width="20%" align="left">Processo Licitatório</td>
+                     <td class="textonormal" width="80%" align="left">
+                        {VALOR_PROCESSO}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="textonormal" bgcolor="#DCEDF7" width="20%" align="left">Ano Processo</td>
+                    <td class="textonormal" width="80%" align="left">
+                        {VALOR_ANO}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="textonormal" bgcolor="#DCEDF7" width="20%" align="left">Comissão</td>
+                    <td class="textonormal" width="80%" align="left">
+                        {VALOR_COMISSAO}
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="textonormal" bgcolor="#DCEDF7" width="20%" align="left">Modalidade</td>
+                    <td class="textonormal" width="80%" align="left">
+                        {VALOR_MODALIDADE}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="textonormal" bgcolor="#DCEDF7" width="20%" align="left">Licitação</td>
+                    <td class="textonormal" width="80%" align="left">
+                        {VALOR_LICITACAO}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="textonormal" bgcolor="#DCEDF7" width="20%" align="left">Ano Licitação</td>
+                    <td class="textonormal" width="80%" align="left">
+                        {VALOR_ANO_LICITACAO}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="textonormal" bgcolor="#DCEDF7" width="20%" align="left">Órgão Licitante</td>
+                    <td class="textonormal" width="80%" align="left">
+                        {VALOR_ORG_LIMITE}
+                    </td>
+                </tr>
+                <tr>
+                  <td class="textonormal" bgcolor="#DCEDF7" width="20%" align="left">Participantes</td>
+                  <td class="textonormal" width="80%" align="left">
+                    {VALOR_PARTICIPANTES}
+                </td>
+            </tr>
+            <tr>
+                <td class="textonormal" bgcolor="#DCEDF7" width="20%" align="left">Objeto</td>
+                <td class="textonormal" width="80%" align="left">
+                    {VALOR_OBJETO}
+                </td>
+            </tr>
+            <tr>
+              <tr>
+                <td class="textonormal" bgcolor="#DCEDF7" width="20%" align="left">Fornecedor Original</td>
+                <td class="textonormal" width="80%" align="left">
+                    <input name="fornecedorOriginal" type="hidden"  value="{FORNECEDORORIGINAL}" />
+                    {VALOR_FORNECEDOR}
+                </td>
+            </tr>
+            <tr>
+                <td class="textonormal" bgcolor="#DCEDF7" width="20%" align="left">Fornecedor Atual *</td>
+                <td class="textonormal" width="80%" align="left">
+                    <input name="tipoFornecedor" type="radio" id="cnpjFornecedorId" value="1"  {VALOR_CHECKED_CNPJ} {DISABLED_CAMPO_ATA}  />CNPJ
+                    <input name="tipoFornecedor" type="radio" id="cpfFornecedorId" value="2"  {VALOR_CHECKED_CPF} {DISABLED_CAMPO_ATA} />CPF
+                    <input name="fornecedorSelecionado" type="text" id="cnpj" value="{VALOR_FORNECEDOR_ATUAL}" {DISABLED_CAMPO_ATA} />
+                    <a id="procuraFornecedor">
+                        <img src="../midia/lupa.gif" border="0">
+                    </a>
+                    <br/>
+                    {VALORES_AUXILIARES_FORNECEDOR}
+                    <br/>
+                </td>
+            </tr>
+            <tr>
+                <td class="textonormal" bgcolor="#DCEDF7" width="20%" align="left">Documento(s) *</td>
+                <td class="textonormal" width="80%" align="left">
+                    <!-- BEGIN BLOCO_FILE -->
+                    <input type="file" name="fileArquivo" value="{VALOR_DOCUMENTO}" />{VALOR_NOME_DOCUMENTO}
+                    <input type="button" name="inserir" value="Incluir" class="botao" onclick="javascript:enviar('Inserir')" onsubmit="javascript:inserirFile({VALOR_DOCUMENTO})" />
+                    <!-- END BLOCO_FILE -->
+
+                    <!-- BEGIN BLOCO_DOCUMENTO -->
+                    <ul>
+                        <li>
+                            {NOME_DOCUMENTO}
+                            <input type="button" name="remover[]" value="Remover" class="botao removerDocumento"  doc="{ID_DOCUMENTO}"/>
+                        </li>
+                    </ul>
+                    <!-- END BLOCO_DOCUMENTO -->
+                </td>
+            </tr>
+    <!-- END BLOCO_LICITACAO -->
+    </td>
+    </tr>
+</table>
+<!-- END BLOCO_RESULTADO_PEQUISA -->
+<table border="1" cellpadding="3" cellspacing="0" bordercolor="#FFFFFF" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 785px; border-color: #75ade6;">
+    <tr>
+        <td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3">ITENS ATA INTERNA</td>
+    </tr>
+    <tr>
+        <td>
+          <table border="1" cellpadding="3" cellspacing="0"  summary="" class="textonormal" bgcolor="#FFFFFF" style="border-color: #75ade6;">
+
+            <tr>
+                <td class="textoabason" bgcolor="#DCEDF7" width="127px" align="center">LOTE</td>
+                <td class="textoabason" bgcolor="#DCEDF7" width="127px" align="center">ORD.</td>
+                <td class="textoabason" bgcolor="#DCEDF7" align="center">TIPO</td>
+                <td class="textoabason" bgcolor="#DCEDF7" align="center">COD. REDUZIDO</td>
+                <td class="textoabason" bgcolor="#DCEDF7" width="127px" align="center">DESCRIÇÃO</td>
+                <td class="textoabason" bgcolor="#DCEDF7" width="506px" align="center">UND.</td>
+                <td class="textoabason" bgcolor="#DCEDF7" width="506px" align="center">MARCA</td>
+                <td class="textoabason" bgcolor="#DCEDF7" width="506px" align="center">MODELO</td>
+
+                <td class="textoabason" bgcolor="#DCEDF7" width="127px" align="center">QUANTIDADE ORIGINAL</td>
+                <td class="textoabason" bgcolor="#DCEDF7" width="127px" align="center">VALOR ORIGINAL UNIT.</td>
+                <td class="textoabason" bgcolor="#DCEDF7" width="506px" align="center">VALOR TOTAL</td>
+                
+                <td class="textoabason" bgcolor="#DCEDF7" width="506px" align="center">QUANTIDADE ATUAL</td>
+                <td class="textoabason" bgcolor="#DCEDF7" width="127px" align="center">VALOR UNITÁRIO ATUAL</td>
+                <td class="textoabason" bgcolor="#DCEDF7" width="506px" align="center">VALOR TOTAL ATUAL</td>
+                <td class="textoabason" bgcolor="#DCEDF7" width="127px" align="center">SITUAÇÃO</td>
+            </tr>
+             <!-- BEGIN BLOCO_RESULTADO_ATAS -->
+             <tr>
+                <td class="textonormal" width="50px" align="center">
+                 {VALOR_LOTE}
+             </td>
+               <td class="textonormal" width="50px" align="center">
+                 {VALOR_ORDEM}
+             </td>
+
+             <td class="textonormal" width="52px" align="center">
+                 {VALOR_TIPO}
+             </td>
+             <td class="textonormal" width="52px" align="center">
+                 {VALOR_CODIGO_REDUZIDO}
+             </td>
+             <td class="textonormal" width="70px" align="center">
+                 {VALOR_DESCRICAO}
+             </td>
+
+             <td class="textonormal" width="50px" align="center">
+                 {VALOR_UND}
+             </td>
+
+             <td class="textonormal" width="50px" align="center">
+                 {VALOR_MARCA}
+             </td>
+
+             <td class="textonormal" width="50px" align="center">
+                 {VALOR_MODELO}
+             </td>
+
+             <td class="textonormal" width="50px" align="center">
+                 {QTD_ORIGINAL}
+             </td>
+             <td class="textonormal" width="50px" align="center">
+                 {VALOR_QTD_ATUAL}
+             </td>
+             <td class="textonormal" width="50px" align="center">
+                 {VALOR_TOTAL}
+             </td>
+             
+             <td class="textonormal" width="50px" align="center">
+                 {QTD_ATUAL}
+             </td>
+             <td class="textonormal" width="50px" align="center">
+                 {VALOR_UNIT_ATUAL}
+             </td>
+             <td class="textonormal" width="50px" align="center">
+                 {VALOR_TOTAL_ATUAL}
+             </td>
+             <td class="textonormal" width="55px" align="center">
+                 {VALOR_SITUACAO}
+             </td>
+         </tr>
+         <!-- END BLOCO_RESULTADO_ATAS -->
+     </table>
+ </td>
+</tr>
+<tr>
+  <td class="textonormal" align="right" >
+      <!-- BEGIN BLOCO_BOTAO -->
+      <input type="hidden" id="documentoExcluir" name="documentoExcluir" value="" />
+      <input type="hidden" name="ano" value="{VALOR_ANO_SESSAO}" class= "botao" onclick="javascript:enviar('Alterar')" ></input>
+      <input type="hidden" name="processo" value="{VALOR_PROCESSO_SESSAO}" class="botao" onclick="javascript:enviar('Visualizar')" />
+      <input type="hidden" name="ata" value="{VALOR_ATA_SESSAO}" class="botao" onclick="javascript:enviar('Inativar')" />
+      <input type="hidden" name="orgao" value="{VALOR_ORGAO_SESSAO}" class="botao" onclick="javascript:enviar('Inativar')" />
+      <input type="button" name="salvar" value="{VALOR_BOTAO_TROCAR}" class="botao" onclick="javascript:enviar('Salvar')" />
+      <input type="button" name="voltar" value="Voltar" class="botao" onclick="javascript:enviar('Voltar')" />
+      <input type="hidden" name="Botao" id="Botao" value="" />
+      <!-- END BLOCO_BOTAO -->
+  </td>
+</tr>
+</table>
+</form>

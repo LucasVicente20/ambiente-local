@@ -1,0 +1,412 @@
+<!-- 220038-- -->
+<!-- <link rel="stylesheet" type="text/css" href="../import/bootstrap-3.3.7/css/bootstrap.css" media="screen"> 
+<script type="text/javascript" src="../import/bootstrap-3.3.7/js/bootstrap.min.js"></script> -->
+<!-- 
+  * -------------------------------------------------------------------
+  * Alterado: João Madson
+  * Data: 04/01/2023
+  * Tarefa: 276611
+  * -------------------------------------------------------------------
+ -->
+<script type="text/javascript">
+function enviar(valor) {
+    document.ConsConsolidar.Botao.value = valor;
+    document.ConsConsolidar.submit();
+}
+
+//Abre diversas janelas por modelação.
+function AbreJanela(url,largura,altura){
+    console.log(url);
+    window.open(url,'paginaitem','status=no,scrollbars=yes,left=90,top=150,width='+largura+',height='+altura);
+}
+function ExportarPDF(){
+    $("[name='Botao']").val("ExportarPDF");
+    $("[name='ConsConsolidar']").submit();
+}
+function ExportarCSV(){
+    $("[name='Botao']").val("ExportarCSV");
+    $("[name='ConsConsolidar']").submit();
+}
+function ExportarXLS(){
+    $("[name='Botao']").val("ExportarXLS");
+    $("[name='ConsConsolidar']").submit();
+}
+
+function mascararCNPJ() {
+    $("#cnpj").mask("99.999.999/9999-99");
+}
+
+function limpar() {
+    $("[name='Botao']").val("limpar");
+    $("[name='ConsConsolidar']").submit();
+}
+$(document).ready(function() {
+    $('#numeroDFD').mask('9999.9999/9999');
+    $('.data').mask('99/99/9999');
+    $("#ProcessVoltaFase").live("click", function(){
+        $("#op").val("verificaSelecao")
+        $.post("PostDadosConsolidar.php",  $("[name='ConsConsolidar']").serialize(), function(data){
+            const response = JSON.parse(data);
+            if(response.status == true){
+            var confirma = confirm("Tem certeza que deseja voltar a fase do(s) DFD(s)?");
+            if(confirma == true) {
+                enviar('VoltarFase');
+            }
+        }
+        if(response.status == false){
+            $('html, body').animate({scrollTop:0}, 'slow');
+            $(".mensagem-texto").html("Selecione pelo menos um DFD para Voltar de fase!");
+            $(".error").html("Erro!");
+            $("#tdmensagem").show();
+            $("#mensagemFinal").hide();
+        }
+        })
+
+       
+    })
+    $("#ProcessConsolidar").live("click", function(){
+        $("#op").val("verificaSelecao")
+        $.post("PostDadosConsolidar.php",  $("[name='ConsConsolidar']").serialize(), function(data){
+            const response = JSON.parse(data);
+            if(response.status == true){
+            var confirma = confirm("Tem certeza que deseja Consolidar o(s) DFD(s)?");
+            if(confirma == true) {
+                enviar('Consolidar');
+            }
+        }
+        if(response.status == false){
+            $('html, body').animate({scrollTop:0}, 'slow');
+            $(".mensagem-texto").html("Selecione pelo menos um DFD para Consolidar!");
+            $(".error").html("Erro!");
+            $("#tdmensagem").show();
+            $("#mensagemFinal").hide();
+        }
+        })
+
+       
+    })
+    $(".btn-fecha-modal").live('click', function(){
+        $("#modal").hide();
+        window.localStorage.clear();
+    });
+    $("#lupaCodClasse").on('click', function(){
+        $.post("PostDadosDFD.php",{op:"modalPesqClasse"}, function(data){
+            $(".modal-content").html(data);
+            $(".modal-content").attr("style","min-height: 119px;width: 853px;");
+            $("#modal").show();
+        });
+    });
+    $("#lupaClasse").live('click',function(){
+        $("#LoadPesqScc").show();
+        //Limpa a mensagem quando refaz a pesquisa
+        $("#tdmensagemM").hide();
+        var opPesq = $("#OpcaoPesquisaClasse").val();
+        var dadoPesquisar = $("#ClasseDescricaoDireta").val();
+        $.post("PostDadosDFD.php",{
+                op:"PesqClasse",
+                tipoPesq:"ClasseDescricaoDireta",
+                opcaoPesq: opPesq,
+                dadoPesq: dadoPesquisar},
+            function(data){
+                const response = JSON.parse(data);
+                if(response.status == 404){
+                    $("#LoadPesqScc").hide();
+                    $("#tdmensagemM").show();
+                    $('html, body').animate({scrollTop:0}, 'slow');
+                    $(".mensagem-textoM").html(response.msm);
+                }else{
+                    $("#LoadPesqScc").hide();
+                    $("#pesqDivModal").html(response.msm);
+                }
+            }
+        );
+    });
+    $("#lupaMaterial").live('click',function(){
+        const formAction = $("#formAction").val();
+        $("#LoadPesqScc").show();
+        //Limpa a mensagem quando refaz a pesquisa
+        $("#tdmensagemM").hide();
+        var opPesq = $("#OpcaoPesquisaMaterial").val();
+        var dadoPesquisar = $("#MaterialDescricaoDireta").val();
+        $.post("PostDadosDFD.php",
+            {op:"PesqClasse",
+                tipoPesq:"MaterialDescricaoDireta",
+                opcaoPesq: opPesq,
+                dadoPesq: dadoPesquisar,
+                action: formAction},
+            function(data){
+                const response = JSON.parse(data);
+                if(response.status == 404){
+                    $("#LoadPesqScc").hide();
+                    $("#tdmensagemM").show();
+                    $('html, body').animate({scrollTop:0}, 'slow');
+                    $(".mensagem-textoM").html(response.msm);
+                }else{
+                    $("#LoadPesqScc").hide();
+                    $("#pesqDivModal").html(response.msm);
+                }
+            }
+        );
+    });
+
+    $("#lupaServico").live('click',function(){
+        const formAction = $("#formAction").val();
+        $("#LoadPesqScc").show();
+        //Limpa a mensagem quando refaz a pesquisa
+        $("#tdmensagemM").hide();
+        var opPesq = $("#OpcaoPesquisaServico").val();
+        var dadoPesquisar = $("#ServicoDescricaoDireta").val();
+        $.post("PostDadosDFD.php",
+            {op:"PesqClasse",
+                tipoPesq:"OpcaoPesquisaServico",
+                opcaoPesq: opPesq,
+                dadoPesq: dadoPesquisar,
+                action: formAction},
+            function(data){
+                const response = JSON.parse(data);
+                if(response.status == 404){
+                    $("#LoadPesqScc").hide();
+                    $("#tdmensagemM").show();
+                    $('html, body').animate({scrollTop:0}, 'slow');
+                    $(".mensagem-textoM").html(response.msm);
+                }else{
+                    $("#LoadPesqScc").hide();
+                    $("#pesqDivModal").html(response.msm);
+                }
+            }
+        );
+    });
+    $("#radioClasse").live("click", function(){
+        $("#incluirClasse").prop("disabled", false);
+    });
+    $("#numDFDAll").live("click", function(){
+        const SelectAll = $("#numDFDAll").prop("checked");
+        if(SelectAll == true){
+            $(".checkSequencial").prop("checked", true);
+        }
+        if(SelectAll == false){
+            $(".checkSequencial").prop("checked", false);
+        }
+    })
+    $(".checkSequencial").live("click", function(){
+        const SelectAll = $("#numDFDAll").prop("checked");
+        if(SelectAll == true){
+            $("#numDFDAll").prop("checked", false)
+        }
+    })
+})
+</script>
+<!-- BEGIN BLOCO_SUCESSO_CONSOLIDAR -->
+<table cellpadding="3" cellspacing="0"
+		summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 800px;">
+<tr>
+	<td  colspan="2" id="mensagemFinal">
+		<div class="mensagem">
+			<div class="mensagem" width="600px;">
+				<div class="error">
+				<blink class="titulo2">Atenção</span>
+				</div>
+				<span class="mensagem-texto-fim">
+					DFD Consolidado com Sucesso!
+				</span>
+			</div>
+	</td>
+</tr>
+</table>
+<!-- END BLOCO_SUCESSO_CONSOLIDAR -->
+<!-- BEGIN BLOCO_SUCESSO_VOLTAFASE -->
+<table cellpadding="3" cellspacing="0"
+		summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 800px;">
+<tr>
+	<td  colspan="2" id="mensagemFinal">
+		<div class="mensagem">
+			<div class="mensagem" width="600px;">
+				<div class="error">
+				<blink class="titulo2">Atenção</span>
+				</div>
+				<span class="mensagem-texto-fim">
+					DFD Encaminhado com Sucesso!
+				</span>
+			</div>
+	</td>
+</tr>
+</table>
+<!-- END BLOCO_SUCESSO_VOLTAFASE -->
+<!-- Erro -->
+
+<div class="mensagem">
+    <div class="error" id="tdmensagem">
+    Erro
+    </div>
+    <span class="mensagem-texto">
+    </span>
+</div>
+<!-- Fim do Erro -->
+<form action="ConsConsolidar.php" method="post" name="ConsConsolidar">
+<input type="hidden" name="Botao" value="" />
+<input type="hidden" name="valorAuxiliar" value="" />
+<input type="hidden" name="op" id="op" value="" />
+    <!-- <table border="1" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 1000px;"> -->
+    <table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 633px;">
+        <tr>
+            <td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3">CONSOLIDAR - DOCUMENTO DE FORMALIZAÇÃO DE DEMANDA (DFD)</td>
+        </tr>
+        <tr>
+            <td>
+                <table border="0" cellpadding="3" cellspacing="0"
+                       bordercolor="#75ADE6" summary="" class="textonormal"
+                       bgcolor="#FFFFFF" style="width: 100%;">
+                    <tr>
+                        <td>Para Exibir os DFDs, selecione as opções e clique em “Pesquisar”.</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table class="textonormal" border="0px" width="800px" align="left" summary="">
+                    <tr>
+                        <table class="textonormal" border="0" width="100%" summary="">
+                            <tr id="processoExterno">
+                                <td class="textonormal" bgcolor="#DCEDF7" style="width: 200px">Número do DFD</td>
+                                <td class="textonormal">
+                                    <input type="text" name="numeroDFD" id="numeroDFD" maxlength="100" class="textonormal" value="{NUMDFD}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="textonormal" bgcolor="#DCEDF7" style="width: 200px">Ano PCA</td>
+                                <td class="textonormal">
+                                    <select name="selectAnoPCA" class="textonormal capturarValorAcao" data-acao="SelecionarProcesso">
+                                        <!-- BEGIN BLOCO_ANO -->
+                                        <option value="{ANO_VALUE}" {ANO_SELECTED}>{ANO_TEXT}</option>
+                                        <!-- END BLOCO_ANO -->
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr id="nAta">
+                            <!-- BEGIN BLOCO_ORGAO_LICITANTE -->
+                                <td class="textonormal" bgcolor="#DCEDF7" style="width: 200px">
+                                    Nome da Área Requisitante
+                                </td>
+                                <td>
+                                    <select id="selectAreaReq" class="textonormal" name="selectAreaReq">
+                                        <option value="">Selecione a Área Requisitante...</option>
+                                        <!-- BEGIN BLOCO_ITEM_ORGAO_LICITANTE -->
+                                        <option value="{VALOR_ID_ORGAO_LICITANTE}"{VALOR_ORGAO_SELECTED}>{VALOR_NOME_ORGAO_LICITANTE}</option>
+                                        <!-- END BLOCO_ITEM_ORGAO_LICITANTE -->
+                                    </select>
+                                </td>
+                            <!-- END BLOCO_ORGAO_LICITANTE -->
+                            </tr>
+
+                            <tr id="obje">
+                                <td class="textonormal" bgcolor="#DCEDF7" style="width: 200px">CNPJ</td>
+                                <td class="textonormal">
+                                    <input type="text"  class="textonormal" name="cnpj" id="cnpj" class="" onclick="mascararCNPJ()" value="{CNPJ_PESQUISA}" style="text-transform:uppercase !important">
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="textonormal" bgcolor="#DCEDF7" style="width: 200px">Classe</td>
+                                <td>
+                                    <img id="lupaCodClasse" src="../midia/lupa.gif" border="0">
+                                    </br>
+                                    <span>{DECRICAO_CLASSE}</span>
+                                    <input type="hidden" name="cclamscodi" id="cclamscodi" value="{CODIGO_CLASSE}">
+                                    <input type="hidden" name="eclamsdesc" id="eclamsdesc" value="{DECRICAO_CLASSE}">
+                                    <input type="hidden" name="cgrumscodi" id="eclamsdesc" value="{CODIGO_GRUPO}">
+                                </td>
+                            </tr>
+
+                            <tr id="comissaoLic">
+                                <td class="textonormal" bgcolor="#DCEDF7" style="width: 200px">Período de Conclusão</td>
+                                    <td>
+                                        <span>
+                                            <input type="text" name="DataIni" size="10" maxlength="10" value="{VALOR_DATA_INICIO_CADASTRO}" class="textonormal data">
+                                            <a href="javascript:janela('../calendario.php?Formulario=ConsConsolidar&Campo=DataIni','Calendario',220,170,1,0)">
+                                            <img src="../midia/calendario.gif" border="0" alt=""></a> <font class="textonormal"> a </font>
+                                            </span>
+                                            <span>
+                                                <input type="text" name="DataFim" size="10" maxlength="10" value="{VALOR_DATA_FIM_CADASTRO}" class="textonormal data">
+                                                <a href="javascript:janela('../calendario.php?Formulario=ConsConsolidar&Campo=DataFim','Calendario',220,170,1,0)">
+                                                <img src="../midia/calendario.gif" border="0" alt=""></a>
+                                            </span>
+                                    </td>
+                                </td>
+                            </tr>
+
+                            <tr id="processoInterno">
+                                <td class="textonormal" bgcolor="#DCEDF7" style="width: 200px">Grau de Prioridade</td>
+                                <td class="textonormal">
+                                    <select name="grauPrioridade" class="textonormal capturarValorAcao" data-acao="grauPrioridade">
+                                        <option value="" {PRIORIDADE_SELECTED_D}>Selecione um Grau de  Prioridade...</option>
+                                        <option value="1" {PRIORIDADE_SELECTED_A}>ALTO</option>
+                                        <option value="2" {PRIORIDADE_SELECTED_B}>MÉDIO</option>
+                                        <option value="3" {PRIORIDADE_SELECTED_C}>BAIXO</option>
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <!-- <tr id="processoExterno">
+                                <td class="textonormal" bgcolor="#DCEDF7" style="width: 200px">Vinculação Com Outro DFD</td>
+                                <td class="textonormal">
+                                    <input type="text" name="vincular" id="vincular" maxlength="100" class="textonormal" value="{VINCULAR}">
+                                </td>
+                            </tr> -->
+
+                            </tr>
+                        </table>
+                    </tr>
+                    <tr>
+                        <td class="textonormal" align="right">
+                            <input type="button" name="Selecionar" value="Pesquisar" class="botao" onclick="javascript:enviar('Pesquisar')" />
+                            <!-- BEGIN BLOCO_EXPORT -->
+                            <input type="button" name="Exportar" value="Exportar CSV" class="botao" onclick="javascript:ExportarCSV()">
+                            <input type="button" name="Exportar" value="Exportar XLS" class="botao" onclick="javascript:ExportarXLS()">
+                            <input type="button" name="Exportar" value="Exportar PDF" class="botao" onclick="javascript:ExportarPDF()">
+                            <!-- END BLOCO_EXPORT -->
+                            <input type="hidden" name="InicioPrograma" value="1" />
+                            <input type="button" name="Limpar" value="Limpar" onclick="limpar()" class="botao reset" />
+                            <input type="hidden" name="Pesquisar" value="" />
+                        </td>
+                    </tr>
+            <!--BEGIN BLOCO_MENSAGEM -->
+                    <tr class="removeresult">
+                        <td align="center"  colspan="4" class="titulo3">
+                            {MENSAGEM}
+                        </td>
+                    </tr>
+            <!-- END BLOCO_MENSAGEM-->
+
+        <!-- BEGIN BLOCO_RESULTADO -->
+        <tr >
+            <td colspan="2">
+                
+                    <!-- BEGIN BLOCO_DADOS -->
+					<tr id="resultadoHTML">
+						{RESULTADO}
+					</tr>
+                    <!-- END BLOCO_DADOS -->
+            </td>            
+        </tr>
+        <!-- END BLOCO_RESULTADO -->
+
+        <!-- BEGIN BOTAO_CONSOLIDAR --> 
+		<tr>
+			<td class="textonormal" align="right">
+                
+                <input type="button" name="voltaFase" id="ProcessVoltaFase" value="Voltar de Fase" class="botao">
+                <input type="button" name="Consolidar" id="ProcessConsolidar" value="Consolidar" class="botao">
+                <input type="button" name="Voltar" value="Voltar" class="botao" onclick="javascript:enviar('Voltar')">
+				
+			</td>
+		</tr>
+        <!-- END BOTAO_CONSOLIDAR -->
+
+	</table>
+    <div class="modal" id="modal">
+        <div class="modal-content" >
+        
+        </div>
+    </div>
+</form>

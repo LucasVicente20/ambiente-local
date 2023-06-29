@@ -1,0 +1,92 @@
+<script language="javascript" type="text/javascript">
+<!-- BEGIN BLOCO_ENVIAR -->
+opener.document.{PROGRAMA_ORIGEM}.Origem.value  = 'D';
+opener.document.{PROGRAMA_ORIGEM}.Destino.value = 'D';
+opener.document.{PROGRAMA_ORIGEM}.submit();
+self.close();
+<!-- END BLOCO_ENVIAR -->
+
+function enviar() {
+	document.CadIncluirAutorizacao.Critica.value = 1;
+	document.CadIncluirAutorizacao.submit();
+}
+
+function voltar(){
+	self.close();
+}
+</script>
+
+<div class="content autorizacao-especifica">
+	<div class="row">
+		<div class="span12">
+			<section class="box-article">
+				<header class="header">
+					<h1>Incluir - Autorização Específica</h1>
+				</header>
+				<div class="body">
+					<article class="article">
+						<!-- BEGIN BLOCO_MENSAGEM -->
+							<div class="alert {TIPOALERT}">
+								<button class="close" data-dismiss="alert" type="button">×</button>
+								{MENSAGEM}
+							</div>
+						<!-- END BLOCO_MENSAGEM -->
+						<section class="article-detail row-border">
+							<p>Para incluir uma Autorização Específica preencha os campos
+								abaixo e clique no botão "Incluir". Os campos obrigatórios estão
+								com *. Para voltar para a tela anterior clique no botão "Voltar".</p>
+						</section>
+		
+						<div class="tabbable">
+							<div style="padding-bottom: 9px; border-bottom: 1px solid #ddd;"
+								class="tab-content">
+								<div id="tab1" class="tab-pane active">
+		
+									<form style="margin: 0;" method="post" action="CadIncluirAutorizacao.php" name="CadIncluirAutorizacao" id="formularioAutorizacao">
+										<div class="well">
+											<div class="row-fluid">
+												<div class="span4">
+													<label class="big">Nome da Entidade Emissora*</label>
+													<input type="text" name="Nome" size="25" maxlength="18" class="span12" value="{NOME}">
+												</div>
+
+												<div class="span4">
+													<label class="big">Registro ou Inscrição*</label>
+													<input type="text" name="RegistroAutorizacao" size="10" maxlength="10" class="span12" value="{RegistroAutorizacao}">
+												</div>
+
+												<div class="span4">
+													<div class="input-append">
+														<label class="big">Data de Vigência*</label>
+														<input type="text" name="DataAutorizacao" id="DataAutorizacao" value="{DataAutorizacao}" class="span11 datepicker">
+														<label class="add-on" for="DataAutorizacao">
+															<i class="icon-calendar"></i>
+														</label>
+													</div>
+												</div>
+											</div>
+										</div>
+										
+										<div class="pagination-right">
+											<input type="hidden" name="Autoriza" value="{Autoriza}">
+											<input type="hidden" name="Critica" value="{Critica}">
+		
+											<button class="btn btn-primary" type="button" onclick="javascript:enviar();">
+												Incluir
+											</button>
+											<button class="btn btn-primary" type="button" onclick="self.close();">
+												Voltar
+											</button>
+											<input type="hidden" name="Botao" value="">
+											<input type="hidden" name="ProgramaOrigem" value="{PROGRAMA_ORIGEM}">
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</article>
+				</div>
+			</section>
+		</div>
+	</div>
+</div>

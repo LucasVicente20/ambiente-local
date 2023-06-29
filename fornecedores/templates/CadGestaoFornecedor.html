@@ -1,0 +1,341 @@
+<script language="javascript" src="../janela.js" type="text/javascript"></script>
+<script language="javascript" type="">
+function AbreJanela(url,largura,altura) {
+	window.open(url,'pagina','status=no,scrollbars=no,left=20,top=150,width='+largura+',height='+altura);
+}
+</script>
+
+	<!-- BEGIN BLOCO_SUCESSO -->
+	<table cellpadding="3" cellspacing="0"
+			summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 800px;">
+	<tr>
+		<td  colspan="2" id="mensagemFinal">
+			<div class="mensagem">
+				<div class="mensagem" width="600px;">
+					<div class="error">
+					<blink class="titulo2">Atenção</span>
+					</div>
+					<span class="mensagem-texto-fim">
+						
+					</span>
+				</div>
+		</td>
+	</tr>
+	</table>
+	<!-- END BLOCO_SUCESSO -->
+	
+	<!-- BEGIN BLOCO_ERROR -->
+	<table id="tableError" cellpadding="3" cellspacing="0"
+			summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 800px;">
+	<tr>
+		<td  colspan="2" id="mensagemFinal">
+			<div class="mensagem">
+				<div class="mensagem" width="600px;">
+					<div class="error">
+					Error
+					</div>
+					<span class="mensagem-texto-fim">
+						{MENSAGEM_ERROR}
+					</span>
+				</div>
+		</td>
+	</tr>
+	</table>
+	<!-- END BLOCO_ERROR -->
+	<form action="CadGestaoFornecedor.php" method="post" name="CadGestaoFornecedor">
+	
+	
+		<tr>
+			<td width="100"></td>
+			<td class="textonormal">
+				<table border="0" cellspacing="0" cellpadding="3" summary="">
+				<tr>
+				  <td class="textonormal">
+					<table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF">
+					  <tr>
+						<td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3">
+									ALTERAR - CADASTRO E GESTÃO DE FORNECEDOR
+						  </td>
+						</tr>
+						<tr>
+							<td class="textonormal">
+								<p align="justify">
+									Para atualizar os dados da Inscrição de um Fornecedor, informe os dados abaixo e clique no botão "Alterar" da última aba(Qualificação Técnica). Os itens obrigatórios estão com *.<br>
+									Para alterar o endereço digite um novo CEP e clique no botão "Preencher Endereço".<br><br>
+									Para efetivar a alteração, clique no botão "Alterar" da aba Qualificação Técnica.<br><br>
+									Para excluir o fornecedor do cadastro clique no botão "Excluir" da aba Habilitação Jurídica.
+								</p>
+							 </td>
+						</tr>
+						
+						<tr>
+							<tr>
+								<td>
+									<table cellpadding="0" border="0" bordercolor="#75ADE6" width="100%" summary="">
+										<tr>
+											<td>
+												<table cellpading="0" border="0" bordercolor="#75ADE6" width="100%" summary="" class="textonormal">
+													<tr>
+														<td class="textonormal" bgcolor=#DCEDF7 width="45%">Cumprimento Inc. XXXIII Art. 7º Cons. Fed.*</td>
+														<td class="textonormal" colspan="2">
+															<input type="radio" name="Cumprimento" value="S">Sim
+															<input type="radio" name="Cumprimento" value="N">Não
+														</td>
+													</tr>
+													<tr>
+														<td class="textonormal" bgcolor="#DCEDF7">Situação*</td>
+														<td class="textonormal" colspan="2">
+															<select name="Situacao" class="textonormal">
+																{OPTIONS_SITUACAO}
+															</select>
+														</td>
+													</tr>
+													<tr>
+														<td class="textonormal" bgcolor="#DCEDF7">Habilitação de fornecedor*</td>
+														<td class="textonormal" colspan="2">
+															<select name="TipoHabilitacao" class="textonormal">
+																{OPTIONS_HABILITACAO_FORNECEDOR}
+															</select>
+														</td>
+													</tr>
+													<tr>
+														<td class="textonormal" bgcolor="#DCEDF7">Data da Situação*</td>
+														<td class="textonormal" colspan="2">
+															<input type="text" name="DataSituacao" size="10" maxlength="10" value="{DATA_SITUACAO}" class="textonormal">
+															<a href="javascript:janela('{CALENDARIO_DATA_SITUACAO}','Calendario',220,170,1,0)"><img src="../midia/calendario.gif" border="0" alt=""></a>
+														</td>
+													</tr>
+													<tr>
+														<td class="textonormal" bgcolor="#DCEDF7">Motivo*</td>
+															<td class="textonormal" colspan="2">
+																<input type="text" name="Motivo" value="{MOTIVO_SITUACAO}" class="textonormal" size="50" maxlength="200">
+
+															</td>
+													</tr>
+													<tr>
+														<td class="textonormal" bgcolor="#DCEDF7">Data de Expiração da Situação</td>
+														<td class="textonormal" height="20" colspan="2">
+															<input type="text" name="DataExpiracao" size="10" maxlength="10" value="{DATA_EXPIRACAO}" class="textonormal">
+															<a href="javascript:janela('{CALENDARIO_DATA_EXPIRACAO}','Calendario',220,170,1,0)"><img src="../midia/calendario.gif" border="0" alt=""></a>
+														</td>
+													</tr>
+													{GESTAO}
+												</table>
+											</td>
+										</tr>
+										
+									</table>
+								</td>
+							</tr>
+						</tr>
+						
+						<table>
+						{PRIMEIRA}
+						<tr bgcolor="#bfdaf2">
+							<td colspan="4">
+								
+							   <!-- BEGIN BLOCO_TELAA -->
+								   <table>
+								<tr>
+									<td class="textonormal" height="20">
+									CNPJ
+									
+									{CNPJ}
+									</td>
+									
+									<tr>
+										<td class="textonormal">{PORTEEMPRESATITULO}</td>
+										
+									</tr>
+									<tr>
+										<td class="textonormal">
+											Identidade do Representante Legal
+										
+											<input type="text" name="Identidade" size="17" maxlength="14" value="" class="textonormal">
+										</td>
+									</tr>
+									<tr>
+										<td class="textonormal">
+											Órgão Emissor/UF
+											
+											<input type="text" name="OrgaoUF" size="17" maxlength="14" value="" class="textonormal">
+										</td>
+									</tr>
+									<tr>
+										<td class="textonormal">
+											Razão Social
+
+											<input type="text" name="RazaoSocial" size="45" maxlength="120" value="" class="textonormal">
+											<input type="hidden" name="Origem" value="A">
+											<input type="hidden" name="Destino" value="A">
+										</td>
+										<tr>
+											<td class="textonormal">Nome Fantasia
+											
+											<input type="text" name="NomeFantasia" size="45" maxlength="80" value="" class="textonormal">
+											</td>
+										</tr>
+										<tr>
+											<td class="textonormal">CEP
+
+												<input type="text" name="CEP" size="8" maxlength="8" value="" class="textonormal">
+												<input type="hidden" name="CEPAntes" size="8" maxlength="8" value="" class="textonormal">
+												<input type="button" value="Preencher Endereço" class="botao" onclick="javascript:enviar('Preencher')">
+											</td>
+										</tr>
+										<tr>
+											<td class="textonormal">Logradouro
+
+											<input type="text" name="Logradouro" size="45" maxlength="100" value="" class="textonormal">
+											</td>
+										</tr>
+										<tr>
+											<td class="textonormal">Número
+
+											<input type="text" name="Numero" size="5" maxlength="5" value="" class="textonormal">
+											</td>
+										</tr>
+										<tr>
+											<td class="textonormal">Complemento
+											
+											<input type="text" name="Complemento" size="33" maxlength="20" value="" class="textonormal">
+											</td>
+										</tr>
+										<tr>
+											<td class="textonormal">Bairro
+												
+
+											<input type="text" name="Bairro" size="33" maxlength="30" value="" class="textonormal">
+											</td>
+										</tr>
+										<tr>
+											<td class="textonormal">Cidade
+
+											<input type="text" name="Cidade" size="33" maxlength="30" value="" class="textonormal">
+											</td>
+										</tr>
+										<tr>
+											<td class="textonormal">UF
+												
+												<input type="text" name="UF" size="2" maxlength="2" value="" class="textonormal">
+												</td>
+										</tr>
+										<tr>
+											<td class="textonormal">DDD
+											
+											<input type="text" name="DDD" size="2" maxlength="3" value="" class="textonormal">
+											</td>
+										</tr>
+										<tr>
+											<td class="textonormal">Telefone(s)
+											
+												<input type="text" name="Telefone" size="33" maxlength="30" value="" class="textonormal">
+												</td>
+										</tr>
+										<tr>
+										<td class="textonormal">E-mail 1
+											
+											<input type="text" name="Email" size="45" maxlength="60" value="" class="textonormal">
+											</td>
+										</tr>
+										<td class="textonormal">E-mail 2
+											
+											<input type="text" name="Email2" size="45" maxlength="60" value="" class="textonormal">
+											</td>
+										</tr>
+										<tr>
+											<td class="textonormal">Fax
+											
+												<input type="text" name="Fax" size="27" maxlength="25" value="" class="textonormal">
+											</td>
+										</tr>
+										<tr>
+											<td class="textonormal">Registro Junta Comercial ou Cartório
+												
+												<input type="text" name="RegistroJunta" size="12" maxlength="11" value="" class="textonormal">
+											</td>
+										</tr>
+										<tr>
+											<td class="textonormal" width="45%">Data Reg. Junta Comercial ou Cartório
+
+												<input type="text" name="DataRegistro" size="10" maxlength="10" value="" class="textonormal">
+												<a href="javascript:janela('','Calendario',220,170,1,0);"><img src="../midia/calendario.gif" border="0" alt=""></a>
+											</td>
+										</tr>
+										<tr>
+											<td class="textonormal">Nome do Contato
+												
+												<input type="text" name="NomeContato" size="45" maxlength="60" value="" class="textonormal">
+												</td>
+										</tr>
+										<tr>
+										<td class="textonormal">CPF do Contato
+											
+											<input type="text" name="CPFContato" size="12" maxlength="11" value="" class="textonormal">
+											</td>
+										</tr>
+										<tr>
+										<td class="textonormal">Cargo do Contato
+											
+											<input type="text" name="CargoContato" size="45" maxlength="60" value="" class="textonormal">
+											</td>
+										</tr>
+										<tr>
+										<td class="textonormal">DDD do Contato
+											
+											<input type="text" name="DDDContato" size="2" maxlength="3" value="" class="textonormal">
+											</td>
+										</tr>
+										<tr>
+										<td class="textonormal">Telefone do Contato
+											
+											<input type="text" name="TelefoneContato" size="27" maxlength="25" value="" class="textonormal">
+											</td>
+										</tr>
+						
+						<tr bgcolor="#bfdaf2" >
+						<td class="textonormal">
+								<table border="1" cellpadding="3" cellspacing="0" bgcolor="#bfdaf2" bordercolor="#75ADE6" summary="" class="textonormal" width="100%">
+							<tr>
+						<td bgcolor="#75ADE6" class="textoabasoff" align="center">SÓCIOS</td>
+							</tr>
+							<tr>
+							<td class="textonormal">
+								<table class="textonormal" border="1" width="100%" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="">
+									<tr>
+										<td bgcolor="#75ADE6" class="textoabasoff">NOME</td>
+										<td bgcolor="#75ADE6" class="textoabasoff" width="22%">CPF/CNPJ</td>
+										<td bgcolor="#75ADE6" class="textoabasoff" width="5%">OPÇÕES</td>
+									</tr>
+									<tr>
+										<td class="textonormal"></td>
+										<td class="textonormal"></td>
+										<td class="textonormal">
+											<input type="hidden" name="SociosNome" value="" >
+											<input type="hidden" name="SociosCPF_CNPJ" value="" >
+											<input type="button" name="RemoverSocio" class="botao" value="Remover" onClick="javascript:removerSocio();">
+										</td>
+									</tr>
+									<tr>
+										<td class="textonormal"><input type="text" name="SocioNovoNome" size="81" maxlength="80" value="" class="textonormal"></td>
+										<td class="textonormal"><input type="text" name="SocioNovoCPF" size="15" maxlength="14" value="" class="textonormal"></td>
+										<td class="textonormal">
+											<input type="hidden" name="SocioSelecionado" value="">
+											<input type="hidden" name="NoSocios" value="" >
+											<input type="button" name="AdicionarSocio" class="botao" value="Adicionar" onClick="javascript:enviar('AdicionarSocio');">
+										</td>
+									</tr>
+								</table>
+						</td>
+							</tr>
+								</table>
+						</td>
+						</tr>
+				</table>
+			</td>
+		</tr>
+	</form>
+	
+						<!-- END BLOCO_TELAA -->
+	
+	

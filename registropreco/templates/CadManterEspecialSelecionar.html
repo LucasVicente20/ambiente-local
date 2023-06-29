@@ -1,0 +1,247 @@
+<!-- 220038-- -->
+<script type="text/javascript">
+	function enviar(valor) {
+
+		let valorcomissao = jQuery(".capturarValorAcaoComissao option:selected").attr("valorcomissao");
+		let valorgrupo = jQuery(".capturarValorAcaoComissao option:selected").attr("valorgrupo");
+
+		if (typeof valorcomissao !== "undefined" || valorcomissao != '') {			
+		    $("#comissaoselecionada").val(valorcomissao);
+		    $("#gruposelecionada").val(valorgrupo);
+		}
+
+		var wto;
+
+		
+		  clearTimeout(wto);
+		  wto = setTimeout(function() {
+		    document.CadMigracaoAta.Botao.value = valor;
+			document.CadMigracaoAta.submit();
+		  }, 1000);
+		
+
+		
+	}
+	$(document).ready(function() {
+		$(".capturarValorAcao").change(function() {
+			var valor = $(this).val();
+			var acao  = $(this).attr('data-acao');
+			
+			let valorcomissao = jQuery(".capturarValorAcaoComissao option:selected").attr("valorcomissao");
+			let valorgrupo = jQuery(".capturarValorAcaoComissao option:selected").attr("valorgrupo");
+
+			if (typeof valorcomissao !== "undefined" || valorcomissao != '') {	
+				$("#comissaoselecionada").val(valorcomissao);
+				$("#gruposelecionada").val(valorgrupo);
+			}
+
+			document.CadMigracaoAta.Botao.value = acao;
+			document.CadMigracaoAta.valorAuxiliar.value = valor;
+			document.CadMigracaoAta.submit();
+		});
+
+		$(".capturarValorAcaoComissaoSemAcao").change(function(){
+			let valorcomissao = jQuery(".capturarValorAcaoComissao option:selected").attr("valorcomissao");
+			let valorgrupo = jQuery(".capturarValorAcaoComissao option:selected").attr("valorgrupo");
+
+			if (typeof valorcomissao !== "undefined" || valorcomissao != '') {	
+				$("#comissaoselecionada").val(valorcomissao);
+				$("#gruposelecionada").val(valorgrupo);
+			}
+		})
+		
+		
+	});
+	function capturarValorAcao(acao) {
+		// var a = $(this).val();
+		// console.log(a);
+		// document.CadMigracaoAta.Botao.value = acao;
+		// document.CadMigracaoAta.valorAuxiliar.value = valorClicado;
+		// document.CadMigracaoAta.submit();
+	}
+</script>
+<form action="CadManterEspecialSelecionar.php" method="post" name="CadMigracaoAta">
+
+	<table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6"
+		summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 633px;">
+		<tr>
+			<td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3"
+				colspan="9">MANTER ESPECIAL</td>
+
+		</tr>
+		<tr>
+			<td>
+				<table border="0" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 633px;">
+					<tr>
+						<td>Para Atualizar os dados de uma Ata Interna,
+							selecione o ano, o Processo Licitatório, fornecedor e clique no
+							botão “Selecionar”.</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<table border="0" cellpadding="3" cellspacing="2" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 633px;">
+					<input type="hidden" id="comissaoselecionada" name="comissaoselecionada" value=""/>
+					<input type="hidden" id="gruposelecionada" name="gruposelecionada" value=""/>
+					<tr>
+						<td class="textonormal" bgcolor="#DCEDF7" width="40%">Tipo de
+							Ata</td>
+						<td class="textonormal" width="70%">
+							INTERNA
+						</td>
+					</tr>
+					<!-- BEGIN BLOCO_TIPO_INTERNA -->
+					<tr>
+
+						<td class="textonormal" bgcolor="#DCEDF7" width="30%">Órgão
+							Gestor</td>
+						<td class="textonormal">
+							<select name="orgaoGestor" class="textonormal capturarValorAcao" data-acao="SelecionarOrgaoInterno">
+								<!-- BEGIN BLOCO_ORGAO -->
+								<option value="{ORGAO_VALUE}"{ORGAO_SELECTED}>{ORGAO_TEXT}</option>
+								<!-- END BLOCO_ORGAO -->
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td class="textonormal" bgcolor="#DCEDF7" width="30%">Ano</td>
+						<td class="textonormal">
+							<select name="GerarNumeracaoAno" class="textonormal capturarValorAcao" data-acao="SelecionarProcesso">
+								<!-- BEGIN BLOCO_ANO -->
+								<option value="{ANO_VALUE}" {ANO_SELECTED}>{ANO_TEXT}</option>
+								<!-- END BLOCO_ANO -->
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td class="textonormal" bgcolor="#DCEDF7" width="30%">Processo</td>
+						<td class="textonormal">
+							<select name="processo" class="textonormal capturarValorAcaoComissao capturarValorAcao " data-acao="SelecionarFornecedores">
+								<!-- BEGIN BLOCK_PROCESSO -->
+								<option value="{PROCESSO_VALUE_VAZIO}">{TEXTO_PROCESSO_VAZIO}</option>
+
+								<!-- BEGIN BLOCK_OPTIONGROUP -->
+								{OPTGROUP_INICIO}
+									<!-- BEGIN BLOCK_OPTION -->
+									<option valorcomissao="{VALOR_COMISSAO}" valorgrupo="{VALOR_GRUPO}" value="{PROCESSO_VALUE}"{PROCESSO_SELECTED}>{TEXTO_PROCESSO}</option>
+									<!-- END BLOCK_OPTION -->
+								{OPTGROUP_FINAL}
+								<!-- END BLOCK_OPTIONGROUP -->
+								<!-- END BLOCK_PROCESSO -->
+							</select>
+						</td>
+					</tr>					
+					<!-- END BLOCO_TIPO_INTERNA -->
+
+					<!-- BEGIN BLOCO_TIPO_EXTERNA -->
+					<tr>
+						<td class="textonormal" bgcolor="#DCEDF7" width="30%">Ano</td>
+						<td class="textonormal">
+							<select name="anoProcessoExterno" class="textonormal capturarValorAcao" data-acao="SelecionarProcesso">
+								<!-- BEGIN BLOCO_ANO_EXTERNO -->
+								<option value="{ANO_VALUE}" {ANO_SELECTED_EXTERNO}>{ANO_TEXT}</option>
+								<!-- END BLOCO_ANO_EXTERNO -->
+							</select>
+						</td>
+					</tr>
+
+					<tr>
+						<td class="textonormal" bgcolor="#DCEDF7" width="30%">Processo
+							Externo</td>
+						<td class="textonormal">
+							<select name="processoExterno" class="textonormal">
+								<!-- BEGIN BLOCK_PROCESSO_EXTERNO -->
+								{OPTGROUP_INICIO}
+									<!-- BEGIN BLOCK_OPTION_EXTERNO -->
+									<option value="{PROCESSO_VALUE}"{PROCESSO_SELECTED}>{TEXTO_PROCESSO}</option>
+									<!-- END BLOCK_OPTION_EXTERNO -->
+								{OPTGROUP_FINAL}
+								<!-- END BLOCK_PROCESSO_EXTERNO -->
+							</select>
+						</td>
+					</tr>
+					<!-- END BLOCO_TIPO_EXTERNA -->
+				</table>
+			</td>
+        </tr>
+
+        <!-- BEGIN BLOCO_RESULTADO_AREA_ATAS_GERADAS -->
+        <tr>
+            <td colspan="2">
+                <table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 633px;">
+                    <tr>
+                        <td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3" width="100%" colspan="4">
+                            <font color="white"> ATA(S) REGISTRO DE PREÇO COM NUMERAÇÃO GERADA</font>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="5%" class="textonormal" bgcolor="#DCEDF7" align="center">&nbsp;</td>
+                        <td class="textonormal" bgcolor="#DCEDF7" align="center">Nº ATA</td>
+                        <td class="textonormal" bgcolor="#DCEDF7" align="center">FORNECEDOR</td>
+                        <td class="textonormal" bgcolor="#DCEDF7" align="center">LOTE (S)</td>
+                    </tr>
+                    <!-- BEGIN BLOCO_RESULTADO_ATAS_GERADAS -->
+                    <tr>
+                        <input type="hidden" value="{VALOR_NUMERO_ATA_HIDDEN}"/>
+                        {VALOR_CARPINCODN}
+                        {VALOR_SEQ_ATA}
+                        <td width="5%" class="textonormal" bgcolor="#DCEDF7" align="center">
+                            <input type="radio" name="fornecedor" value="{FORNECEDOR_VALUE}">
+                        </td>
+                        <td class="textonormal" bgcolor="#DCEDF7" align="center">{VALOR_ENDERECO_DETALHE_ATA}</td>
+                        <td class="textonormal" bgcolor="#DCEDF7" align="center">{VALOR_FORNECEDOR}</td>
+                        <td class="textonormal" bgcolor="#DCEDF7" align="center">
+                            <input type="hidden" name="lote[{FORNECEDOR_VALUE}]" value="{VALOR_LOTE}">
+                            {VALOR_LOTE}
+                        </td>
+                    </tr>
+                    <!-- END BLOCO_RESULTADO_ATAS_GERADAS -->
+                </table>
+            </td>            
+        </tr>
+        <!-- END BLOCO_RESULTADO_AREA_ATAS_GERADAS -->
+        
+        <!-- BEGIN BLOCO_RESULTADO_AREA_ATAS_NAO_GERADAS -->
+        <tr>
+            <td colspan="2">
+                <table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 633px;">
+                    <tr>
+                        <td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3" width="100%" colspan="4">
+                            <font color="white"> ATA(S) REGISTRO DE PREÇO SEM NUMERAÇÃO GERADA</font>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="5%" class="textonormal" bgcolor="#DCEDF7" align="center">&nbsp</td>
+                        <td class="textonormal" bgcolor="#DCEDF7" align="center" colspan="2">FORNECEDOR</td>
+                        <td class="textonormal" bgcolor="#DCEDF7" align="center">LOTE (S)</td>
+                    </tr>
+                    <!-- BEGIN BLOCO_RESULTADO_ATAS_NAO_GERADAS -->
+                    <tr>
+                        <td width="5%" class="textonormal" bgcolor="#DCEDF7" align="center">
+                            <input type="radio" class="check" name="fornecedor" value="{FORNECEDOR_VALUE}">
+                        </td>
+                        <td class="textonormal" bgcolor="#DCEDF7" align="center" colspan="2">{VALOR_FORNECEDOR}</td>
+                        <td class="textonormal" bgcolor="#DCEDF7" align="center">
+                            <input type="hidden" name="lote[{FORNECEDOR_VALUE}]" value="{VALOR_LOTE}">
+                            {VALOR_LOTE}
+                        </td>
+                    </tr>
+                    <!-- END BLOCO_RESULTADO_ATAS_NAO_GERADAS -->
+                </table>
+            </td>            
+        </tr>
+        <!-- END BLOCO_RESULTADO_AREA_ATAS_NAO_GERADAS -->
+
+		<tr>
+			<td class="textonormal" align="right">
+                <!-- BEGIN BOTAO_SELECIONAR -->
+                <input type="button" name="selecionar" value="Selecionar" class="botao" onclick="javascript:enviar('Selecionar')">
+                <!-- END BOTAO_SELECIONAR -->
+				<input type="hidden" name="Botao" value="" />
+				<input type="hidden" name="valorAuxiliar" value="" />
+			</td>
+		</tr>
+	</table>
+</form>

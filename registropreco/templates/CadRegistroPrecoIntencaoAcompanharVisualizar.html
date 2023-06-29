@@ -1,0 +1,275 @@
+<!-- 220038-- -->
+<script type="text/javascript">
+    function enviar(valor){
+        var seguirSubmit = true;
+
+        if (valor == 'Excluir') {
+            seguirSubmit = confirm('Realmente deseja excluir essa intenção?\n\nAtenção:\nEssa operação não poderá ser revertida.');
+        }
+
+        if (seguirSubmit) {
+            document.CadRegistroPrecoIntencaoManter.Botao.value = valor;
+            document.CadRegistroPrecoIntencaoManter.submit();
+        }
+    }
+    function AbreJanela(url,largura,altura){
+        window.open(url,'paginadetalhe','status=no,scrollbars=yes,left=90,top=150,width='+largura+',height='+altura);
+    }
+    function AbreJanelaItem(url,largura,altura){
+        window.open(url,'paginaitem','status=no,scrollbars=yes,left=90,top=150,width='+largura+',height='+altura);
+    }
+    function ncaracteresO(valor){
+        document.CadRegistroPrecoIntencaoManter.NCaracteresO.value = '' +  document.CadRegistroPrecoIntencaoManter.Observacao.value.length;
+        if( navigator.appName == 'Netscape' && valor ){ //Netscape Only
+            document.CadRegistroPrecoIntencaoManter.NCaracteresO.focus();
+        }
+    }
+    jQuery(document).ready(function($) {
+        jQuery(".mascara-numero-intencao").mask("9999/9999");
+
+        jQuery(".reset").click(function (event) {
+            event.preventDefault();
+
+            jQuery(":text").each(function () {
+                jQuery(this).val("");
+            });
+
+            jQuery(":radio").each(function () {
+                jQuery(this).prop({ checked: false })
+            });
+
+            jQuery(":checkbox").each(function () {
+                jQuery(this).prop({ checked: false })
+            });
+
+            jQuery("select").each(function () {
+                jQuery(this).val("");
+            });
+        });
+    });
+
+    function clean_hex(input) {
+        input = input.toUpperCase();
+        input = input.replace(/[^A-Fa-f0-9]/g, "");
+
+        return input;
+    }
+
+    function Convert(id, nomePdf) {
+        var binValue    = $('#'+id).val();
+        var filename    = nomePdf;
+        var cleaned_hex = clean_hex(binValue);
+
+        var ia = new Array();
+
+
+        for (var i=0; i<cleaned_hex.length/2; i++) {
+            var h = cleaned_hex.substr(i*2, 2);
+            ia[i] = parseInt(h,16);
+        }
+
+        var byteArray = new Uint8Array(ia);
+
+        // create a download anchor tag
+        var downloadLink      = document.createElement('a');
+        downloadLink.target   = '_blank';
+        downloadLink.download = nomePdf;
+
+        // convert downloaded data to a Blob
+        var blob = new Blob([byteArray], { type: 'application/pdf' });
+
+        // create an object URL from the Blob
+        var URL = window.URL || window.webkitURL;
+        var downloadUrl = URL.createObjectURL(blob);
+
+        // set object URL as the anchor's href
+        downloadLink.href = downloadUrl;
+
+        // append the anchor to document body
+        document.body.appendChild(downloadLink);
+
+        // fire a click event on the anchor
+        downloadLink.click();
+
+        // cleanup: remove element and revoke object URL
+        document.body.removeChild(downloadLink);
+        URL.revokeObjectURL(downloadUrl);
+    }
+
+    $(document).ready(function() {
+        $('a').click(function() {
+            var nomePdf   = $(this).html().replace(/\<br>/g, '');
+            var nomeClass = $(this).prop('class');
+            Convert(nomeClass, nomePdf);
+        });
+    });
+</script>
+<form action="" method="post" id="CadRegistroPrecoIntencaoManter" name="CadRegistroPrecoIntencaoManter">
+    <table cellspacing="0" cellpadding="3" bordercolor="#75ADE6" border="1" bgcolor="#FFFFFF" width="730px" class="textonormal" >
+        <tbody>
+            <tr>
+                <td bgcolor="#75ADE6" valign="middle" align="center" colspan="4" class="titulo3">ACOMPANHAR – INTENÇÃO DE REGISTRO DE PREÇOS</td>
+            </tr>
+
+            <tr>
+                <td colspan="4" class="textonormal">
+                    <p align="justify">
+                        Para visualizar uma outra intenção, clique no botão  "Voltar".
+                    </p>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="4">
+                    <table border="0" width="730px" >
+                        <tbody>
+                            <tr>
+                                <td class="textonormal" bgcolor="#DCEDF7" width="30%">Número da intenção</td>
+                                <td class="textonormal">
+                                    <a href="javascript:AbreJanela('CadRegistroPrecoIntencaoVisualizar.php?numero={VALOR_NUMERO_INTENCAO}',1000,450);">
+                                        {VALOR_NUMERO_INTENCAO}
+                                    </a>
+                                    <input type="hidden" name="NumeroIntencao" value="{VALOR_NUMERO_INTENCAO}"/>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="textonormal" bgcolor="#DCEDF7" width="30%">Data de cadastramento</td>
+                                <td class="textonormal">
+                                    {VALOR_DATA_CADASTRAMENTO_INTENCAO}
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="textonormal" bgcolor="#DCEDF7" width="30%">Data limite</td>
+                                <td class="textonormal">
+                                    {VALOR_DATA_LIMITE_INTENCAO}
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="textonormal" bgcolor="#DCEDF7" width="30%">Objeto</td>
+                                <td class="textonormal">
+                                    {VALOR_OBJETO_INTENCAO}
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="textonormal" bgcolor="#DCEDF7" width="30%">Órgãos</td>
+                                <td class="textonormal">
+                                    <!-- BEGIN BLOCO_ORGAO_INTENCAO -->
+                                    {ORGAO_INTENCAO}<br />
+                                    <!-- END BLOCO_ORGAO_INTENCAO -->
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="textonormal" bgcolor="#DCEDF7" width="30%">Observação</td>
+                                <td class="textonormal">
+                                    {VALOR_OBSERVACAO_INTENCAO}
+                                </td>
+                            </tr>
+                            <!-- BEGIN BLOCO_DOCUMENTOS -->
+                            <tr>
+                                <td class="textonormal" bgcolor="#DCEDF7" width="30%">Documentos</td>
+                                <td class="textonormal" colspan="7">
+                                    <ul>
+                                        <!-- BEGIN BLOCO_DOCUMENTO -->
+                                        <li>
+                                            <input type="hidden" value="{HEX_DOCUMENTO}" id="{VALOR_DOCUMENTO_KEY}">
+                                            <a href="#" class="{VALOR_DOCUMENTO_KEY}">{VALOR_DOCUMENTO_NOME}</a><br>
+                                        </li>
+                                        <!-- END BLOCO_DOCUMENTO -->
+                                    </ul>
+                                </td>
+                            </tr>
+                            <!-- END BLOCO_DOCUMENTOS -->
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <!-- BEGIN BLOCO_INTENCAO_INFORMADA -->
+            <tr>
+                <td bgcolor="#75ADE6" valign="middle" align="center" class="titulo3 itens_material" colspan="4">ÓRGÃO(S) COM INTENÇÃO RESPONDIDA</td>
+            </tr>
+
+          
+
+            <!-- BEGIN BLOCO_ITEM_INTENCAO_INFORMADA -->
+            <tr>
+                <td class="textonormal" bgcolor="#DCEDF7">ÓRGÃO</td>
+                <td class="textonormal" bgcolor="#DCEDF7" >DATA DE ÚLTIMA ALTERAÇÃO</td>
+            </tr>
+            <tr>
+                <td class="textonormal">
+                    <a href="javascript:AbreJanela('JanelaExibirResposta.php?intencao={VALOR_NUMERO_INTENCAO}&orgao={ORGAO_INTENCAO_RESPOSTA}', 800, 510);">{VALOR_ORGAO_INTENCAO_INFORMADA}
+                    </a>
+                </td>
+                <td class="textonormal" >{VALOR_DATA_ULTIMA_ALTERACAO_INTENCAO_INFORMADA}</td>
+                <tr>
+                    <td colspan = 4 class="textonormal" bgcolor="#DCEDF7">JUSTIFICATIVA</td>
+                </tr>
+                <td colspan = 4 class="textonormal" >{VALOR_JUSTIFICATIVA}</td>    
+            </tr>
+            <!-- END BLOCO_ITEM_INTENCAO_INFORMADA -->
+            <!-- END BLOCO_INTENCAO_INFORMADA -->
+
+      
+          
+    
+        <tr>
+            
+        </tr>
+                
+            <tr>
+                <td colspan="4" align="center" bgcolor="#75ADE6" valign="middle" class="titulo3" >ÓRGÃO(S) COM INTENÇÃO EM RASCUNHO</td>
+            </tr>
+
+            <tr>
+                <td class="textonormal" bgcolor="#DCEDF7">ÓRGÃO</td>
+                <td class="textonormal" bgcolor="#DCEDF7" >DATA DE ÚLTIMA ALTERAÇÃO</td>
+            </tr>
+
+            <!-- BEGIN BLOCO_ITEM_INTENCAO_RASCUNHO -->
+            <tr>
+                <td class="textonormal">
+                    <a href="javascript:AbreJanela('JanelaExibirResposta.php?intencao={VALOR_NUMERO_INTENCAO}&orgao={ORGAO_INTENCAO_RESPOSTA}', 800, 450);">
+                        {VALOR_ORGAO_INTENCAO_RASCUNHO}
+                    </a>
+                </td>
+                <td class="textonormal">{VALOR_DATA_ULTIMA_ALTERACAO_INTENCAO_RASCUNHO}</td>
+            </tr>
+            <!-- END BLOCO_ITEM_INTENCAO_RASCUNHO -->
+             <!-- BEGIN BLOCO_INTENCAO_RASCUNHO -->
+
+             <!-- END BLOCO_INTENCAO_RASCUNHO -->
+             <!-- BEGIN BLOCO_INTENCAO_SEM_PREENCHER -->
+            <tr>
+                <td colspan="4" align="center" bgcolor="#75ADE6" valign="middle" class="titulo3" >ÓRGÃO(S) SEM PREENCHER A INTENÇÃO</td>
+            </tr>
+
+            <tr>
+                <td colspan="4" class="textonormal" align="center" bgcolor="#DCEDF7">ÓRGÃO</td>
+            </tr>
+
+            <!-- BEGIN BLOCO_ITEM_INTENCAO_SEM_PREENCHER -->
+            <tr>
+                <td colspan="4" class="textonormal" align="left">{VALOR_ORGAO_INTENCAO_SEM_PREENCHER}</td>
+            </tr>
+            <!-- END BLOCO_ITEM_INTENCAO_SEM_PREENCHER -->
+            <!-- END BLOCO_INTENCAO_SEM_PREENCHER -->
+            <tr>
+                <td class="textonormal" align="right" colspan="2">
+                    <input type="hidden" name="InicioPrograma" value="1" />
+                    <input type="button" name="VisualizarConsolidacao" value="Visualizar Consolidação" class="botao" onClick="javascript:enviar('VisualizarConsolidacao');" />
+                    <input type="button" name="Imprimir" value="Imprimir" class="botao" onClick="javascript:enviar('Imprimir');" />
+                    <input type="button" name="ImprimirJustificativa" value="Imprimir Justificativa" class="botao" onClick="javascript:enviar('ImprimirJustificativa');" />
+                    <input type="button" name="Voltar" value="Voltar" class="botao" onClick="javascript:enviar('Voltar');" />
+                    <input type="hidden" name="Botao" value="" />
+                    <input type="hidden" name="NumeroIntencaoAcessada" value="{VALOR_NUMERO_INTENCAO}" />
+                    <input type="hidden" name="SituacaoAtualIntencao" value="{VALOR_SITUACAO_ATUAL_INTENCAO}" />
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>

@@ -1,0 +1,95 @@
+<!-- 220038-- -->
+<script type="text/javascript">
+function enviar(valor){
+	var seguirSubmit = true;
+
+	if (valor == 'Excluir') {
+		seguirSubmit = confirm('Realmente deseja excluir essa intenção?\n\nAtenção:\nEssa operação não poderá ser revertida.');
+	}
+
+	if (seguirSubmit) {
+	    document.CadAtaRegistroPrecoExternaSelecionarNovo.Botao.value = valor;
+	    document.CadAtaRegistroPrecoExternaSelecionarNovo.submit();
+	}
+}
+function AbreJanela(url,largura,altura){
+    window.open(url,'paginadetalhe','status=no,scrollbars=yes,left=90,top=150,width='+largura+',height='+altura);
+}
+
+function enviarValorAno(valor){
+	document.CadAtaRegistroPrecoExternaSelecionarNovo.ano.value = valor;
+	document.CadAtaRegistroPrecoExternaSelecionarNovo.Botao.value = 'atualizaProcessos';
+    document.CadAtaRegistroPrecoExternaSelecionarNovo.submit();
+
+}
+
+function enviarValorProcesso(valor){
+	document.CadAtaRegistroPrecoExternaSelecionarNovo.processo.value = valor;
+	document.CadAtaRegistroPrecoExternaSelecionarNovo.Botao.value = 'atualizaAno';
+    document.CadAtaRegistroPrecoExternaSelecionarNovo.submit();
+
+}
+
+$(document).ready(function(){
+	$('#anoProcesso').change(function(){
+		var anoSelecionado = $(this).val();
+		$('#ano').val(anoSelecionado);
+		$("#Botao").val('atualizaProcessos');
+		$("#CadAtaRegistroPrecoExternaSelecionarNovo").submit();
+	});
+});
+</script>
+<!-- BEGIN BLOCO_FORMULARIO_MANTER -->
+<form action="CadAtaRegistroPrecoExternaSelecionarNovo.php" method="post" id="CadAtaRegistroPrecoExternaSelecionarNovo" name="CadAtaRegistroPrecoExternaSelecionarNovo">
+    <table cellspacing="0" cellpadding="3" bordercolor="#75ADE6" border="1" bgcolor="#FFFFFF" width="100%" class="textonormal" summary="">
+        <tbody>
+            <tr>
+                <td bgcolor="#75ADE6" valign="middle" align="center" colspan="4" class="titulo3">MANTER ATA EXTERNA</td>
+            </tr>
+            <tr>
+                <td colspan="4" class="textonormal">
+                    <p align="justify">
+                    	Para Atualizar os dados de uma ata externa, Selecione o ano e processo licitatório externo referente à Ata Externa desejada e clique no botão "Selecionar".
+                    </p>
+                </td>
+            </tr>
+            <tr>
+            <td colspan="4">
+                <table border="0" width="100%" summary="">
+                    <tbody>
+                        <tr>
+                            <td class="textonormal" bgcolor="#DCEDF7" width="30%">Ano</td>
+                            <td class="textonormal">
+                            	 <select id="anoProcesso" name="anoProcesso" class="textonormal">
+                                    <!-- BEGIN BLOCO_ANO -->
+                                     <option  value="{ANO_VALUE}" {ANO_SELECTED}>{ANO_TEXT}</option>
+                                    <!-- END BLOCO_ANO -->
+                                 </select>
+                            </td>
+                        </tr>
+
+                    	<tr>
+                            <td class="textonormal" bgcolor="#DCEDF7" width="30%">Processo Externo</td>
+                            <td class="textonormal">
+                            	 <select id="processoexterno" name="processoexterno" class="textonormal">
+                                    <!-- BEGIN BLOCO_PROCESSO -->
+                                     <option  value="{PROCESSO_VALUE}" {PROCESSO_SELECTED}>{PROCESSO_TEXT}</option>
+                                    <!-- END BLOCO_PROCESSO -->
+                                 </select>
+                            </td>
+                        </tr>
+                        </tbody>
+                   </table>
+                </td>
+            </tr>
+
+            <tr class="textonormal">
+                <td class="textonormal"  align="right">
+                    <input type="button" name="Selecionar" value="Selecionar" class="botao" onClick="javascript:enviar('Selecionar');" />
+                    <input type="hidden" id="Botao" name="Botao" value="" />
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>
+<!-- END BLOCO_FORMULARIO_MANTER -->

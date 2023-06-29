@@ -1,0 +1,335 @@
+<script type="text/javascript">
+function editarNoticia(sequencialNoticia) {
+	document.formNoticia.SequencialNoticia.value = sequencialNoticia;
+	enviar('Manter');
+}
+
+function enviar(valor) {
+	var seguirSubmit = true;
+
+	if (valor == 'Excluir') {
+		seguirSubmit = confirm('Realmente deseja excluir essa notícia?\n\nAtenção:\nEssa operação não poderá ser revertida.');
+	}
+
+	if (seguirSubmit) {
+	    document.formNoticia.Botao.value = valor;
+	    document.formNoticia.submit();
+	}
+}
+
+function AbreJanela(url,largura,altura) {
+    window.open(url,'paginadetalhe','status=no,scrollbars=yes,left=90,top=150,width='+largura+',height='+altura);
+}
+
+function AbreJanelaItem(url,largura,altura) {
+    window.open(url,'paginaitem','status=no,scrollbars=yes,left=90,top=150,width='+largura+',height='+altura);
+}
+
+function ncaracteresO(valor) {
+	var limite = 200;
+	var campoTexto = $("#texto-noticia-textarea");
+
+	if ($(campoTexto).val().length > limite) {
+		var textoPermitido = $(campoTexto).val().substr(0, limite);
+		$(campoTexto).val(textoPermitido);
+		return;
+	}
+
+	document.formNoticia.NCaracteresO.value = '' + $("#texto-noticia-textarea").val().length;
+	if( navigator.appName == 'Netscape' && valor ){ //Netscape Only
+		document.formNoticia.NCaracteresO.focus();
+	}
+}
+
+function definirFocoTextarea() {
+	$("#texto-noticia-textarea").focus();
+}
+
+$(document).ready(function() {
+	function iniciarData() {
+		if ($("#data").val() == "") {
+			var dataAtual = new Date();
+		    var dia = dataAtual.getDate();
+		    if (dia < 10) {
+		    	dia = "0" + dia;
+		    }
+
+		    var mes = dataAtual.getMonth() + 1;
+		    if (mes < 10) {
+		    	mes = "0" + mes;
+		    }
+
+		    var ano = dataAtual.getFullYear();
+
+		    $("#data").val(dia + "/" + mes + "/" + ano);
+		}
+	}
+
+	function iniciarHora() {
+		if ($("#hora").val() == "") {
+			var dataAtual = new Date();
+
+			var hora = dataAtual.getHours();
+			if (hora < 10) {
+				hora = "0" + hora;
+			}
+
+			var minuto = dataAtual.getMinutes();
+			if (minuto < 10) {
+				minuto = "0" + minuto;
+			}
+
+			$("#hora").val(hora + ":" + minuto);
+		}
+	}
+
+	function limparFormulario() {
+		$(":text").each(function () {
+			$(this).val("");
+        });
+
+		$(":radio").each(function () {
+        	$(this).prop({ checked: false })
+        });
+
+		$(":checkbox").each(function () {
+        	$(this).prop({ checked: false })
+        });
+
+		$("select").each(function () {
+			$(this).val("");
+        });
+
+		$("textarea").each(function () {
+			$(this).val("");
+		});
+	}
+
+	$(".hora").mask("99:99" ,{placeholder:"_"});
+
+	$(".reset").click(function (event) {
+		event.preventDefault();
+		limparFormulario();
+	});
+
+	iniciarData();
+	iniciarHora();
+	habilitarTextoConformeDestino();
+
+	function habilitarTextoConformeDestino() {
+		if ($("#link").attr("checked")) {
+			$("#texto-noticia-textarea").prop('disabled', true);
+			$("#texto-noticia-text").prop('disabled', false);
+			$("#campo-texto").hide();
+			$("#campo-link").show();
+			$(".label-texto-link").text("Link*");
+		} else if ($("#popup").attr("checked")) {
+			$("#texto-noticia-text").prop('disabled', true);
+			$("#texto-noticia-textarea").prop('disabled', false);
+			$("#campo-texto").show();
+			$("#campo-link").hide();
+			$(".label-texto-link").text("Texto*");
+		}
+	}
+
+	$(".destino-noticia").change(function () {
+		habilitarTextoConformeDestino();
+	})
+});
+</script>
+
+<form action="" method="post" name="formNoticia">
+	<!-- BEGIN BLOCO_PESQUISA -->
+	    <table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 566px">
+	        <tr>
+	            <td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3">MANTER – NOTÍCIA</td>
+	        </tr>
+	        <tr>
+	            <td class="textonormal">
+	                <p align="justify">
+	                	Preencha os dados abaixo para efetuar a pesquisa.
+	                </p>
+	            </td>
+	        </tr>
+	        <tr>
+	            <td>
+	                <table class="textonormal" border="0" align="left" summary="">
+	                	<tr>
+	                        <td class="textonormal" height="20" bgcolor="#DCEDF7" width="30%">Título</td>
+	                        <td class="textonormal">
+	                        	<input type="text" name="titulo" size="45" maxlength="200" value="{TITULO_PESQUISA}" class="textonormal">
+	                        </td>
+	                    </tr>
+
+	                    <tr>
+	                        <td class="textonormal" height="20" bgcolor="#DCEDF7" width="30%">Link / Texto</td>
+	                        <td class="textonormal">
+	                        	<input type="text" name="texto" size="45" maxlength="200" value="{TEXTO_PESQUISA}" class="textonormal">
+	                        </td>
+	                    </tr>
+
+	                    <tr>
+	                        <td class="textonormal" height="20" bgcolor="#DCEDF7" width="30%">Situação</td>
+	                        <td class="textonormal">
+	                        	<input type="radio" {CHECKED_ATIVA_PESQUISA} value="A" name="situacao"> Ativa
+								<input type="radio" {CHECKED_INATIVA_PESQUISA} value="I" name="situacao"> Inativa
+	                        </td>
+	                    </tr>
+
+	                	<tr>
+	                        <td class="textonormal" height="20" bgcolor="#DCEDF7" width="30%">Período<span style="color: red;">*</span></td>
+	                        <td class="textonormal">
+	                        	<input type="text" name="DataIni" size="10" maxlength="10" value="{DATA_INICIAL}" class="textonormal data">
+								<a href="javascript:janela('../calendario.php?Formulario=formNoticia&Campo=DataIni','Calendario',220,170,1,0)"><img src="../midia/calendario.gif" border="0" alt=""></a>
+								&nbsp;a&nbsp;
+								<input type="text" name="DataFim" size="10" maxlength="10" value="{DATA_FINAL}" class="textonormal data">
+								<a href="javascript:janela('../calendario.php?Formulario=formNoticia&Campo=DataFim','Calendario',220,170,1,0)"><img src="../midia/calendario.gif" border="0" alt=""></a>
+	                        </td>
+	                    </tr>
+	                </table>
+	            </td>
+	        </tr>
+
+	        <tr>
+	            <td class="textonormal" align="right" colspan="2">
+	                <input type="button" name="Pesquisar" value="Pesquisar" class="botao" onClick="javascript:enviar('Pesquisar');" />
+	                <input type="button" name="Limpar" value="Limpar" class="botao reset" />
+	                <input type="hidden" name="Botao" value="" />
+	                <input type="hidden" name="SequencialNoticia" value="{ID_NOTICIA}" />
+	            </td>
+	        </tr>
+	    </table>
+
+	    <!-- BEGIN BLOCO_RESULTADO_PESQUISA -->
+	    <table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 566px">
+	        <tr>
+	            <td colspan="3" align="center" bgcolor="#75ADE6" valign="middle" class="titulo3" >RESULTADO DA PESQUISA</td>
+	        </tr>
+
+	        <tr>
+	        	<td class="textonormal" bgcolor="#DCEDF7" width="70%">TÍTULO</td>
+	        	<td class="textonormal" bgcolor="#DCEDF7" width="20%">DATA DE CADASTRO</td>
+	        	<td class="textonormal" bgcolor="#DCEDF7" width="10%">SITUAÇÃO</td>
+	        </tr>
+
+	        <!-- BEGIN BLOCO_ITEM_RESULTADO -->
+	        <tr>
+	        	<td class="textonormal" width="65%">
+	                <a href="#" onClick="javascript:editarNoticia('{ID_NOTICIA}');">
+	                	{TITULO_NOTICIA}
+	                </a>
+	            </td>
+	        	<td class="textonormal" width="25%">
+	        		{DATA_CADASTRO}
+	        	</td>
+	        	<td class="textonormal" width="10%">
+	        		{SITUACAO_NOTICIA}
+	        	</td>
+	        </tr>
+	        <!-- END BLOCO_ITEM_RESULTADO -->
+	    </table>
+	    <!-- END BLOCO_RESULTADO_PESQUISA -->
+
+	    <!-- BEGIN BLOCO_PESQUISA_SEM_RESULTADO -->
+	    <table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 566px">
+	        <tr>
+	            <td colspan="2" align="center" bgcolor="#75ADE6" valign="middle" class="titulo3" >RESULTADO DA PESQUISA</td>
+	        </tr>
+
+	        <tr>
+	        	<td class="textonormal" width="100%">
+	                Pesquisa sem Ocorrências.
+	            </td>
+	        </tr>
+	        <!-- END BLOCO_ITEM_RESULTADO -->
+	    </table>
+	    <!-- END BLOCO_PESQUISA_SEM_RESULTADO -->
+	<!-- END BLOCO_PESQUISA -->
+
+	<!-- BEGIN BLOCO_MANTER -->
+	<table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 566px">
+        <tr>
+            <td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3">MANTER – NOTÍCIA</td>
+        </tr>
+        <tr>
+            <td class="textonormal">
+                <p align="justify">
+                	Preencha os dados abaixo e clique no botão 'Alterar'.
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table class="textonormal" border="0" align="left" summary="">
+                	<tr>
+                        <td class="textonormal" height="20" bgcolor="#DCEDF7" width="30%">Título*</td>
+                        <td class="textonormal">
+                        	<input type="text" name="titulo" size="45" maxlength="200" value="{TITULO}" class="textonormal">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="textonormal" height="20" bgcolor="#DCEDF7" width="30%">Destino da notícia*</td>
+                        <td class="textonormal">
+                        	<input type="radio" {CHECKED_LINK} id="link" class="destino-noticia" value="L" name="destino"> Link
+							<input type="radio" {CHECKED_POPUP} id="popup" class="destino-noticia" value="P" name="destino"> Popup
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="textonormal label-texto-link" height="20" bgcolor="#DCEDF7" width="30%">Texto*</td>
+                        <td class="textonormal">
+                        	<div id="campo-texto">
+	                        	<font class="textonormal">máximo de 200 caracteres</font>
+								<input type="text" name="NCaracteresO" disabled size="3" value="{QTD_CARACTERES_DIGITADOS}" class="textonormal">
+								<textarea
+									rows="3"
+									cols="45"
+									name="texto"
+									id="texto-noticia-textarea"
+									class="texto-link textonormal"
+									OnKeyUp="javascript:ncaracteresO(1)"
+									OnBlur="javascript:ncaracteresO(0)"
+									OnSelect="javascript:ncaracteresO(1)">{TEXTO}</textarea>
+							</div>
+
+                        	<div id="campo-link">
+	                        	<input type="text" id="texto-noticia-text" name="texto" size="45" maxlength="200" value="{TEXTO}" class="textonormal texto-link">
+	                        	<font class="textonormal" id="dica-link">exemplo: http://www.google.com.br</font>
+	                        </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="textonormal" height="20" bgcolor="#DCEDF7" width="30%">Situação*</td>
+                        <td class="textonormal">
+                        	<input type="radio" {CHECKED_ATIVA} value="A" name="situacao"> Ativa
+							<input type="radio" {CHECKED_INATIVA} value="I" name="situacao"> Inativa
+                        </td>
+                    </tr>
+
+                	<tr>
+                        <td class="textonormal" height="20" bgcolor="#DCEDF7" width="30%">Data e hora*</td>
+                        <td class="textonormal">
+                        	<input type="text" id="data" name="data" size="10" maxlength="10" value="{DATA}" class="textonormal data">
+							<a href="javascript:janela('../calendario.php?Formulario=formNoticia&Campo=data','Calendario',220,170,1,0)"><img src="../midia/calendario.gif" border="0" alt=""></a>
+							&nbsp;às&nbsp;
+							<input type="text" id="hora" name="hora" size="10" maxlength="10" value="{HORA}" class="textonormal hora">
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="textonormal" align="right" colspan="2">
+                <input type="button" name="Alterar" value="Alterar" class="botao" onClick="javascript:enviar('Alterar');" />
+                <input type="button" name="Excluir" value="Excluir" class="botao" onClick="javascript:enviar('Excluir');" />
+                <input type="button" name="Voltar" value="Voltar" class="botao" onClick="javascript:enviar('Voltar');" />
+                <input type="hidden" name="Botao" value="" />
+                <input type="hidden" name="SequencialNoticia" value="{ID_NOTICIA}" />
+            </td>
+        </tr>
+    </table>
+	<!-- END BLOCO_MANTER -->
+</form>

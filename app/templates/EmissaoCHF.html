@@ -1,0 +1,110 @@
+<script type="text/javascript">
+<!--
+	function enviar(valor) {
+		document.EmissaoCHF.Botao.value = valor;
+		document.EmissaoCHF.submit();
+	}
+//-->
+</script>
+<div class="content">
+	<div class="row">
+		<input type="hidden" id="botaoAcao" name="BotaoAcao">
+		<div class="span12">
+			<section class="box-article">
+				<header class="header">
+					<h1>Emissão do Certificado de Habilitação de Firmas</h1>
+				</header>
+				<div class="body">
+					<ul class="breadcrumb">
+						<li><a href="{BASE_URL}home.php">Início</a><span
+							class="divider"><i class="arrow-right"></i></span></li>
+						<li><a href="{BASE_URL}Fornecedores.php">Fornecedores</a><span
+							class="divider"><i class="arrow-right"></i></span></li>
+						<li><a href="#">CHF</a><span class="divider"><i
+								class="arrow-right"></i></span></li>
+						<li class="active">Emissão de CHF</li>
+					</ul>
+					<article class="article">
+						<header class="article-header">
+							<h1>Emissão do Certificado de Habilitação de Firmas</h1>
+						</header>
+					</article>
+					<article class="article">
+						<section class="article-detail row-border">
+							<p>Para emitir o Certificado de Habilitação de Firmas (CHF)
+								do Fornecedor abaixo descrito, clique no botão "Imprimir".</p>
+						</section>
+						<div class="clearfix">&nbsp;</div>
+						<!-- BEGIN BLOCO_MENSAGEM -->
+						<div class="alert {TIPOALERT}">
+							<button class="close" data-dismiss="alert" type="button">×</button>
+							{MENSAGEM}
+						</div>
+						<!-- END BLOCO_MENSAGEM -->
+						<section>
+							<form action="{BASE_URL}EmissaoCHF.php" method="post"
+								name="EmissaoCHF">
+								<table class="table table-bordered" summary="">
+									<tr>
+										<td class="textonormal" bgcolor="#DCEDF7">{CPF_OR_CNPJ}</td>
+										<td>{CPF_CNPJ}</td>
+									</tr>
+									<tr>
+										<td class="textonormal" bgcolor="#DCEDF7">Razão
+											Social/Nome</td>
+										<td class="textonormal" height="20">{RAZAO_SOCIAL}</td>
+									</tr>
+									<tr>
+										<td class="textonormal" bgcolor="#DCEDF7" height="20">Data
+											de Geração do CHF</td>
+										<td class="textonormal">{DATA_GERACAO}</td>
+									</tr>
+									<tr>
+										<td class="textonormal" bgcolor="#DCEDF7" height="20">Data
+											de Validade do CHF</td>
+										<td class="textonormal">{DATA_VALIDADE}</td>
+									</tr>
+									<tr>
+										<td class="textonormal" bgcolor="#DCEDF7" height="20">Número
+											de Emissões do Fornecedor</td>
+										<td class="textonormal">{NUMERO_EMISSAO}</td>
+									</tr>
+									<tr>
+										<td class="textonormal" bgcolor="#DCEDF7" height="20">Última
+											Data de Emissão do Fornecedor</td>
+										<td class="textonormal">{ULTIMA_DATA_EMISSAO}</td>
+									</tr>
+									<tr>
+										<td class="textonormal" bgcolor="#DCEDF7" height="20">Número
+											de Emissões da Prefeitura</td>
+										<td class="textonormal">{NUMERO_EMISSAO_PREFEITURA}</td>
+									</tr>
+									<tr>
+										<td class="textonormal" bgcolor="#DCEDF7" height="20"
+											width="45%">Última Data de Emissão da Prefeitura</td>
+										<td class="textonormal">{ULTIMA_DATA_EMISSAO_PREFEITURA}</td>
+									</tr>
+									<tr>
+										<td class="textonormal" bgcolor="#DCEDF7" height="20">Responsável
+											pela Emissão da Prefeitura</td>
+										<td class="textonormal">{RESPONSAVEL_EMISSAO_PREFEITURA}</td>
+									</tr>
+								</table>
+								<div class="btn-toolbar pagination-right">
+									<input type="hidden" name="CPF_CNPJ" value="{CPF_CNPJ}" />
+									<input type="hidden" name="Grupo" value="{GRUPO}" />
+									<input type="hidden" name="Usuario" value="{USUARIO}" /> 
+									<input type="hidden" name="Sequencial" value="{SEQUENCIAL}" /> 
+									<input type="hidden" name="Mensagem" value="{MSG}" /> 
+									<input type="button" value="Imprimir" class="botao btn btn-primary" onclick="javascript:enviar('Imprimir');" /> 
+									<input type="button" value="Voltar" class="botao btn btn-primary" onclick="javascript:enviar('Voltar');" /> 
+									<input type="hidden" name="Botao" value="" />
+								</div>
+							</form>
+						</section>
+					</article>
+				</div>
+			</section>
+		</div>
+	</div>
+</div>

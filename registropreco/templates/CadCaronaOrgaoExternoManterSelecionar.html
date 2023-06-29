@@ -1,0 +1,57 @@
+<!-- 220038-- -->
+<script type="text/javascript">
+function enviar(valor){
+
+    if(valor == 'excluir') {
+      confirmar = confirm('Deseja excluir esta carona externa?');
+
+      if(!confirmar) {
+        return false;
+      }
+    }
+
+    document.{NOME_PROGRAMA}.Botao.value = valor;    
+    document.{NOME_PROGRAMA}.submit();
+}
+</script>
+
+<form action="{NOME_PROGRAMA}.php" method="post" name="{NOME_PROGRAMA}">
+    <table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 633px;">
+        <tr>
+           <td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3" colspan="3">{TITULO_SUPERIOR}</td>
+        </tr>
+        <tr>
+          <td class="textonormal" bgcolor="#DCEDF7" colspan="1">
+            {DESCRICAO_COLUNA}
+          </td>
+          <td class="textonormal" align="left" colspan="2">
+            {VALOR_DESCRICAO_COLUNA}
+            <input type="hidden" name="numAtaFormatado" value="{VALOR_DESCRICAO_COLUNA}" />
+          </td>
+        </tr>
+         <tr>
+           <td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3" colspan="3">{TITULO_INFERIOR}</td>
+         </tr>
+         <tr>
+            <td class="textoabason" align="center" bgcolor="#DCEDF7">SEQUENCIAL DA ATA DE CARONA</td>
+            <td class="textoabason" align="center" bgcolor="#DCEDF7">ÓRGÃO EXTERNO</td>
+            <td class="textoabason" align="center" bgcolor="#DCEDF7">DATA DE ÚLTIMA ALTERAÇÃO</td>
+         </tr>
+         <!-- BEGIN bloco_carona_ata -->
+         <tr>
+            <td><input type="radio" name="seqCarona" value="{SEQ_Carona}">{SEQ_Carona}</td>
+            <td>{ORG_EXT}</td>
+            <td>{DATA_CAD}</td>
+         </tr>
+         <!-- END bloco_carona_ata -->
+         <tr>
+          <td class="textonormal" align="right" colspan="3">
+             <input type="button" class="botao" name="selecionar" value="Selecionar" onclick="javascript:enviar('selecionar')">
+             <input type="button" class="botao" name="excluir" value="Excluir" onclick="javascript:enviar('excluir')">
+             <input type="button" class="botao" name="voltar" value="Voltar" onclick="javascript:enviar('voltar')">
+             <input type="hidden" value="{Nata}" name="ata">
+             <input type="hidden" class="botao" name="Botao">
+          </td>
+         </tr>
+    </table>
+</form>   

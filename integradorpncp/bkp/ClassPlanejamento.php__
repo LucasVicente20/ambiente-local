@@ -1,0 +1,2821 @@
+<?php
+/**
+ * Portal de Compras
+ * Programa: CadIncluirDFD.php
+ * Autor: Diógenes Dantas | Madson Felix
+ * Data: 17/11/2022
+ * Objetivo: Programa para inclusão de DFD
+ * Tarefa Redmine: #275243
+ * -------------------------------------------------------------------
+ * Alterado: Osmar Celestino
+ * Data: 20/12/2022
+ * Tarefa: 276459
+ * -------------------------------------------------------------------
+ * Alterado: Lucas Vicente
+ * Data: 05/01/2023
+ * Tarefa: #277231
+ * -------------------------------------------------------------------
+ * Alterado: João Madson
+ * Data: 05/01/2023
+ * Tarefa: 276691 e 276711
+ * -------------------------------------------------------------------
+ * Alterado:    Lucas Vicente e João Madson 
+ * Data:        06/01/2023
+ * Tarefa:      CR 277232
+ * -------------------------------------------------------------------
+ * Alterado: Lucas Vicente
+ * Data:09/01/2023
+ * Tarefa: Ajuste na regra do Configurador DFD
+ * -------------------------------------------------------------------
+ * Alterado: João Madson   
+ * Data: 09/01/2023
+ * Tarefa: #277372
+ */
+
+# Executa o controle de segurança	#
+session_start();
+
+# Acesso ao arquivo de funções #
+require_once "../funcoes.php";
+
+class Planejamento
+{
+
+
+
+    public $conexaoDb;
+
+    public function __construct()
+    {
+        $this->conexaoDb = conexao();
+    }
+
+    //Função utilizada em CadIncluirDFD.php
+    //Verifica se não é SQL Injection
+    public function anti_injection($sql)
+    {
+        // remove palavras que contenham sintaxe sql
+        preg_match("/(from|select|insert|delete|where|drop table|show tables|#|\*|--|\\\\)/", $sql, $matches);
+        $sql = @preg_replace($matches, "", $sql);
+        $sql = trim($sql); //limpa espaços vazio
+        $sql = strip_tags($sql); //tira tags html e php
+        $sql = addslashes($sql); //Adiciona barras invertidas a uma string
+        return $sql;
+    }
+
+    //Função utilizada em CadIncluirDFD.php
+    //Busca os Orgãos de centro de custo vinculado ao usuário
+    public function getOrgao()
+    {
+        $cusupocodi = $_SESSION['_cusupocodi_'];
+        $sql = "SELECT DISTINCT	org.corglicodi, org.eorglidesc, org.aorglicnpj  ";
+        $sql .= " FROM	sfpc.tborgaolicitante org ";
+        $sql .= " INNER JOIN sfpc.tbcentrocustoportal AS CentroCusto ON (org.corglicodi = CentroCusto.corglicodi) ";
+        $sql .= " INNER JOIN      sfpc.tbusuariocentrocusto AS UsuarioCusto ON (UsuarioCusto.ccenposequ = CentroCusto.ccenposequ) ";
+        $sql .= " WHERE			org.forglisitu = 'A' ";
+        $sql .= " AND UsuarioCusto.cusupocodi = $cusupocodi AND UsuarioCusto.fusucctipo = 'C' ";
+        $sql .= " ORDER BY		org.eorglidesc ASC";
+        $resultado = executarSQL($this->conexaoDb, $sql);
+        $dados = array();
+        while ($resultado->fetchInto($retorno, DB_FETCHMODE_OBJECT)) {
+            $dados[] = $retorno;
+        }
+        return $dados;
+    }
+    //Função utilizada em ConsPesquisarDFDgetOrgaoConsultar.php
+    //Busca os Orgãos independente do usuário
+    public function getOrgaoConsultar()
+    {
+        $cusupocodi = $_SESSION['_cusupocodi_'];
+        $sql = "SELECT DISTINCT	org.corglicodi, org.eorglidesc, org.aorglicnpj  ";
+        $sql .= " FROM	sfpc.tborgaolicitante org ";
+        $sql .= " WHERE			org.forglisitu = 'A' ";
+        $sql .= " ORDER BY		org.eorglidesc ASC";
+        $resultado = executarSQL($this->conexaoDb, $sql);
+        $dados = array();
+        while ($resultado->fetchInto($retorno, DB_FETCHMODE_OBJECT)) {
+            $dados[] = $retorno;
+        }
+        return $dados;
+    }
+    //Função utilizada em CadIncluirDFD.php
+    //traz Centro de custo especifico
+    public function getCenCustoUsuario($corglicodi)
+    {
+        $cusupocodi = $_SESSION['_cusupocodi_'];
+        $sql = " SELECT DISTINCT CentroCusto.ccenposequ, CentroCusto.ccenpocorg, CentroCusto.ccenpounid ";
+        $sql .= " FROM	sfpc.tborgaolicitante org ";
+        $sql .= " INNER JOIN sfpc.tbcentrocustoportal AS CentroCusto ON (org.corglicodi = CentroCusto.corglicodi) ";
+        $sql .= " INNER JOIN      sfpc.tbusuariocentrocusto AS UsuarioCusto ON (UsuarioCusto.ccenposequ = CentroCusto.ccenposequ) ";
+        $sql .= " WHERE			org.forglisitu = 'A' ";
+        $sql .= " AND UsuarioCusto.cusupocodi = $cusupocodi AND org.corglicodi = $corglicodi AND UsuarioCusto.fusucctipo = 'C' ";
+        $sql .= " ORDER BY	CentroCusto.ccenposequ, CentroCusto.ccenpocorg, CentroCusto.ccenpounid  ASC";
+
+        $resultado = executarSQL($this->conexaoDb, $sql);
+        $dados = array();
+        while ($resultado->fetchInto($retorno, DB_FETCHMODE_OBJECT)) {
+            $dados[] = $retorno;
+        }
+
+        return $dados;
+    }
+
+    //Função utilizada em CadIncluirDFD.php
+    //Busca a classe de material ou serviço
+    public function pesquisaClasseMatServ($tipoDePesquisa, $opcaoDePesquisa, $dadoAPesquisar)
+    {
+        $vogaisAcuentuaDas = "'ÁÃÂáãâÉÊêéÍÎîíÓÔÕóôõÚÛûúÇç'";
+        $vogaisSemAcento = "'AAAaaaEEeeIIiiOOOoooUUuuCc'";
+        switch ($tipoDePesquisa) {
+            case "ClasseDescricaoDireta":
+                $sql = "
+            select cms.cclamscodi, cms.eclamsdesc, cms.cgrumscodi, serv.cservpsequ, serv.eservpdesc, mat.cmatepsequ, mat.ematepdesc, unid.eunidmsigl 
+            from sfpc.tbclassematerialservico cms
+            left join sfpc.tbservicoportal serv on cms.cclamscodi = serv.cclamscodi and cms.cgrumscodi = serv.cgrumscodi 
+            left join sfpc.tbsubclassematerial sub on cms.cclamscodi = sub.cclamscodi and cms.cgrumscodi = sub.cgrumscodi 
+            inner join sfpc.tbmaterialportal mat on sub.csubclsequ = mat.csubclsequ
+            inner join sfpc.tbunidadedemedida unid on unid.cunidmcodi = mat.cunidmcodi
+            where
+            cms.fclamssitu = 'A'
+        ";
+                if ($opcaoDePesquisa == "0") {
+                    $dadoAPesquisar = intval($dadoAPesquisar);
+                    $sql .= "and cms.cclamscodi = $dadoAPesquisar";
+                } else if ($opcaoDePesquisa == "1") {
+                    $sql .= "and translate (cms.eclamsdesc, $vogaisAcuentuaDas, $vogaisSemAcento) ilike 
+                            translate ('%$dadoAPesquisar%', $vogaisAcuentuaDas, $vogaisSemAcento)";
+                } else if ($opcaoDePesquisa == "2") {
+                    $sql .= "and translate (cms.eclamsdesc, $vogaisAcuentuaDas, $vogaisSemAcento) ilike 
+                            translate ('$dadoAPesquisar%', $vogaisAcuentuaDas, $vogaisSemAcento)";
+                }
+                break;
+            case "MaterialDescricaoDireta":
+                $sql = "
+                    select cms.cclamscodi, cms.eclamsdesc, cms.cgrumscodi, mat.cmatepsequ, mat.ematepdesc, unid.eunidmsigl 
+                    from sfpc.tbclassematerialservico cms
+                    left join sfpc.tbsubclassematerial sub on cms.cclamscodi = sub.cclamscodi and cms.cgrumscodi = sub.cgrumscodi 
+                    inner join sfpc.tbmaterialportal mat on sub.csubclsequ = mat.csubclsequ
+                    inner join sfpc.tbunidadedemedida unid on unid.cunidmcodi = mat.cunidmcodi
+                    where
+                    cms.fclamssitu = 'A'
+                ";
+                if ($opcaoDePesquisa == "0") {
+                    $dadoAPesquisar = intval($dadoAPesquisar);
+                    $sql .= "and mat.cmatepsequ = $dadoAPesquisar";
+                } else if ($opcaoDePesquisa == "1") {
+                    $sql .= "and translate (mat.ematepcomp, $vogaisAcuentuaDas, $vogaisSemAcento) ilike 
+                            translate ('%$dadoAPesquisar%', $vogaisAcuentuaDas, $vogaisSemAcento)";
+                } else if ($opcaoDePesquisa == "2") {
+                    $sql .= "and translate (mat.ematepcomp, $vogaisAcuentuaDas, $vogaisSemAcento) ilike 
+                            translate ('$dadoAPesquisar%', $vogaisAcuentuaDas, $vogaisSemAcento)";
+                }
+                break;
+            case "OpcaoPesquisaServico":
+                $sql = "
+                    select cms.cclamscodi, cms.eclamsdesc, cms.cgrumscodi, serv.cservpsequ, serv.eservpdesc 
+                    from sfpc.tbclassematerialservico cms
+                    left join sfpc.tbservicoportal serv on cms.cclamscodi = serv.cclamscodi and cms.cgrumscodi = serv.cgrumscodi
+                    where
+                    cms.fclamssitu = 'A'
+                ";
+                if ($opcaoDePesquisa == "0") {
+                    $dadoAPesquisar = intval($dadoAPesquisar);
+                    $sql .= "and serv.cservpsequ = $dadoAPesquisar";
+                } else if ($opcaoDePesquisa == "1") {
+                    $sql .= "and translate (serv.eservpdesc, $vogaisAcuentuaDas, $vogaisSemAcento) ilike 
+                            translate ('%$dadoAPesquisar%', $vogaisAcuentuaDas, $vogaisSemAcento)";
+                } else if ($opcaoDePesquisa == "2") {
+                    $sql .= "and translate (serv.eservpdesc, $vogaisAcuentuaDas, $vogaisSemAcento) ilike 
+                            translate ('$dadoAPesquisar%', $vogaisAcuentuaDas, $vogaisSemAcento)";
+                }
+                break;
+        }
+
+        $resultado = executarSQL($this->conexaoDb, $sql);
+        $dados = array();
+        while ($resultado->fetchInto($retorno, DB_FETCHMODE_OBJECT)) {
+            $dados[] = $retorno;
+        }
+
+        return $dados;
+    }
+
+    /**
+     * Função utilizada em ConsPesquisarDFD.php;
+     * Lista um array com os status da situação do DFD;
+     */
+    public function getSituacaoDFD()
+    {
+        $sqlSitDFD = "
+            SELECT CPLSITCODI, EPLSITNOME
+            FROM SFPC.TBPLANEJAMENTOSITUACAODFD
+            ORDER BY EPLSITNOME ASC 
+        ";
+
+        $resultado = executarSQL($this->conexaoDb, $sqlSitDFD);
+        $dadosSit = array();
+
+        while ($resultado->fetchInto($retornoSit, DB_FETCHMODE_OBJECT)) {
+            $dadosSit[] = $retornoSit;
+        }
+
+        return $dadosSit;
+    }
+    /**
+     * Função utilizada em ConsPesquisarDFD.php;
+     * Adiciona os traços e pontos em CPF ou CNPJ
+     */
+    public function MascarasCPFCNPJ($valor)
+    {
+        $checaSeFormatado = strripos($valor, "-");
+        if ($checaSeFormatado == true) {
+            return $valor;
+        }
+        if (strlen($valor) == 11) {
+            $mascara = "###.###.###-##";
+            for ($i = 0; $i <= strlen($mascara); $i++) {
+                if ($mascara[$i] == "#") {
+                    if (isset($valor[$k])) {
+                        $maskared .= $valor[$k++];
+                    }
+                } else {
+                    $maskared .= $mascara[$i];
+                }
+            }
+
+            return $maskared;
+        }
+        if (strlen($valor) == 14) {
+            $mascara = "##.###.###/####-##";
+            for ($i = 0; $i <= strlen($mascara); $i++) {
+                if ($mascara[$i] == "#") {
+                    if (isset($valor[$k])) {
+                        $maskared .= $valor[$k++];
+                    }
+                } else {
+                    $maskared .= $mascara[$i];
+                }
+            }
+
+            // var_dump($maskared);
+            return $maskared;
+        }
+    }
+    /**
+     * Função utilizada em ConsPesquisarDFD.php;
+     * Gera um novo sequencial do DFD;
+     */
+    function novoSequencialPlanejamento()
+    {
+        $sql = "select max(cpldfdsequ) from sfpc.tbplanejamentodfd";
+        $retorno = executarSQL($this->conexaoDb, $sql);
+        $result = 0;
+        $retorno->fetchInto($result, DB_FETCHMODE_OBJECT);
+        $cpldfdsequ = $result->max + 1;
+
+        return $cpldfdsequ;
+    }
+    /**
+     * Função utilizada em CadManterDFD.php;
+     * Gera um novo sequencial do historico da situação do DFD;
+     */
+    function novoSequencialHistoricoSituacao()
+    {
+        $sql = "select max(cplhsisequ) from sfpc.tbplanejamentohistoricosituacaodfd";
+        $retorno = executarSQL($this->conexaoDb, $sql);
+        $result = 0;
+        $retorno->fetchInto($result, DB_FETCHMODE_OBJECT);
+        $cpldfdsequ = $result->max + 1;
+
+        return $cpldfdsequ;
+    }
+    /**
+     * Função utilizada em ConsPesquisarDFD.php;
+     * Gera um novo numero sequencial do DFD para orgão e ano;
+     */
+    function novoSequencialDFD($corglicodi, $apldfdanod)
+    {
+        $sql = "select max(cpldfdnumd) from sfpc.tbplanejamentodfd where corglicodi = $corglicodi and apldfdanod = $apldfdanod";
+        $retorno = executarSQL($this->conexaoDb, $sql);
+        $result = 0;
+        $retorno->fetchInto($result, DB_FETCHMODE_OBJECT);
+        $cpldfdnumd = $result->max + 1;
+
+        return $cpldfdnumd;
+    }
+    /**
+     * Função utilizada em ConsPesquisarDFD.php;
+     * Gera um novo numero sequencial do Histórico da sitação DFD;
+     */
+    function novoSequencialHistoricoDFD()
+    {
+        $sql = "select max(cplhsisequ) from sfpc.tbplanejamentohistoricosituacaodfd";
+        $retorno = executarSQL($this->conexaoDb, $sql);
+        $result = 0;
+        $retorno->fetchInto($result, DB_FETCHMODE_OBJECT);
+        $cplhsisequ = $result->max + 1;
+
+        return $cplhsisequ;
+    }
+    /**
+     * Função utilizada em ConsPesquisarDFD.php;
+     * Valida os dados a serem inseridos no banco, se houver algo faltando sera montada a reclamação;
+     */
+    function validarInclusaoDFD($dados)
+    {
+        $mensagemErro = "";
+        if (empty($dados['selectAnoPCA'])) {
+            $mensagemErro .= "Ano PCA, ";
+            $dados['selectAnoPCA'] = 'null';
+        }
+        if ($dados['selectAreaReq'] == -1) {
+            $mensagemErro .= "Área Requisitante, ";
+            $dados['selectAreaReq'] = 'null';
+        }
+
+        if (empty($dados['cclamscodi'])) {
+            $mensagemErro .= "Código da Classe, ";
+        }
+
+        if (empty($dados['descSuDemanda'])) {
+            $mensagemErro .= "Descrição Sucinta da Demanda, ";
+        }
+
+        if (empty($dados['justContratacao'])) {
+            $mensagemErro .= "Justificativa da necessidade de contratação, ";
+        }
+
+        if (empty($dados['estValorContratacao'])) {
+            $mensagemErro .= "Estimativa preliminar de valor contratação, ";
+        }
+
+        if (empty($dados['tpProcContratacao'])) {
+            $mensagemErro .= "Tipo de Processo de contratação, ";
+        }
+
+        if (empty($dados['dtPretendidaConc'])) {
+            $mensagemErro .= "Data pretendida conclusão, ";
+        } else {
+            $dtpretConc = explode("/", $dados['dtPretendidaConc']);
+            if ($dtpretConc[2] != $dados['selectAnoPCA']) {
+                $mensagemErro .= "Data pretendida de conclusão não pode ter ano diferente do Ano do PCA, ";
+            } else {
+                $checaData = checkdate($dtpretConc[1], $dtpretConc[0], $dtpretConc[2]);
+                if ($checaData == false) {
+                    $mensagemErro .= "Data pretendida conclusão, ";
+                }
+            }
+        }
+
+        if (empty($dados['grauPrioridade'])) {
+            $mensagemErro .= "Grau de Prioridade, ";
+        }
+
+        if (empty($dados['justPriAlta']) && $dados['grauPrioridade'] == "1") {
+            $mensagemErro .= "Justificativa para prioridade alta, ";
+        }
+
+        // if(empty($dados['vincOutroDFD'])) {
+        //     $mensagemErro .= "Vinculação outro DFD";
+        // }
+
+        if (empty($dados['contratCorp'])) {
+            $mensagemErro .= "Compra Corporativa, ";
+        }
+
+        // Realiza a checagem nas configurações antes da inclusão
+        $db = Conexao();
+        $sql = "SELECT cplcontpmd, fplcontpmd, tplcondtin, tplcondtfi 
+                from sfpc.tbplanejamentoconfiguracao 
+                where cplconcodi = (select max(cplconcodi) 
+                                    from sfpc.tbplanejamentoconfiguracao 
+                                    where corglicodi = " . $dados['selectAreaReq'] . " and aplconanop = " . $dados['selectAnoPCA'] . " and cplcontpmd = 1)";
+
+        $result = $db->query($sql);
+        $count = $result->numRows();
+
+        $Linha = $result->fetchRow();
+        $opcaoModificacao = $Linha[0];
+        $tipoModificacao = $Linha[1];
+        $dataIni = $Linha[2];
+        $dataFim = $Linha[3];
+
+        if ($count == 0 || $count == NULL) {
+            $mensagemErro .= "A Área requisitante informada não possui cadastro para o Ano PCA informado, ";
+        }
+
+        if ($opcaoModificacao != 1 && $opcaoModificacao != NULL) {
+            $mensagemErro .= "A Área requisitante informada não possui cadastro para inclusão no Ano PCA informado, ";
+        }
+
+        if ($tipoModificacao != 1 && $tipoModificacao != NULL) {
+            $mensagemErro .= "A Área requisitante informada está bloqueada para inclusão no Ano PCA informado, ";
+        }
+
+        $dataRegistro = date('Y-m-d');
+        if ($dataIni <= $dataRegistro && $dataFim >= $dataRegistro) {
+
+        } else {
+
+            $dataIniConvertida = date('d/m/Y', strtotime($dataIni));
+            $dataFimConvertida = date('d/m/Y', strtotime($dataFim));
+            if ($dataIniConvertida != '01/01/1970' && $dataFimConvertida != '01/01/1970') {
+                $mensagemErro .= "Cadastro não realizado. Período para cadastro: De $dataIniConvertida a $dataFimConvertida, ";
+            }
+        }
+
+        // Organiza mensagem caso algo esteja faltando;
+        if ($mensagemErro == "") {
+            $retorno["erro"] = false;
+            $retorno["informe"] = "";
+        } else {
+            $retorno["erro"] = true;
+            $mensagemErro = substr_replace($mensagemErro, '.', strrpos($mensagemErro, ", ")); // Remove a ultima virgula e adiciona o ponto final
+            $retorno["informe"] = "Informe: " . $mensagemErro;
+        }
+
+        return $retorno;
+    }
+    function validarRascunhoDFD($dados)
+    {
+        $mensagemErro = "";
+        if (empty($dados['selectAnoPCA'])) {
+            $mensagemErro .= "Ano PCA, ";
+        }
+        if (empty($dados['selectAreaReq']) || $dados['selectAreaReq'] == -1) {
+            $mensagemErro .= "Área Requisitante, ";
+        }
+
+        if (!empty($dados['dtPretendidaConc'])) { // O campo não é obrigatório mas a checagem baixo é caso venha algo
+            $dtpretConc = explode("/", $dados['dtPretendidaConc']);
+            if ($dtpretConc[2] != $dados['selectAnoPCA']) {
+                $mensagemErro .= "Data pretendida de conclusão não pode ter ano diferente do Ano do PCA, ";
+            }
+        }
+
+        // Organiza mensagem caso algo esteja faltando;
+        if ($mensagemErro == "") {
+            $retorno["erro"] = false;
+            $retorno["informe"] = "";
+        } else {
+            $retorno["erro"] = true;
+            $mensagemErro = substr_replace($mensagemErro, '.', strrpos($mensagemErro, ", ")); // Remove a ultima virgula e adiciona o ponto final
+            $retorno["informe"] = "Informe: " . $mensagemErro;
+        }
+
+        return $retorno;
+    }
+    /**
+     * Função utilizada em ConsPesquisarDFD.php;
+     * Trata os dados do Rascunho antes de colocar na query;
+     */
+    function trataDadosRascunhoDFDParaInsert($dados)
+    {
+
+        //Gera numero DFD
+        $novoSeqDFD = $this->novoSequencialDFD($dados['selectAreaReq'], $dados["selectAnoPCA"]);
+        if (strlen($novoSeqDFD) < 4) {
+            $quantosZeros = 4 - strlen($novoSeqDFD);
+            $cpldfdnumd = "";
+            for ($i = 0; $i < $quantosZeros; $i++) {
+                $cpldfdnumd .= "0";
+            }
+            $cpldfdnumd .= $novoSeqDFD;
+        } else {
+            $cpldfdnumd = $novoSeqDFD;
+        }
+        $cpldfdnumf = "'" . $dados['numDFDParteUm'] . "." . $cpldfdnumd . "/" . $dados["selectAnoPCA"] . "'";
+
+        //Gera numero Historico
+        $cplhsisequ = $this->novoSequencialHistoricoDFD();
+
+        //organizar a data
+        $dtpretConc = explode("/", $dados['dtPretendidaConc']);
+        $dpldfdpret = mktime(00, 00, 00, $dtpretConc[1], $dtpretConc[0], $dtpretConc[2]);
+
+        // organiza o valor estimado
+        $cpldfdvest = moeda2float($dados['estValorContratacao']);
+
+        $dadosTratados['cpldfdsequ'] = $dados['cpldfdsequ']; //Sequencial do DFD vem do banco
+        $dadosTratados['apldfdanod'] = $dados["selectAnoPCA"];
+        $dadosTratados['cpldfdnumd'] = $novoSeqDFD;
+        $dadosTratados['cpldfdnumf'] = $cpldfdnumf;
+        $dadosTratados['corglicodi'] = $dados['selectAreaReq'];
+        $dadosTratados['fpldfdcorp'] = !empty($dados['contratCorp']) ? "'" . $dados['contratCorp'] . "'" : "null";
+        // $dadosTratados['apldfdcnpj'] = $dados['cnpjAreaReq'];
+        $dadosTratados['cgrumscodi'] = !empty($dados['cgrumscodi']) ? $dados['cgrumscodi'] : "null";
+        $dadosTratados['cclamscodi'] = !empty($dados['cclamscodi']) ? $dados['cclamscodi'] : "null";
+        $dadosTratados['eclamsdesc'] = !empty($dados['eclamsdesc']) ? "'" . $dados['eclamsdesc'] . "'" : "null"; //verificar dinamica com servico/material eclamsdesc
+        $dadosTratados['epldfddesc'] = !empty($dados['descSuDemanda']) ? "'" . strtoupper(RetiraAcentos($this->anti_injection($dados['descSuDemanda']))) . "'" : "null";
+        $dadosTratados['epldfdjust'] = !empty($dados['justContratacao']) ? "'" . strtoupper(RetiraAcentos($this->anti_injection($dados['justContratacao']))) . "'" : "null";
+        $dadosTratados['cpldfdvest'] = !empty($cpldfdvest) ? $cpldfdvest : "null";
+        $dadosTratados['fpldfdtpct'] = !empty($dados['tpProcContratacao']) ? "'" . $dados['tpProcContratacao'] . "'" : "null";
+        $dadosTratados['dpldfdpret'] = !empty($dpldfdpret) ? "'" . date("Y-m-d", $dpldfdpret) . " 00:00:00'" : "null"; // data tratada para o tipo Typestamp
+        $dadosTratados['fpldfdgrau'] = !empty($dados['grauPrioridade']) ? $dados['grauPrioridade'] : "null";
+        $dadosTratados['epldfdjusp'] = !empty($dados['justPriAlta']) ? "'" . strtoupper(RetiraAcentos($this->anti_injection($dados['justPriAlta']))) . "'" : "null";
+        $dadosTratados['fpldfdagru'] = "'" . "N" . "'"; // concatenei para que as aspas entrem na query
+        $dadosTratados['tpldfdincl'] = "now()";
+        $dadosTratados['cusupocodi'] = !empty($_SESSION['_cusupocodi_']) ? $_SESSION['_cusupocodi_'] : "null";
+        $dadosTratados['tpldfdulat'] = "now()";
+        $dadosTratados['cplsitcodi'] = ($dados['rascunho'] == true) ? 1 : 2; // 1 é para rascunho e 0 para Cadastrado;
+
+        //Para o insert do item
+        for ($i = 0; $i < count($dados['cplitecodi']); $i++) {
+            $dadosTratados['cplitecodi'][] = $dados['cplitecodi'][$i];
+            $dadosTratados['cmatepsequ'][] = (!empty($dados['cmatepsequ'][$i])) ? $dados['cmatepsequ'][$i] : "null";
+            $dadosTratados['cservpsequ'][] = (!empty($dados['cservpsequ'][$i])) ? $dados['cservpsequ'][$i] : "null";
+        }
+        "'" .
+            $dadosTratados['tpliteincl'] = "now()";
+        $dadosTratados['tpliteulat'] = "now()";
+
+        //Para insert do Histórico
+        $dadosTratados['cplhsisequ'] = $cplhsisequ;
+        $dadosTratados['eplhsijust'] = "''";
+        $dadosTratados['tplhsiincl'] = "now()";
+        $dadosTratados['tplhsiulat'] = "now()";
+
+        return $dadosTratados;
+    }
+    /**
+     * Função utilizada em ConsPesquisarDFD.php;
+     * Trata os dados antes de colocar na query;
+     */
+    function trataDadosDFDParaInsert($dados)
+    {
+
+        //Gera numero DFD
+        $novoSeqDFD = $this->novoSequencialDFD($dados['selectAreaReq'], $dados["selectAnoPCA"]);
+        if (strlen($novoSeqDFD) < 4) {
+            $quantosZeros = 4 - strlen($novoSeqDFD);
+            $cpldfdnumd = "";
+            for ($i = 0; $i < $quantosZeros; $i++) {
+                $cpldfdnumd .= "0";
+            }
+            $cpldfdnumd .= $novoSeqDFD;
+        } else {
+            $cpldfdnumd = $novoSeqDFD;
+        }
+        $cpldfdnumf = "'" . $dados['numDFDParteUm'] . "." . $cpldfdnumd . "/" . $dados["selectAnoPCA"] . "'";
+
+        //Gera numero Historico
+        $cplhsisequ = $this->novoSequencialHistoricoDFD();
+
+        //organizar a data
+        $dtpretConc = explode("/", $dados['dtPretendidaConc']);
+        $dpldfdpret = mktime(00, 00, 00, $dtpretConc[1], $dtpretConc[0], $dtpretConc[2]);
+
+        // organiza o valor estimado
+        $cpldfdvest = moeda2float($dados['estValorContratacao']);
+
+        $dadosTratados['cpldfdsequ'] = $dados['cpldfdsequ']; //Sequencial do DFD vem do banco
+        $dadosTratados['apldfdanod'] = $dados["selectAnoPCA"];
+        $dadosTratados['cpldfdnumd'] = $novoSeqDFD;
+        $dadosTratados['cpldfdnumf'] = $cpldfdnumf;
+        $dadosTratados['corglicodi'] = $dados['selectAreaReq'];
+        $dadosTratados['fpldfdcorp'] = "'" . $dados['contratCorp'] . "'";
+        // $dadosTratados['apldfdcnpj'] = $dados['cnpjAreaReq'];
+        $dadosTratados['cgrumscodi'] = $dados['cgrumscodi'];
+        $dadosTratados['cclamscodi'] = $dados['cclamscodi'];
+        $dadosTratados['eclamsdesc'] = "'" . $dados['eclamsdesc'] . "'"; //verificar dinamica com servico/material eclamsdesc
+        $dadosTratados['epldfddesc'] = "'" . strtoupper(RetiraAcentos($this->anti_injection($dados['descSuDemanda']))) . "'";
+        $dadosTratados['epldfdjust'] = "'" . strtoupper(RetiraAcentos($this->anti_injection($dados['justContratacao']))) . "'";
+        $dadosTratados['cpldfdvest'] = !empty($cpldfdvest) ? $cpldfdvest : "null";
+        $dadosTratados['fpldfdtpct'] = "'" . $dados['tpProcContratacao'] . "'";
+        $dadosTratados['dpldfdpret'] = "'" . date("Y-m-d", $dpldfdpret) . " 00:00:00'"; // data tratada para o tipo Typestamp
+        $dadosTratados['fpldfdgrau'] = $dados['grauPrioridade'];
+        $dadosTratados['epldfdjusp'] = "'" . strtoupper(RetiraAcentos($this->anti_injection($dados['justPriAlta']))) . "'";
+        $dadosTratados['fpldfdagru'] = "'" . "N" . "'"; // concatenei para que as aspas entrem na query
+        $dadosTratados['tpldfdincl'] = "now()";
+        $dadosTratados['cusupocodi'] = $_SESSION['_cusupocodi_'];
+        $dadosTratados['tpldfdulat'] = "now()";
+        $dadosTratados['cplsitcodi'] = ($dados['rascunho'] == true) ? 1 : 2; // 1 é para rascunho e 0 para Cadastrado;
+
+        //Para o insert do item
+        for ($i = 0; $i < count($dados['cplitecodi']); $i++) {
+            $dadosTratados['cplitecodi'][] = $dados['cplitecodi'][$i];
+            $dadosTratados['cmatepsequ'][] = (!empty($dados['cmatepsequ'][$i])) ? $dados['cmatepsequ'][$i] : "null";
+            $dadosTratados['cservpsequ'][] = (!empty($dados['cservpsequ'][$i])) ? $dados['cservpsequ'][$i] : "null";
+        }
+        "'" .
+            $dadosTratados['tpliteincl'] = "now()";
+        $dadosTratados['tpliteulat'] = "now()";
+
+        //Para insert do Histórico
+        $dadosTratados['cplhsisequ'] = $cplhsisequ;
+        $dadosTratados['eplhsijust'] = "''";
+        $dadosTratados['tplhsiincl'] = "now()";
+        $dadosTratados['tplhsiulat'] = "now()";
+
+        return $dadosTratados;
+    }
+    /**
+     * Função utilizada em ConsPesquisarDFD.php;
+     * Monta a query e insere nobanco;
+     */
+    function insereDFD($dadosDFD)
+    {
+
+        $sqlInsertDFD = "
+        insert into sfpc.tbplanejamentodfd (
+            cpldfdsequ,
+            apldfdanod,
+            cpldfdnumd,
+            cpldfdnumf,
+            corglicodi,
+            fpldfdcorp,
+            cgrumscodi,
+            cclamscodi,
+            epldfddesc,
+            epldfdjust,
+            cpldfdvest,
+            fpldfdtpct,
+            dpldfdpret,
+            fpldfdgrau,
+            epldfdjusp,
+            fpldfdagru,
+            tpldfdincl,
+            cusupocodi,
+            tpldfdulat,
+            cplsitcodi
+        ) values(
+            " . $dadosDFD['cpldfdsequ'] . ", 
+            " . $dadosDFD['apldfdanod'] . ", 
+            " . $dadosDFD['cpldfdnumd'] . ", 
+            " . $dadosDFD['cpldfdnumf'] . ", 
+            " . $dadosDFD['corglicodi'] . ", 
+            " . $dadosDFD['fpldfdcorp'] . ", 
+            " . $dadosDFD['cgrumscodi'] . ", 
+            " . $dadosDFD['cclamscodi'] . ", 
+            " . $dadosDFD['epldfddesc'] . ", 
+            " . $dadosDFD['epldfdjust'] . ", 
+            " . $dadosDFD['cpldfdvest'] . ", 
+            " . $dadosDFD['fpldfdtpct'] . ", 
+            " . $dadosDFD['dpldfdpret'] . ", 
+            " . $dadosDFD['fpldfdgrau'] . ", 
+            " . $dadosDFD['epldfdjusp'] . ", 
+            " . $dadosDFD['fpldfdagru'] . ", 
+            " . $dadosDFD['tpldfdincl'] . ", 
+            " . $dadosDFD['cusupocodi'] . ", 
+            " . $dadosDFD['tpldfdulat'] . ", 
+            " . $dadosDFD['cplsitcodi'] . "
+            )
+        ";
+
+        $resultadoDFD = executarSQL($this->conexaoDb, $sqlInsertDFD);
+
+        for ($i = 0; $i < count($dadosDFD['cplitecodi']); $i++) {
+            $sqlInsertItem = "
+                insert into sfpc.tbitemplanejamentodfd (
+                cpldfdsequ,
+                cplitecodi,
+                cmatepsequ,
+                cservpsequ,
+                tpliteincl,
+                cusupocodi,
+                tpliteulat
+                ) values(
+                " . $dadosDFD['cpldfdsequ'] . ",
+                " . $dadosDFD['cplitecodi'][$i] . ",
+                " . $dadosDFD['cmatepsequ'][$i] . ",
+                " . $dadosDFD['cservpsequ'][$i] . ",
+                " . $dadosDFD['tpliteincl'] . ",
+                " . $dadosDFD['cusupocodi'] . ",
+                " . $dadosDFD['tpliteulat'] . "
+                )
+            ";
+
+
+            $resultadoItemDFD = executarSQL($this->conexaoDb, $sqlInsertItem);
+        }
+
+        $sqlInsertHistorico = "
+            insert into sfpc.tbplanejamentohistoricosituacaodfd 
+            (
+                cplhsisequ, 
+                cpldfdsequ,	
+                cplsitcodi,	
+                eplhsijust,	
+                tplhsiincl,	
+                cusupocodi,	
+                tplhsiulat
+            ) values ( 
+                " . $dadosDFD['cplhsisequ'] . ",
+                " . $dadosDFD['cpldfdsequ'] . ",
+                " . $dadosDFD['cplsitcodi'] . ",
+                " . $dadosDFD['eplhsijust'] . ",
+                " . $dadosDFD['tplhsiincl'] . ",
+                " . $dadosDFD['cusupocodi'] . ",
+                " . $dadosDFD['tplhsiulat'] . "
+            )
+        ";
+        $resultadoItemDFD = executarSQL($this->conexaoDb, $sqlInsertHistorico);
+
+
+        return true;
+
+
+    }
+    function gerarSequencialVincularDFD()
+    {
+        $sql = "select max(cplvinsequ) from sfpc.tbplanejamentovinculodfd";
+        $retorno = executarSQL($this->conexaoDb, $sql);
+        $result = 0;
+        $retorno->fetchInto($result, DB_FETCHMODE_OBJECT);
+        $cpldfdsequ = $result->max + 1;
+
+        return $cpldfdsequ;
+    }
+    function gerarCodigoGrupolVincularDFD()
+    {
+        $sql = "select max(cplvincodi) from sfpc.tbplanejamentovinculodfd";
+        $retorno = executarSQL($this->conexaoDb, $sql);
+        $result = 0;
+        $retorno->fetchInto($result, DB_FETCHMODE_OBJECT);
+        $cpldfdsequ = $result->max + 1;
+
+        return $cpldfdsequ;
+    }
+    function insertDadosVinculo($sequencialVinculo, $codgrupo, $sequencialDFD, $codUsuario)
+    {
+        $sql = "
+        insert into sfpc.tbplanejamentovinculodfd (
+            cplvinsequ,
+            cplvincodi,
+            cpldfdsequ,
+            tplvinincl,
+            cusupocodi,
+            tplvinulat
+        ) values(
+            " . $sequencialVinculo . ", 
+            " . $codgrupo . ", 
+            " . $sequencialDFD . ", 
+            now(), 
+            $codUsuario, 
+            now() 
+            )
+        ";
+        $resultadoDFD = executarSQL($this->conexaoDb, $sql);
+        return true;
+    }
+    function consultaCodigoVinculo($sequencial)
+    {
+        $sql = "select distinct (cplvincodi) from sfpc.tbplanejamentovinculodfd";
+        $sql .= " where cpldfdsequ = '$sequencial'";
+        $retorno = executarSQL($this->conexaoDb, $sql);
+        $retorno->fetchInto($result, DB_FETCHMODE_OBJECT);
+        return $result;
+    }
+    function montaHTMLVincular($dadosDFD)
+    {
+        if (empty($dadosDFD)) {
+            $html = '<tr>
+                    <td align="center" bgcolor="#75ADE6" colspan="8" class="titulo3" width="900px">
+                            Resultado da pesquisa
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" colspan="8" class="titulo3" width="900px">Pesquisa sem ocorrências.</td>
+                    </tr>';
+        } else {
+            $html = '
+                        <tr>
+                            <td align="center" bgcolor="#75ADE6" colspan="8" class="titulo3">
+                                Resultado da pesquisa
+                            </td>
+                        </tr>';
+
+
+            $html .= '<tr><td align="center" bgcolor="#BFDAF2" colspan="8" class="titulo3">' . $dadosDFD[0]->descorgao . '</td></tr>';
+
+            $html .= '<tr>
+                        <td>
+                        <table class="tablePesquisa textonormal" style=" position:relative;  width : 100%; ">
+                        <thead>
+                            <tr id="cabecalhos">
+                                <td class="tdResultTitulo" id="cabIdDFD">Número do DFD</td>
+                                <td class="tdResultTitulo" id="cabAno">Ano do PCA</td>
+                                <td class="tdResultTitulo" id="cabCodClasse">Código da Classe</td>
+                                <td class="tdResultTitulo" id="cabDescClasse">Descrição da Classe</td>
+                                <td class="tdResultTitulo" id="cabDataPrevistaConclusao">Data Prevista para Conclusão</td>
+                                <td class="tdResultTitulo" id="cabTpProcesso">Tipo de Processo</td>
+                                <td class="tdResultTitulo" id="cabGrauPrioridade">Grau de Prioridade</td>
+                                <td class="tdResultTitulo" id="cabSituacao">Situação do DFD</td>
+                            </tr>
+                        </thead>
+                        <tbody>';
+
+
+            foreach ($dadosDFD as $dado) {
+                $dataPrevConclusao = date('d/m/Y', strtotime($dado->dpldfdpret));
+                $tpProcesso = ($dado->fpldfdtpct == "D") ? "CONTRATAÇÃO DIRETA" : "LICITAÇÃO";
+                $urlDFD = "ConsDFD.php?dfdSelected=$dado->cpldfdnumf";
+
+                if ($dado->fpldfdgrau == 1) {
+                    $grauprioridade = "ALTO";
+                } else if ($dado->fpldfdgrau == 2) {
+                    $grauprioridade = "MÉDIO";
+                } else if ($dado->fpldfdgrau == 3) {
+                    $grauprioridade = "BAIXO";
+                }
+
+                $html .= '<tr id="resultados">
+                        <td class="tdresult" id="resIdDFD"><input type="checkbox" name="sequencialVincularDFD[]" value="' . $dado->cpldfdsequ . '" style="text-transform: capitalize">' . $dado->cpldfdnumf . '</input></td>
+                        <td class="tdresult" id="resAno">' . $dado->apldfdanod . '</td>
+                        <td class="tdresult" id="resCodClasse">' . $dado->cclamscodi . '</td>
+                        <td class="tdresult" id="resDescClasse">' . $dado->descclasse . '</td>
+                        <td class="tdresult" id="resDataPrevistaConclusao">' . $dataPrevConclusao . '</td>
+                        <td class="tdresult" id="resTpProcesso">' . $tpProcesso . '</td>
+                        <td class="tdresult" id="resGrauPrioridade">' . $grauprioridade . '</td>
+                        <td class="tdresult" id="resSituacao">' . $dado->eplsitnome . '</td>
+                    </tr>';
+
+            }
+            $html .= '  <tr>
+                                <td colspan="8">
+                                    <button type="button" name="janelaVincular" class="botao" id="janelaVincular";">Vincular</button>
+                                </td>
+                            </tr>';
+            $html .= '</tbody></table></td></tr>';
+        }
+        return $html;
+    }
+    function montaHTMLVincularManter($dadosDFD)
+    {
+        if (empty($dadosDFD)) {
+            $html = '<tr>
+                    <td align="center" bgcolor="#75ADE6" colspan="8" class="titulo3" width="900px">
+                            Resultado da pesquisa
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" colspan="8" class="titulo3" width="900px">Pesquisa sem ocorrências.</td>
+                    </tr>';
+        } else {
+            $html = '
+                        <tr>
+                            <td align="center" bgcolor="#75ADE6" colspan="8" class="titulo3">
+                                Resultado da pesquisa
+                            </td>
+                        </tr>';
+
+
+            $html .= '<tr><td align="center" bgcolor="#BFDAF2" colspan="8" class="titulo3">' . $dadosDFD[0]->descorgao . '</td></tr>';
+
+            $html .= '<tr>
+                        <td>
+                        <table class="tablePesquisa textonormal" style=" position:relative;  width : 100%; ">
+                        <thead>
+                            <tr id="cabecalhos">
+                                <td class="tdResultTitulo" id="cabIdDFD">Número do DFD</td>
+                                <td class="tdResultTitulo" id="cabAno">Ano do PCA</td>
+                                <td class="tdResultTitulo" id="cabCodClasse">Código da Classe</td>
+                                <td class="tdResultTitulo" id="cabDescClasse">Descrição da Classe</td>
+                                <td class="tdResultTitulo" id="cabDataPrevistaConclusao">Data Prevista para Conclusão</td>
+                                <td class="tdResultTitulo" id="cabTpProcesso">Tipo de Processo</td>
+                                <td class="tdResultTitulo" id="cabGrauPrioridade">Grau de Prioridade</td>
+                                <td class="tdResultTitulo" id="cabSituacao">Situação do DFD</td>
+                            </tr>
+                        </thead>
+                        <tbody>';
+
+
+            foreach ($dadosDFD as $dado) {
+                $dataPrevConclusao = date('d/m/Y', strtotime($dado->dpldfdpret));
+                $tpProcesso = ($dado->fpldfdtpct == "D") ? "CONTRATAÇÃO" : "LICITAÇÃO";
+                $urlDFD = "ConsDFD.php?dfdSelected=$dado->cpldfdnumf";
+
+                if ($dado->fpldfdgrau == 1) {
+                    $grauprioridade = "ALTO";
+                } else if ($dado->fpldfdgrau == 2) {
+                    $grauprioridade = "MÉDIO";
+                } else if ($dado->fpldfdgrau == 3) {
+                    $grauprioridade = "BAIXO";
+                }
+
+                $html .= '<tr id="resultados">
+                        <td class="tdresult" id="resIdDFD"><input type="checkbox" name="sequencialVincularDFD[]" value="' . $dado->cpldfdsequ . '" style="text-transform: capitalize">' . $dado->cpldfdnumf . '</input></td>
+                        <td class="tdresult" id="resAno">' . $dado->apldfdanod . '</td>
+                        <td class="tdresult" id="resCodClasse">' . $dado->cclamscodi . '</td>
+                        <td class="tdresult" id="resDescClasse">' . $dado->descclasse . '</td>
+                        <td class="tdresult" id="resDataPrevistaConclusao">' . $dataPrevConclusao . '</td>
+                        <td class="tdresult" id="resTpProcesso">' . $tpProcesso . '</td>
+                        <td class="tdresult" id="resGrauPrioridade">' . $grauprioridade . '</td>
+                        <td class="tdresult" id="resSituacao">' . $dado->eplsitnome . '</td>
+                    </tr>';
+
+            }
+            $html .= '  <tr>
+                                <td colspan="8">
+                                    <button type="button" name="janelaVincular" class="botao" id="janelaVincularManter";">Vincular</button>
+                                </td>
+                            </tr>';
+            $html .= '</tbody></table></td></tr>';
+        }
+        return $html;
+    }
+
+    function consultaDFDcodigoVinculo($sequencial, $codigoVinculo)
+    {
+        $sql = "SELECT dfd.*, org.eorglidesc as descorgao, org.aorglicnpj as cnpjorgao, classe.eclamsdesc as descclasse, sitdfd.eplsitnome
+                FROM sfpc.tbplanejamentodfd as dfd
+                inner join sfpc.tborgaolicitante as org on org.corglicodi = dfd.corglicodi
+                inner join sfpc.tbplanejamentovinculodfd as vinc on vinc.cpldfdsequ = dfd.cpldfdsequ
+                inner join sfpc.tbclassematerialservico as classe on (classe.cclamscodi = dfd.cclamscodi and classe.cgrumscodi = dfd.cgrumscodi) 
+                inner join sfpc.tbplanejamentosituacaodfd as sitdfd on sitdfd.cplsitcodi = dfd.cplsitcodi
+                where vinc.cplvincodi = '$codigoVinculo'";
+        if ($sequencial) {
+            $sql .= "and dfd.cpldfdsequ != '$sequencial'";
+        }
+
+        $resultado = executarSql($this->conexaoDb, $sql);
+        while ($resultado->fetchInto($retorno, DB_FETCHMODE_OBJECT)) {
+            $dadosSelectDFD[] = $retorno;
+        }
+        return $dadosSelectDFD;
+    }
+    function consultaDFDcodigoVinculoDiferente($sequencial, $codigoVinculo)
+    {
+        $sql = "SELECT dfd.*, org.eorglidesc as descorgao, org.aorglicnpj as cnpjorgao, classe.eclamsdesc as descclasse, sitdfd.eplsitnome
+                FROM sfpc.tbplanejamentodfd as dfd
+                inner join sfpc.tborgaolicitante as org on org.corglicodi = dfd.corglicodi
+                inner join sfpc.tbplanejamentovinculodfd as vinc on vinc.cpldfdsequ = dfd.cpldfdsequ
+                inner join sfpc.tbclassematerialservico as classe on (classe.cclamscodi = dfd.cclamscodi and classe.cgrumscodi = dfd.cgrumscodi) 
+                inner join sfpc.tbplanejamentosituacaodfd as sitdfd on sitdfd.cplsitcodi = dfd.cplsitcodi
+                where vinc.cplvincodi != '$codigoVinculo->cplvincodi'";
+        if ($sequencial) {
+            $sql .= "and dfd.cpldfdsequ != '$sequencial'";
+        }
+
+        $resultado = executarSql($this->conexaoDb, $sql);
+        while ($resultado->fetchInto($retorno, DB_FETCHMODE_OBJECT)) {
+            $dadosSelectDFD[] = $retorno;
+        }
+        return $dadosSelectDFD;
+    }
+
+    function getDadosDFDbySequ($dados)
+    {
+        $dadosSelectDFD = array();
+        // fazer dessa fforma vai dar uma sobrecarga na pesquisa, é mais rápido fazer uma sql modulável;
+        foreach ($dados as $dado) {
+            $sql = "
+            SELECT distinct plandfd.*, org.eorglidesc as descorgao, classe.eclamsdesc as descclasse, sitdfd.eplsitnome
+            FROM sfpc.tbplanejamentodfd AS plandfd
+            inner join sfpc.tborgaolicitante as org on org.corglicodi = plandfd.corglicodi 
+            left join sfpc.tbclassematerialservico as classe on (classe.cclamscodi = plandfd.cclamscodi and classe.cgrumscodi = plandfd.cgrumscodi) 
+            inner join sfpc.tbplanejamentosituacaodfd as sitdfd on sitdfd.cplsitcodi = plandfd.cplsitcodi
+        ";
+            $sql .= "where plandfd.cpldfdsequ = $dado";
+            $sql .= " ORDER BY cpldfdsequ ASC";
+
+            $resultado = executarSql($this->conexaoDb, $sql);
+            $countDFD = 0;
+            while ($resultado->fetchInto($countDFD, DB_FETCHMODE_OBJECT)) {
+                $dadosSelectDFD[] = $countDFD;
+            }
+        }
+
+        return $dadosSelectDFD;
+    }
+
+    /**
+     * Função utilizada em ConsPesquisarDFD.php, CadManterDFD;
+     * Pega todos os dados do DFD;
+     */
+    public function getDadosDFD($dados)
+    {
+        // fazer dessa fforma vai dar uma sobrecarga na pesquisa, é mais rápido fazer uma sql modulável;
+        $sql = "
+            SELECT distinct plandfd.*, org.eorglidesc as descorgao, classe.eclamsdesc as descclasse, sitdfd.eplsitnome
+            FROM sfpc.tbplanejamentodfd AS plandfd
+            inner join sfpc.tborgaolicitante as org on org.corglicodi = plandfd.corglicodi
+            left join sfpc.tbclassematerialservico as classe on (classe.cclamscodi = plandfd.cclamscodi and classe.cgrumscodi = plandfd.cgrumscodi) 
+            inner join sfpc.tbplanejamentosituacaodfd as sitdfd on sitdfd.cplsitcodi = plandfd.cplsitcodi
+        ";
+
+        $sqlWhere = "";
+        $checaWhere = false; //se for falso nas verificações precisa incluir o where
+        if (!empty($dados['selectAreaReq'])) {
+            if (count($dados['selectAreaReq']) > 1) {
+                $corglicodi = "";
+                $aux = 1;
+                for ($i = 0; $i < count($dados['selectAreaReq']); $i++) {
+                    $corglicodi .= $dados['selectAreaReq'][$i]->corglicodi;
+                    if ($aux < count($dados['selectAreaReq'])) {
+                        $corglicodi .= ", ";
+                    }
+                    $aux++;
+                }
+                $sqlWhere .= " where"; // não precisa verificar pois não vem nada antes
+                $sqlWhere .= " plandfd.corglicodi in (" . $corglicodi . ") and"; //não pode ter espaço após para garantir na checagem para não faltar where
+                $checaWhere = true;
+            } else {
+                $sqlWhere .= " where"; // não precisa verificar pois não vem nada antes
+                $sqlWhere .= " plandfd.corglicodi = '" . $dados['selectAreaReq'] . "' and"; //não pode ter espaço após para garantir na checagem para não faltar where
+                $checaWhere = true;
+            }
+
+        }
+
+        //Verifica e implenta se vier o id da DFD
+        if (!empty($dados['idDFD'])) {
+            if ($checaWhere == false) {
+                $sqlWhere .= " where"; // não recebe a chave pois caso venha não vem mais nada após
+            }
+            $sqlWhere .= " plandfd.cpldfdnumf = '" . $dados['idDFD'] . "'";
+        } else { //Caso não venha as outras informações serão tratadas
+            if (!empty($dados["cclamscodi"]) && !empty($dados["cgrumscodi"])) {
+                if ($checaWhere == false) {
+                    $sqlWhere .= " where";
+                    $checaWhere = true;
+                }
+                $sqlWhere .= " plandfd.cclamscodi = '" . $dados['cclamscodi'] . "' and plandfd.cgrumscodi = '" . $dados['cgrumscodi'] . "' and";
+            }
+
+            if (!empty($dados["selectAnoPCA"])) {
+                if ($checaWhere == false) {
+                    $sqlWhere .= " where";
+                    $checaWhere = true;
+                }
+                $sqlWhere .= " plandfd.apldfdanod = '" . $dados['selectAnoPCA'] . "' and";
+            }
+
+            if (!empty($dados["selectSitDFD"])) {
+                if ($checaWhere == false) {
+                    $sqlWhere .= " where";
+                    $checaWhere = true;
+                }
+                $sqlWhere .= " plandfd.cplsitcodi = '" . $dados['selectSitDFD'] . "' and";
+            } else {
+                if ($checaWhere == false) {
+                    $sqlWhere .= " where";
+                    $checaWhere = true;
+                }
+                $sqlWhere .= " plandfd.cplsitcodi in (1, 2, 7) and";
+            }
+
+            if (!empty($dados["grauPrioridade"])) {
+                if ($checaWhere == false) {
+                    $sqlWhere .= " where";
+                    $checaWhere = true;
+                }
+                $sqlWhere .= " plandfd.fpldfdgrau = '" . $dados['grauPrioridade'] . "' and";
+            }
+
+            if (!empty($dados["descDemanda"])) {
+                if ($checaWhere == false) {
+                    $sqlWhere .= " where";
+                    $checaWhere = true;
+                }
+                $sqlWhere .= " plandfd.epldfddesc ilike '%" . $dados['descDemanda'] . "%' and";
+            }
+
+            if (!empty($dados["DataIni"])) {
+                if ($checaWhere == false) {
+                    $sqlWhere .= " where";
+                    $checaWhere = true;
+                }
+                $sqlWhere .= " plandfd.dpldfdpret >= '" . $dados['DataIni'] . "' and";
+            }
+
+            if (!empty($dados["DataFim"])) {
+                if ($checaWhere == false) {
+                    $sqlWhere .= " where";
+                }
+                $sqlWhere .= " plandfd.dpldfdpret <= '" . $dados['DataFim'] . "' and";
+            }
+            //limpa o ultimo and para não quebrar a query
+            $sqlWhere = substr_replace($sqlWhere, ' ', strrpos($sqlWhere, " and"));
+
+        }
+        $sql .= $sqlWhere;
+        $sql .= " ORDER BY corglicodi, cpldfdsequ ASC";
+
+        $resultado = executarSql($this->conexaoDb, $sql);
+        $dadosSelectDFD = array();
+        $countDFD = 0;
+
+        while ($resultado->fetchInto($countDFD, DB_FETCHMODE_OBJECT)) {
+            $dadosSelectDFD[] = $countDFD;
+        }
+
+        return $dadosSelectDFD;
+    }
+    /**
+     * Função utilizada em ConsPesquisarDFD.php, 
+     * Pega todos os dados do DFD encontrados e monta o sql para a página;
+     */
+    public function montaHTML($dadosDFD)
+    {
+        $aux = 0;
+        $secretariasDFD = array();
+        $posArray = 0;
+        for ($i = 0; $i < count($dadosDFD); $i++) {
+            if ($dadosDFD[$i]->corglicodi != $aux) { // Assume que as secretarias vem agrupadas
+                $aux = $dadosDFD[$i]->corglicodi;
+                $secretariasDFD[$posArray]->corglicodi = $dadosDFD[$i]->corglicodi;
+                $secretariasDFD[$posArray]->eorglidesc = $dadosDFD[$i]->descorgao;
+                $posArray++;
+            }
+        }
+        if (empty($dadosDFD)) {
+            $html = '<tr>
+                    <td align="center" bgcolor="#75ADE6" colspan="8" class="titulo3" width="900px">
+                            Resultado da pesquisa
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" colspan="8" class="titulo3" width="900px">Pesquisa sem ocorrências.</td>
+                    </tr>';
+        } else {
+            $html = '
+                    <tr>
+                        <td align="center" bgcolor="#75ADE6" colspan="8" class="titulo3">
+                            Resultado da pesquisa
+                        </td>
+                    </tr>';
+            foreach ($secretariasDFD as $secretaria) {
+
+                $html .= '<tr><td align="center" bgcolor="#BFDAF2" colspan="8" class="titulo3">' . $secretaria->eorglidesc . '</td></tr>';
+
+                $html .= '<tr>
+                    <td>
+                    <table class="tablePesquisa textonormal" style=" position:relative;  width : 100%; ">
+                    <thead>
+                        <tr id="cabecalhos">
+                                    <td width="130px" class="tdResultTitulo" id="cabIdDFD">Número do DFD</td>
+                                    <td width="55px"class="tdResultTitulo" id="cabAno">Ano do PCA</td>
+                                    <td width="55px" class="tdResultTitulo" id="cabCodClasse">Código da Classe</td>
+                                    <td width="290px" class="tdResultTitulo" id="cabDescClasse">Descrição da Classe</td>
+                                    <td width="108px" class="tdResultTitulo" id="cabDataPrevistaConclusao">Data Prevista para Conclusão</td>
+                                    <td width="114px" class="tdResultTitulo" id="cabTpProcesso">Tipo de Processo</td>
+                                    <td width="75px" class="tdResultTitulo" id="cabGrauPrioridade">Grau de Prioridade</td>
+                                    <td width="130px" class="tdResultTitulo" id="cabSituacao">Situação do DFD</td>
+                        </tr>
+                    </thead>
+                    <tbody>';
+
+
+                foreach ($dadosDFD as $dado) {
+                    if ($secretaria->corglicodi == $dado->corglicodi) {
+                        $dataPrevConclusao = date('d/m/Y', strtotime($dado->dpldfdpret));
+                        $tpProcesso = ($dado->fpldfdtpct == "D") ? "Contratação Direta" : "Licitação";
+                        $urlDFD = "ConsDFD.php?dfdSelected=$dado->cpldfdnumf";
+
+                        if ($dado->fpldfdgrau == 1) {
+                            $grauprioridade = "ALTO";
+                        } else if ($dado->fpldfdgrau == 2) {
+                            $grauprioridade = "MÉDIO";
+                        } else if ($dado->fpldfdgrau == 3) {
+                            $grauprioridade = "BAIXO";
+                        }
+
+
+                        $html .= '<tr id="resultados">
+                                        <td width="130px"  class="tdresult" id="resIdDFD"><a href="' . $urlDFD . '" style="text-transform: capitalize">' . $dado->cpldfdnumf . '</a></td>
+                                        <td width="55px" class="tdresult" id="resAno">' . $dado->apldfdanod . '</td>
+                                        <td width="55px" class="tdresult" id="resCodClasse">' . $dado->cclamscodi . '</td>
+                                        <td width="290px" class="tdresult" id="resDescClasse">' . $dado->descclasse . '</td>
+                                        <td width="108px" class="tdresult" id="resDataPrevistaConclusao">' . $dataPrevConclusao . '</td>
+                                        <td width="114px" class="tdresult" id="resTpProcesso">' . mb_strtoupper($tpProcesso) . '</td>
+                                        <td width="75px" class="tdresult" id="resGrauPrioridade">' . $grauprioridade . '</td>
+                                        <td width="130px" class="tdresult" id="resSituacao">' . $dado->eplsitnome . '</td>
+                        </tr>';
+                    }
+
+                }
+                $html .= '</tbody></table></td></tr>';
+            }
+
+        }
+        return $html;
+    }
+    /**
+     * Função utilizada em ConsPesquisarDFD.php, 
+     * Pega todos os dados do DFD encontrados e monta o sql para a página;
+     */
+    /**
+     * Função utilizada em ConsPesquisarDFD.php, 
+     * Pega todos os dados do DFD encontrados e monta o sql para a página;
+     */
+    public function montaHTMLConsulta($dadosDFD)
+    {
+        $aux = 0;
+        $secretariasDFD = array();
+        $posArray = 0;
+        for ($i = 0; $i < count($dadosDFD); $i++) {
+            if ($dadosDFD[$i]->corglicodi != $aux) { // Assume que as secretarias vem agrupadas
+                $aux = $dadosDFD[$i]->corglicodi;
+                $secretariasDFD[$posArray]->corglicodi = $dadosDFD[$i]->corglicodi;
+                $secretariasDFD[$posArray]->eorglidesc = $dadosDFD[$i]->descorgao;
+                $posArray++;
+            }
+        }
+        if (empty($dadosDFD)) {
+            $html = '<tr>
+                    <td align="center" bgcolor="#75ADE6" colspan="8" class="titulo3" width="900px">
+                            Resultado da pesquisa
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" colspan="8" class="titulo3" width="900px">Pesquisa sem ocorrências.</td>
+                    </tr>';
+        } else {
+            $html = '
+                        <tr>
+                            <td align="center" bgcolor="#75ADE6" colspan="8" class="titulo3">
+                                Resultado da pesquisa
+                            </td>
+                        </tr>';
+            foreach ($secretariasDFD as $secretaria) {
+
+                $html .= '<tr><td align="center" bgcolor="#BFDAF2" colspan="8" class="titulo3">' . $secretaria->eorglidesc . '</td></tr>';
+
+                $html .= '<tr>
+                            <td>
+                            <table class="tablePesquisa textonormal" style=" position:relative;  width : 100%; ">
+                            <thead>
+                                <tr id="cabecalhos">
+                                    <td width="130px" class="tdResultTitulo" id="cabIdDFD">Número do DFD</td>
+                                    <td width="55px"class="tdResultTitulo" id="cabAno">Ano do PCA</td>
+                                    <td width="55px" class="tdResultTitulo" id="cabCodClasse">Código da Classe</td>
+                                    <td width="290px" class="tdResultTitulo" id="cabDescClasse">Descrição da Classe</td>
+                                    <td width="108px" class="tdResultTitulo" id="cabDataPrevistaConclusao">Data Prevista para Conclusão</td>
+                                    <td width="114px" class="tdResultTitulo" id="cabTpProcesso">Tipo de Processo</td>
+                                    <td width="75px" class="tdResultTitulo" id="cabGrauPrioridade">Grau de Prioridade</td>
+                                    <td width="130px" class="tdResultTitulo" id="cabSituacao">Situação do DFD</td>
+                                </tr>
+                            </thead>
+                            <tbody>';
+
+
+                foreach ($dadosDFD as $dado) {
+                    if ($secretaria->corglicodi == $dado->corglicodi) {
+                        $dataPrevConclusao = date('d/m/Y', strtotime($dado->dpldfdpret));
+                        $tpProcesso = ($dado->fpldfdtpct == "D") ? "CONTRATAÇÃO DIRETA" : "LICITAÇÃO";
+                        $urlDFD = "ConsDFD.php?dfdSelected=$dado->cpldfdnumf";
+
+                        if ($dado->fpldfdgrau == 1) {
+                            $grauprioridade = "ALTO";
+                        } else if ($dado->fpldfdgrau == 2) {
+                            $grauprioridade = "MÉDIO";
+                        } else if ($dado->fpldfdgrau == 3) {
+                            $grauprioridade = "BAIXO";
+                        }
+                        $cclamscodi = empty($dado->cclamscodi) ? "-" : $dado->cclamscodi;
+                        $descclasse = empty($dado->descclasse) ? "-" : $dado->descclasse;
+                        $dataPrevConclusao = ($dataPrevConclusao == "01/01/1970") ? "-" : $dataPrevConclusao;
+                        $tpProcesso = empty($tpProcesso) ? "-" : $tpProcesso;
+                        $grauprioridade = empty($grauprioridade) ? "-" : $grauprioridade;
+
+                        $html .= '<tr id="resultados">
+                                        <td width="130px"  class="tdresult" id="resIdDFD"><a href="' . $urlDFD . '" style="text-transform: capitalize">' . $dado->cpldfdnumf . '</a></td>
+                                        <td width="55px" class="tdresult" id="resAno">' . $dado->apldfdanod . '</td>
+                                        <td width="55px" class="tdresult" id="resCodClasse">' . $cclamscodi . '</td>
+                                        <td width="290px" class="tdresult" id="resDescClasse">' . $descclasse . '</td>
+                                        <td width="108px" class="tdresult" id="resDataPrevistaConclusao">' . $dataPrevConclusao . '</td>
+                                        <td width="114px" class="tdresult" id="resTpProcesso">' . $tpProcesso . '</td>
+                                        <td width="75px" class="tdresult" id="resGrauPrioridade">' . $grauprioridade . '</td>
+                                        <td width="130px" class="tdresult" id="resSituacao">' . $dado->eplsitnome . '</td>
+                            </tr>';
+                    }
+
+                }
+                $html .= '</tbody></table></td></tr>';
+            }
+
+        }
+        return $html;
+    }
+    /**
+     * Função utilizada em ConsPesquisarDFD.php, 
+     * Pega todos os dados do DFD encontrados e monta o sql para a página;
+     */
+    public function montaHTMLConsultaPDF($dadosDFD)
+    {
+        date_default_timezone_set("America/Recife");
+        $hoje = date('d/m/Y H:i');
+
+        if (empty($dadosDFD)) {
+            $html = '<style>
+                        .pagenum:before {content: counter(page);}
+                        footer .pagenum:before {content: counter(page);}
+                        td{
+                            font-family: Verdana,sans-serif,Arial;
+                        }
+                        .tdResultTitulo{
+                            font-size: 8pt;
+                        }
+                        .tdresult{
+                            font-size: 8pt;
+                        }
+                    </style>
+                    <div>
+                        <table>
+                            <tr>
+                                <td width="475px">Prefeitura do Recife</td>
+                                <td align-content="center"><img src="../midia/brasao.jpg" alt=""></td>
+                                <td align="right" width="475px">Portal de Compras</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <hr size="3">
+                    <table class="tablePesquisa textonormal" style=" position:relative;  width : 100%; ">
+                    <tbody><tr>
+                        <td align="center" colspan="8" class="titulo3" width="900px">Pesquisa sem ocorrências.</td>
+                    </tr></tbody></table>';
+            $html .= '
+                    <footer>
+                    <hr size="3">
+                    <table width="100%" >
+                    <tr>
+                    <td width="50%">Emissão: ' . $hoje . '</td>
+                    <td>
+                    <div width="50%" align="right" class="pagenum-container">Página <span class="pagenum"></span></div>
+                    </td>
+                    </tr>
+                    </table>
+                    </footer>';
+        } else {
+            $html = '<style>
+                        .pagenum:before {content: counter(page);}
+                        footer .pagenum:before {content: counter(page);}
+                        .tdResultTitulo{
+                            font-family: Verdana,sans-serif,Arial;
+                            font-size: 8pt;
+                        }
+                        .tdresult{
+                            font-family: Verdana,sans-serif,Arial;
+                            font-size: 8pt;
+                        }
+                    </style>
+                    <div>
+                        <table>
+                            <tr>
+                                <td width="475px">Prefeitura do Recife</td>
+                                <td align-content="center"><img src="../midia/brasao.jpg" alt=""></td>
+                                <td align="right" width="475px">Portal de Compras</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <hr size="3">
+                    <table class="tablePesquisa textonormal" style=" position:relative;  width : 100%; ">
+                    <thead>
+                        <tr id="cabecalhos" bgcolor="#bfdaf2">
+                            <td class="tdResultTitulo" id="cabIdDFD">Número do DFD</td>
+                            <td class="tdResultTitulo" id="cabAno">Ano do PCA</td>
+                            <td class="tdResultTitulo" id="cabCodClasse">Código da Classe</td>
+                            <td class="tdResultTitulo" id="cabDescClasse">Descrição da Classe</td>
+                            <td class="tdResultTitulo" id="cabDataPrevistaConclusao">Data Prevista para Conclusão</td>
+                            <td class="tdResultTitulo" id="cabTpProcesso">Tipo de Processo</td>
+                            <td class="tdResultTitulo" id="cabGrauPrioridade">Grau de Prioridade</td>
+                            <td class="tdResultTitulo" id="cabSituacao">Situação do DFD</td>
+                        </tr>
+                    </thead>
+                    <tbody>';
+
+            // print_r($html);exit;
+            foreach ($dadosDFD as $dado) {
+                $dataPrevConclusao = date('d/m/Y', strtotime($dado->dpldfdpret));
+                $tpProcesso = ($dado->fpldfdtpct == "D") ? "Contratação Direta" : "Licitação";
+                $urlDFD = "ConsDFD.php?dfdSelected=$dado->cpldfdnumf";
+
+                if ($dado->fpldfdgrau == 1) {
+                    $grauprioridade = "ALTO";
+                } else if ($dado->fpldfdgrau == 2) {
+                    $grauprioridade = "MÉDIO";
+                } else if ($dado->fpldfdgrau == 3) {
+                    $grauprioridade = "BAIXO";
+                }
+
+
+                $html .= '<tr id="resultados">
+                    <td class="tdresult" id="resIdDFD">' . $dado->cpldfdnumf . '</td>
+                    <td class="tdresult" id="resAno">' . $dado->apldfdanod . '</td>
+                    <td class="tdresult" id="resCodClasse">' . $dado->cclamscodi . '</td>
+                    <td class="tdresult" id="resDescClasse">' . $dado->descclasse . '</td>
+                    <td class="tdresult" id="resDataPrevistaConclusao">' . $dataPrevConclusao . '</td>
+                    <td class="tdresult" id="resTpProcesso">' . strtoUpper2($tpProcesso) . '</td>
+                    <td class="tdresult" id="resGrauPrioridade">' . $grauprioridade . '</td>
+                    <td class="tdresult" id="resSituacao">' . $dado->eplsitnome . '</td>
+                </tr>';
+            }
+            $html .= '</tbody></table><br>';
+            $html .= '
+            <footer>
+            <hr size="3">
+            <table width="100%" >
+            <tr>
+            <td width="50%">Emissão: ' . $hoje . '</td>
+            <td>
+            <div width="50%" align="right" class="pagenum-container">Página <span class="pagenum"></span></div>
+            </td>
+            </tr>
+            </table>
+            </footer>';
+        }
+        return $html;
+    }
+    /**
+     * Função utilizada em ConsPesquisarDFD.php, 
+     * Pega todos os dados do DFD encontrados e monta o sql para a página;
+     */
+    public function montaHTMLAnalisarPDF($dadosDFD)
+    {
+        date_default_timezone_set("America/Recife");
+        $hoje = date('d/m/Y H:i');
+
+        if (empty($dadosDFD)) {
+            $html = '<style>
+                        .pagenum:before {content: counter(page);}
+                        footer .pagenum:before {content: counter(page);}
+                        td{
+                            font-family: Verdana,sans-serif,Arial;
+                        }
+                        .tdResultTitulo{
+                            font-size: 8pt;
+                        }
+                        .tdresult{
+                            font-size: 8pt;
+                        }
+                    </style>
+                    <div>
+                        <table>
+                            <tr>
+                                <td width="475px">Prefeitura do Recife</td>
+                                <td align-content="center"><img src="../midia/brasao.jpg" alt=""></td>
+                                <td align="right" width="475px">Portal de Compras</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <hr size="3">
+                    <table class="tablePesquisa textonormal" style=" position:relative;  width : 100%; ">
+                    <tbody><tr>
+                        <td align="center" colspan="8" class="titulo3" width="900px">Pesquisa sem ocorrências.</td>
+                    </tr></tbody></table>';
+            $html .= '
+                    <footer>
+                    <hr size="3">
+                    <table width="100%" >
+                    <tr>
+                    <td width="50%">Emissão: ' . $hoje . '</td>
+                    <td>
+                    <div width="50%" align="right" class="pagenum-container">Página <span class="pagenum"></span></div>
+                    </td>
+                    </tr>
+                    </table>
+                    </footer>';
+        } else {
+            $html = '<style>
+                        .pagenum:before {content: counter(page);}
+                        footer .pagenum:before {content: counter(page);}
+                        .tdResultTitulo{
+                            font-family: Verdana,sans-serif,Arial;
+                            font-size: 8pt;
+                        }
+                        .tdresult{
+                            font-family: Verdana,sans-serif,Arial;
+                            font-size: 8pt;
+                        }
+                    </style>
+                    <div>
+                        <table>
+                            <tr>
+                                <td width="475px">Prefeitura do Recife</td>
+                                <td align-content="center"><img src="../midia/brasao.jpg" alt=""></td>
+                                <td align="right" width="475px">Portal de Compras</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <hr size="3">
+                    <table class="tablePesquisa textonormal" style=" position:relative;  width : 100%; ">
+                    <thead>
+                        <tr id="cabecalhos" bgcolor="#bfdaf2">
+                            <td class="tdResultTitulo" id="cabIdDFD">Número do DFD</td>
+                            <td class="tdResultTitulo" id="cabAno">Ano do PCA</td>
+                            <td class="tdResultTitulo" id="cabCodClasse">Código da Classe</td>
+                            <td class="tdResultTitulo" id="cabDescClasse">Descrição da Classe</td>
+                            <td class="tdResultTitulo" id="cabDataPrevistaConclusao">Data Prevista para Conclusão</td>
+                            <td class="tdResultTitulo" id="cabTpProcesso">Tipo de Processo</td>
+                            <td class="tdResultTitulo" id="cabGrauPrioridade">Grau de Prioridade</td>
+                            <td class="tdResultTitulo" id="cabSituacao">Situação do DFD</td>
+                        </tr>
+                    </thead>
+                    <tbody>';
+
+            // print_r($html);exit;
+            foreach ($dadosDFD as $dado) {
+                $dataPrevConclusao = date('d/m/Y', strtotime($dado->dpldfdpret));
+                $tpProcesso = ($dado->fpldfdtpct == "D") ? "Contratação Direta" : "Licitação";
+                $urlDFD = "ConsDFD.php?dfdSelected=$dado->cpldfdnumf";
+
+                if ($dado->fpldfdgrau == 1) {
+                    $grauprioridade = "ALTO";
+                } else if ($dado->fpldfdgrau == 2) {
+                    $grauprioridade = "MÉDIO";
+                } else if ($dado->fpldfdgrau == 3) {
+                    $grauprioridade = "BAIXO";
+                }
+
+
+                $html .= '<tr id="resultados">
+                    <td class="tdresult" id="resIdDFD">' . $dado->cpldfdnumf . '</td>
+                    <td class="tdresult" id="resAno">' . $dado->apldfdanod . '</td>
+                    <td class="tdresult" id="resCodClasse">' . $dado->cclamscodi . '</td>
+                    <td class="tdresult" id="resDescClasse">' . $dado->eclamsdesc . '</td>
+                    <td class="tdresult" id="resDataPrevistaConclusao">' . $dataPrevConclusao . '</td>
+                    <td class="tdresult" id="resTpProcesso">' . strtoUpper2($tpProcesso) . '</td>
+                    <td class="tdresult" id="resGrauPrioridade">' . $grauprioridade . '</td>
+                    <td class="tdresult" id="resSituacao">' . $dado->eplsitnome . '</td>
+                </tr>';
+            }
+            $html .= '</tbody></table><br>';
+            $html .= '
+            <footer>
+            <hr size="3">
+            <table width="100%" >
+            <tr>
+            <td width="50%">Emissão: ' . $hoje . '</td>
+            <td>
+            <div width="50%" align="right" class="pagenum-container">Página <span class="pagenum"></span></div>
+            </td>
+            </tr>
+            </table>
+            </footer>';
+        }
+        return $html;
+    }
+    /**
+     * Função utilizada em ConsSelecionarManterDFD.php, 
+     * Pega todos os dados do DFD encontrados e monta o sql para a página;
+     */
+    public function montaHTMLManter($dadosDFD)
+    {
+        $aux = 0;
+        $secretariasDFD = array();
+        $posArray = 0;
+        for ($i = 0; $i < count($dadosDFD); $i++) {
+            if ($dadosDFD[$i]->corglicodi != $aux) { // Assume que as secretarias vem agrupadas
+                $aux = $dadosDFD[$i]->corglicodi;
+                $secretariasDFD[$posArray]->corglicodi = $dadosDFD[$i]->corglicodi;
+                $secretariasDFD[$posArray]->eorglidesc = $dadosDFD[$i]->descorgao;
+                $posArray++;
+            }
+        }
+        if (empty($dadosDFD)) {
+            $html = '<tr>
+                    <td align="center" bgcolor="#75ADE6" colspan="8" class="titulo3" width="900px">
+                            Resultado da pesquisa
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" colspan="8" class="titulo3" width="900px">Pesquisa sem ocorrências.</td>
+                    </tr>';
+        } else {
+            $html = '
+                        <tr>
+                            <td align="center" bgcolor="#75ADE6" colspan="8" class="titulo3">
+                                Resultado da pesquisa
+                            </td>
+                        </tr>';
+            foreach ($secretariasDFD as $secretaria) {
+
+                $html .= '<tr><td align="center" bgcolor="#BFDAF2" colspan="8" class="titulo3">' . $secretaria->eorglidesc . '</td></tr>';
+
+                $html .= '<tr>
+                        <td>
+                        <table class="tablePesquisa textonormal" style=" position:relative;  width : 100%; ">
+                        <thead>
+                            <tr id="cabecalhos">
+                                    <td width="130px" class="tdResultTitulo" id="cabIdDFD">Número do DFD</td>
+                                    <td width="55px"class="tdResultTitulo" id="cabAno">Ano do PCA</td>
+                                    <td width="55px" class="tdResultTitulo" id="cabCodClasse">Código da Classe</td>
+                                    <td width="290px" class="tdResultTitulo" id="cabDescClasse">Descrição da Classe</td>
+                                    <td width="108px" class="tdResultTitulo" id="cabDataPrevistaConclusao">Data Prevista para Conclusão</td>
+                                    <td width="114px" class="tdResultTitulo" id="cabTpProcesso">Tipo de Processo</td>
+                                    <td width="75px" class="tdResultTitulo" id="cabGrauPrioridade">Grau de Prioridade</td>
+                                    <td width="130px" class="tdResultTitulo" id="cabSituacao">Situação do DFD</td>
+                            </tr>
+                        </thead>
+                        <tbody>';
+
+
+                foreach ($dadosDFD as $dado) {
+                    if ($secretaria->corglicodi == $dado->corglicodi) {
+                        $dataPrevConclusao = date('d/m/Y', strtotime($dado->dpldfdpret));
+                        if ($dado->fpldfdtpct == "D") {
+                            $tpProcesso = "CONTRATAÇÃO DIRETA";
+                        } elseif ($dado->fpldfdtpct == "L") {
+                            $tpProcesso = "LICITAÇÃO";
+                        } else {
+                            $tpProcesso = "-";
+                        }
+                        $urlDFD = "CadManterDFD.php?dfdSelected=$dado->cpldfdnumf";
+
+                        if ($dado->fpldfdgrau == 1) {
+                            $grauprioridade = "ALTO";
+                        } else if ($dado->fpldfdgrau == 2) {
+                            $grauprioridade = "MÉDIO";
+                        } else if ($dado->fpldfdgrau == 3) {
+                            $grauprioridade = "BAIXO";
+                        }
+                        $cclamscodi = empty($dado->cclamscodi) ? "-" : $dado->cclamscodi;
+                        $descclasse = empty($dado->descclasse) ? "-" : $dado->descclasse;
+                        $dataPrevConclusao = ($dataPrevConclusao == "01/01/1970") ? "-" : $dataPrevConclusao;
+                        $tpProcesso = empty($tpProcesso) ? "-" : $tpProcesso;
+                        $grauprioridade = empty($grauprioridade) ? "-" : $grauprioridade;
+
+                        $html .= '<tr id="resultados">
+                                <td width="130px"  class="tdresult" id="resIdDFD"><a href="' . $urlDFD . '" style="text-transform: capitalize">' . $dado->cpldfdnumf . '</a></td>
+                                <td width="55px" class="tdresult" id="resAno">' . $dado->apldfdanod . '</td>
+                                <td width="55px" class="tdresult" id="resCodClasse">' . $cclamscodi . '</td>
+                                <td width="290px" class="tdresult" id="resDescClasse">' . $descclasse . '</td>
+                                <td width="108px" class="tdresult" id="resDataPrevistaConclusao">' . $dataPrevConclusao . '</td>
+                                <td width="114px" class="tdresult" id="resTpProcesso">' . $tpProcesso . '</td>
+                                <td width="75px" class="tdresult" id="resGrauPrioridade">' . $grauprioridade . '</td>
+                                <td width="130px" class="tdresult" id="resSituacao">' . $dado->eplsitnome . '</td>
+                    </tr>';
+                    }
+
+                }
+                $html .= '</tbody></table></td></tr>';
+            }
+
+        }
+        return $html;
+    }
+
+    /**
+     * Função utilizada em AbaInformacoesDFD.php
+     * Busca os anos da DFD para dispor no select da pesquisa
+     */
+    function getAnosCadastrados()
+    {
+        $sql = "SELECT distinct apldfdanod FROM sfpc.tbplanejamentodfd order by apldfdanod ";
+
+        $resultado = executarSql($this->conexaoDb, $sql);
+        $dadosSelectDFD = array();
+
+        while ($resultado->fetchInto($result, DB_FETCHMODE_OBJECT)) {
+            $dadosSelectDFD[] = $result;
+        }
+
+        return $dadosSelectDFD;
+    }
+    /**
+     * Função utilizada em AbaInformacoesDFD.php
+     * Busca os dados da DFD para dispor em tela
+     */
+    function consultaDFD($cpldfdnumf)
+    {
+        $sql = "SELECT dfd.*, org.eorglidesc as descorgao, org.aorglicnpj as cnpjorgao, classe.eclamsdesc as descclasse, sitdfd.eplsitnome, usup.eusuporesp 
+                FROM sfpc.tbplanejamentodfd as dfd
+                inner join sfpc.tborgaolicitante as org on org.corglicodi = dfd.corglicodi
+                left join sfpc.tbclassematerialservico as classe on (classe.cclamscodi = dfd.cclamscodi and classe.cgrumscodi = dfd.cgrumscodi) 
+                inner join sfpc.tbplanejamentosituacaodfd as sitdfd on sitdfd.cplsitcodi = dfd.cplsitcodi
+                inner join sfpc.tbusuarioportal as usup on usup.cusupocodi = dfd.cusupocodi
+                where dfd.cpldfdnumf = '$cpldfdnumf'";
+
+        $resultado = executarSql($this->conexaoDb, $sql);
+        $resultado->fetchInto($retorno, DB_FETCHMODE_OBJECT);
+
+        return $retorno;
+    }
+    function consultaDFDVinculoBySequ($cpldfdsequ)
+    {
+        $sql = "SELECT dfd.*, org.eorglidesc as descorgao, org.aorglicnpj as cnpjorgao, classe.eclamsdesc as descclasse, sitdfd.eplsitnome, usup.eusuporesp, vinc.cplvincodi
+                FROM sfpc.tbplanejamentodfd as dfd
+                inner join sfpc.tborgaolicitante as org on org.corglicodi = dfd.corglicodi
+                inner join sfpc.tbplanejamentovinculodfd as vinc on vinc.cpldfdsequ = dfd.cpldfdsequ   
+                inner join sfpc.tbclassematerialservico as classe on (classe.cclamscodi = dfd.cclamscodi and classe.cgrumscodi = dfd.cgrumscodi) 
+                inner join sfpc.tbplanejamentosituacaodfd as sitdfd on sitdfd.cplsitcodi = dfd.cplsitcodi
+                inner join sfpc.tbusuarioportal as usup on usup.cusupocodi = dfd.cusupocodi
+                where dfd.cpldfdsequ = '$cpldfdsequ'";
+
+        $resultado = executarSql($this->conexaoDb, $sql);
+        $resultado->fetchInto($retorno, DB_FETCHMODE_OBJECT);
+
+        return $retorno;
+    }
+    function deleteDFDVinculoBySequ($cpldfdsequ)
+    {
+        $sql = "DELETE vinc.*
+                FROM sfpc.tbplanejamentovinculodfd as vinc   
+                where dfd.cpldfdsequ = '$cpldfdsequ'";
+
+        $resultado = executarSql($this->conexaoDb, $sql);
+        $resultado->fetchInto($retorno, DB_FETCHMODE_OBJECT);
+    }
+
+    /**
+     * Função utilizada em AbaHistoricoDFD.php
+     * Busca os dados do histórico do DFD para dispor em tela
+     */
+    function consultaHistorico($cpldfdnumf)
+    {
+        $sql = "SELECT hist.*, usup.eusuporesp, sitdfd.eplsitnome
+                FROM sfpc.tbplanejamentohistoricosituacaodfd as hist 
+                inner join sfpc.tbplanejamentodfd as dfd on dfd.cpldfdsequ = hist.cpldfdsequ
+                inner join sfpc.tbusuarioportal as usup on usup.cusupocodi = dfd.cusupocodi
+                inner join sfpc.tbplanejamentosituacaodfd as sitdfd on sitdfd.cplsitcodi = dfd.cplsitcodi
+                where dfd.cpldfdnumf =  '$cpldfdnumf'";
+
+        $resultado = executarSql($this->conexaoDb, $sql);
+        $dadosHistDFD = array();
+
+        while ($resultado->fetchInto($result, DB_FETCHMODE_OBJECT)) {
+            $dadosHistDFD[] = $result;
+        }
+        return $dadosHistDFD;
+    }
+    /**
+     * Função utilizada em AbaHistoricoDFD.php
+     * Busca os dados dos itens do DFD
+     */
+    function consultaItens($cpldfdnumf)
+    {
+        $sql = "SELECT item.*,  mat.ematepdesc, serv.eservpdesc 
+                FROM sfpc.tbitemplanejamentodfd item
+                inner join sfpc.tbplanejamentodfd as dfd on dfd.cpldfdsequ = item.cpldfdsequ
+                left join sfpc.tbmaterialportal as mat on mat.cmatepsequ = item.cmatepsequ
+                left join sfpc.tbservicoportal as serv on serv.cservpsequ = item.cservpsequ 
+                where dfd.cpldfdnumf =  '$cpldfdnumf'";
+
+        $resultado = executarSql($this->conexaoDb, $sql);
+        $dadosItensDFD = array();
+
+        while ($resultado->fetchInto($result, DB_FETCHMODE_OBJECT)) {
+            $dadosItensDFD[] = $result;
+        }
+        return $dadosItensDFD;
+    }
+    /**
+     * Função utilizada na função updateitensDFD()
+     * Busca o maior seq DFD para gerar um novo
+     */
+    function maxSeqItem($cpldfdsequ)
+    {
+        $sql = "SELECT max(cplitecodi) from sfpc.tbitemplanejamentodfd where cpldfdsequ = '$cpldfdsequ'";
+
+        $resultado = executarSql($this->conexaoDb, $sql);
+        $dadosItensDFD = array();
+
+        $resultado->fetchInto($result, DB_FETCHMODE_OBJECT);
+        return $result->max;
+    }
+    /**
+     * Função utilizada em CadManterDFD.php
+     * Deleta os dados do DFD
+     */
+    function deleteDadosDFD($cpldfdsequ)
+    {
+
+        //Verificar se o sequ esta presente nas tabelas
+        $sqlVerificaNuloHistorico = "select * FROM sfpc.tbplanejamentohistoricosituacaodfd where cpldfdsequ = $cpldfdsequ";
+        $resultadohist = executarSql($this->conexaoDb, $sqlVerificaNuloHistorico);
+        $resultadohist->fetchInto($resulthist, DB_FETCHMODE_OBJECT);
+
+        $sqlVerificarNuloItem = "select * FROM sfpc.tbitemplanejamentodfd where cpldfdsequ = $cpldfdsequ";
+        $resultadoItem = executarSql($this->conexaoDb, $sqlVerificarNuloItem);
+        $resultadoItem->fetchInto($resultItem, DB_FETCHMODE_OBJECT);
+
+        $sqlVerificarNuloVinculo = "select * FROM sfpc.tbplanejamentovinculodfd where cpldfdsequ = $cpldfdsequ";
+        $resultadoVinculo = executarSql($this->conexaoDb, $sqlVerificarNuloVinculo);
+        $resultadoVinculo->fetchInto($resultVinculo, DB_FETCHMODE_OBJECT);
+
+        $sqlVerificarNuloDFD = "select * FROM sfpc.tbplanejamentodfd where cpldfdsequ = $cpldfdsequ";
+        $resultadoDFD = executarSql($this->conexaoDb, $sqlVerificarNuloDFD);
+        $resultadoDFD->fetchInto($resultDFD, DB_FETCHMODE_OBJECT);
+
+        if (!empty($resulthist->cpldfdsequ)) {
+            $sql = "Delete FROM sfpc.tbplanejamentohistoricosituacaodfd where cpldfdsequ = $cpldfdsequ";
+            executarSql($this->conexaoDb, $sql);
+        }
+
+        if (!empty($resultItem->cpldfdsequ)) {
+            $sql = "Delete FROM sfpc.tbitemplanejamentodfd where cpldfdsequ = $cpldfdsequ";
+            executarSql($this->conexaoDb, $sql);
+        }
+
+        if (!empty($resultVinculo->cpldfdsequ)) {
+            $sql = "Delete FROM sfpc.tbplanejamentovinculodfd where cpldfdsequ = $cpldfdsequ";
+            executarSql($this->conexaoDb, $sql);
+        }
+
+        if (!empty($resultDFD->cpldfdsequ)) {
+            $sql = "Delete FROM sfpc.tbplanejamentodfd where cpldfdsequ = $cpldfdsequ";
+            executarSql($this->conexaoDb, $sql);
+        }
+
+        return true;
+    }
+    /**
+     * Função utilizada em CadManterDFD.php
+     * Atualiza os dados do DFD na tabela
+     */
+    function updateDFD($dadosDFD)
+    {
+        //Monta sql Update DFD
+        $sqlPDFD = " update sfpc.tbplanejamentodfd set ";
+        if ($dadosDFD->chaveNovaClasse == "true") {
+            $sqlPDFD .= " cclamscodi = " . $dadosDFD->cclamscodi . ", ";
+            $sqlPDFD .= " cgrumscodi = " . $dadosDFD->cgrumscodi . ", ";
+        }
+        $dadosDFD->rascunho = ($dadosDFD->rascunho == 1) ? 1 : 2;
+        $sqlPDFD .= " epldfddesc = '" . $dadosDFD->epldfddesc . "', ";
+        $sqlPDFD .= " epldfdjust = '" . $dadosDFD->epldfdjust . "', ";
+        $sqlPDFD .= " cpldfdvest =  " . $dadosDFD->cpldfdvest . ", ";
+        $sqlPDFD .= " fpldfdtpct = '" . $dadosDFD->fpldfdtpct . "', ";
+        $sqlPDFD .= " fpldfdgrau = '" . $dadosDFD->fpldfdgrau . "', ";
+        $sqlPDFD .= " epldfdjusp = '" . $dadosDFD->epldfdjusp . "', ";
+        $sqlPDFD .= " dpldfdpret =  '" . date("Y-m-d", $dadosDFD->dpldfdpret) . " 00:00:00', "; // data tratada para o tipo Typestamp
+        $sqlPDFD .= " fpldfdcorp = '" . $dadosDFD->fpldfdcorp . "', ";
+        $sqlPDFD .= " cplsitcodi = " . $dadosDFD->rascunho . ", ";
+        $sqlPDFD .= " cusupocodi = " . $_SESSION['_cusupocodi_'] . ", ";
+        $sqlPDFD .= " tpldfdulat = now() ";
+        $sqlPDFD .= " where cpldfdsequ = " . $dadosDFD->cpldfdsequ;
+
+        //Executa Query
+        executarSql($this->conexaoDb, $sqlPDFD);
+
+        return true;
+    }
+    /**
+     * Função utilizada em CadManterDFD.php
+     * Atualiza os dados dos itens do DFD na tabela
+     */
+    function updateitensDFD($itensDFD, $cpldfdsequ)
+    {
+        $cplitecodi = 0;
+        foreach ($itensDFD as $item) {
+            $cplitecodi++;
+            if ($item->remover == true) {
+                //Monta sql delete DFD para servico ou material
+                if (!empty($item->cmatepsequ) and !empty($cpldfdsequ)) {
+                    $sqlItemDelete = "Delete FROM sfpc.tbitemplanejamentodfd where cpldfdsequ = $cpldfdsequ and cmatepsequ = " . $item->cmatepsequ;
+                    executarSql($this->conexaoDb, $sqlItemDelete);
+                }
+                if (!empty($item->cservpsequ) and !empty($cpldfdsequ)) {
+                    $sqlItemDelete = "Delete FROM sfpc.tbitemplanejamentodfd where cpldfdsequ = $cpldfdsequ and  cservpsequ = " . $item->cservpsequ;
+                    executarSql($this->conexaoDb, $sqlItemDelete);
+                }
+                //Executa Query
+
+            }
+            $maxSeqItem = $this->maxSeqItem($cpldfdsequ);
+            $cplitecodi = intval($maxSeqItem) + 1;
+            if ($item->Novo == true) {
+                $cmatepsequ = !empty($item->cmatepsequ) ? $item->cmatepsequ : "null";
+                $cservpsequ = !empty($item->cservpsequ) ? $item->cservpsequ : "null";
+                $sqlInsertItem = "insert into sfpc.tbitemplanejamentodfd (
+                                    cpldfdsequ,
+                                    cplitecodi,
+                                    cmatepsequ,
+                                    cservpsequ,
+                                    tpliteincl,
+                                    cusupocodi,
+                                    tpliteulat
+                                    ) values(
+                                    $cpldfdsequ,
+                                    $cplitecodi,
+                                    $cmatepsequ,
+                                    $cservpsequ,
+                                    now(),
+                                    " . $_SESSION['_cusupocodi_'] . ",
+                                    now()
+                                    )";
+
+                executarSql($this->conexaoDb, $sqlInsertItem);
+            }
+        }
+
+        return true;
+    }
+    /**
+     * Função utilizada em CadManterDFD.php
+     * Insere a situação do DFD na tabela tbplanejamentohistoricosituacaodfd
+     */
+    function insertHistoricoSituacaoDFD($dadosDFD)
+    {
+        $cplhsisequ = $this->novoSequencialHistoricoSituacao();
+        $sqlSituacaoAtual = " SELECT cplsitcodi FROM sfpc.tbplanejamentodfd WHERE cpldfdsequ = $dadosDFD->cpldfdsequ";
+
+        $resultado = executarSql($this->conexaoDb, $sqlSituacaoAtual);
+        $resultado->fetchInto($result, DB_FETCHMODE_OBJECT);
+
+        $sqlInsert = "insert into sfpc.tbplanejamentohistoricosituacaodfd (
+            cplhsisequ, 
+            cpldfdsequ, 
+            cplsitcodi, 
+            tplhsiincl, 
+            cusupocodi, 
+            tplhsiulat
+            ) values(
+                $cplhsisequ,
+                $dadosDFD->cpldfdsequ,
+                $result->cplsitcodi,
+                now(),
+                " . $_SESSION["_cusupocodi_"] . ",
+                now()
+            )
+        ";
+
+        executarSql($this->conexaoDb, $sqlInsert);
+
+        return true;
+    }
+
+    public function montaHTMLConsolidado($dadosDFD)
+    {
+        $aux = 0;
+        $secretariasDFD = array();
+        $posArray = 0;
+        for ($i = 0; $i < count($dadosDFD); $i++) {
+            if ($dadosDFD[$i]->corglicodi != $aux) { // Assume que as secretarias vem agrupadas
+                $aux = $dadosDFD[$i]->corglicodi;
+                $secretariasDFD[$posArray]->corglicodi = $dadosDFD[$i]->corglicodi;
+                $secretariasDFD[$posArray]->eorglidesc = $dadosDFD[$i]->descorgao;
+                $posArray++;
+            }
+        }
+        if (empty($dadosDFD)) {
+            $html = '<tr>
+                    <td align="center" bgcolor="#75ADE6" colspan="8" class="titulo3" width="900px">
+                            Resultado da pesquisa
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" colspan="8" class="titulo3" width="900px">Pesquisa sem ocorrências.</td>
+                    </tr>';
+        } else {
+            $html = '
+                    <tr>
+                        <td align="center" bgcolor="#75ADE6" colspan="8" class="titulo3">
+                            Resultado da pesquisa
+                        </td>
+                    </tr>';
+
+            foreach ($secretariasDFD as $secretaria) {
+                $html .= '<tr><td align="center" bgcolor="#BFDAF2" colspan="8" class="titulo3">' . $secretaria->eorglidesc . '</td></tr>';
+
+                $html .= '<tr>
+                    <td>
+                    <table class="tablePesquisa textonormal" style=" position:relative;  width : 100%; ">
+                    <thead>
+                        <tr id="cabecalhos">
+                            <td class="tdresult"><input type="checkbox" id="numDFDAll" name="numDFDAll"/><label for="numDFDAll">Selecionar todas</label></td>
+                            <td class="tdResultTitulo" id="cabIdDFD">Número do DFD</td>
+                            <td class="tdResultTitulo" id="cabAno">Ano do PCA</td>
+                            <td class="tdResultTitulo" id="cabCodClasse">Código da Classe</td>
+                            <td class="tdResultTitulo" id="cabDescClasse">Descrição da Classe</td>
+                            <td class="tdResultTitulo" id="cabDataPrevistaConclusao">Data Prevista para Conclusão</td>
+                            <td class="tdResultTitulo" id="cabTpProcesso">Tipo de Processo</td>
+                            <td class="tdResultTitulo" id="cabGrauPrioridade">Grau de Prioridade</td>
+                            <td class="tdResultTitulo" id="cabSituacao">Situação do DFD</td>
+                        </tr>
+                    </thead>
+                    <tbody>';
+
+
+                $conta = 0;
+                foreach ($dadosDFD as $dado) {
+                    if ($secretaria->corglicodi == $dado->corglicodi) {
+                        $dataPrevConclusao = date('d/m/Y', strtotime($dado->dpldfdpret));
+                        $tpProcesso = ($dado->fpldfdtpct == "D") ? "CONTRATAÇÃO DIRETA" : "LICITAÇÃO";
+
+                        if ($dado->fpldfdgrau == 1) {
+                            $grauprioridade = "ALTO";
+                        } else if ($dado->fpldfdgrau == 2) {
+                            $grauprioridade = "MÉDIO";
+                        } else if ($dado->fpldfdgrau == 3) {
+                            $grauprioridade = "BAIXO";
+                        }
+
+
+                        $html .= '<tr id="resultados">
+                    <td class="tdresult"><input type="checkbox" class="CBXNumDFD" name="numDFD[]" value="' . $conta . '"/></td>
+                    <td class="tdresult" id="resIdDFD">' . $dado->cpldfdnumf . '</td>
+                    <td class="tdresult" id="resAno">' . $dado->apldfdanod . '</td>
+                    <td class="tdresult" id="resCodClasse">' . $dado->cclamscodi . '</td>
+                    <td class="tdresult" id="resDescClasse">' . $dado->descclasse . '</td>
+                    <td class="tdresult" id="resDataPrevistaConclusao">' . $dataPrevConclusao . '</td>
+                    <td class="tdresult" id="resTpProcesso">' . $tpProcesso . '</td>
+                    <td class="tdresult" id="resGrauPrioridade">' . $grauprioridade . '</td>
+                    <td class="tdresult" id="resSituacao">' . $dado->eplsitnome . '</td>
+                </tr>';
+                        $conta++;
+                    }
+                }
+                $html .= '</tbody></table>
+                        <footer>
+                            <button type="button" name="consolidarDFD" class="botao" id="consolidarDFD">Consolidar</button>
+                            <button type="button" name="exportarPDF" class="botao" id="exportarPDF">Exportar PDF</button>
+                            <button type="button" name="exportarXLS" class="botao" id="exportarXLS">Exportar XLS</button>
+                            <button type="button" name="exportarCSV" class="botao" id="exportarCSV">Exportar CSV</button>
+                        </footer></td></tr>';
+            }
+        }
+        return $html;
+    }
+
+    public function montaHTMLConsolidarPDF($dadosDFD)
+    {
+        date_default_timezone_set("America/Recife");
+        $hoje = date('d/m/Y H:i');
+
+        if (empty($dadosDFD)) {
+            $html = '<style>
+                        .pagenum:before {content: counter(page);}
+                        footer .pagenum:before {content: counter(page);}
+                        td{
+                            font-family: Verdana,sans-serif,Arial;
+                        }
+                        .tdResultTitulo{
+                            font-size: 8pt;
+                        }
+                        .tdresult{
+                            font-size: 8pt;
+                        }
+                    </style>
+                    <div>
+                        <table>
+                            <tr>
+                                <td width="475px">Prefeitura do Recife</td>
+                                <td align-content="center"><img src="../midia/brasao.jpg" alt=""></td>
+                                <td align="right" width="475px">Portal de Compras</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <hr size="3">
+                    <table class="tablePesquisa textonormal" style=" position:relative;  width : 100%; ">
+                    <tbody><tr>
+                        <td align="center" colspan="8" class="titulo3" width="900px">Pesquisa sem ocorrências.</td>
+                    </tr></tbody></table>';
+            $html .= '
+                    <footer>
+                    <hr size="3">
+                    <table width="100%" >
+                    <tr>
+                    <td width="50%">Emissão: ' . $hoje . '</td>
+                    <td>
+                    <div width="50%" align="right" class="pagenum-container">Página <span class="pagenum"></span></div>
+                    </td>
+                    </tr>
+                    </table>
+                    </footer>';
+        } else {
+            $html = '<style>
+                        .pagenum:before {content: counter(page);}
+                        footer .pagenum:before {content: counter(page);}
+                        .tdResultTitulo{
+                            font-family: Verdana,sans-serif,Arial;
+                            font-size: 8pt;
+                        }
+                        .tdresult{
+                            font-family: Verdana,sans-serif,Arial;
+                            font-size: 8pt;
+                        }
+                    </style>
+                    <div>
+                        <table>
+                            <tr>
+                                <td width="475px">Prefeitura do Recife</td>
+                                <td align-content="center"><img src="../midia/brasao.jpg" alt=""></td>
+                                <td align="right" width="475px">Portal de Compras</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <hr size="3">
+                    <table class="tablePesquisa textonormal" style=" position:relative;  width : 100%; ">
+                    <thead>
+                        <tr id="cabecalhos" bgcolor="#bfdaf2">
+                            <td class="tdResultTitulo" id="cabIdDFD">Número do DFD</td>
+                            <td class="tdResultTitulo" id="cabAno">Ano do PCA</td>
+                            <td class="tdResultTitulo" id="cabCodClasse">Código da Classe</td>
+                            <td class="tdResultTitulo" id="cabDescClasse">Descrição da Classe</td>
+                            <td class="tdResultTitulo" id="cabDataPrevistaConclusao">Data Prevista para Conclusão</td>
+                            <td class="tdResultTitulo" id="cabTpProcesso">Tipo de Processo</td>
+                            <td class="tdResultTitulo" id="cabGrauPrioridade">Grau de Prioridade</td>
+                            <td class="tdResultTitulo" id="cabSituacao">Situação do DFD</td>
+                        </tr>
+                    </thead>
+                    <tbody>';
+
+            foreach ($dadosDFD as $dado) {
+                $dataPrevConclusao = date('d/m/Y', strtotime($dado->dpldfdpret));
+                $tpProcesso = ($dado->fpldfdtpct == "D") ? "Contratação Direta" : "Licitação";
+                $urlDFD = "ConsDFD.php?dfdSelected=$dado->cpldfdnumf";
+
+                if ($dado->fpldfdgrau == 1) {
+                    $grauprioridade = "ALTO";
+                } else if ($dado->fpldfdgrau == 2) {
+                    $grauprioridade = "MÉDIO";
+                } else if ($dado->fpldfdgrau == 3) {
+                    $grauprioridade = "BAIXO";
+                }
+
+
+                $html .= '<tr id="resultados">
+                    <td class="tdresult" id="resIdDFD">' . $dado->cpldfdnumf . '</td>
+                    <td class="tdresult" id="resAno">' . $dado->apldfdanod . '</td>
+                    <td class="tdresult" id="resCodClasse">' . $dado->cclamscodi . '</td>
+                    <td class="tdresult" id="resDescClasse">' . $dado->descclasse . '</td>
+                    <td class="tdresult" id="resDataPrevistaConclusao">' . $dataPrevConclusao . '</td>
+                    <td class="tdresult" id="resTpProcesso">' . strtoUpper2($tpProcesso) . '</td>
+                    <td class="tdresult" id="resGrauPrioridade">' . $grauprioridade . '</td>
+                    <td class="tdresult" id="resSituacao">' . $dado->eplsitnome . '</td>
+                </tr>';
+            }
+            $html .= '</tbody></table><br>';
+            $html .= '
+            <footer>
+            <hr size="3">
+            <table width="100%" >
+            <tr>
+            <td width="50%">Emissão: ' . $hoje . '</td>
+            <td>
+            <div width="50%" align="right" class="pagenum-container">Página <span class="pagenum"></span></div>
+            </td>
+            </tr>
+            </table>
+            </footer>';
+        }
+        return $html;
+    }
+
+    public function getDadosConsolidarDFD($dados)
+    {
+
+        // fazer dessa fforma vai dar uma sobrecarga na pesquisa, é mais rápido fazer uma sql modulável;
+        $sql = "
+        SELECT distinct plandfd.*, org.eorglidesc as descorgao, classe.eclamsdesc as descclasse, sitdfd.eplsitnome
+        FROM sfpc.tbplanejamentodfd AS plandfd
+        inner join sfpc.tborgaolicitante as org on org.corglicodi = plandfd.corglicodi
+        inner join sfpc.tbclassematerialservico as classe on (classe.cclamscodi = plandfd.cclamscodi and classe.cgrumscodi = plandfd.cgrumscodi) 
+        inner join sfpc.tbplanejamentosituacaodfd as sitdfd on sitdfd.cplsitcodi = plandfd.cplsitcodi
+        ";
+
+        $dados['selectSitDFD'] = 6;
+        $sqlWhere = "where plandfd.cplsitcodi = '" . $dados['selectSitDFD'] . "' and";
+        $checaWhere = false; //se for falso nas verificações precisa incluir o where
+        if (!empty($dados['selectAreaReq'][0]->corglicodi)) {
+            if (count($dados['selectAreaReq']) > 1) {
+                $corglicodi = "";
+                $aux = 1;
+
+                for ($i = 0; $i < count($dados['selectAreaReq']); $i++) {
+                    $corglicodi .= $dados['selectAreaReq'][$i]->corglicodi;
+                    if ($aux < count($dados['selectAreaReq'])) {
+                        $corglicodi .= ", ";
+                    }
+                    $aux++;
+                }
+                $sqlWhere .= " plandfd.corglicodi in (" . $corglicodi . ") and"; //não pode ter espaço após para garantir na checagem para não faltar where
+                $checaWhere = true;
+            }
+
+        } else {
+            $corglicodi = "";
+            $aux = 1;
+            for ($i = 0; $i < count($dados['selectAreaReq']); $i++) {
+                $corglicodi .= $dados['selectAreaReq'][$i];
+                if ($aux < count($dados['selectAreaReq'])) {
+                    $corglicodi .= ", ";
+                }
+                $aux++;
+            }
+            $sqlWhere .= " plandfd.corglicodi in (" . $corglicodi . ") and"; //não pode ter espaço após para garantir na checagem para não faltar where
+            $checaWhere = true;
+
+        }
+        //Verifica e implenta se vier o id da DFD
+        if (!empty($dados['idDFD'])) {
+            $sqlWhere .= " plandfd.cpldfdnumf = '" . $dados['idDFD'] . "'";
+        } else { //Caso não venha as outras informações serão tratadas
+            if (!empty($dados["cclamscodi"]) && !empty($dados["cgrumscodi"])) {
+                if ($checaWhere == false) {
+                    $checaWhere = true;
+                }
+                $sqlWhere .= " plandfd.cclamscodi = '" . $dados['cclamscodi'] . "' and plandfd.cgrumscodi = '" . $dados['cgrumscodi'] . "' and";
+            }
+            if (!empty($dados["selectAnoPCA"])) {
+                $sqlWhere .= " plandfd.apldfdanod = '" . $dados['selectAnoPCA'] . "' and";
+            }
+
+            if (!empty($dados["grauPrioridade"])) {
+                $sqlWhere .= " plandfd.fpldfdgrau = '" . $dados['grauPrioridade'] . "' and";
+            }
+
+            if (!empty($dados["descDemanda"])) {
+                $sqlWhere .= " plandfd.epldfddesc = '" . $dados['descDemanda'] . "' and";
+            }
+
+            if (!empty($dados["DataIni"])) {
+                $sqlWhere .= " plandfd.tpldfdincl = '" . $dados['DataIni'] . "' and";
+            }
+
+            if (!empty($dados["DataFim"])) {
+                $sqlWhere .= " plandfd.dpldfdpret = '" . $dados['DataFim'] . "' and";
+            }
+
+            //limpa o ultimo and para não quebrar a query
+            $sqlWhere = substr_replace($sqlWhere, ' ', strrpos($sqlWhere, " and"));
+
+        }
+        $sql .= $sqlWhere;
+        $sql .= " ORDER BY corglicodi, cpldfdsequ ASC";
+
+        $resultado = executarSql($this->conexaoDb, $sql);
+        $dadosSelectDFD = array();
+        $countDFD = 0;
+
+        while ($resultado->fetchInto($countDFD, DB_FETCHMODE_OBJECT)) {
+            $dadosSelectDFD[] = $countDFD;
+        }
+
+
+
+        return $dadosSelectDFD;
+    }
+
+    function updateDadosConsolidarDFD($seqDFD)
+    {
+        for ($i = 0; $i < count($seqDFD); $i++) {
+            $sqlConsolidado = "UPDATE sfpc.tbplanejamentodfd 
+                              set cplsitcodi = 8
+                              where cpldfdsequ = " . $seqDFD[$i];
+            executarSql($this->conexaoDb, $sqlConsolidado);
+        }
+
+        return true;
+    }
+
+    /**
+     * Função utilizada em ConsSelecionarAtualizarDFD.php
+     * Valida os parâmetros para Atualizar o DFD
+     */
+    public function getDadosAtualizarDFD($dados)
+    {
+        $sql = "
+            SELECT DISTINCT plandfd.*, org.eorglidesc AS descorgao, classe.eclamsdesc AS descclasse, sitdfd.eplsitnome
+            FROM sfpc.tbplanejamentodfd AS plandfd
+            INNER JOIN sfpc.tborgaolicitante AS org ON org.corglicodi = plandfd.corglicodi
+            INNER JOIN sfpc.tbclassematerialservico AS classe ON (classe.cclamscodi = plandfd.cclamscodi AND classe.cgrumscodi = plandfd.cgrumscodi) 
+            INNER JOIN sfpc.tbplanejamentosituacaodfd AS sitdfd ON sitdfd.cplsitcodi = plandfd.cplsitcodi
+            ";
+
+        $sqlWhere = "";
+        $checaWhere = false;
+        if (!empty($dados['idDFD'])) {
+            if ($checaWhere == false) {
+                $sqlWhere .= " AND";
+            }
+            $sqlWhere .= " plandfd.cpldfdnumf = '" . $dados['idDFD'] . "'";
+        }
+
+        if (!empty($dados["selectAnoPCA"])) {
+            if ($checaWhere == false) {
+                $sqlWhere .= " AND";
+            }
+            $sqlWhere .= " plandfd.apldfdanod = '" . $dados['selectAnoPCA'] . "'";
+        }
+
+        if (!empty($dados['selectAreaReq'])) {
+            if ($checaWhere == false) {
+                $sqlWhere .= " AND";
+            }
+            $sqlWhere .= " plandfd.corglicodi = '" . $dados['selectAreaReq'] . "'";
+        }
+
+        if (!empty($dados["grauPrioridade"])) {
+            if ($checaWhere == false) {
+                $sqlWhere .= " AND";
+            }
+            $sqlWhere .= " plandfd.fpldfdgrau = '" . $dados['grauPrioridade'] . "'";
+        }
+
+        if (!empty($dados["cclamscodi"]) && !empty($dados["cgrumscodi"])) {
+            if ($checaWhere == false) {
+                $sqlWhere .= " AND";
+            }
+            $sqlWhere .= " classe.cclamscodi = '" . $dados['cclamscodi'] . "' AND classe.cgrumscodi = '" . $dados['cgrumscodi'] . "'";
+        }
+
+        if (!empty($dados["descDemanda"])) {
+            if ($checaWhere == false) {
+                $sqlWhere .= " AND";
+            }
+            $sqlWhere .= " plandfd.epldfddesc = '" . $dados['descDemanda'] . "'";
+        }
+
+        if (!empty($dados["DataIni"])) {
+            if ($checaWhere == false) {
+                $sqlWhere .= " AND";
+            }
+            $sqlWhere .= " plandfd.tpldfdincl = '" . $dados['DataIni'] . "'";
+        }
+
+        if (!empty($dados["DataFim"])) {
+            if ($checaWhere == false) {
+                $sqlWhere .= " AND";
+            }
+            $sqlWhere .= " plandfd.dpldfdpret = '" . $dados['DataFim'] . "'";
+        }
+
+        $sql .= " WHERE plandfd.cplsitcodi = 10";
+        $sql .= $sqlWhere;
+        $sql .= " ORDER BY plandfd.cpldfdsequ ASC";
+
+        $resultado = executarSql($this->conexaoDb, $sql);
+        $dadosSelectDFD = array();
+        $countDFD = 0;
+
+        while ($resultado->fetchInto($countDFD, DB_FETCHMODE_OBJECT)) {
+            $dadosSelectDFD[] = $countDFD;
+        }
+
+        return $dadosSelectDFD;
+    }
+
+    /**
+     * Função utilizada em ConsSelecionarAtualizarDFD.php
+     * Pega todos os dados do DFD encontrados e monta o sql para a página
+     */
+    public function montaHTMLAtualizar($dadosDFD)
+    {
+        if (empty($dadosDFD)) {
+            $html = '<tr>
+                        <td align="center" bgcolor="#75ADE6" colspan="8" class="titulo3" width="900px">
+                            Resultado da pesquisa
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" colspan="8" class="titulo3" width="900px">Pesquisa sem ocorrências.</td>
+                    </tr>';
+        } else {
+            $html = '
+                    <tr>
+                        <td align="center" bgcolor="#75ADE6" colspan="8" class="titulo3">
+                            Resultado da pesquisa
+                        </td>
+                    </tr>';
+
+            $html .= '<tr><td align="center" bgcolor="#BFDAF2" colspan="8" class="titulo3">' . $dadosDFD[0]->descorgao . '</td></tr>';
+
+            $html .= '<tr>
+                        <td>
+                        <table class="tablePesquisa textonormal" style=" position:relative;  width : 100%; ">
+                        <thead>
+                            <tr id="cabecalhos">
+                                <td class="tdresult"><input type="checkbox" id="numDFDAll" name="numDFDAll"/><label for="numDFDAll">Selecionar todas</label></td>
+                                <td class="tdResultTitulo" id="cabIdDFD">Numero do DFD</td>
+                                <td class="tdResultTitulo" id="cabAno">Ano do PCA</td>
+                                <td class="tdResultTitulo" id="cabCodClasse">Código da Classe</td>
+                                <td class="tdResultTitulo" id="cabDescClasse">Descrição da Classe</td>
+                                <td class="tdResultTitulo" id="cabDataPrevistaConclusao">Data Prevista para Conclusão</td>
+                                <td class="tdResultTitulo" id="cabTpProcesso">Tipo de Processo</td>
+                                <td class="tdResultTitulo" id="cabGrauPrioridade">Grau de Prioridade</td>
+                                <td class="tdResultTitulo" id="cabSituacao">Situação do DFD</td>
+                            </tr>
+                        </thead>
+                        <tbody>';
+
+            $conta = 0;
+            foreach ($dadosDFD as $dado) {
+                $dataPrevConclusao = date('d/m/Y', strtotime($dado->dpldfdpret));
+                $tpProcesso = ($dado->fpldfdtpct == "D") ? "CONTRATAÇÃO DIRETA" : "LICITAÇÃO";
+                $urlDFD = "CadAtualizarDFD.php?dfdSelected=$dado->cpldfdnumf";
+
+                if ($dado->fpldfdgrau == 1) {
+                    $grauprioridade = "ALTO";
+                } elseif ($dado->fpldfdgrau == 2) {
+                    $grauprioridade = "MÉDIO";
+                } elseif ($dado->fpldfdgrau == 3) {
+                    $grauprioridade = "BAIXO";
+                }
+
+                $html .= '<tr id="resultados">
+                        <td class="tdresult"><input type="checkbox" class="CBXNumDFD" name="numDFD[]" value="' . $dado->cpldfdsequ . '"/></td>
+                        <td class="tdresult" id="resIdDFD"><a href="' . $urlDFD . '" style="text-transform: capitalize">' . $dado->cpldfdnumf . '</a></td>
+                        <td class="tdresult" id="resAno">' . $dado->apldfdanod . '</td>
+                        <td class="tdresult" id="resCodClasse">' . $dado->cclamscodi . '</td>
+                        <td class="tdresult" id="resDescClasse">' . $dado->descclasse . '</td>
+                        <td class="tdresult" id="resDataPrevistaConclusao">' . $dataPrevConclusao . '</td>
+                        <td class="tdresult" id="resTpProcesso">' . $tpProcesso . '</td>
+                        <td class="tdresult" id="resGrauPrioridade">' . $grauprioridade . '</td>
+                        <td class="tdresult" id="resSituacao">' . $dado->eplsitnome . '</td>
+                    </tr>';
+                $conta++;
+            }
+            $html .= '</tbody></table>
+                        <footer>
+                            <button type="button" name="excluirDFDResultado" class="botao" id="excluirDFDResultado">Excluir</button>
+                            <button type="button" name="exportarXLS" class="botao" id="exportarXLS">Exportar XLS</button>
+                            <button type="button" name="exportarCSV" class="botao" id="exportarCSV">Exportar CSV</button>
+                            <button type="button" name="exportarPDF" class="botao" id="exportarPDF">Exportar PDF</button>
+                        </footer></td></tr>';
+        }
+        return $html;
+    }
+
+    /**
+     * Função utilizada em PostDadosAtualizarDFD.php
+     * Função seta o status 12(ATUALIZADO NO ANO DE EXECUÇÃO) e não deleta o DFD conforme regra de negócio
+     */
+    public function updateManterDFD($seqDFD)
+    {
+        $sql = "UPDATE sfpc.tbplanejamentodfd
+                SET cplsitcodi = 12 
+                WHERE cpldfdsequ = " . $seqDFD;
+
+        executarSql($this->conexaoDb, $sql);
+    }
+
+    /**
+     * Função utilizada em PostDadosAtualizarDFD.php
+     * Função seta o status 13(EXCLUÍDO NO ANO DE EXECUÇÃO) e não deleta o DFD conforme regra de negócio
+     */
+    public function updateExcluirDFD($seqDFD)
+    {
+        $sql = "UPDATE sfpc.tbplanejamentodfd
+                SET cplsitcodi = 13 
+                WHERE cpldfdsequ = " . $seqDFD;
+
+        executarSql($this->conexaoDb, $sql);
+    }
+
+    /**
+     * Função utilizada em ConsIntegracaoManualPNCP.php;
+     * Lista um array com os sistemas de origem;
+     */
+    public function getSistemaOrigem()
+    {
+        $sqlSitOrigem = "select distinct (fpncpisist)  as sistema
+                      from sfpc.tbpncpintegracao 
+                      where fpncpisitu <> 'PR'";
+
+        $resultado = executarSQL($this->conexaoDb, $sqlSitOrigem);
+        $dadosSit = array();
+
+        while ($resultado->fetchInto($retornoSit, DB_FETCHMODE_OBJECT)) {
+            $dadosSit[] = $retornoSit;
+        }
+
+        return $dadosSit;
+    }
+
+    /**
+     * Função utilizada em IntegracaoManualPNCP.php;
+     * Gera um novo numero sequencial do DFD para orgão e ano;
+     */
+    function novoSequencialIntegracaoManualPNCP()
+    {
+        $sql = "select max(cintplsequ) from sfpc.tbintegracaoplano"; //"select max(cpldfdnumd) from sfpc.tbplanejamentodfd where corglicodi = $corglicodi and apldfdanod = $apldfdanod";
+        $retorno = executarSQL($this->conexaoDb, $sql);
+        $result = 0;
+        $retorno->fetchInto($result, DB_FETCHMODE_OBJECT);
+        $id = $result->max + 1;
+        return $id;
+    }
+
+    function insertIntegracaoManualPNCP($dados)
+    {
+        $id = $this->novoSequencialIntegracaoManualPNCP();
+        $sql = "
+        insert into sfpc.tbintegracaoplano (
+            cintplsequ,
+ 			cintagsequ,
+            aintplcnpj,
+            fintplsist,
+            aintplnmsv,
+            fintploper,
+            fintplstre,
+            tintpldtex,
+            eintpljust,
+            fintplstat,
+            fintpltpit,
+            cusupocodi,
+            tintplulat,
+            tintplincl,            
+            dintpldtin, 
+            dintpldtfi 
+        ) values(
+            " . $id . ",
+        	null,
+            " . $dados['cnpj'] . ",
+            '" . $dados['selectSitOrigem'] . "',
+            '" . $dados['servico'] . "', 
+            '" . $dados['tipoOperacao'] . "', 
+            '" . $dados['statusProcessamento'] . "', 
+                now(), 
+            '" . $dados['justificativa'] . "', 
+            'AG',
+            'M',
+            3,
+            now(),
+            now(),
+            " . $dados['dataInicial'] . ",
+            " . $dados['dataFim'] . "
+        )
+        ";
+
+        $inserirIntegracao = executarSQL($this->conexaoDb, $sql);
+        return true;
+    }
+
+
+    /**
+     * Função utilizada em IntegracaoAutomaticaPNCP.php;
+     * Gera um novo numero sequencial do DFD para orgão e ano;
+     */
+    function novoSequencialIntegracaoAutomaticaPNCP()
+    {
+        $result = 0;
+        $sql = "select max(cintagsequ)+1 as seq from sfpc.tbintegracaoagenda where cintagsequ is not null"; //"select max(cpldfdnumd) from sfpc.tbplanejamentodfd where corglicodi = $corglicodi and apldfdanod = $apldfdanod";
+        $retorno = executarSQL($this->conexaoDb, $sql);
+        $retorno->fetchInto($result, DB_FETCHMODE_OBJECT);
+        $id = $result->seq;
+        return $id;
+    }
+
+    public function insertIntegracaoAutomaticaPNCP($dados)
+    {
+        $id = $this->novoSequencialIntegracaoAutomaticaPNCP();
+        $sql = "
+        insert into sfpc.tbintegracaoagenda (
+            cintagsequ, aintagdesc, aintagcnpj, fintagsist, aintagnmsv, fintagoper, fintagstat, 
+            tintagdtin, tintagdtfi, 
+            fintagsegd, fintagterc, fintagquar, 
+            fintagquin, 
+            fintagsext, 
+            fintagsabd, 
+            fintagdomi, 
+            fintagquiz, 
+            fintagtrin, 
+            tintaghora, 
+            tintagincl,
+            cusupocodi, 
+            tintagulat  
+        )values(
+            " . $id . ",
+            '" . $dados['descricao'] . "',
+            " . $dados['cnpj'] . ",
+            '" . $dados['selectSitOrigem'] . "',
+            '" . $dados['servico'] . "',
+            '" . $dados['tipoOperacao'] . "',
+            '" . $dados['statusProcessamento'] . "',
+            " . $dados['dataInicial'] . ",
+            " . $dados['dataFim'] . ",
+            '" . $dados['segunda'] . "',
+            '" . $dados['terca'] . "',
+            '" . $dados['quarta'] . "',
+            '" . $dados['quinta'] . "',
+            '" . $dados['sexta'] . "',
+            '" . $dados['sabado'] . "',
+            '" . $dados['domingo'] . "',
+            '" . $dados['_15dias'] . "',
+            '" . $dados['_30dias'] . "',
+            " . $dados['horario'] . ",
+            now(),
+            3,
+            now()
+        )
+        ";
+
+        $inserirIntegracao = executarSQL($this->conexaoDb, $sql);
+
+        $this->inserirIntegracaoPlano($dados, $id);
+        return true;
+    }
+
+
+    public function inserirIntegracaoPlano($dados, $idAgendamento)
+    {
+
+        $id = $this->novoSequencialIntegracaoManualPNCP();
+        $sql = "
+            insert into sfpc.tbintegracaoplano (
+                cintplsequ,
+                cintagsequ,
+                aintplcnpj,
+                fintplsist,
+                aintplnmsv,
+                fintploper,
+                fintplstre,
+                tintpldtex,
+                dintpldtin, 
+                dintpldtfi,
+                fintplstat,                
+                fintpltpit,
+                cusupocodi,
+                tintplulat,
+                tintplincl 
+            ) values(
+                " . $id . ",
+                " . $idAgendamento . ",
+                " . $dados['cnpj'] . ",
+                '" . $dados['selectSitOrigem'] . "',
+                '" . $dados['servico'] . "', 
+                '" . $dados['tipoOperacao'] . "', 
+                '" . $dados['statusProcessamento'] . "', 
+                    now(),                     
+                " . $dados['dataInicial'] . ",
+                " . $dados['dataFim'] . ",
+                'AG',
+                'A',
+                3,
+                now(),
+                now()
+            )
+        ";
+
+        $inserirIntegracao = executarSQL($this->conexaoDb, $sql);
+    }
+
+    /**
+     * Função utilizada em ConsPesquisarDFD.php, CadManterDFD;
+     * Pega todos os dados do DFD;
+     */
+    public function getDadosIntegracao($dados)
+    {
+        // fazer dessa fforma vai dar uma sobrecarga na pesquisa, é mais rápido fazer uma sql modulável;
+        $sql = "
+            select * from sfpc.tbintegracaoplano
+        ";
+
+        /*$sqlWhere = "";
+        $checaWhere = false; //se for falso nas verificações precisa incluir o where
+        if (!empty($dados['selectAreaReq'])) {
+        if (count($dados['selectAreaReq']) > 1) {
+        $corglicodi = "";
+        $aux = 1;
+        for ($i = 0; $i < count($dados['selectAreaReq']); $i++) {
+        $corglicodi .= $dados['selectAreaReq'][$i]->corglicodi;
+        if ($aux < count($dados['selectAreaReq'])) {
+        $corglicodi .= ", ";
+        }
+        $aux++;
+        }
+        $sqlWhere .= " where"; // não precisa verificar pois não vem nada antes
+        $sqlWhere .= " plandfd.corglicodi in (" . $corglicodi . ") and"; //não pode ter espaço após para garantir na checagem para não faltar where
+        $checaWhere = true;
+        } else {
+        $sqlWhere .= " where"; // não precisa verificar pois não vem nada antes
+        $sqlWhere .= " plandfd.corglicodi = '" . $dados['selectAreaReq'] . "' and"; //não pode ter espaço após para garantir na checagem para não faltar where
+        $checaWhere = true;
+        }
+        }
+        //Verifica e implenta se vier o id da DFD
+        if (!empty($dados['idDFD'])) {
+        if ($checaWhere == false) {
+        $sqlWhere .= " where"; // não recebe a chave pois caso venha não vem mais nada após
+        }
+        $sqlWhere .= " plandfd.cpldfdnumf = '" . $dados['idDFD'] . "'";
+        } else { //Caso não venha as outras informações serão tratadas
+        if (!empty($dados["cclamscodi"]) && !empty($dados["cgrumscodi"])) {
+        if ($checaWhere == false) {
+        $sqlWhere .= " where";
+        $checaWhere = true;
+        }
+        $sqlWhere .= " plandfd.cclamscodi = '" . $dados['cclamscodi'] . "' and plandfd.cgrumscodi = '" . $dados['cgrumscodi'] . "' and";
+        }
+        if (!empty($dados["selectAnoPCA"])) {
+        if ($checaWhere == false) {
+        $sqlWhere .= " where";
+        $checaWhere = true;
+        }
+        $sqlWhere .= " plandfd.apldfdanod = '" . $dados['selectAnoPCA'] . "' and";
+        }
+        if (!empty($dados["selectSitDFD"])) {
+        if ($checaWhere == false) {
+        $sqlWhere .= " where";
+        $checaWhere = true;
+        }
+        $sqlWhere .= " plandfd.cplsitcodi = '" . $dados['selectSitDFD'] . "' and";
+        } else {
+        if ($checaWhere == false) {
+        $sqlWhere .= " where";
+        $checaWhere = true;
+        }
+        $sqlWhere .= " plandfd.cplsitcodi in (1, 2, 7) and";
+        }
+        if (!empty($dados["grauPrioridade"])) {
+        if ($checaWhere == false) {
+        $sqlWhere .= " where";
+        $checaWhere = true;
+        }
+        $sqlWhere .= " plandfd.fpldfdgrau = '" . $dados['grauPrioridade'] . "' and";
+        }
+        if (!empty($dados["descDemanda"])) {
+        if ($checaWhere == false) {
+        $sqlWhere .= " where";
+        $checaWhere = true;
+        }
+        $sqlWhere .= " plandfd.epldfddesc ilike '%" . $dados['descDemanda'] . "%' and";
+        }
+        if (!empty($dados["DataIni"])) {
+        if ($checaWhere == false) {
+        $sqlWhere .= " where";
+        $checaWhere = true;
+        }
+        $sqlWhere .= " plandfd.dpldfdpret >= '" . $dados['DataIni'] . "' and";
+        }
+        if (!empty($dados["DataFim"])) {
+        if ($checaWhere == false) {
+        $sqlWhere .= " where";
+        }
+        $sqlWhere .= " plandfd.dpldfdpret <= '" . $dados['DataFim'] . "' and";
+        }
+        //limpa o ultimo and para não quebrar a query
+        $sqlWhere = substr_replace($sqlWhere, ' ', strrpos($sqlWhere, " and"));
+        }
+        $sql .= $sqlWhere;
+        $sql .= " ORDER BY corglicodi, cpldfdsequ ASC";*/
+
+        $resultado = executarSql($this->conexaoDb, $sql);
+        $dadosSelectDFD = array();
+        $countDFD = 0;
+
+        while ($resultado->fetchInto($countDFD, DB_FETCHMODE_OBJECT)) {
+            $dadosSelectDFD[] = $countDFD;
+        }
+
+        return $dadosSelectDFD;
+    }
+
+
+    /**
+     * Função utilizada em ConsSelecionarManterDFD.php, 
+     * Pega todos os dados do DFD encontrados e monta o sql para a página;
+     */
+    public function montaHTMLIntegracao($dadosIntegracao)
+    {
+        if (empty($dadosIntegracao)) {
+            $html = '<tr>
+                    <td align="center" bgcolor="#75ADE6" colspan="8" class="titulo3" width="900px">
+                            Resultado da pesquisa
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" colspan="8" class="titulo3" width="900px">Pesquisa sem ocorrências.</td>
+                    </tr>';
+        } else {
+            $html = '
+                        <tr>
+                            <td align="center" bgcolor="#75ADE6" colspan="8" class="titulo3">
+                                Resultado da pesquisa
+                            </td>
+                        </tr>';
+
+            $html .= '<tr>
+                        <td>
+                        <table class="tablePesquisa textonormal" style=" position:relative;  width : 100%; ">
+                        <thead>
+                            <tr id="cabecalhos">
+                                    <td width="130px" class="tdResultTitulo" id="cabIdDFD">ID</td>
+                                    <td width="55px"class="tdResultTitulo" id="cabAno">DESCRICAO</td>
+                                    <td width="55px" class="tdResultTitulo" id="cabCodClasse">SIST. ORIGEM</td>
+                                    <td width="290px" class="tdResultTitulo" id="cabDescClasse">DATA INT.</td>
+                                    <td width="108px" class="tdResultTitulo" id="cabDataPrevistaConclusao">HORA INT.</td>
+                                    <td width="114px" class="tdResultTitulo" id="cabTpProcesso">SERVIÇO</td>
+                                    <td width="75px" class="tdResultTitulo" id="cabGrauPrioridade">TP. OPERAÇÃO</td>
+                                    <td width="130px" class="tdResultTitulo" id="cabSituacao">TP. INTEGRAÇÃO</td>
+                                    <td width="130px" class="tdResultTitulo" id="cabSituacao">SITUAÇÃO INTEGRAÇÃO</td>
+                            </tr>
+                        </thead>
+                        <tbody>';
+
+
+            foreach ($dadosIntegracao as $dados) {
+                $situacao = $dados->fintplstat == "AG" ? "AGUARDANDO" : "EXECUTADO";
+                $tipoIntegracao = $dados->fintpltpit == "A" ? "AUTOMÁTICA" : "MANUAL";
+                
+                if($dados->fintploper == "I"){
+                    $operacao = "INCLUSÃO";
+                }else if($dados->fintploper == "A"){
+                    $operacao = "ALTERAÇÃO";
+                }else if($dados->fintploper == "E"){
+                    $operacao = "EXCLUSÃO";
+                }
+
+
+                $html .= '<tr id="resultados">
+                                <td width="130px"  class="tdresult" id="resIdDFD">'.$dados->cintplsequ.'</td>
+                                <td width="55px" class="tdresult" id="resAno">' . "" . '</td>
+                                <td width="55px" class="tdresult" id="resCodClasse">' . $dados->fintplsist . '</td>
+                                <td width="290px" class="tdresult" id="resDescClasse">' . $dados->cintplseq . '</td>
+                                <td width="108px" class="tdresult" id="resDataPrevistaConclusao">' .$dados->cintplseq . '</td>
+                                <td width="114px" class="tdresult" id="resTpProcesso">' . $dados->aintplnmsv . '</td>
+                                <td width="75px" class="tdresult" id="resGrauPrioridade">' . $operacao . '</td>
+                                <td width="130px" class="tdresult" id="resSituacao">' . $tipoIntegracao . '</td>
+                                <td width="130px" class="tdresult" id="resSituacao">' . $situacao . '</td>
+                    </tr>';
+            }
+            $html .= '</tbody></table></td></tr>';
+        }
+        return $html;
+    }
+
+}
+?>

@@ -1,0 +1,70 @@
+<script language="javascript" type="text/javascript">
+    function enviar(valor){
+        document.FornecedorGrupos.Botao.value = valor;
+        document.FornecedorGrupos.submit();
+    }
+
+    function remeter(){
+        document.FornecedorGrupos.submit();
+    }
+</script>
+
+<div class="content grupos-fornecimento">
+    <div class="row">
+        <div class="span12">
+            <section class="box-article">
+                <div class="">
+                    <table class="table table-report">
+                        <thead>
+                            <tr>
+                                <th colspan="6">
+                                    <span class="text-center">DOCUMENTOS RELACIONADOS</span>
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td colspan="1">&nbsp;</td>
+                                <td colspan="2">DOCUMENTO</td>
+                                <td colspan="1">TAMANHO</td>
+                                <td colspan="1">RESPONSÁVEL</td>
+                                <td colspan="1">OBSERVAÇÃO/JUSTIFICATIVA</td>
+                            </tr>
+
+                            <!-- BEGIN BLOCO_RESULTADO_DOCUMENTOS -->
+                            <tr>
+                                <td colspan="1">
+                                    <!-- BEGIN BLOCO_LINK_DOWNLOAD -->
+                                    <a href="{LINK}" target="_blank" class="textonormal">
+                                        <img src="../midia/disquete.gif" border="0">
+                                    </a>
+                                    <!-- END BLOCO_LINK_DOWNLOAD -->
+
+                                    <!-- BEGIN BLOCO_SEM_LINK -->
+                                    <img src="../midia/disqueteInexistente.gif" border="0">
+                                    <!-- END BLOCO_SEM_LINK -->
+                                </td>
+                                <td colspan="2">{DOCUMENTO}</td>
+                                <td colspan="1">{TAMANHO}</td>
+                                <td colspan="1">{RESPONSAVEL}</td>
+                                <td colspan="1">{OBSERVACAO_JUSTIFICATIVA}</td>
+                            </tr>
+                            <!-- END BLOCO_RESULTADO_DOCUMENTOS -->
+
+                            <!-- BEGIN BLOCO_SEM_RESULTADO -->
+                            <tr>
+                                <td colspan="5">Nenhum Documento Relacionado!</td>
+                            </tr>
+                            <!-- END BLOCO_SEM_RESULTADO -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="btn-toolbar pagination-right">
+                    <button onclick="javascript:window.close()" type="button" class="btn btn-primary">Voltar</button>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>

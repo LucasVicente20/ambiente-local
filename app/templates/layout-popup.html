@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js lt-ie10 lt-ie9 lt-ie8 lt-ie7" lang="pt"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie10 lt-ie9 lt-ie8" lang="pt"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie10 lt-ie9" lang="pt"> <![endif]-->
+<!--[if IE 9]>    <html class="no-js lt-ie10" lang="pt"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="no-js" lang="pt">
+<!--<![endif]-->
+
+<head>
+
+<meta charset="utf-8">
+
+<title>Portal de Compras - PCR</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description"
+	content="Portal da Transparência - Prefeitura do Recife">
+
+<link rel="shortcut icon" href="favicon.ico" />
+
+<link rel="stylesheet"
+	href="{BASE_URL}templates/_assets/themes/default/bootstrap/css/bootstrap.css">
+<link rel="stylesheet"
+	href="{BASE_URL}templates/_assets/themes/default/bootstrap/css/bootstrap-responsive.css">
+<link rel="stylesheet"
+	href="{BASE_URL}templates/_assets/themes/default/css/build.css">
+<link rel="stylesheet"
+	href="{BASE_URL}templates/_assets/themes/default/css/jquery-ui.css">
+
+<!-- scripts -->
+<script src="{BASE_URL}templates/_assets/scripts/modernizr/modernizr-2.5.3.min.js"></script>
+<script src="{BASE_URL}templates/_assets/scripts/bootstrap/respond.min.js"></script>
+
+<!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
+<script src="{BASE_URL}templates/_assets/scripts/jquery/jquery-1.7.2.min.js"></script>
+<script>
+	window.jQuery
+			|| document
+					.write('<script src="{BASE_URL}templates/_assets/scripts/jquery/jquery-1.7.2.min.js"><\/script>')
+</script>
+
+<script type="text/javascript" src="//use.typekit.net/ths1xet.js"></script>
+<script type="text/javascript">
+	try {
+		Typekit.load();
+	} catch (e) {
+	}
+</script>
+<script type="text/javascript">
+
+	function enviar(valor,botao) {
+		var valorForm = $('.formSubmit').val();
+		$('input[name='+botao+']').val(valor);
+		$('form[name=' + valorForm + ']').submit();
+	}
+
+	function AbreJanela(url,largura,altura) {
+		window.open(url,'pagina','status=no,scrollbars=no,left=20,top=150,width='+largura+',height='+altura);
+	}
+
+	jQuery(document).ready(function($) {
+		jQuery(".reset").click(function (event) {
+			event.preventDefault();
+
+			jQuery(":text").each(function () {
+				jQuery(this).val("");
+	        });
+
+			jQuery(":radio").each(function () {
+	        	jQuery(this).prop({ checked: false })
+	        });
+
+			jQuery(":checkbox").each(function () {
+	        	jQuery(this).prop({ checked: false })
+	        });
+
+			jQuery("select").each(function () {
+				jQuery(this).val("");
+	        });
+		});
+	});
+
+
+</script>
+</head>
+
+<body>
+
+	<div class="site-container">
+		<div class="site-body">
+			<div class="container">
+				<!-- BEGIN BLOCK_FORM -->
+				   <input type="hidden" name="form" value="'{FORM}'" class="formSubmit">
+				<!-- END BLOCK_FORM -->
+				{CORPO}
+			</div>
+		</div>
+	</div>
+
+	<script src="{BASE_URL}templates/_assets/scripts/bootstrap/bootstrap.min.js"></script>
+	<script src="{BASE_URL}templates/_assets/scripts/bootstrap/bootstrap-hover-dropdown.min.js"></script>
+	<script src="{BASE_URL}templates/_assets/scripts/bootstrap/jquery-ui.js"></script>
+	<script src="{BASE_URL}templates/_assets/scripts/bootstrap/datepicker-pt-BR.js"></script>
+
+	<script>
+		$(function() {
+			$('.dropdown-hover').dropdownHover();
+			$('.activate-tooltip').tooltip();
+
+			$('.button-contrast').on('click', function(e) {
+				var body = $('body');
+				if (body.hasClass('accessibility')) {
+					body.removeClass('accessibility');
+				} else {
+					body.addClass('accessibility');
+				}
+			});
+		});
+
+		$(document).ready(function() {
+			$('.datepicker').datepicker();
+		});
+
+		$(function() {
+			$('.dropdown-hover').dropdownHover();
+			$('.activate-tooltip').tooltip();
+
+			$('.button-contrast').on('click', function(e) {
+				var body = $('body');
+				if (body.hasClass('accessibility')) {
+					body.removeClass('accessibility');
+				} else {
+					body.addClass('accessibility');
+				}
+			});
+
+			// nav menu animation
+			$('.nav li.submenu > a').on(
+					'click',
+					function(e) {
+						e.preventDefault();
+						if ($(this).parent().hasClass('opened')) {
+							$(this).find('> .arrow-up').removeClass('arrow-up')
+									.addClass('arrow-down');
+							$(this).parent().children('ul').slideUp('fast',
+									function() {
+										$(this).parent().removeClass('opened');
+									});
+						} else {
+							$(this).find('> .arrow-down').removeClass(
+									'arrow-down').addClass('arrow-up');
+							$(this).parent().children('ul').slideDown('fast',
+									function() {
+										$(this).parent().addClass('opened');
+									});
+						}
+					});
+		});
+	</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,86 @@
+<div class="content">
+	<div class="row">
+		<div class="span12">
+
+		    <section class="article-detail row-border">
+							<p> A Renovação de Cadastro será efetivada após envio e análise da documentação comprobatória. A documentação deverá ser
+  		                        enviada ao Protocolo da Diretoria Geral de Licitações e Compras - DGLC (Cais do Apolo, 925, 2.o andar, CEP:500030-903,
+  		                        Bairro do Recide, Recife/PE - telefone: 3355-8235) ou pelo endereço eletrônico <a href="mailto:sicrefl@recife.pe.gov.br">sicrefl@recife.pe.gov.br</a>,
+  		                        para o caso das certidões emitidas pela Internet.</p>
+						</section>
+			<section class="box-article">
+				<header class="header">
+					<h1>Registro de Intenção de Renovação de Certidões</h1>
+				</header>
+				<div class="body">
+					<ul class="breadcrumb">
+						<li><a href="{BASE_URL}Fornecedores.php">Fornecedores</a><span class="divider"><i
+								class="arrow-right"></i></span></li>
+						<!--
+														-->
+						<li><a href="#">Cadastro e Gestão</a><span class="divider"><i
+								class="arrow-right"></i></span></li>
+						<!--
+														-->
+						<li class="active">Registro e Renovação</li>
+					</ul>
+					<article class="article">
+                        <header class="article-header">
+                            <h1>Registro de Intenção de Renovação de Certidões</h1>
+                        </header>
+                    </article>
+					<article class="article">
+						<section class="article-detail row-border">
+							<p> Para realizar o pedido de renovação assinalar o(s) documento(s) a serem atualizado(s), informar o(s) <br>
+	        	    		motivo(s) e clicar em "Registrar".</p>
+						</section>
+						<div class="clearfix">&nbsp;</div>
+						<!-- BEGIN BLOCO_MENSAGEM -->
+						{MENSAGEM}
+						<!-- END BLOCO_MENSAGEM -->
+						<section class="article-detail">
+						  <div style="padding-bottom: 9px; border-bottom: 1px solid #ddd;"
+									class="tab-content">
+									<div id="tab1" class="tab-pane active">
+		                               <form style="margin: 0;" method="post"
+											action="{BASE_URL}CadInscritoIncluir.php" name="CadInscritoIncluir"
+											id="formularioHabitacao">
+		                                     <div class="well">
+												<div class="row-fluid">
+												   <table class="table table-report">
+												    <!-- BEGIN bloco_campos_valores -->
+											         <tbody>
+												       <tr>
+												         <td>
+												           <div class="span6">
+												              <input type="checkbox" name="Certidao[{LINHA}]" id="Certidao_{LINHA}" value="{LINHA}"
+												               {CHECKEDCONDITION}
+										  				       onClick="javascript:exibir(this, 'Certidao_Motivo_{LINHA}');">
+										  				       <br/>
+										  				       <textarea maxlength="200" rows="3" cols="50" name="Certidao_Motivo[{LINHA}]" style="display: {DISPLAYCONDITION}>"
+												                id="Certidao_Motivo_{LINHA}" >{CERTIDAOMOTIVO}</textarea>
+										 	                 </div>
+
+												           </td>
+												       </tr>
+												     </tbody>
+												    <!-- END bloco_campos_valores -->
+												    </table>
+												</div>
+										    </div>
+										    <div class="span4">
+										      <input type="submit" name="RegistrarPedido" value="Registrar Pedido" class="botao">
+					                          <input type="button" value="Voltar" class="botao" onclick="javascript:enviar('Voltar','Botao');">
+					                          <input type="hidden" name="Botao" value="">
+										    </div>
+									  </form>
+								</div>
+							</div>
+						</section>
+					</article>
+				</div>
+			</section>
+		</div>
+	</div>
+</div>
+

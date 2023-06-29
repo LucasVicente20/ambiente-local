@@ -1,0 +1,152 @@
+<div class="site-body">
+    <div class="container">
+        <div class="content">
+            <div class="row">
+                <div class="span12">
+                    <section class="box-article">
+                        <header class="header">
+                            <h1>{TITULOTELA}</h1>
+                        </header>
+                        <div class="body">
+                            <ul class="breadcrumb">
+                                <li>
+                                    <a href="{BASE_URL}home.php">Início</a>
+                                    <span class="divider">
+                                        <i class="arrow-right"></i>
+                                    </span>
+                                </li>
+                                <!-- -->
+                                <li>
+                                    <a href="{BASE_URL}Fornecedores.php">Fornecedores</a>
+                                    <span class="divider">
+                                        <i class="arrow-right"></i>
+                                    </span>
+                                </li>
+                                <!-- BEGIN BLOCO_PROGRAMA -->
+                                <li>
+                                    <a href="#">{VALORCRUMPPROG}</a>
+                                    <span class="divider">
+                                        <i class="arrow-right"></i>
+                                    </span>
+                                </li>
+                                <!-- END BLOCO_PROGRAMA -->
+                                <li>
+                                    <a href="#">{VALORCRUMP}</a>
+                                    <span class="divider">
+                                        <i class="arrow-right"></i>
+                                    </span>
+                                </li>
+                                <!-- -->
+                                <li class="active">Alterar Senha</li>
+                            </ul>
+                            <article class="article">
+                                <header class="article-header">
+                                    <h1>{TITULOPAGINA}</h1>
+                                </header>
+                            </article>
+                            <section class="article-detail row-border">Quando o Fornecedor acessa o Portal de Compras da Prefeitura do Recife pela primeira vez ou gerou uma nova senha, é necessário alterar a senha de acesso temporária. Se a senha for alterada com sucesso será exibida a tela de Consulta automaticamente. Para Alterar a senha do fornecedor, informe os dados abaixo e clique no botão "Alterar". Para Limpar a tela clique no botão "Limpar". Os campos obrigatórios estão com *.
+                            </section>
+
+                            <!-- BEGIN BLOCO_MENSAGEM -->
+                            <div class="alert {TIPOALERT}">
+                                <button class="close" data-dismiss="alert" type="button">×</button>
+                                {MENSAGEM}
+                            </div>
+                            <!-- END BLOCO_MENSAGEM -->
+
+                            <form style="margin: 0;" method="post" action=""
+                                name="RotAlteracaoSenhaFornecedor"
+                                id="RotAlteracaoSenhaFornecedor">
+                                <div class="well">
+                                    <div class="row-fluid">
+                                        <div class="span12">
+                                            <label for="tipoHab" class="big">Razão Social/Nome</label>
+                                            <input type="text" class="span12" maxlength="20" value="{VALOR_RAZAO_SOCIAL}" name="RAZAO_SOCIAL_NOME" id="txtrazao_social_nome" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="row-fluid">
+                                        <div class="span6">
+                                            <label for="tipoHab" class="big">CNPJ/CPF</label>
+                                            <input type="text" class="span12" maxlength="20" value="{VALOR_FORM_CNPJ_CPF}" name="CNPJ/CPF" id="txtcnpj_cpf" disabled>
+                                            <input type="hidden" name="Critica" value="1">
+                                            <input type="hidden" name="CPF_CNPJ" value="{VALOR_CNPJ_CPF}">
+                                        </div>
+                                        <div class="span6">
+                                            <label for="identidade" class="big">Senha*</label>
+                                            <input type="password" class="span12" maxlength="20" value="{VALOR_SENHA_ATUAL}" name="SenhaAtual" id="txtsenha">
+                                        </div>
+                                    </div>
+                                    <div class="row-fluid">
+                                        <div class="span6">
+                                            <label for="tipoHab" class="big">Nova Senha*</label>
+                                            <input type="password" class="span12" maxlength="20" value="{VALOR_NOVA_SENHA}" name="NovaSenha" id="txtnova_senha">
+                                        </div>
+                                        <div class="span6">
+                                            <label for="identidade" class="big">Confirmação da Senha*</label>
+                                            <input type="password" class="span12" maxlength="20" value="{VALOR_CONFIRMAR_SENHA}" name="ConfirmaSenha" id="txtconfirmacao_nova_senha">
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="TipoCnpjCpf" value="{VALOR_TIPO_CNPJ_CPF}">
+                                    <input type="hidden" name="TipoForn" value="{VALOR_TIPO_FORN}">
+                                    <input type="hidden" name="Sequencial" value="{VALOR_SEQUENCIAL}">
+                                    <input type="hidden" name="Programa" value="{VALOR_PROGRAMA}">
+                                    <input type="hidden" id="atual" name="atual" value="">
+                                    <input type="hidden" id="nova" name="nova" value="">
+                                    <input type="hidden" id="confirma" name="confirma" value="">
+                                </div>
+                            </form>
+                            <div class="pagination-right">
+                                <button class="btn btn-primary" type="button" id="btnConfirmarRotAlteracaoSenhaFornecedor">Alterar</button>
+                                <button class="btn btn-primary reset" type="button">Limpar</button>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#btnConfirmarRotAlteracaoSenhaFornecedor").click(function(event) {
+        event.preventDefault();
+        var inputSenhaAtual = $("#txtsenha").val();
+        var inputNovaSenha = $("#txtnova_senha").val();
+        var inputConfirmaSenha = $("#txtconfirmacao_nova_senha").val();
+
+        var retorno = null;
+        $.ajax({
+            type: "POST",
+            url: "HashPortalComprasFornecedor.php",
+            dataType: 'json',
+            async: false,
+            beforeSend: function(xhr){ //Observe o parâmetro na função
+                xhr.setRequestHeader('X-SENHAATUAL', inputSenhaAtual);
+                xhr.setRequestHeader('X-NOVASENHA', inputNovaSenha);
+                xhr.setRequestHeader('X-CONFIRMASENHA', inputConfirmaSenha);
+            }
+        }).success(function(data) {
+            retorno = data;
+        }).error(function(data) {
+            retorno = false;
+        });
+
+        if (retorno != false) {
+            var atual = inputSenhaAtual + retorno.senhaAtual;
+            $("#txtsenha").val($().crypt({method:"b64enc",source:atual}));
+            $("#atual").val(retorno.senhaAtual);
+            var nova = inputNovaSenha + retorno.novaSenha;
+            $("#txtnova_senha").val($().crypt({method:"b64enc",source:nova}));
+            $("#nova").val(retorno.novaSenha);
+            var confirma = inputConfirmaSenha + retorno.confirmaSenha;
+            $("#txtconfirmacao_nova_senha").val($().crypt({method:"b64enc",source:confirma}));
+            $("#confirma").val(retorno.confirmaSenha);
+
+            $("#BotaoAcao").val("Principal");
+            $("form[name=RotAlteracaoSenhaFornecedor]").submit();
+       }
+
+    });
+
+});
+</script>

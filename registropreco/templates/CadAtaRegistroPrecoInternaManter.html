@@ -1,0 +1,119 @@
+<!-- 220038-- -->
+<script type="text/javascript">
+<!--
+
+
+jQuery(document).ready(function($) { 
+    
+    function avisoexclusao(mensagem){
+                 $("#tdmensagem").show();
+                 $('html, body').animate({scrollTop:0}, 'slow');
+				 $(".mensagem-texto").html(mensagem);
+    } 
+
+    jQuery("#ano").change(function(){
+        jQuery('#CadAtaRegistroPrecoInternaManter').submit();
+    });
+
+    jQuery("#orgao").change(function(){
+        jQuery('#CadAtaRegistroPrecoInternaManter').submit();
+    });
+
+    jQuery("#Selecionar").click(function(event){
+        let processoAta = $("#processo").val();
+        event.preventDefault();
+        jQuery("#Botao").val("Selecionar");
+        if (processoAta!=0){
+        jQuery("#CadAtaRegistroPrecoInternaManter").attr("action", "CadAtaRegistroPrecoInternaManterAtas.php");
+        jQuery('#CadAtaRegistroPrecoInternaManter').submit();
+        }else{
+            avisoexclusao("Selecione o processo licitatório!");
+        }
+    });
+});
+//-->
+</script>
+
+<td text-align="left" id="tdmensagem">
+        <div class="mensagem">
+            <div class="error">
+            Erro
+            </div>
+            <span class="mensagem-texto">
+            </span>
+        </div>
+</td>
+
+<form action="CadAtaRegistroPrecoInternaManter.php" method="post" id="CadAtaRegistroPrecoInternaManter" name="CadAtaRegistroPrecoInternaManter">
+    <table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 633px;">
+        <tr>
+            <td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3">MANTER ATA INTERNA</td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <table class="textonormal" colspan="4">
+                 <tr bordercolor="#DCEDF7">
+                  <td >
+                     Para Atualizar os Dados de uma Ata Interna, selecione um ano e um Processo Licitatório que já possui numeração das atas
+                      internas e clique no botão selecionar.
+                      <hr width="700px" style = "position: static; margin-left: -7px; margin-right: -7px;"size="2" color="#75ADE6">
+                  </td>
+                  </tr>
+                  <tr>
+                        <table border="0" width="750px;">
+                   <tr>
+
+                        <td class="textonormal" bgcolor="#DCEDF7" width="60px;">&Oacute;rgão Gestor *</td>
+                        <td class="textonormal">
+                             <select id="orgao" name="orgao" class="textonormal">
+                                <!-- BEGIN BLOCO_ORGAO -->
+                                 <option  value="{ORGAO_VALUE}" {ORGAO_SELECTED}>{ORGAO_TEXT}</option>
+                                <!-- END BLOCO_ORGAO -->
+                             </select>
+
+                        </td>
+                    </tr>
+
+                   <tr>
+                        <td class="textonormal" bgcolor="#DCEDF7" width="30%">Ano *</td>
+                        <td class="textonormal">
+                             <select id="ano" name="ano" class="textonormal">
+                                <!-- BEGIN BLOCO_ANO -->
+                                 <option  value="{ANO_VALUE}" {ANO_SELECTED}>{ANO_TEXT}</option>
+                                <!-- END BLOCO_ANO -->
+                             </select>
+
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td
+                            class="textonormal"
+                            bgcolor="#DCEDF7"
+                            width="30%"
+                        >Processo</td>
+                        <td class="textonormal">
+                            <select name="processo" class="textonormal" id="processo">
+                                <option value="">{TEXTO_PROCESSO_SELECIONE}</option>
+                                <!-- BEGIN BLOCK_PROCESSO --> {OPTGROUP_INICIO}
+                                <!-- BEGIN BLOCK_OPTION -->
+                                <option value="{PROCESSO_VALUE}" {PROCESSO_SELECTED}>{TEXTO_PROCESSO}</option>
+                                <!-- END BLOCK_OPTION --> {OPTGROUP_FINAL}
+                                <!-- END BLOCK_PROCESSO -->
+                            </select>
+                        </td>
+                    </tr>
+                      </table>
+                  </tr>
+                    <tr>
+            <td class="textonormal" align="right">
+                <input type="button" id="Selecionar" name="Selecionar" value="Selecionar" class="botao" />
+            </td>
+        </tr>
+                </table>
+            </td>
+
+        </tr>
+
+    </table>
+</form>

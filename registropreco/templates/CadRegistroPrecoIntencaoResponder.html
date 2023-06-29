@@ -1,0 +1,351 @@
+<!--
+    Alterado: Lucas Baracho
+    Data:     04/06/2019
+    Objetivo: Tarefa Redmine 217955
+    ----------------------------------------------------------------------------------
+    Alterado: João Madson
+    Data:     14/10/2019
+    Objetivo: Tarefa Redmine 224965
+    ----------------------------------------------------------------------------------
+-->
+<!-- 220038-- -->
+<script type="text/javascript">
+    function enviar(valor) {
+        document.CadRegistroPrecoIntencaoResponder.Botao.value = valor;
+        document.CadRegistroPrecoIntencaoResponder.submit();
+    }
+    function AbreJanela(url, largura, altura) {
+        window.open(url, 'paginadetalhe',
+            'status=no,scrollbars=yes,left=90,top=150,width=' + largura
+            + ',height=' + altura);
+    }
+    function AbreJanelaItem(url, largura, altura) {
+        window.open(url, 'paginaitem',
+            'status=no,scrollbars=yes,left=90,top=150,width=' + largura
+            + ',height=' + altura);
+    }
+    function ncaracteresO(valor) {
+        document.CadRegistroPrecoIntencaoResponder.NCaracteresO.value = ''
+        + document.CadRegistroPrecoIntencaoResponder.Justificativa.value.length;
+        if (navigator.appName == 'Netscape' && valor) { //Netscape Only
+            document.CadRegistroPrecoIntencaoResponder.NCaracteresO.focus();
+        }
+    }
+    jQuery(document).ready(function($) {
+        jQuery(".mascara-numero-intencao").mask("9999/9999");
+        jQuery(".reset").click(function(event) {
+            event.preventDefault();
+
+            jQuery(":text").each(function() {
+                jQuery(this).val("");
+            });
+
+            jQuery(":radio").each(function() {
+                jQuery(this).prop({
+                    checked : false
+                })
+            });
+
+            jQuery(":checkbox").each(function() {
+                jQuery(this).prop({
+                    checked : false
+                })
+            });
+
+            jQuery("select").each(function() {
+                jQuery(this).val("");
+            });
+        });
+
+        jQuery('.removerDocumento').click(function(e){
+        e.preventDefault();
+        var doc = jQuery(this).attr('doc');
+        console.log(doc);
+        jQuery('#documentoExcluir').val(doc);
+        jQuery('#Botao').val('RemoverDocumento');
+        jQuery("#CadRegistroPrecoIntencaoResponder").submit();
+    });
+
+
+    });
+
+    function clean_hex(input) {
+        input = input.toUpperCase();
+        input = input.replace(/[^A-Fa-f0-9]/g, "");
+
+        return input;
+    }
+
+    function Convert(id, nomePdf) {
+        var binValue    = $('#'+id).val();
+        var filename    = nomePdf;
+        var cleaned_hex = clean_hex(binValue);
+
+        var ia = new Array();
+
+
+        for (var i=0; i<cleaned_hex.length/2; i++) {
+            var h = cleaned_hex.substr(i*2, 2);
+            ia[i] = parseInt(h,16);
+        }
+
+        var byteArray = new Uint8Array(ia);
+
+        // create a download anchor tag
+        var downloadLink      = document.createElement('a');
+        downloadLink.target   = '_blank';
+        downloadLink.download = nomePdf;
+
+        // convert downloaded data to a Blob
+        var blob = new Blob([byteArray], { type: 'application/pdf' });
+
+        // create an object URL from the Blob
+        var URL = window.URL || window.webkitURL;
+        var downloadUrl = URL.createObjectURL(blob);
+
+        // set object URL as the anchor's href
+        downloadLink.href = downloadUrl;
+
+        // append the anchor to document body
+        document.body.appendChild(downloadLink);
+
+        // fire a click event on the anchor
+        downloadLink.click();
+
+        // cleanup: remove element and revoke object URL
+        document.body.removeChild(downloadLink);
+        URL.revokeObjectURL(downloadUrl);
+    }
+
+    $(document).ready(function() {
+        $('a').click(function() {
+            var nomePdf   = $(this).html().replace(/\<br>/g, '');
+            var nomeClass = $(this).prop('class');
+            Convert(nomeClass, nomePdf);
+        });
+    });
+    
+
+</script>
+<form action="CadRegistroPrecoIntencaoResponder.php" method="post" name="CadRegistroPrecoIntencaoResponder" id="CadRegistroPrecoIntencaoResponder" enctype="multipart/form-data">
+    <table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="Tela do Programa" class="textonormal" bgcolor="#FFFFFF">
+        <tr>
+            <td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3" colspan="8">RESPONDER – INTENÇÃO DE REGISTRO DE PREÇOS</td>
+        </tr>
+        <tr>
+            <td class="textonormal" colspan="8">
+                <p align="justify">{VALOR_MENSAGEM}</p>
+            </td>
+        </tr>
+        
+        <!-- BEGIN BLOCO_TELA_PESQUISA -->
+        <tr>
+            <td colspan="8">
+                <table summary="" border="0" width="100%">
+                    <tbody>
+                        <tr>
+                            <td class="textonormal" bgcolor="#DCEDF7" width="30%">Número da intenção</td>
+                            <td class="textonormal">
+                                <input type="text" name="NumeroIntencao" size="10" maxlength="9" value="{VALOR_NUMERO_INTENCAO}" class="textonormal mascara-numero-intencao" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="textonormal" bgcolor="#DCEDF7" width="30%">Data de cadastramento</td>
+                            <td class="textonormal">
+                                <input name="DataInicioCadastro" size="11" maxlength="10" value="{VALOR_DATA_INICIO_CADASTRO}" class="textonormal" type="text">
+                                    <a href="javascript:janela('../calendario.php?Formulario=CadRegistroPrecoIntencaoResponder&Campo=DataInicioCadastro','Calendario',220,170,1,0)"><img src="../midia/calendario.gif" alt="" border="0"></a>
+                                        &nbsp;a&nbsp;
+                                    <input name="DataFimCadastro" size="11" maxlength="10" value="{VALOR_DATA_FIM_CADASTRO}" class="textonormal" type="text">
+                                    <a href="javascript:janela('../calendario.php?Formulario=CadRegistroPrecoIntencaoResponder&Campo=DataFimCadastro','Calendario',220,170,1,0)"><img src="../midia/calendario.gif" alt="" border="0"></a>
+                            </td>
+                        </tr>
+                         <!-- BEGIN BLOCO_ORGAO_RASCUNHO -->
+                        <tr>
+                            <td class="textonormal" bgcolor="#DCEDF7" width="30%">Órgão da intenção</td>
+                            <td class="textonormal" colspan="7">{SELECT_ORGAO_USUARIO}</td>
+                        </tr>
+                        <!-- END BLOCO_ORGAO_RASCUNHO -->
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <!-- END BLOCO_TELA_PESQUISA -->
+        <!-- BEGIN BLOCO_TELA_RESPONDER -->
+        <tr>
+            <td colspan="8">
+                <table summary="" border="0" width="100%">
+                    <tbody>
+                        <tr>
+                            <td class="textonormal" bgcolor="#DCEDF7" width="30%">Número da intenção</td>
+                            <td class="textonormal" colspan="7">{VALOR_RESPONDER_NUMERO_INTENCAO}</td>
+                        </tr>
+                        <tr>
+                            <td class="textonormal" bgcolor="#DCEDF7" width="30%">Data de Cadastramento</td>
+                            <td class="textonormal" colspan="7">{VALOR_RESPONDER_DATA_CADASTRO}</td>
+                        </tr>
+                        <tr>
+                            <td class="textonormal" bgcolor="#DCEDF7" width="30%">Data Limite</td>
+                            <td class="textonormal" colspan="7">{VALOR_RESPONDER_DATA_LIMITE}</td>
+                        </tr>
+                        <tr>
+                            <td class="textonormal" bgcolor="#DCEDF7" width="30%">Objeto</td>
+                            <td class="textonormal" colspan="7" align="left">{VALOR_RESPONDER_OBJETO}</td>
+                        </tr>
+                        <tr>
+                            <td class="textonormal" bgcolor="#DCEDF7" width="30%">Observação</td>
+                            <td class="textonormal" colspan="7">{VALOR_RESPONDER_OBSERVACAO}</td>
+                        </tr>
+                        <tr>
+                            <td class="textonormal" bgcolor="#DCEDF7" width="30%">Órgão da Intenção</td>
+                            <td class="textonormal" colspan="7">{DESC_ORGAO_LICITANTE}</td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="textonormal" bgcolor="#DCEDF7" width="40%"
+                                align="left">Documento(s)*</td>
+                            <td class="textonormal">
+
+                                
+
+                                <input type="file" name="fileArquivo" />
+                                <input type="submit" name="inserir" value="Incluir" class="botao" onclick="javascript:enviar('InserirDocumento')" />
+
+
+                                <!-- BEGIN BLOCO_FILE -->
+                                <ul>{VALOR_DOCUMENTOS_ATA}</ul>
+                                <!-- END BLOCO_FILE -->
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="textonormal" bgcolor="#DCEDF7" width="30%">Justificativa*</td>
+                            <td class="textonormal">
+                                <font class="textonormal">máximo de {VALOR_TAMANHO_MAX_OBJETO} caracteres</font>
+        						<input type="text" name="NCaracteresO" id="NCaracteresO" size="3" disabled readonly value="{VALOR_NCARACATERES0}" OnFocus="javascript:document.CadRegistroPrecoIntencaoResponder.Justificativa.focus();" class="textonormal">
+        						<br>
+                                <textarea  
+        									id="Justificativa" name="Justificativa" cols="62" rows="5" maxlength="{VALOR_TAMANHO_MAX_OBJETO}" class="textonormal"
+        									OnKeyUp="javascript:ncaracteresO('NCaracteresO','Justificativa',1)" 
+        									OnBlur="javascript:ncaracteresO('NCaracteresO','Justificativa',0)" 
+        									OnSelect="javascript:ncaracteresO('NCaracteresO','Justificativa',1)">{CAMPO_JUSTIFICATIVA}</textarea>
+                            </td>
+                        </tr>
+                        <!-- BEGIN BLOCO_SITUACAO_RASCUNHO -->
+                        <!--<tr>
+                            <td class="textonormal" bgcolor="#DCEDF7" width="30%">Situação da intenção</td>
+                            <td class="textonormal" colspan="7">RESPOSTA DA IRP EM RASCUNHO</td>
+                        </tr>-->
+                        <!-- END BLOCO_SITUACAO_RASCUNHO -->
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <!-- END BLOCO_TELA_RESPONDER -->
+        <!-- BEGIN BLOCO_TELA_PESQUISA_BOTAO -->
+        <tr>
+            <td class="textonormal" align="right" colspan="8">
+                <input type="hidden" name="InicioPrograma" value="1" />
+                <input type="button" name="Pesquisar" value="Pesquisar" class="botao" onClick="javascript:enviar('Pesquisar');" />
+                <input type="button" name="Limpar" value="Limpar" onclick="javascript:enviar('Limpar');" class="botao reset" />
+                <input type="hidden" name="Botao" value="" />
+            </td>
+        </tr>
+        <!-- END BLOCO_TELA_PESQUISA_BOTAO -->
+        <!-- BEGIN BLOCO_RESULTADO -->
+        <!-- BEGIN BLOCO_NAO_EXISTE_INTENCAO -->
+        <tr>
+            <td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3" colspan="8">RESULTADO DA PESQUISA</td>
+        </tr>
+        <tr>
+            <td class="textonormal" colspan="8">Não existem intenção para responder</td>
+        </tr>
+        <!-- END BLOCO_NAO_EXISTE_INTENCAO -->
+        <!-- BEGIN BLOCO_RESULTADO_PESQUISA -->
+        <tr>
+            <td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3" colspan="8">RESULTADO DA PESQUISA</td>
+        </tr>
+        <!-- BEGIN BLOCO_HEADER_LISTAGEM_ITEM -->
+        <tr>
+            <td class="textoabason" bgcolor="#DCEDF7" align="center">NÚMERO DA INTENÇÃO</td>
+            <td class="textoabason" bgcolor="#DCEDF7" align="center">DATA DE CADASTRAMENTO</td>
+            <td class="textoabason" bgcolor="#DCEDF7" align="center">DATA LIMITE</td>
+            <td class="textoabason" bgcolor="#DCEDF7" align="center">OBJETO</td>
+            <td class="textoabason" bgcolor="#DCEDF7" align="center">SITUAÇÃO</td>
+        </tr>
+        <!-- END BLOCO_HEADER_LISTAGEM_ITEM -->
+        <!-- BEGIN BLOCO_LISTAGEM_ITEM -->
+        <tr>
+            <td class="textonormal" align="center">
+                <a href="CadRegistroPrecoIntencaoResponder.php?numero={VALOR_NUMERO_INTENCAO}">{VALOR_NUMERO_INTENCAO}</a>
+            </td>
+            <td class="textonormal" align="center">{VALOR_DATA_CADASTRO}</td>
+            <td class="textonormal" align="center">{VALOR_DATA_LIMITE}</td>
+            <td class="textonormal" align="left">{VALOR_OBJETO}</td>
+            <td class="textonormal" align="center">{VALOR_SITUACAO}</td>
+        </tr>
+        <!-- END BLOCO_LISTAGEM_ITEM -->
+        <!-- END BLOCO_RESULTADO_PESQUISA -->
+        <!-- BEGIN BLOCO_TELA_RESPONDER_ITENS -->
+        <tr>
+            <td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3" colspan="8">ITENS DA INTENÇÃO</td>
+        </tr>
+        <!-- BEGIN BLOCO_TELA_RESPONDER_ITENS_HEADER -->
+        <tr>
+            <td class="textoabason" bgcolor="#DCEDF7" align="center">ORD.</td>
+            <td class="textoabason" bgcolor="#DCEDF7" align="center">DESCRIÇÃO MATERIAL/SERVIÇO</td>
+            <td class="textoabason" bgcolor="#DCEDF7" align="center">DESCRIÇÃO DETALHADA</td>
+            <td class="textoabason" bgcolor="#DCEDF7" align="center">TIPO</td>
+            <td class="textoabason" bgcolor="#DCEDF7" align="center">COD. RED.</td>
+            <td class="textoabason" bgcolor="#DCEDF7" align="center">VALOR TRP UNITÁRIO</td>
+            <td class="textoabason" bgcolor="#DCEDF7" align="center">VALOR ESTIM. UNIT.</td>
+            <td class="textoabason" bgcolor="#DCEDF7" align="center">QUANTIDADE PREVISTA</td>
+        </tr>
+        <!-- END BLOCO_TELA_RESPONDER_ITENS_HEADER -->
+        <!-- BEGIN BLOCO_TELA_RESPONDER_ITENS_ROW -->
+        <tr>
+            <td class="textonormal" align="center">{VALOR_ITEM_ORD}
+                <input type="hidden" name="RespostaItemCodigoSequencial[]" value="{VALOR_ITEM_CODIGO_SEQUENCIAL}" />
+            </td>
+
+            <td class="textonormal" align="left">
+                <a href="javascript:AbreJanela('../estoques/CadItemDetalhe.php?ProgramaOrigem=CadRegistroPrecoIntencaoManter&TipoGrupo={VALOR_TIPO_GRUPO}&Material={VALOR_ITEM_CODIGO_MATERIAL_SERVICO}',700,510);">
+                    <font color="#000000">
+                        {VALOR_ITEM_DESCRICAO}
+                    </font>
+                </a>
+            </td>
+            
+            <td class="textonormal" align="center">{VALOR_ITEM_DESCRICAO_DETALHADA}</td>
+            <td class="textonormal" align="center">{VALOR_ITEM_TIPO}</td>
+            <td class="textonormal" align="center">{VALOR_ITEM_CODIGO_REDUZIDO}
+                <input type="hidden" name="RespostaItemCodigoReduzido[]" value="{VALOR_ITEM_CODIGO_REDUZIDO}" />
+            </td>
+            <td class="textonormal" align="center">{VALOR_ITEM_UNITARIO}</td>
+            <td class="textonormal" align="center">{VALOR_ITEM_ESTIMADO}</td>
+            <td class="textonormal" align="center">
+			<input type="text" class="dinheiro4casas" name="RespostaItemQuantidade[]" value="{VALOR_ITEM_QUANTIDADE_PREVISTA}" maxlength="16" /> 
+            </td>
+        </tr>
+        <!-- END BLOCO_TELA_RESPONDER_ITENS_ROW -->
+        <tr>
+            <td class="textonormal" align="right" colspan="8">
+                <!-- BEGIN BLOCO_EXIBE_BOTAO_RASCUNHO -->
+                <input type="button" name="SalvarRascunho" value="Salvar Rascunho" class="botao" onClick="javascript:enviar('SalvarRascunho');" />
+                <!-- END BLOCO_EXIBE_BOTAO_RASCUNHO -->
+                <!-- BEGIN BLOCO_EXIBE_BOTAO_SALVAR -->
+                <input type="button" name="SalvarIntencao" value="Salvar Intenção" class="botao" onClick="javascript:enviar('SalvarIntencao');" />
+                <!-- END BLOCO_EXIBE_BOTAO_SALVAR -->
+                <input type="button" name="imprimir" value="Imprimir" class="botao" onClick="javascript:enviar('Imprimir');" />
+                <input type="button" name="voltar" value="Voltar" class="botao" onClick="javascript:enviar('Voltar');" />
+                <input type="hidden" name="NumeroIntencao" value="{VALOR_NUMERO_INTENCAO}" />
+                <input type="hidden" id="orgaoLicitante" name="orgaoLicitante" value="{VALOR_ORGAO_LICITANTE}" />
+                <input type="hidden" id="documentoExcluir" name="documentoExcluir" value="" />
+                <input type="hidden" id="Botao" name="Botao" value="" />
+            </td>
+        </tr>
+        <!-- END BLOCO_TELA_RESPONDER_ITENS -->
+        <!-- END BLOCO_RESULTADO -->  
+            
+  
+    </table>
+</form>

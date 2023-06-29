@@ -1,0 +1,139 @@
+<?php
+/**
+* Portal de Compras
+* Programa: PostDadosIntegracaoAutomaticaPNCP.php
+* Autor: José Rodrigo
+* Data: 25/01/2022
+* Objetivo: Integração Automatica do PNCP
+* Tarefa Redmine: #2776657
+*/
+
+# Executa o controle de segurança	#
+session_start();
+
+# Acesso ao arquivo de funções #
+require_once "../funcoes.php";
+require_once "ClassPlanejamento.php";
+
+$objPlanejamento = new Planejamento();
+
+    switch ($_POST['op']) {
+        case 'getSistemaOrigem':
+
+            $listaSistemaOrigem = $objPlanejamento->getSistemaOrigem();
+            
+            if (isset($listaSistemaOrigem) && (!empty($listaSistemaOrigem))) {
+                $htmlSistemaOrigem = "<select id='selectSitOrigem' required name='selectSitOrigem' size='1' style='width:340px; font-size: 10.6667px;'>";
+                $htmlSistemaOrigem .= "<option value=''>Escolha a sistema de origem</option>";
+                $htmlSistemaOrigem .= "<option value='TD'>Todas</option>";
+
+                foreach ($listaSistemaOrigem as $lista) {
+                    $htmlSistemaOrigem .= "<option value='$lista->sistema'>" . $lista->sistema . "</option>";
+                }
+                print($htmlSistemaOrigem);
+            }
+            break;
+        case 'executarIntegracao':
+        
+            $cnpj =  $_POST['cnpj'];
+            $descricao =  $_POST['descricao'];
+            $selectSitOrigem = $_POST['selectSitOrigem'];
+            $servico = $_POST['servico'];
+            $tipoOperacao = $_POST['tipoOperacao'];
+            $statusProcessamento = $_POST['statusProcessamento'];
+            $dataInicial = ($_POST['dataInicial']);
+            $dataFim = ($_POST['dataFim']);
+            $horario =  $_POST['horario'];
+
+            $domingo = $_POST['domingo'];
+            $segunda = $_POST['segunda'];
+            $terca = $_POST['terca'];
+            $quarta = $_POST['quarta'];
+            $quinta = $_POST['quinta'];
+            $sexta = $_POST['sexta'];
+            $sabado = $_POST['sabado'];
+            $_15dias = $_POST['_15dias'];
+            $_30dias = $_POST['_30dias'];
+
+            $dataInicial  = explode("/", $dataInicial);
+            $dataInicial = mktime(00,00,00, $dataInicial[1], $dataInicial[0], $dataInicial[2]);
+            
+            $dataFim  = explode("/", $dataFim);
+            $dataFim = mktime(00,00,00, $dataFim[1], $dataFim[0], $dataFim[2]);
+
+            $dados = [
+                'cnpj' =>  $cnpj,
+                'descricao' => $descricao,
+                'selectSitOrigem' =>  $selectSitOrigem,
+                'servico' => $servico,
+                'tipoOperacao' => $tipoOperacao,
+                'statusProcessamento' => $statusProcessamento,
+                'dataInicial' => !empty($dataInicial)?"'".date("Y-m-d",$dataInicial)." 00:00:00'":"null",
+                'dataFim'   => !empty($dataFim)?"'".date("Y-m-d",$dataFim)." 00:00:00'":"null",
+                'horario'   => !empty($horario)?"'".date("Y-m-d",$dataInicial)." ".$horario."'":"null",
+                
+                'domingo'   => $domingo,
+                'segunda'   => $segunda,
+                'terca'     => $terca,
+                'quarta'    => $quarta,
+                'quinta'    => $quinta,
+                'sexta'     => $sexta,
+                'sabado'    => $sabado,
+                '_15dias'   => $_15dias,
+                '_30dias'   => $_30dias,
+            ];
+
+            
+            $insert = $objPlanejamento->insertIntegracaoAutomaticaPNCP($dados);
+        
+            if($insert['erro'] == true){
+                print_r(json_encode(array("status"=>404, "msm"=>$validação['informe'])));
+                exit;
+            }
+
+            if($insert == true){
+                print_r(json_encode(array("status"=>200)));
+                $_SESSION['MensagemFinal'] = "Integração Solicitada com Sucesso!";
+                exit;
+            }else{
+                print_r(json_encode(array("status"=>400)));
+            }
+        
+            break;
+        case 'getDadosIntegracao':
+
+            $dadosPesquisa['idIntegracao']     = $objPlanejamento->anti_injection($_POST['idIntegracao']);
+            $dadosPesquisa['descricao']        = $objPlanejamento->anti_injection($_POST['descricao']);
+            $dadosPesquisa["selectSitOrigem"]  = $objPlanejamento->anti_injection($_POST["selectSitOrigem"]);
+            $dadosPesquisa["dataIni"]          = $objPlanejamento->anti_injection($_POST["dataIni"]);
+            $dadosPesquisa["dataFim"]          = $objPlanejamento->anti_injection($_POST["dataFim"]);
+            $dadosPesquisa["servico"]          = $objPlanejamento->anti_injection($_POST["servico"]);
+            $dadosPesquisa["tipoOperacao"]     = $objPlanejamento->anti_injection($_POST["tipoOperacao"]);
+            $dadosPesquisa["tipoIntegracao"]   = $objPlanejamento->anti_injection($_POST["tipoIntegracao"]);
+                
+            // Como nenhum campo é obrigatório, a validação é direta.
+            if (!empty($dadosPesquisa["dataIni"])) 
+            {
+                $dataIni  = explode("/", $dadosPesquisa['dataIni']);
+                $dadosPesquisa["dataIni"] = date("Y-m-d", mktime(00,00,00, $dataIni[1], $dataIni[0], $dataIni[2]));
+            }
+
+            if (!empty($dadosPesquisa["dataFim"])) 
+            {
+                $dataFim  = explode("/", $dadosPesquisa['dataFim']);
+                $dadosPesquisa["dataFim"] = date("Y-m-d", mktime(00,00,00, $dataFim[1], $dataFim[0], $dataFim[2]));
+            }
+
+            
+            $listaIntegracao = $objPlanejamento->getDadosIntegracao($dadosPesquisa);
+            
+            $htmlResultado = $objPlanejamento->montaHTMLIntegracao($listaIntegracao);
+            $tudoOk = true;
+
+            $objJS = json_encode(array("status"=>true, "html"=>$htmlResultado));
+            print_r($objJS);
+            
+        break;  
+    }
+
+?>

@@ -1,0 +1,141 @@
+<!-- 220038-- -->
+<script type="text/javascript">
+<!--
+function enviar(valor){
+    document.CadAtaRegistroPrecoCaronaAtaExternaManterListar.Botao.value = valor;    
+    document.CadAtaRegistroPrecoCaronaAtaExternaManterListar.submit();
+}
+-->
+function verificaSituacao(situacao){
+	if(situacao == 'ATIVA'){
+		document.CadAtaRegistroPrecoCaronaAtaExternaManterListar.ativar.disabled = true;
+		document.CadAtaRegistroPrecoCaronaAtaExternaManterListar.inativar.disabled = false;
+	}else{
+		
+		document.CadAtaRegistroPrecoCaronaAtaExternaManterListar.ativar.disabled = false;
+		document.CadAtaRegistroPrecoCaronaAtaExternaManterListar.inativar.disabled = true;
+	}
+}
+function capturarNumeroDaAta(valor){
+	document.CadAtaRegistroPrecoCaronaAtaExternaManterListar.NAta.value = valor;
+}
+</script>
+<form action="CadAtaRegistroPrecoCaronaAtaExternaManterListar.php" method="post" name="CadAtaRegistroPrecoCaronaAtaExternaManterListar">
+    <!-- BEGIN BLOCO_RESULTADO_PEQUISA -->
+    <table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 633px;">
+        <tr>
+            <td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3" colspan="9">
+            MANTER ATA INTERNA
+            </td>
+            
+        </tr>
+        
+        <!-- BEGIN BLOCO_LICITACAO -->
+        <tr>
+            <td class="textoabason" bgcolor="#DCEDF7" width="20%" align="center">Comissão</td>
+            <td class="textonormal" width="80%" align="center">
+                {VALOR_COMISSAO}
+            </td>
+        </tr>    
+        <tr>   
+             <td class="textoabason" bgcolor="#DCEDF7" width="20%" align="center">Processo</td>
+             <td class="textonormal" width="80%" align="center">
+                {VALOR_PROCESSO}
+             </td>
+        </tr> 
+        <tr>   
+            <td class="textoabason" bgcolor="#DCEDF7" width="20%" align="center">Ano</td>
+             <td class="textonormal" width="80%" align="center">
+                {VALOR_ANO}
+             </td>
+        </tr>
+        <tr>  
+            <td class="textoabason" bgcolor="#DCEDF7" width="20%" align="center">Modalidade</td>
+             <td class="textonormal" width="80%" align="center">
+                {VALOR_MODALIDADE}
+             </td>
+         </tr>
+         <tr> 
+            <td class="textoabason" bgcolor="#DCEDF7" width="20%" align="center">Licitação</td>
+            <td class="textonormal" width="80%" align="center">
+                {VALOR_LICITACAO}
+            </td>
+         </tr>
+         <tr>
+            <td class="textoabason" bgcolor="#DCEDF7" width="20%" align="center">Ano Licitação</td>
+            <td class="textonormal" width="80%" align="center">
+                {VALOR_ANO_LICITACAO}
+            </td>
+         </tr> 
+         <tr> 
+            <td class="textoabason" bgcolor="#DCEDF7" width="20%" align="center">Org. Licitante</td>
+            <td class="textonormal" width="80%" align="center">
+                {VALOR_ORG_LIMITE}
+            </td>
+          </tr> 
+          <tr>
+          <td class="textoabason" bgcolor="#DCEDF7" width="20%" align="center">Participantes do Processo</td>
+             <td class="textonormal" width="80%" align="center">
+                {VALOR_PARTICIPANTES}
+            </td>
+          </tr>
+          <tr> 
+            <td class="textoabason" bgcolor="#DCEDF7" width="20%" align="center">Objeto</td>
+             <td class="textonormal" width="80%" align="center">
+                {VALOR_OBJETO}
+            </td>
+          </tr>
+         <!-- END BLOCO_LICITACAO -->
+     </table>
+    <!-- END BLOCO_RESULTADO_PEQUISA -->
+    
+    <table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 633px;">
+        <tr>
+            <td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3">ATA(S) REGISTRO DE PREÇO</td>
+        </tr>
+        <tr>
+            <td>
+              <table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF">
+                 
+                 <tr>
+                     <td class="textoabason" bgcolor="#DCEDF7" width="127px" align="center">Nº ATA</td>
+                     <td class="textoabason" bgcolor="#DCEDF7" width="506px" align="center">VIGÊNCIA</td>
+                     <td class="textoabason" bgcolor="#DCEDF7" width="127px" align="center">DOCUMENTO</td>
+                     <td class="textoabason" bgcolor="#DCEDF7" width="506px" align="center">DATA ÚLTIMA ALTERAÇÃO</td>
+                     <td class="textoabason" bgcolor="#DCEDF7" width="127px" align="center">SITUAÇÃO</td>
+                 </tr> 
+                 <!-- BEGIN BLOCO_RESULTADO_ATAS -->
+                 <tr>   
+                     <td class="textonormal" width="79px" align="center">
+                         <input type="radio" name="ata" value="{VALOR_ATA}" onblur="javascript:capturarNumeroDaAta('{VALOR_ATA}')" onclick="javascript:verificaSituacao('{VALOR_SITUACAO}')"/>{VALOR_ATA}<br/>
+                     </td>
+                   
+                   <td class="textonormal" width="79px" align="center">
+                         {VALOR_VIGENCIA}
+                   </td>
+                   <td class="textonormal" width="79px" align="center">
+                        <a href="{VALOR_DOCUMENTO}"></a> 
+                        
+                   </td>
+                    <td class="textonormal" width="79px" align="center">
+                         {VALOR_DATA}
+                   </td>
+                    <td class="textonormal" width="83px" align="center">
+                         {VALOR_SITUACAO}
+                   </td>
+                </tr>
+                <!-- END BLOCO_RESULTADO_ATAS -->  
+             </table>
+         </td>
+      </tr>
+      <tr>
+          <td class="textonormal" align="right" >
+                <input type="hidden" name="InicioPrograma" value="1" />
+                <input type="button" name="selecionar" value="Selecionar" class="botao" onclick="javascript:enviar('Selecionar')" ></input>
+                <input type="button" name="voltar" value="Voltar" class="botao" onclick="javascript:enviar('Voltar')" />
+                <input type="hidden" name="NAta" value="" class="botao"/>
+                <input type="hidden" name="Botao" value="" />
+          </td>
+       </tr> 
+   </table>
+ </form>

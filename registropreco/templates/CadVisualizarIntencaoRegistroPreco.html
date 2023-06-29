@@ -1,0 +1,225 @@
+<!-- 220038-- -->
+<html>
+
+<head>
+    <title>PortalCompras - Incluir Intenção de Registro de Preço</title>
+    <script language="javascript" src="../import/jquery/jquery.js" type="text/javascript"></script>
+    <script language="javascript" src="../import/jquery/jquery.maskmoney.js" type="text/javascript"></script>
+    <script language="javascript" src="../import/jquery/jquery.maskedinput.js" type="text/javascript"></script>
+    <script language="javascript" src="../funcoes.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+    function enviar(valor) {
+        document.CadRegistroPrecoIntencaoPesquisar.Botao.value = valor;
+        document.CadRegistroPrecoIntencaoPesquisar.submit();
+    }
+
+    function AbreJanela(url, largura, altura) {
+        window.open(url, 'paginadetalhe', 'status=no,scrollbars=yes,left=90,top=150,width=' + largura + ',height=' + altura);
+    }
+
+    function AbreJanelaItem(url, largura, altura) {
+        window.open(url, 'paginaitem', 'status=no,scrollbars=yes,left=90,top=150,width=' + largura + ',height=' + altura);
+    }
+
+    function ncaracteresO(valor) {
+        document.CadRegistroPrecoIntencaoPesquisar.NCaracteresO.value = '' + document.CadRegistroPrecoIntencaoPesquisar.Observacao.value.length;
+        if (navigator.appName == 'Netscape' && valor) { //Netscape Only
+            document.CadRegistroPrecoIntencaoPesquisar.NCaracteresO.focus();
+        }
+    }
+    jQuery(document).ready(function($) {
+        jQuery(".mascara-numero-intencao").mask("9999/9999");
+
+        jQuery(".reset").click(function(event) {
+            event.preventDefault();
+
+            jQuery(":text").each(function() {
+                jQuery(this).val("");
+            });
+
+            jQuery(":radio").each(function() {
+                jQuery(this).prop({
+                    checked: false
+                })
+            });
+
+            jQuery(":checkbox").each(function() {
+                jQuery(this).prop({
+                    checked: false
+                })
+            });
+
+            jQuery("select").each(function() {
+                jQuery(this).val("");
+            });
+        });
+    });
+
+    function clean_hex(input) {
+        input = input.toUpperCase();
+        input = input.replace(/[^A-Fa-f0-9]/g, "");
+
+        return input;
+    }
+
+    function Convert(id, nomePdf) {
+        var binValue    = $('#'+id).val();
+        var filename    = nomePdf;
+        var cleaned_hex = clean_hex(binValue);
+
+        var ia = new Array();
+
+
+        for (var i=0; i<cleaned_hex.length/2; i++) {
+            var h = cleaned_hex.substr(i*2, 2);
+            ia[i] = parseInt(h,16);
+        }
+
+        var byteArray = new Uint8Array(ia);
+
+        // create a download anchor tag
+        var downloadLink      = document.createElement('a');
+        downloadLink.target   = '_blank';
+        downloadLink.download = nomePdf;
+
+        // convert downloaded data to a Blob
+        var blob = new Blob([byteArray], { type: 'application/pdf' });
+
+        // create an object URL from the Blob
+        var URL = window.URL || window.webkitURL;
+        var downloadUrl = URL.createObjectURL(blob);
+
+        // set object URL as the anchor's href
+        downloadLink.href = downloadUrl;
+
+        // append the anchor to document body
+        document.body.appendChild(downloadLink);
+
+        // fire a click event on the anchor
+        downloadLink.click();
+
+        // cleanup: remove element and revoke object URL
+        document.body.removeChild(downloadLink);
+        URL.revokeObjectURL(downloadUrl);
+    }
+
+    $(document).ready(function() {
+        $('a').click(function() {
+            var nomePdf   = $(this).html().replace(/\<br>/g, '');
+            var nomeClass = $(this).prop('class');
+            Convert(nomeClass, nomePdf);
+        });
+    });
+
+    </script>
+    <link rel="stylesheet" type="text/css" href="../estilo.css">
+</head>
+
+<body background="../midia/bg.jpg" marginwidth="0" marginheight="0">
+    <!-- BEGIN BLOCO_ERRO -->
+    <tr>
+        <td width='100'></td>
+        <td align='left' colspan='2'>{MENSAGEM_ERRO}</td>
+    </tr>
+    <!-- END BLOCO_ERRO -->
+    <!-- BEGIN BLOCO_FORMULARIO_MANTER -->
+    <form action="" method="post" name="CadRegistroPrecoIntencaoPesquisar">
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+            <tr>
+                <td align="left" colspan="4"></td>
+            </tr>
+            <tr>
+                <td class="textonormal">
+                    <table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 692px">
+                        <tr>
+                            <td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3">ACOMPANHAR – INTENÇÃO DE REGISTRO DE PREÇOS</td>
+                        </tr>
+                        <tr>
+                            <td class="textonormal">
+                                <p align="justify">
+                                    Para visualizar uma outra intenção, clique no botão "Voltar".
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table class="textonormal" border="0" align="left" summary="">
+                                    <tr>
+                                        <td class="textonormal" bgcolor="#DCEDF7" width="30%">Número da intenção</td>
+                                        <td class="textonormal">
+                                            {VALOR_NUMERO_INTENCAO}
+                                            <input type="hidden" name="NumeroIntencao" size="10" maxlength="9" value="{VALOR_NUMERO_INTENCAO}" class="textonormal mascara-numero-intencao" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="textonormal" bgcolor="#DCEDF7" width="30%">Data de cadastramento</td>
+                                        <td class="textonormal">
+                                            {VALOR_DATA_CADASTRAMENTO_INTENCAO}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="textonormal" bgcolor="#DCEDF7" width="30%">Data limite</td>
+                                        <td class="textonormal">
+                                            {VALOR_DATA_LIMITE_INTENCAO}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="textonormal" bgcolor="#DCEDF7" width="30%">Objeto</td>
+                                        <td class="textonormal">
+                                            {VALOR_OBJETO_INTENCAO}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="textonormal" bgcolor="#DCEDF7">Órgãos</td>
+                                        <td class="textonormal">
+                                            <ul>
+                                                <!-- BEGIN BLOCO_ORGAO_INTENCAO -->
+                                                <li>{ORGAO_INTENCAO}</li>
+                                                <!-- END BLOCO_ORGAO_INTENCAO -->
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="textonormal" bgcolor="#DCEDF7">Observação</td>
+                                        <td class="textonormal">
+                                            {VALOR_OBSERVACAO_INTENCAO}
+                                        </td>
+                                    </tr>
+                                    <!-- BEGIN BLOCO_DOCUMENTOS -->
+                                    <tr>
+                                        <td class="textonormal" bgcolor="#DCEDF7" width="30%">Documentos</td>
+                                        <td class="textonormal" colspan="7">
+                                            <ul>
+                                                <!-- BEGIN BLOCO_DOCUMENTO -->
+                                                <li>
+                                                    <input type="hidden" value="{HEX_DOCUMENTO}" id="{VALOR_DOCUMENTO_KEY}">
+                                                    <a href="#" class="{VALOR_DOCUMENTO_KEY}">{VALOR_DOCUMENTO_NOME}</a><br>
+                                                </li>
+                                                <!-- END BLOCO_DOCUMENTO -->
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <!-- END BLOCO_DOCUMENTOS -->
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="textonormal" align="right" colspan="2">
+                                <input type="hidden" name="InicioPrograma" value="1" />
+                                <input type="button" name="SelecionarIntencao" value="Selecionar Intenção" class="botao" onClick="javascript:enviar('SelecionarIntencao');" />
+                                <input type="button" name="Voltar" value="Voltar" class="botao" onClick="javascript:enviar('Voltar');" />
+                                <input type="hidden" name="Botao" value="" />
+                                <input type="hidden" name="NumeroIntencaoAcessada" id="NumeroIntencaoAcessada" value="{VALOR_NUMERO_INTENCAO}" />
+                                <input type="hidden" name="SituacaoAtualIntencao" value="{VALOR_SITUACAO_ATUAL_INTENCAO}" />
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <!-- END BLOCO_FORMULARIO_MANTER -->
+</body>
+
+</html>

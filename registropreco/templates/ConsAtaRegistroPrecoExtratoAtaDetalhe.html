@@ -1,0 +1,269 @@
+<!-- 220038-- -->
+<script type="text/javascript">
+    function enviar(valor){
+
+        document.{NOME_PROGRAMA}.Botao.value = valor;
+        document.{NOME_PROGRAMA}.submit();
+    }
+
+    function clean_hex(input) {
+    input = input.toUpperCase();
+    input = input.replace(/[^A-Fa-f0-9]/g, "");
+
+    return input;
+}
+
+function Convert(id, nomePdf) {
+    var binValue    = $('#'+id).val();
+    var filename    = nomePdf;
+    var cleaned_hex = clean_hex(binValue);
+
+    var ia = new Array();
+
+
+    for (var i=0; i<cleaned_hex.length/2; i++) {
+        var h = cleaned_hex.substr(i*2, 2);
+        ia[i] = parseInt(h,16);
+    }
+
+    var byteArray = new Uint8Array(ia);
+
+    // create a download anchor tag
+    var downloadLink      = document.createElement('a');
+    downloadLink.target   = '_blank';
+    downloadLink.download = nomePdf;
+
+    // convert downloaded data to a Blob
+    var blob = new Blob([byteArray], { type: 'application/pdf' });
+
+    // create an object URL from the Blob
+    var URL = window.URL || window.webkitURL;
+    var downloadUrl = URL.createObjectURL(blob);
+
+    // set object URL as the anchor's href
+    downloadLink.href = downloadUrl;
+
+    // append the anchor to document body
+    document.body.appendChild(downloadLink);
+
+    // fire a click event on the anchor
+    downloadLink.click();
+
+    // cleanup: remove element and revoke object URL
+    document.body.removeChild(downloadLink);
+    URL.revokeObjectURL(downloadUrl);
+}
+
+$(document).ready(function() {
+    $('a').click(function() {
+        var nomePdf   = $(this).html().replace(/\<br>/g, '');
+        var nomeClass = $(this).prop('class');
+        Convert(nomeClass, nomePdf);
+    });
+});
+
+</script>
+
+<style media="screen">
+    table tr td {
+        height: 20px;
+    }
+</style>
+
+ <form action="{NOME_PROGRAMA}.php" method="post" name="{NOME_PROGRAMA}" id="formDetalhe">
+     <table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 700px;">
+         <tr>
+             <td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3">
+                 EXTRATO ATAS - DETALHE
+             </td>
+         </tr>
+
+         <tr>
+            <td>
+                <table border="0" cellpadding="3" cellspacing="0"
+                    bordercolor="#75ADE6" summary="" class="textonormal"
+                    bgcolor="#FFFFFF" style="width: 633px;">
+                    <tr>
+                        <td>Para exibir as quantidades utilizadas, clique no item da ata e botão desejado.</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+         <tr>
+             <td colspan="11">
+                 <table class="textonormal" border="0px" align="left" summary="">
+
+                     <tr>
+                         <td colspan="11">
+                             <table class="textonormal" border="0" width="100%" summary="">
+                                 <tr>
+                                     <td class="textonormal" bgcolor="#DCEDF7" width="30%">Nº da Ata Interna ou Externa</td>
+                                     <td class="textonormal" width="70%">{ATA}</td>
+                                 </tr>
+
+                                 <tr {STYLE}>
+                                     <td class="textonormal" bgcolor="#DCEDF7" width="30%">Nº da Ata Origem</td>
+                                     <td class="textonormal" width="70%">{ATA_ORIGEM}</td>
+                                 </tr>
+
+                                 <tr>
+                                     <td class="textonormal" bgcolor="#DCEDF7" width="30%">Processo Licitatório</td>
+                                     <td class="textonormal"  width="70%">{PROCESSO}</td>
+                                 </tr>
+                                 <tr>
+                                     <td class="textonormal" bgcolor="#DCEDF7" width="30%">Ano Processo</td>
+                                     <td class="textonormal"  width="70%">{ANOPROCESSO}</td>
+                                 </tr>
+                                 <tr {DISPLAY}>
+                                     <td class="textonormal" bgcolor="#DCEDF7" width="30%">Comissão de Licitação</td>
+                                     <td class="textonormal"  width="70%">{COMISSAO}</td>
+                                 </tr>
+                                 <tr>
+                                     <td class="textonormal" bgcolor="#DCEDF7" width="30%">Modalidade</td>
+                                     <td class="textonormal"  width="70%">{MODALIDADE}</td>
+                                 </tr>
+                                 <!--<tr>
+                                     <td class="textonormal" bgcolor="#DCEDF7" width="30%">Licitação</td>
+                                     <td class="textonormal"  width="70%">{LICITACAO}</td>
+                                 </tr>
+                                 <tr>
+                                     <td class="textonormal" bgcolor="#DCEDF7" width="30%">Ano da Licitação</td>
+                                     <td class="textonormal"  width="70%">{ANOLICITACAO}</td>
+                                 </tr>-->
+                                 <tr>
+                                     <td class="textonormal" bgcolor="#DCEDF7" width="30%">Órgão Licitante</td>
+                                     <td class="textonormal"  width="70%">{ORGAOLICITANTE}</td>
+                                 </tr>
+                                 <tr {STYLE}>
+                                     <td class="textonormal" bgcolor="#DCEDF7">Participantes</td>
+                                     <td class="textonormal">
+                                         <!-- BEGIN BLOCO_PARTICIPANTES -->
+                                         {PARTICIPANTES}<br />
+                                         <!-- END BLOCO_PARTICIPANTES -->
+                                     </td>
+                                 </tr>
+                                 <tr>
+                                     <td class="textonormal" bgcolor="#DCEDF7" width="30%">Objeto</td>
+                                     <td class="textonormal"  width="70%">{OBJETO}</td>
+                                 </tr>
+                                 <tr>
+                                     <td class="textonormal" bgcolor="#DCEDF7" width="30%">Data Inicial da Ata</td>
+                                     <td class="textonormal" width="70%">{DATAINICIALATA}</td>
+                                 </tr>
+                                 <tr>
+                                     <td class="textonormal" bgcolor="#DCEDF7" width="30%">Vigência da Ata</td>
+                                     <td class="textonormal"  width="70%">{VIGENCIAATA}</td>
+                                 </tr>
+                                 <tr>
+                                     <td class="textonormal" bgcolor="#DCEDF7" width="30%">Documentos</td>
+
+                                     <td class="textonormal"  width="70%">
+                                        <!-- BEGIN BLOCO_DOCUMENTOS -->
+                                            <input type="hidden" value="{HEX_DOCUMENTO}" id="{VALOR_DOCUMENTO_KEY}">
+                                            <a href="#" class="{VALOR_DOCUMENTO_KEY}">{VALOR_DOCUMENTO}</a><br>
+                                        <!-- END BLOCO_DOCUMENTOS -->
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                     <td class="textonormal" bgcolor="#DCEDF7" width="30%">Fornecedor Original</td>
+                                     <td class="textonormal"  width="70%">{FORNECEDORORIGINAL}</td>
+                                 </tr>
+                                 <tr>
+                                     <td class="textonormal" bgcolor="#DCEDF7" width="30%">Fornecedor Atual</td>
+                                     <td class="textonormal"  width="70%">{FORNECEDORATUAL}</td>
+                                 </tr>
+                                 <tr>
+                                    <td class="textonormal" bgcolor="#DCEDF7" width="30%">Tipo de Controle Especial</td>
+                                    <td class="textonormal"  width="70%">{TIPOCONTROLE}</td>
+                                </tr>
+                             </table>
+                         </td>
+                     </tr>
+                 </table>
+             </td>
+         </tr>
+         <!-- BEGIN BLOCO_RESULTADO_ATA -->
+         <tr>
+             <td colspan="11">
+                 <table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF">
+                    <tr>
+                        <td align="center" bgcolor="#75ADE6" colspan="17" valign="middle" class="titulo3">ITENS DA ATA</td>
+                    </tr>
+                    <tr style="bgcolor:#75ADE6">
+                        <td bgcolor="#DCEDF7" class="textoabason" align="center"></td>
+                        <td bgcolor="#DCEDF7" class="textoabason" align="center">LOTE</td>
+                        <td bgcolor="#DCEDF7" class="textoabason" align="center">ORD.</td>
+                        <td bgcolor="#DCEDF7" class="textoabason" align="center">TIPO</td>
+                        <td bgcolor="#DCEDF7" class="textoabason" align="center">COD. REDUZIDO</td>
+                        <td bgcolor="#DCEDF7" class="textoabason" align="center">DESCRIÇÃO</td>
+                        <td bgcolor="#DCEDF7" class="textoabason" align="center">DESCRIÇÃO DETALHADA</td>
+                        <td bgcolor="#DCEDF7" class="textoabason" align="center">UND.</td>
+                        <td bgcolor="#DCEDF7" class="textoabason" align="center">MARCA</td>
+                        <td bgcolor="#DCEDF7" class="textoabason" align="center">MODELO</td>
+                        <td bgcolor="#DCEDF7" class="textoabason" align="center">QTD. ORIGINAL</td>
+                        <td bgcolor="#DCEDF7" class="textoabason" align="center">VALOR ORIGINAL UNIT.</td>
+                        <td bgcolor="#DCEDF7" class="textoabason" align="center">VALOR TOTAL</td>
+                        <td bgcolor="#DCEDF7" class="textoabason" align="center">QTD. ATUAL</td>
+                        <td bgcolor="#DCEDF7" class="textoabason" align="center">VALOR UNITÁRIO ATUAL</td>
+                        <td bgcolor="#DCEDF7" class="textoabason" align="center">VALOR TOTAL ATUAL</td>
+                        <td bgcolor="#DCEDF7" class="textoabason" align="center">SITUAÇÃO</td>
+                    </tr>
+                    <!-- BEGIN BLOCO_ITEM -->
+                    <tr>
+                        <td class="textonormal" align="center">
+                            <input type="radio" name="item" value="{ITEMVALOR}/{ITEMVALOR2}">
+                            <input type="hidden" name="tipoItem[{ITEMVALOR}][{ITEMVALOR2}]" value="{TIPOITEM}">
+                        </td>
+                        <td class="textonormal" align="center">{LOTE}</td>
+                        <td class="textonormal" align="center">
+                            {ORDEM}
+                        </td>
+                        <td  class="textonormal" align="center">{CAD}</td>
+                        <td  class="textonormal" align="center">{COD_REDUZIDO}</td>
+                        <td class="textonormal" align="center">{DESCRICAO}</td>
+                        <td class="textonormal" align="center">{DESCRICAO_DETALHADA}</td>
+                        <td class="textonormal" align="center">{UNIDADE}</td>
+                        <td class="textonormal" align="center">{VALOR_MARCA}</td>
+                        <td class="textonormal" align="center">{VALOR_MODELO}</td>
+                        <td class="textonormal" align="center">{QTD_ORIGINAL}</td>
+                        <td class="textonormal" align="center">{VALOR_ORIGINAL_UNIT}</td>
+                        <td class="textonormal" align="center">{VALOR_TOTAL}</td>
+                        <td class="textonormal" align="center">{QTD_ATUAL}</td>
+                        <td class="textonormal" align="center">{VALOR_UNITARIO_ATUAL}</td>
+                        <td class="textonormal" align="center">{VALOR_TOTAL_ATUAL}</td>
+                        <td class="textonormal" align="center">{VALOR_SITUACAO_ITEM}</td>
+                    </tr>
+                    <!-- END BLOCO_ITEM -->
+                </table>
+            </td>
+        </tr>
+        <!-- END BLOCO_RESULTADO_ATA -->
+        <!--<tr>
+            <td colspan="11">
+                <table border="0" style="width: 700px;">
+                    <tr>
+                        <td colspan="6" align="left">TOTAL DA ATA</td>
+                        <td colspan="5" align="right">{VALOR_TOTAL_SOMA}</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>-->
+        <tr>
+            <td class="textonormal" align="right">
+                <!-- BEGIN BLOCO_BOTAO_PARTICIPANTE_INTERNO -->
+                <input type="button" name="historico" value="Histórico Participante" class="botao" onclick="javascript:enviar('HistoricoParticipante')">
+                <!-- END BLOCO_BOTAO_PARTICIPANTE_INTERNO -->
+                <input type="button" name="carona" value="Histórico Carona" class="botao" onclick="javascript:enviar('HistoricoCarona')">
+                <input type="button" name="imprimir" value="Imprimir ATA" class="botao" onclick="javascript:enviar('Imprimir')">
+                <a name="Voltar" href="{BOTAO_VOLTAR}" type="button" class="botao" value="Voltar" style="padding: 1px 6px;">Voltar</a>
+                <input type="hidden" name="Botao">
+                <input type="hidden" name="orgao" value="{ORGAOURL}">
+                <input type="hidden" name="ata" value="{ATAURL}">
+                <input type="hidden" name="processo" value="{PROCESSOURL}">
+                <input type="hidden" name="ano" value="{ANOURL}">
+                <input type="hidden" name="tipo" value="{TIPOURL}">
+                <input type="hidden" name="window" value="{WINDOW}">
+            </td>
+        </tr>
+    </table>
+</form>

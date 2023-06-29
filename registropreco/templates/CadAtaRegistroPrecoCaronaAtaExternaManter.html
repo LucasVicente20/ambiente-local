@@ -1,0 +1,126 @@
+<!-- 220038-- -->
+<script type="text/javascript">
+
+function enviar(valor){
+    document.CadAtaRegistroPrecoCaronaAtaExternaManter.Botao.value = valor;    
+    document.CadAtaRegistroPrecoCaronaAtaExternaManter.submit();
+}
+<!--
+function AbreJanela(url,largura,altura){
+    window.open(url,'paginadetalhe','status=no,scrollbars=yes,left=90,top=150,width='+largura+',height='+altura);
+}
+function AbreJanelaItem(url,largura,altura){
+    window.open(url,'paginaitem','status=no,scrollbars=yes,left=90,top=150,width='+largura+',height='+altura);
+}
+jQuery(document).ready(function($) {
+	jQuery(".mascara-numero-intencao").mask("9999/9999");
+	
+	jQuery(".reset").click(function (event) {
+		event.preventDefault();
+		
+		jQuery(":text").each(function () {
+			jQuery(this).val("");
+        });
+ 
+		jQuery(":radio").each(function () {
+        	jQuery(this).prop({ checked: false })
+        });
+		
+		jQuery(":checkbox").each(function () {
+        	jQuery(this).prop({ checked: false })
+        });
+ 
+		jQuery("select").each(function () {
+			jQuery(this).val("");
+        });
+	});
+});
+//-->
+
+function enviarValorAno(valor){
+	document.CadAtaRegistroPrecoCaronaAtaExternaManter.ano.value = valor; 
+	document.CadAtaRegistroPrecoCaronaAtaExternaManter.Botao.value = 'atualizaProcessos'; 
+    document.CadAtaRegistroPrecoCaronaAtaExternaManter.submit();
+    
+}
+
+function enviarValorOrgao(valor){
+	document.CadAtaRegistroPrecoCaronaAtaExternaManter.orgao.value = valor; 
+	document.CadAtaRegistroPrecoCaronaAtaExternaManter.Botao.value = 'atualizaProcessos'; 
+    document.CadAtaRegistroPrecoCaronaAtaExternaManter.submit();
+    
+}
+
+</script>
+<form action="CadAtaRegistroPrecoCaronaAtaExternaManter.php" method="post" name="CadAtaRegistroPrecoCaronaAtaExternaManter">
+    <table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 633px;">
+        <tr>
+            <td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3">MANTER - CARONA A ORGÃO EXTERNO</td>
+        </tr>
+        <tr>
+            <td>
+                <table class="textonormal" border="0px" align="left" summary="">
+                 <tr bordercolor="#DCEDF7">
+                  <td >
+                     Seleciona o Gestor, o Ano e o Processo Licitatório que já possui numeração das Atas Interna e clique no Botão<br/>
+                     "Seleciona".
+                      <hr align="center" width="633px" size="2" color="#75ADE6">
+                  </td>
+                  </tr>
+                  <tr>
+                        <table class="textonormal" border="0" align="left" summary=""> 
+                   <tr>
+                     
+                        <td class="textonormal" bgcolor="#DCEDF7" width="30%">Orgão Gestor</td>
+                        <td class="textonormal">
+                             <select onChange="javascript:enviarValorOrgao({ORGAO_VALUE});" name="orgaoGestor" class="textonormal">
+                                <!-- BEGIN BLOCO_ORGAO -->
+                                 <option  value="{ORGAO_VALUE}" {ORGAO_SELECTED}>{ORGAO_TEXT}</option>
+                                <!-- END BLOCO_ORGAO -->
+                             </select>
+                           
+                        </td>
+                    </tr>
+                  
+                   <tr>
+                        <td class="textonormal" bgcolor="#DCEDF7" width="30%">Ano</td>
+                        <td class="textonormal">
+                             <select onChange="javascript:enviarValorAno({ANO_VALUE});" name="valorAno" class="textonormal">
+                                <!-- BEGIN BLOCO_ANO -->
+                                 <option  value="{ANO_VALUE}" {ANO_SELECTED}>{ANO_TEXT}</option>
+                                <!-- END BLOCO_ANO -->
+                             </select>
+                           
+                        </td>
+                    </tr>
+                	
+                	<tr>
+                        <td class="textonormal" bgcolor="#DCEDF7" width="30%">Processo</td>
+                        <td class="textonormal">
+	                         <select name="GerarNumeracaoProcesso" class="textonormal">
+	                             <!-- BEGIN BLOCK_PROCESSO -->
+                                 <option onClick="javascript:pegarValorSelectProcesso();" value="{PROCESSO_VALUE}" {PROCESSO_SELECTED}>{TEXTO_PROCESSO}
+                                 
+                                 
+                                 </option>
+                                   <!-- END BLOCK_PROCESSO -->
+                             </select>
+                        </td>
+                    </tr>
+                      </table>
+                  </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td class="textonormal" align="right">
+                <input type="hidden" name="InicioPrograma" value="1" />
+                 <input type="button" name="Selecionar" value="Selecionar" class="botao" onclick="javascript:enviar('Selecionar')"/>
+                <input type="hidden" name="orgao" value="0" />
+                <input type="hidden" name="ano" value="0" />
+                <input type="hidden" name="processo" value="1" />
+                <input type="hidden" name="Botao" value="" />
+            </td>
+        </tr>
+    </table>
+</form>

@@ -1,0 +1,180 @@
+<form style="margin: 0;" method="post" name="ConsAcompResultadoGeral"
+	id="formularioResultado" class="formSubmit"
+	action="ConsAcompResultadoGeral.php">
+	<div class="content">
+		<div class="row">
+			<div class="span12">
+				<section class="box-article">
+					<header class="header">
+						<h1>Acompanhamento de Licitações - Resultado</h1>
+					</header>
+					<div class="body">
+						<ul class="breadcrumb">
+							<li><a href="{BASE_URL}home.php">Início</a><span
+								class="divider"><i class="arrow-right"></i></span></li>
+							<li><a href="{BASE_URL}Licitacoes.php">Licitações</a><span
+								class="divider"><i class="arrow-right"></i></span></li>
+							<li class="active">Acompanhamento<span class="divider"><i
+									class="arrow-right"></i></span></li>
+						</ul>
+
+						<article class="article">
+							<header class="article-header">
+								<h1>Acompanhamento de Licitações - Resultado</h1>
+							</header>
+						</article>
+
+						<section class="article-detail row-border">
+							<p>Para visualizar mais informações sobre a Licitação, clique
+								no número do Processo desejado. Para realizar uma nova pesquisa,
+								selecione o botão "Nova Pesquisa"</p>
+						</section>
+
+						<div class="clearfix">&nbsp;</div>
+
+						<!-- BEGIN BLOCO_MENSAGEM -->
+						<div class="alert {TIPOALERT}">
+							<button class="close" data-dismiss="alert" type="button">×</button>
+							{MENSAGEM}
+						</div>
+						<!-- END BLOCO_MENSAGEM -->
+
+						<div class="btn-toolbar pagination-right">
+							<button class="btn btn-primary" type="button"
+								onClick="location.href='{BASE_URL}ConsAcompPesquisaGeral.php'">Nova
+								Pesquisa</button>
+						</div>
+
+						<section class="article-detail">
+							<div style="display: {OMITIRCRITERIOS}">
+								<table cellspacing="0" cellpadding="0"
+									class="table table-criterio-pesquisa table-report">
+									<thead>
+										<th colspan="12"><span class="text-center">
+												CRITÉRIOS DE PESQUISA </span></th>
+									</thead>
+									<tbody>
+										<tr>
+											<td class="criterio-pesquisa-nome">Objeto</td>
+											<td class="criterio-pesquisa-dados">{OBJETO_CRITERIO}</td>
+										</tr>
+										<tr>
+											<td class="criterio-pesquisa-nome">Administração Direta</td>
+											<td class="criterio-pesquisa-dados">{ADMDIRETA_CRITERIO}</td>
+										</tr>
+										<tr>
+											<td class="criterio-pesquisa-nome">Órgão Demandante</td>
+											<td class="criterio-pesquisa-dados">{ORGAO_LICITANTE_CRITERIO}</td>
+										</tr>
+										<tr>
+											<td class="criterio-pesquisa-nome">Comissão</td>
+											<td class="criterio-pesquisa-dados">{COMISSAO_DESCRICAO_CRITERIO}</td>
+										</tr>
+										<tr>
+											<td class="criterio-pesquisa-nome">Modalidade</td>
+											<td class="criterio-pesquisa-dados">{MODALIDADE_DESCRICAO_CRITERIO}</td>
+										</tr>
+										<tr>
+											<td class="criterio-pesquisa-nome">Situação</td>
+											<td class="criterio-pesquisa-dados">{SITUACAO_CRITERIO}</td>
+										</tr>
+										<tr>
+											<td class="criterio-pesquisa-nome">Ano</td>
+											<td class="criterio-pesquisa-dados">{ANO_CRITERIO}</td>
+										</tr>
+										<tr>
+											<td class="criterio-pesquisa-nome">Item</td>
+											<td class="criterio-pesquisa-dados">{ITEM_CRITERIO}</td>
+										</tr>
+										<tr>
+											<td class="criterio-pesquisa-nome">Descrição do Item</td>
+											<td class="criterio-pesquisa-dados">{DESCITEM_CRITERIO}</td>
+										</tr>
+
+										<!-- BEGIN BLOCO_TIPO_EMPRESA -->
+										<tr>
+											<td class="criterio-pesquisa-nome">Microempresa, EPP ou MEI</td>
+											<td class="criterio-pesquisa-dados">{TIPO_EMPRESA_CRITERIO}</td>
+										</tr>
+										<!-- END BLOCO_TIPO_EMPRESA -->
+
+										<!-- BEGIN BLOCO_SEARCH -->
+										<tr>
+											<!--
+											<td colspan="4" style="text-align: left"> {NAME_SEARCH}</td>
+                                        	<td colspan="8" style="text-align: left"> {VALUE_SEARCH}</td>
+                                        	-->
+										</tr>
+										<!-- END BLOCO_SEARCH -->
+									</tbody>
+								</table>
+							</div>
+						</section>
+
+						<section class="article-detail">
+							<table class="table table-report table-striped">
+								<!-- BEGIN BLOCO_GRUPO -->
+								<thead>
+									<tr>
+										<th colspan="6" class="abc"><span class="text-center">{GRUPO_DESCRICAO}</span>
+										</th>
+									</tr>
+								</thead>
+								<!-- END BLOCO_GRUPO -->
+								<tbody>
+								<!-- BEGIN BLOCO_CORPO -->
+
+									<!-- BEGIN BLOCO_MODALIDADE -->
+									<tr>
+										<td colspan="6" class="teste" style="text-align: center">
+											{MODALIDADE_DESCRICAO}</td>
+									</tr>
+									<!-- END BLOCO_MODALIDADE -->
+
+									<!-- BEGIN BLOCO_COMISSAO -->
+									<tr>
+										<td colspan="6">
+											{COMISSAO_DESCRICAO}</td>
+									</tr>
+									<!-- END BLOCO_COMISSAO -->
+
+									<!-- BEGIN BLOCO_CABECALHO -->
+									<tr>
+										<td><strong>PROCESSO</strong></td>
+										<td><strong>LICITAÇÃO</strong></td>
+										<td><strong>OBJETO</strong></td>
+										<td><strong>DATA/HORA ABERTURA</strong></td>
+										<td><strong>ÓRGÃO LICITANTE</strong></td>
+										<td><strong>SITUAÇÃO</strong></td>
+									</tr>
+									<!-- END BLOCO_CABECALHO -->
+
+									<!-- BEGIN BLOCO_VALORES -->
+									<tr>
+										<td><a href="javascript:carregaProcesso('{URL}');">{PROCESSO}</a></td>
+										<td>{LICITACAO}</td>
+										<td>{OBJETO}</td>
+										<td>{DATA_HORA_ABERTURA}</td>
+										<td>{ORGAO_LICITANTE}</td>
+										<td>{SITUACAO}</td>
+									</tr>
+									<!-- END BLOCO_VALORES -->
+
+									<!-- BEGIN BLOCO_SEPARATOR -->
+									<tr>
+										<td colspan="6"><span class="separator"></span> </td>
+									</tr>
+									<!-- END BLOCO_SEPARATOR -->
+								<!-- END BLOCO_CORPO -->
+								</tbody>
+							</table>
+						</section>
+					</div>
+				</section>
+			</div>
+		</div>
+	</div>
+	<input type="hidden" name="Selecao" value="{SELECAO}">
+	<input type="hidden" name="Botao" value="">
+	<input type="hidden" name="carregaProcesso" value="">
+</form>

@@ -1,0 +1,267 @@
+<!-- <link rel="stylesheet" type="text/css" href="../estilo.css"> -->
+<!--
+    =============================================================
+    Autor: João Madson
+    Tarefa: CR #243182
+     Data: 27/01/2021
+    =============================================================
+-->
+
+<div class="content">
+	<div class="row-fluid">
+		<section class="box-article">
+			<header class="header">
+				<h1>Licitações - COVID / IMUNIZAÇÃO</h1>
+			</header>
+			<div class="body">
+			  <ul class="breadcrumb">
+				<li>Você está em:</li>
+				<li><a href="{BASE_URL}home.php">Início</a><span class="divider"><i class="arrow-right"></i></span></li>
+				<li><a href="{BASE_URL}Licitacoes.php">Licitações</a><span class="divider"><i class="arrow-right"></i></span>
+				<li><li class="active">Licitações - COVID / IMUNIZAÇÃO</li>
+			   </ul>
+               <article class="article">
+                   <header class="article-header">
+                       <h1>Licitações - COVID / IMUNIZAÇÃO</h1>
+                   </header>
+               </article>
+				<article class="article">
+					<!-- Genérico - texto explicativo-->
+					<p> Para realizar a pesquisa das Licitações em <strong>Andamento ou Concluídas relacionadas com o COVID / IMUNIZAÇÃO</strong>, selecione o item de pesquisa e clique no botão "Pesquisar".</p>
+				</article>
+
+				<div class="clearfix">&nbsp;</div>
+
+				<!-- BEGIN BLOCO_MENSAGEM -->
+					<div class="alert {TIPOALERT}">
+						<button class="close" data-dismiss="alert" type="button">×</button>
+						{MENSAGEM}
+					</div>
+				<!-- END BLOCO_MENSAGEM -->
+
+				<article class="article">
+					<!-- Genérico - tabelas e afins-->
+					<section>
+						<form name="ConsLicitacoesAndamento" action="{BASE_URL}ConsTodasLicitacoesCovidResultado.php" method="post" class="formSubmit">
+							<input type="hidden" name="Critica" value="1" size="1">
+							<div class="well">
+								<div class="row-fluid">
+									<!-- <div class="span6">
+										<label for="txtObjeto" class="big">Objeto</label>
+										<input type="text" class="span12" id="txtObjeto" name="Objeto">
+										<input type="hidden" name="Critica" value="1" size="1">
+									</div> -->
+
+									<div class="span12">
+									<label for="ddlOrgao" class="big">Órgão Demandante</label>
+										<select id="ddlOrgao" class="span12" name="OrgaoLicitanteCodigo">
+											<option value="">Todos os Órgãos Demandantes...</option>
+											<!-- BEGIN BLOCK_ORGAO_LICIANTE -->
+											<option value="{VALUE_ORGAO_LICITANTE}" data-tipo="{DATA_TIPO}"> {NOME_ORGAO_LICITANTE} </option>
+											<!-- END BLOCK_ORGAO_LICIANTE -->
+										</select>
+
+									</div>
+								</div>
+
+								<div class="row-fluid">
+									<div class="span6">
+										<label for="txtComissao" class="big">Comissão</label>
+										<select id="ddlComissao" class="span12" name="ComissaoCodigo">
+											<option value="">Todas as comissões...</option>
+											<!-- BEGIN BLOCK_COMISSAO -->
+											<option value="{VALUE_COMISSAO}">{NOME_COMISSAO}</option>
+											<!-- END BLOCK_COMISSAO -->
+										</select>
+									</div>
+
+									<div class="span6">
+										<label for="ddlModalidade" class="big">Modalidade</label>
+										<select id="ddlModalidade" class="span12" name="ModalidadeCodigo">
+											<option value="">Todas as modalidades...</option>
+											<!-- BEGIN BLOCK_MODALIDADE -->
+											<option value="{VALUE_MODALIDADE}">{NOME_MODALIDADE}</option>
+											<!-- END BLOCK_MODALIDADE -->
+										</select>
+									</div>
+								</div>
+
+								<div class="row-fluid">
+									<div class="span3">
+										<label for="ddlItem" class="big">Item</label>
+										<select id="ddlItem" class="span12" name="TipoItemLicitacao">
+											<option value="" selected="true">Selecione o item</option>
+											<option value="Material" >Material</option>
+											<option value="Servico" >Serviço</option>
+										</select>
+									</div>
+									<div class="span3">
+										<label for="txtItemInput" class="big"> Descrição do item</label>
+										<input type="text"  style="text-transform: uppercase;"class="span12" id="ItemInput" name="ItemInput" disabled="true">
+									</div>
+
+
+									<div id="divPesquisa" class="span2">
+										<label for="ddlAnoSituacao" class="big">Pesquisa:</label>
+										Ano <input id="pesqAno" class="radio inline" type="radio" value="0" name="pesqPeriodo" style="margin-right:5px;" onclick="showAno()" checked>
+										Período<input id="pesqPeriodo" class="radio inline" type="radio" value="1" name="pesqPeriodo" onclick="showPeriodo()">
+									</div>
+
+
+									<div id="situacaoData" class="span2" >
+										<label for="ddlAnoSituacao" class="big">Ano:</label>
+										<select id="ddlAnoSituacao" class="span12" name="LicitacaoAno">
+												<!-- BEGIN BLOCK_ANO_SITUACAO -->
+												<option value="{VALUE_ANO_SITUACAO}" {ANO_SELECIONADO}>{VALUE_ANO_SITUACAO}</option>
+												<!-- END BLOCK_ANO_SITUACAO -->
+										</select>
+									</div>
+										
+										<div class="span2" id="divInicio" style="display:none;">
+											<label for="dataInicio" class="big">Inicio</label>
+											<div class="input-append">
+												<input id="dataInicio" class="span10 datepicker" size="8" type="text" value="" name="dataInicio"> <label class="add-on" for="dataInicio"><i class="icon-calendar"></i></label>
+											</div>
+										</div>
+										
+										<div class="span2" id="divFim" style="display:none;">
+											<label for="dataFim" class="big">Fim</label>
+											<div class="input-append">
+												<input id="dataFim" class="span10 datepicker" size="8" type="text" value="" name="dataFim"><label class="add-on" for="dataFim"><i class="icon-calendar"></i></label>
+											</div>
+										</div>
+
+								</div>
+							</div>
+
+							<hr>
+							<div class="btn-toolbar pagination-right">
+								<input type="hidden" name="Botao" value="">
+
+								<!-- CAIO MELQUIADES -ADICIONADO INPUT HIDDEN 'BotaoExport' -->
+								<input type="hidden" name="BotaoExport" value="">
+								<!-- CAIO MELQUIADES -ADICIONADO INPUT HIDDEN 'FormatoExport', PARA PASSAR O FORMATO DE EXPORTACAO COMO PARAMETRO -->
+								<input type="hidden" name="FormatoExport" value="">
+
+								<button class="btn btn-primary" type="button" onClick="javascript:enviar('Pesquisar', 'Botao')">Pesquisar </button>
+								
+								<!-- CAIO MELQUIADES - BOTAO EXPORTAR -->
+					
+								<button class="btn btn-primary reset" type="button">Limpar</button>
+							</div>
+						</form>
+					</section>
+				</article>
+			</div>
+		</div>
+	</section>
+</div>
+</div>
+
+<script>
+	
+    //CAIO MELQUIADES - FUNCAO PARA EXPORTAR DADOS
+    function exportar(valor, formato) {
+
+		//-----PENDENTE DE CORRECAO-----
+        //o nome do form esta incorreto, mas nao foi alterado para nao quebrar o funcionamento
+        //o correto seria 'ConsTodasLicitacoes', mas esta como 'ConsLicitacoesAndamento'
+        document.ConsLicitacoesAndamento.BotaoExport.value = valor;
+        document.ConsLicitacoesAndamento.FormatoExport.value = formato;
+		document.ConsLicitacoesAndamento.action = "{BASE_URL}ConsTodasLicitacoesCovidExport.php";
+        document.ConsLicitacoesAndamento.submit();
+		document.ConsLicitacoesAndamento.action = "{BASE_URL}ConsTodasLicitacoesCovidResultado.php";
+        document.ConsLicitacoesAndamento.BotaoExport.value = "";
+        document.ConsLicitacoesAndamento.FormatoExport.value = "";
+    }
+</script>
+
+<script>
+
+	$( "#ddlItem" ).change(function() {
+  		var selecao = $(this).find('option:selected');
+  		var valor = selecao[0].value;
+  	if (valor.length > 0){
+    	$( "#ItemInput" ).removeAttr("disabled");
+  	}else{
+    	$( "#ItemInput" ).attr("disabled","true");
+  }
+});
+
+</script>
+
+<script>
+	var SituacaoLicitacao = (function () {
+        const NAO_ENCONTRADA = -1;
+        var ocultarAnoSituacaoConcluidaSelecionada = function () {
+
+        	$("#ddlSituacao").on("change", function () {
+                var situacaoSelecionada =  $(this).find('option:selected');
+                verificarSituacaoSelecionada(situacaoSelecionada[0].value);
+            });
+        }, verificarSituacaoAoCarregar = function () {
+        	var situacaoSelecionada = $("#ddlSituacao option:selected").val();
+        	verificarSituacaoSelecionada(situacaoSelecionada);
+        }, verificarSituacaoSelecionada = function (situacaoSelecionada) {
+        	var ocultarAno = ($.inArray(situacaoSelecionada, arraySituacoesConcluidas()) == NAO_ENCONTRADA) ? true : false;
+        	if (!ocultarAno) {
+        		$( "#ddlAnoSituacao" ).removeAttr("disabled");
+        	}else{
+        		$( "#ddlAnoSituacao" ).attr("disabled","true");
+        	};
+
+        }, arraySituacoesConcluidas = function () {
+        	return new Array('11', '12', '13', '15', '17', '18'); // Array com o valor das situações concluídas
+        };
+        return {
+            ajustarVisibilidadeCampoAno: function () {
+        	   ocultarAnoSituacaoConcluidaSelecionada();
+        	   verificarSituacaoAoCarregar();
+            },
+        };
+
+     })();
+
+     var FiltroAdministracaoDireta = (function () {
+     	 var filtarOrgao = function () {
+     	 	$("#adminDireta").on("change", function () {
+     	 		var adminDireta = $(this).is(":checked");
+     	 		executarFiltro(adminDireta);
+     	 	});
+     	 },  executarFiltro = function (filtrar){
+     	 	if (filtrar) {
+                $("#ddlOrgao option[data-tipo=I]").hide();
+            } else {
+                $("#ddlOrgao option").show();
+            }
+        };
+        return {
+            filtrar: function () {
+        	   filtarOrgao();
+            },
+        };
+     })();
+
+	function showPeriodo(){
+		$('#divInicio').show();
+		$('#divFim').show();
+		$('#situacaoData').hide();
+	}
+
+	function showAno(){
+		$('#divInicio').hide();
+		$('#divFim').hide();
+		$('#situacaoData').show();
+	}
+
+     $(document).ready(function() {
+        //SituacaoLicitacao.ajustarVisibilidadeCampoAno();
+
+
+        FiltroAdministracaoDireta.filtrar();
+		
+		$("#dataInicio").mask("99/99/9999");
+		$("#dataFim").mask("99/99/9999");
+    });
+
+</script>

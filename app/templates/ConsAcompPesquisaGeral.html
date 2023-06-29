@@ -1,0 +1,233 @@
+<div class="content">
+	<div class="row-fluid">
+		<section class="box-article">
+			<header class="header">
+				<h1>ACOMPANHAMENTO DA LICITAÇÃO</h1>
+			</header>
+			<div class="body">
+				<ul class="breadcrumb">
+					<li><a href="{BASE_URL}home.php">Início</a><span
+						class="divider"><i class="arrow-right"></i></span></li>
+					<li><a href="{BASE_URL}Licitacoes.php">Licitações</a><span
+						class="divider"><i class="arrow-right"></i></span>
+					<li>
+					<li class="active">Acompanhamento</li>
+				</ul>
+				<article class="article">
+					<header class="article-header">
+						<h1>Acompanhamento da Licitação</h1>
+					</header>
+				</article>
+				<article class="article">
+					<!-- Genérico - texto explicativo-->
+					<p>Para realizar o Acompanhamento das Licitações, selecione o
+						item de pesquisa e clique no botão "Pesquisar".</p>
+
+					<!-- BEGIN BLOCO_MENSAGEM -->
+					<div class="alert {TIPOALERT}">
+						<button class="close" data-dismiss="alert" type="button">×</button>
+						{MENSAGEM}
+					</div>
+					<!-- END BLOCO_MENSAGEM -->
+
+				</article>
+				<div class="clearfix">&nbsp;</div>
+				<article class="article">
+					<!-- Genérico - tabelas e afins-->
+					<section>
+						<form name="ConsAcompPesquisaGeral"
+							action="{BASE_URL}ConsAcompResultadoGeral.php" method="post"
+							class="formSubmit">
+							<div class="well">
+								<div class="row-fluid">
+
+									<div class="span5">
+										<label for="txtObjeto" class="big">Objeto</label>
+										<input type="text" class="span12" id="txtObjeto" name="Objeto">
+										<input type="hidden" name="Critica" value="1" size="1">
+									</div>
+									<div class="span7">
+										<label for="adminDireta" class="big">Adminstração
+											Direta</label> <input type="checkbox" name="adminDireta"
+											id="adminDireta">
+
+									</div>
+								</div>
+								<div class="row-fluid">
+									<div class="span5">
+										<label for="ddlOrgao" class="big">Órgão Demandante</label> <select
+											id="ddlOrgao" class="span12" name="OrgaoLicitanteCodigo">
+											<option value="">Todos os Órgãos Demandantes...</option>
+											<!-- BEGIN BLOCK_ORGAO_LICIANTE -->
+											<option value="{VALUE_ORGAO_LICITANTE}" data-tipo="{DATA_TIPO}" {ORGAO_SELECIONADO}>{NOME_ORGAO_LICITANTE}</option>
+											<!-- END BLOCK_ORGAO_LICIANTE -->
+										</select>
+
+
+									</div>
+									<div class="span7">
+
+										<label for="txtComissao" class="big">Comissão</label> <select
+											id="ddlComissao" class="span12" name="ComissaoCodigo">
+											<option value="">Todas as comissões...</option>
+											<!-- BEGIN BLOCK_COMISSAO -->
+											<option value="{VALUE_COMISSAO}">{NOME_COMISSAO}</option>
+											<!-- END BLOCK_COMISSAO -->
+										</select>
+									</div>
+
+								</div>
+								<div class="row-fluid">
+									<div class="span5">
+										<label for="ddlModalidade" class="big">Modalidade</label> <select
+											id="ddlModalidade" class="span12" name="ModalidadeCodigo">
+											<option value="">Todas as modalidades...</option>
+											<!-- BEGIN BLOCK_MODALIDADE -->
+											<option value="{VALUE_MODALIDADE}">{NOME_MODALIDADE}</option>
+											<!-- END BLOCK_MODALIDADE -->
+										</select>
+									</div>
+									<div id="situacaoList" class="span6">
+										<label for="ddlSituacao" class="big">Situação</label> <select
+											id="ddlSituacao" class="span12" name="licitacaoSituacao">
+											<!--                  <option value="0"></option>-->
+											<option value="3" selected>Todas</option>
+											<option value="1">Concluídas</option>
+											<option value="2">Andamento</option>
+										</select>
+									</div>
+									<div id="situacaoData" class="span1">
+										<label for="ddlAnoSituacao" class="big">Ano</label> <select
+											id="ddlAnoSituacao" class="span12" name="LicitacaoAno"
+											disabled="true">
+											<option id="ano_option" value="">--</option>
+											<!-- BEGIN BLOCK_ANO_SITUACAO -->
+											<option value="{VALUE_ANO_SITUACAO}">{VALUE_ANO_SITUACAO}</option>
+											<!-- END BLOCK_ANO_SITUACAO -->
+										</select>
+									</div>
+								</div>
+								<div class="row-fluid">
+									<script>
+										document
+												.getElementById('ddlSituacao')
+												.addEventListener(
+														'change',
+														function() {
+															var style = this.value == 1 ? 'block'
+																	: 'none';
+															document
+																	.getElementById('hidden_div').style.display = style;
+														});
+									</script>
+									
+									<div id="wrapper">
+										<div class="span2" style="margin-right: -1px !important;">
+											<label for="ddlItem" class="big">Item</label> <select
+												id="ddlItem" class="span12" name="TipoItemLicitacao">
+												<option value="" selected="true">Selecione o item</option>
+												<option value="Material">Material</option>
+												<option value="Servico">Serviço</option>
+											</select>
+										</div>
+										<div class="span3">
+											<label for="txtItemInput" class="big"> Descrição do
+												item</label> <input type="text" class="span12" id="ItemInput"
+												name="ItemInput" disabled="true">
+										</div>
+									</div>
+									
+									<div id="hidden_div" class="span5" style="display: none;">
+										<label for="microEmpresa" class="big">Microempresa,
+											EPP ou MEI</label> <input type="checkbox" name="tipoEmpresa"
+											id="tipoEmpresa">
+									</div>
+								</div>
+								
+								<hr>
+								<div class="btn-toolbar pagination-right">
+									<button class="btn btn-primary" type="button"
+										onClick="javascript:enviar('Pesquisar')">Pesquisar</button>
+									<button class="btn btn-primary reset" type="button">Limpar</button>
+								</div>
+							</div>
+						</form>
+					</section>
+				</article>
+			</div>
+		</section>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$("#ddlItem").change(function() {
+		var selecao = $(this).find('option:selected');
+		var valor = selecao[0].value;
+		if (valor.length > 0) {
+			$("#ItemInput").removeAttr("disabled");
+		} else {
+			$("#ItemInput").val("");
+			$("#ItemInput").attr("disabled", "true");
+		}
+	});
+	var SituacaoLicitacao = (function() {
+		const
+		NAO_ENCONTRADA = -1;
+		var ocultarAnoSituacaoConcluidaSelecionada = function() {
+			$("#ddlSituacao").on("change", function() {
+				var situacaoSelecionada = $(this).find('option:selected');
+				verificarSituacaoSelecionada(situacaoSelecionada[0].value);
+			});
+		}, verificarSituacaoAoCarregar = function() {
+			var situacaoSelecionada = $("#ddlSituacao option:selected").val();
+			verificarSituacaoSelecionada(situacaoSelecionada);
+		}, verificarSituacaoSelecionada = function(situacaoSelecionada) {
+			var ocultarAno = (situacaoSelecionada == 1) ? true : false;
+			if (ocultarAno) {
+				$("#ddlAnoSituacao").removeAttr("disabled");
+				$("#ano_option").hide();
+				$("#ano_option").next().attr("selected", "selected");
+			} else {
+				$("#ddlAnoSituacao").attr("disabled", "true");
+				$("#ano_option").show();
+				$("#ano_option").attr("selected", "selected");
+			}
+			;
+
+		}, arraySituacoesConcluidas = function() {
+			return new Array('11', '12', '13', '15', '17', '18'); // Array com o valor das situações concluídas
+		};
+		return {
+			ajustarVisibilidadeCampoAno : function() {
+				ocultarAnoSituacaoConcluidaSelecionada();
+				verificarSituacaoAoCarregar();
+			},
+		};
+
+	})();
+
+	var FiltroAdministracaoDireta = (function() {
+		var filtarOrgao = function() {
+			$("#adminDireta").on("change", function() {
+				var adminDireta = $(this).is(":checked");
+				executarFiltro(adminDireta);
+			});
+		}, executarFiltro = function(filtrar) {
+			if (filtrar) {
+				$("#ddlOrgao option[data-tipo=I]").hide();
+			} else {
+				$("#ddlOrgao option").show();
+			}
+		};
+		return {
+			filtrar : function() {
+				filtarOrgao();
+			},
+		};
+	})();
+
+	$(document).ready(function() {
+		SituacaoLicitacao.ajustarVisibilidadeCampoAno();
+		FiltroAdministracaoDireta.filtrar();
+	});
+</script>

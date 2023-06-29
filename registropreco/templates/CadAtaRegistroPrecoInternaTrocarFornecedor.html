@@ -1,0 +1,108 @@
+<!-- 220038-- -->
+<script type="text/javascript">
+
+function AbreJanela(url,largura,altura){
+    window.open(url,'paginadetalhe','status=no,scrollbars=yes,left=90,top=150,width='+largura+',height='+altura);
+}
+function AbreJanelaItem(url,largura,altura){
+    window.open(url,'paginaitem','status=no,scrollbars=yes,left=90,top=150,width='+largura+',height='+altura);
+}
+jQuery(document).ready(function($) {
+	jQuery(".mascara-numero-intencao").mask("9999/9999");
+
+	jQuery(".reset").click(function (event) {
+		event.preventDefault();
+
+		jQuery(":text").each(function () {
+			jQuery(this).val("");
+        });
+
+		jQuery(":radio").each(function () {
+        	jQuery(this).prop({ checked: false })
+        });
+
+		jQuery(":checkbox").each(function () {
+        	jQuery(this).prop({ checked: false })
+        });
+
+		jQuery("select").each(function () {
+			jQuery(this).val("");
+        });
+	});
+
+	jQuery("#orgaoGestor").change(function(){
+		jQuery("#Botao").val("AtualizaAnos");
+		jQuery("#{NAME_PROGRAMA}").submit();
+	});
+
+	jQuery("#valorAno").change(function(){
+        jQuery("#Botao").val("AtualizaProcessos");
+        jQuery("#{NAME_PROGRAMA}").submit();
+    });
+
+});
+
+function enviar(valor){
+
+    document.{NAME_PROGRAMA}.Botao.value = valor;
+    document.{NAME_PROGRAMA}.submit();
+}
+
+</script>
+<form action="{NAME_PROGRAMA}.php" method="post" id="{NAME_PROGRAMA}" name="{NAME_PROGRAMA}" >
+    <table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="titulo" class="textonormal" bgcolor="#FFFFFF" >
+        <tr>
+            <td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3" >{TITULO_SUPERIOR}</td>
+        </tr>
+        <tr bordercolor="#DCEDF7">
+            <td>{DESCRICAO_REGRAS_PAG}</td>
+        </tr>
+        <tr>
+            <td>
+                <table class="textonormal" border="0" align="left" summary="corpo" >
+                    <tr>
+                        <td class="textonormal" bgcolor="#DCEDF7" width="30%" >Órgão Gestor</td>
+                        <td class="textonormal">
+                            <select id="orgaoGestor" name="orgaoGestor" class="textonormal" >
+                                <!-- BEGIN BLOCO_ORGAO -->
+                                <option value="{ORGAO_VALUE}" {ORGAO_SELECTED} >{ORGAO_TEXT}</option>
+                                <!-- END BLOCO_ORGAO -->
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="textonormal" bgcolor="#DCEDF7" width="30%" >Ano</td>
+                        <td class="textonormal">
+                            <select id="valorAno" name="valorAno" class="textonormal" >
+                                <!-- BEGIN BLOCO_ANO -->
+                                <option value="{ANO_VALUE}" {ANO_SELECTED}>{ANO_TEXT}</option> 
+                                <!-- END BLOCO_ANO -->
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="textonormal" bgcolor="#DCEDF7" width="30%" >Processo</td>
+                        <td class="textonormal">
+                            <select name="GerarNumeracaoProcesso" class="textonormal">
+                                <option value="">{TEXTO_PROCESSO_SELECIONE}</option>
+                                <!-- BEGIN BLOCK_PROCESSO --> 
+                                    {OPTGROUP_INICIO}
+                                    <!-- BEGIN BLOCK_OPTION -->
+                                    <option value="{PROCESSO_VALUE}" {PROCESSO_SELECTED}>{TEXTO_PROCESSO}</option>
+                                    <!-- END BLOCK_OPTION --> 
+                                    {OPTGROUP_FINAL}
+                                <!-- END BLOCK_PROCESSO -->
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td class="textonormal" align="right">
+                <input type="button" name="Selecionar" value="Selecionar" class="botao" onclick="javascript:enviar('Selecionar')"/>
+                <input type="hidden" name="Botao" id="Botao"/>
+            </td>
+        </tr>
+    </table>
+</form>

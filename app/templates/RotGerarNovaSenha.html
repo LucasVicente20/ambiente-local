@@ -1,0 +1,63 @@
+<div class="content">
+    <div class="row-fluid">
+        <section class="box-article">
+            <header class="header">
+                <h1>Gerar Nova Senha</h1>
+            </header>
+            <div class="body">
+                <ul class="breadcrumb">
+                    <li><a href="{BASE_URL}home.php">Início</a><span
+                        class="divider"><i class="arrow-right"></i></span></li>
+                    <li><a href="{BASE_URL}Fornecedores.php">Fornecedores </a><span
+                        class="divider"><i class="arrow-right"></i></span>
+                    <li>
+                    <li class="active">Gerar Nova Senha</li>
+                </ul>
+                <article class="article">
+                    <header class="article-header">
+                        <h1>Gerar Nova Senha</h1>
+                    </header>
+                </article>
+
+                <!-- BEGIN BLOCO_MENSAGEM -->
+                <div class="alert {TIPOALERT}">
+                    <button class="close" data-dismiss="alert" type="button">×</button>
+                    {MENSAGEM}
+                </div>
+                <!-- END BLOCO_MENSAGEM -->
+
+                <article class="article">
+                    <section>
+                        <div class="row-fluid">
+                            <div class="well span6 offset3">
+                                <form class="formSubmit" method="post" action="" name="RotGerarNovaSenha">
+                                    <div class="row-fluid">
+                                        <div class="span4">
+                                            <label class="radio inline">
+                                                <input type="radio" id="CPF" name="TipoCnpjCpf" value="CPF" onclick="javascript:mascararCPF()" {CHECKED_CPF}> CPF*
+                                            </label>
+
+                                            <label class="radio inline">
+                                                <input type="radio" id="CNPJ" name="TipoCnpjCpf" value="CNPJ" onclick="javascript:mascararCNPJ()" {CHECKED_CNPJ}> CNPJ*
+                                            </label>
+                                        </div>
+
+                                        <div class="span8">
+                                            <input type="text" class="span12" id="cpfcnpj" name="numeroInscricao" value={NUMERO_INSCRICAO}>
+                                        </div>
+                                    </div>
+
+                                    <hr>
+
+                                    <div class="btn-toolbar pagination-right">
+                                        <input type="submit" value="Gerar Senha" class="btn btn-primary">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </section>
+                </article>
+            </div>
+        </section>
+    </div>
+</div>

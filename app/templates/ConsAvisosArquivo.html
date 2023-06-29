@@ -1,0 +1,139 @@
+<script language="javascript" type="text/javascript">
+$(document).ready(function() {
+	$("#btn-voltar").click(function(event) {
+		event.preventDefault();
+        $("#form-avisos").removeAttr("target");
+		$("#form-avisos").attr("action", "ConsAvisosDocumentos.php");
+		$("#form-avisos").submit();
+	});
+
+    $("#btn-download").click(function(event) {
+        event.preventDefault();
+        document.Avisos.Botao.value="Download";
+        $("#form-avisos").attr("target", "_blank");
+        $("#form-avisos").submit();
+    });
+});
+</script>
+
+<div class="site-body">
+	<div class="container">
+		<div class="content">
+			<div class="row">
+				<div class="span12">
+					<section class="box-article">
+						<header class="header">
+                        	<h1>Avisos de Novas Licitações - Protocolo de Entrega</h1>
+                        </header>
+
+						<div class="body">
+							<ul class="breadcrumb">
+                                <li><a href="{BASE_URL}home.php">Início</a><span class="divider"><i class="arrow-right"></i></span></li>
+                                <li><a href="{BASE_URL}Licitacoes.php">Licitações</a><span class="divider"><i class="arrow-right"></i></span></li>
+                            	<li class="active">Avisos de Novas Licitações</li>
+                            </ul>
+
+							<form action="ConsAvisosArquivo.php" method="post" name="Avisos" id="form-avisos" >
+	                            <article class="article">
+			                        <header class="article-header">
+			                            <h1>Avisos de Novas Licitações - Protocolo de Entrega</h1>
+			                        </header>
+
+			                        <section class="article-detail row-border">
+										<p>
+											O Protocolo de Entrega foi gerado de acordo com as informações abaixo.
+											O Documento está liberado para visualização ou download.
+											Para retornar para a tela de Resultado clique no botão "Voltar".
+										</p>
+									</section>
+
+			                        <div class="clearfix"></div>
+
+			                        <!-- BEGIN BLOCO_MENSAGEM -->
+									<div class="alert {TIPOALERT}">
+										<button class="close" data-dismiss="alert" type="button">×</button>
+										{MENSAGEM}
+									</div>
+									<!-- END BLOCO_MENSAGEM -->
+
+			                        <div class="">
+			                        	<table class="table table-report">
+			                        		<thead>
+			                                    <tr>
+			                                    	<th colspan="12">
+			                                        	<span class="text-center">DADOS INFORMADOS</span>
+			                                    	</th>
+			                                	</tr>
+		                                	</thead>
+
+			                                <tbody>
+			                                    <tr>
+			                                        <td colspan="4" style="text-align: left"> Processo</td>
+			                                        <td colspan="8" style="text-align: left"> {LICITACAO_PROCESSO}</td>
+			                                    </tr>
+			                                    <tr>
+			                                        <td colspan="4" style="text-align: left"> Ano</td>
+			                                        <td colspan="8" style="text-align: left"> {LICITACAO_ANO}</td>
+			                                    </tr>
+			                                    <tr>
+			                                        <td colspan="4" style="text-align: left"> Razão Social</td>
+			                                        <td colspan="8" style="text-align: left"> {RAZAO_SOCIAL}</td>
+			                                    </tr>
+			                                    <tr>
+			                                        <td colspan="4" style="text-align: left"> {INSCRICAO_INFORMADA}</td>
+			                                        <td colspan="8" style="text-align: left"> {NUMERO_INSCRICAO}</td>
+			                                    </tr>
+			                                    <tr>
+			                                        <td colspan="4" style="text-align: left"> Endereço</td>
+			                                        <td colspan="8" style="text-align: left"> {ENDERECO}</td>
+			                                    </tr>
+			                                    <tr>
+			                                        <td colspan="4" style="text-align: left"> E-mail</td>
+			                                        <td colspan="8" style="text-align: left"> {EMAIL}</td>
+			                                    </tr>
+			                                    <tr>
+			                                        <td colspan="4" style="text-align: left"> Telefone</td>
+			                                        <td colspan="8" style="text-align: left"> {TELEFONE}</td>
+			                                    </tr>
+			                                    <tr>
+			                                        <td colspan="4" style="text-align: left"> Fax</td>
+			                                        <td colspan="8" style="text-align: left"> {FAX}</td>
+			                                    </tr>
+			                                    <tr>
+			                                        <td colspan="4" style="text-align: left"> Nome do Contato</td>
+			                                        <td colspan="8" style="text-align: left"> {NOME_CONTATO}</td>
+			                                    </tr>
+			                                    <tr>
+			                                        <td colspan="4" style="text-align: left"> Deseja Participar da Licitação</td>
+			                                        <td colspan="8" style="text-align: left"> {PARTICIPAR_LICITACAO}</td>
+			                                    </tr>
+		                                    </tbody>
+										</table>
+                                	</div>
+
+                                	<br/>
+
+                                	<div class="pagination-right">
+					        	      	<input type="hidden" name="Objeto" value="{OBJETO}">
+					        	      	<input type="hidden" name="OrgaoLicitanteCodigo" value="{ORGAO_LICITANTE_CODIGO}">
+					        	      	<input type="hidden" name="ComissaoCodigo" value="{COMISSAO_CODIGO}">
+					        	      	<input type="hidden" name="ModalidadeCodigo" value="{MODALIDADE_CODIGO}">
+					        	      	<input type="hidden" name="LicitacaoProcesso" value="{LICITACAO_PROCESSO}">
+					        	      	<input type="hidden" name="LicitacaoAno" value="{LICITACAO_ANO}">
+					        	      	<input type="hidden" name="GrupoCodigo" value="{GRUPO_CODIGO}">
+					        	      	<input type="hidden" name="DocumentoCodigo" value="{DOCUMENTO_CODIGO}">
+										<input type="hidden" name="SolicitanteCodigo" value="{SOLICITANTE_CODIGO}">
+										<input type="hidden" name="Botao" value="">
+
+										<input type="button" name="Download" value="Download" class="btn btn-primary" id="btn-download">
+										<input type="button" id="btn-voltar" name="Voltar" value="Voltar" class="btn btn-primary">
+									</div>
+			                    </article>
+		                    </form>
+						</div>
+					</section>
+				</div>
+           	</div>
+       	</div>
+   	</div>
+</div>

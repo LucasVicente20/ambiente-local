@@ -1,0 +1,112 @@
+<script language="javascript" type="text/javascript">
+<!-- BEGIN BLOCO_ENVIAR -->
+opener.document.{PROGRAMA_ORIGEM}.Origem.value  = 'D';
+opener.document.{PROGRAMA_ORIGEM}.Destino.value = 'D';
+opener.document.{PROGRAMA_ORIGEM}.submit();
+self.close();
+<!-- END BLOCO_ENVIAR -->
+
+function enviar(valor){
+	document.FornecedorGrupos.Botao.value = valor;
+	document.FornecedorGrupos.submit();
+}
+
+function remeter(){
+	document.FornecedorGrupos.submit();
+}
+function voltar(){
+	self.close();
+}
+</script>
+
+<div class="content grupos-fornecimento">
+	<div class="row">
+		<div class="span12">
+			<section class="box-article">
+				<header class="header">
+					<h1>Incluir - Grupos de Fornecimento (objeto Social)</h1>
+				</header>
+				<div class="body">
+					<article class="article">
+						<section class="article-detail row-border">
+							<p>
+								 Para incluir um grupo de fornecimento selecione o tipo do grupo e
+								 o grupo de fornecimento desejado e clique no botão "Incluir".
+								 Para voltar para a tela anterior clique no botão "Voltar".
+							</p>
+						</section>
+
+						<!-- BEGIN BLOCO_MENSAGEM -->
+							<div class="alert {TIPOALERT}">
+								<button class="close" data-dismiss="alert" type="button">×</button>
+								{MENSAGEM}
+							</div>
+						<!-- END BLOCO_MENSAGEM -->
+
+						<div class="tabbable">
+							<div style="padding-bottom: 9px; border-bottom: 1px solid #ddd;"
+								class="tab-content">
+								<div id="tab1" class="tab-pane active">
+
+									<form style="margin: 0;" method="post"
+										  action="{BASE_URL}CadIncluirGrupos.php"
+										  name="FornecedorGrupos"
+										  id="fornecedor-grupos">
+
+										<div class="well">
+											<div class="row-fluid tipo-grupo">
+												<div class="span12">
+													<label class="big">Tipo de Grupo*</label>
+													<label class="radio inline">
+														<input type="radio" name="TipoGrupo" value="M" onClick="remeter();" {CHECKED_MATERIAL}> Material
+													</label>
+													<label class="radio inline">
+														<input type="radio" name="TipoGrupo" value="S" onClick="remeter();" {CHECKED_SERVICO}> Serviço
+													</label>
+												</div>
+											</div>
+
+											<!-- BEGIN BLOCO_TIPO_MATERIAL -->
+											<div class="row-fluid tipo-material">
+												<div class="span12">
+													<label class="big">Tipo de Material</label>
+													<label class="radio inline">
+														<input type="radio" name="TipoMaterial" value="C" onClick="remeter();" {CHECKED_CONSUMO}> Consumo
+													</label>
+													<label class="radio inline">
+														<input type="radio" name="TipoMaterial" value="P" onClick="remeter();" {CHECKED_PERMANENTE}> Permanente
+													</label>
+												</div>
+						 		          	</div>
+						 		          	<!-- END BLOCO_TIPO_MATERIAL -->
+
+											<!-- BEGIN BLOCO_SELECT_GRUPOS -->
+											<div class="row-fluid">
+												<div class="span12">
+													<label class="big">Grupo*</label>
+													<select name="Grupo[]" size="5" class="span12" multiple="multiple">
+														<!-- BEGIN BLOCO_OPCOES_GRUPO -->
+						                                <option value="{COD}" {SELECIONADO}>{DESCRICAO}</option>
+						                                <!-- END BLOCO_OPCOES_GRUPO -->
+													</select>
+												</div>
+											</div>
+											<!-- END BLOCO_SELECT_GRUPOS -->
+										</div>
+
+										<div class="pagination-right">
+											<button class="btn btn-primary" type="button" onclick="javascript:enviar('Incluir');">Incluir</button>
+											<button class="btn btn-primary" type="button" onclick="self.close();">Voltar</button>
+											<input type="hidden" name="Botao" value="">
+											<input type="hidden" name="ProgramaOrigem" value="{PROGRAMA_ORIGEM}">
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</article>
+				</div>
+			</section>
+		</div>
+	</div>
+</div>

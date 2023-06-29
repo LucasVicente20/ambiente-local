@@ -1,0 +1,256 @@
+<script type="text/javascript">
+function enviar(valor){
+    document.Avisos.Botao.value=valor;
+    document.Avisos.submit();
+}
+
+$(document).ready(function() {
+    $("#btn-voltar").click(function(event) {
+        event.preventDefault();
+
+        $("#form-avisos").attr("action", "ConsAvisosDocumentos.php");
+        $("#form-avisos").submit();
+    });
+});
+</script>
+
+<div class="site-body">
+    <div class="container">
+        <div class="content">
+            <div class="row">
+                <div class="span12">
+                    <section class="box-article">
+                        <header class="header">
+                            <h1>Avisos de Novas Licitações - Protocolo de Entrega</h1>
+                        </header>
+
+                        <div class="body">
+                            <ul class="breadcrumb">
+                                <li><a href="{BASE_URL}home.php">Início</a><span class="divider"><i class="arrow-right"></i></span></li>
+                                <li><a href="{BASE_URL}Licitacoes.php">Licitações</a><span class="divider"><i class="arrow-right"></i></span></li>
+                                <li class="active">Avisos de Novas Licitações</li>
+                            </ul>
+
+                            <form action="{BASE_URL}ConsAvisosDownload.php" method="post" name="Avisos" id="form-avisos">
+                                <article class="article">
+                                    <header class="article-header">
+                                        <h1>Avisos de Novas Licitações - Protocolo de Entrega</h1>
+                                    </header>
+
+                                    <section class="article-detail row-border">
+                                        <p>
+                                            <!-- BEGIN BLOCO_TEXTO_CONFIRMACAO -->
+                                            Para visualizar/executar o download do documento informe o CPF/CNPJ e clique no botão "Confirmar".
+                                            Os campos com * são de preenchimento obrigatório.
+                                            <!-- END BLOCO_TEXTO_CONFIRMACAO -->
+
+                                            <!-- BEGIN BLOCO_TEXTO_ENVIAR -->
+                                            Caso seja a primeira vez que está visualizando/executando o download do documento informe os
+                                            dados seguintes para o Protocolo de Entrega e clique no botão "Enviar". Os campos com * são de
+                                            preenchimento obrigatório.
+                                            <br/><br/>
+                                            Se já foi executado o download para este processo ou o fornecedor já é cadastrado,
+                                            informe apenas os campos solicitados e clique no botão "Enviar".
+                                            <!-- END BLOCO_TEXTO_ENVIAR -->
+                                            Caso você deseje receber atualizações deste processo licitatório, por favor informe abaixo o seu e-mail.
+                                        </p>
+                                    </section>
+
+                                    <div class="clearfix"></div>
+
+                                    <!-- BEGIN BLOCO_MENSAGEM -->
+                                    <div class="alert {TIPOALERT}">
+                                        <button class="close" data-dismiss="alert" type="button">×</button>
+                                        {MENSAGEM}
+                                    </div>
+                                    <!-- END BLOCO_MENSAGEM -->
+
+                                    <div class="well">
+                                        <div class="row-fluid">
+
+                                            <div class="span3">
+                                                <label for="txtObjeto" class="big">Processo</label>
+                                                <p>{NUMERO_PROCESSO}</p>
+                                            </div>
+
+                                            <div class="span3">
+                                                <label for="txtObjeto" class="big">Ano</label>
+                                                <p>{ANO}</p>
+                                            </div>
+
+                                            <!-- BEGIN BLOCO_INPUT_CPF_CNPJ -->
+                                             <div class="span2" style="display: {MOSTRAR_DADOS}">
+                                                <!-- <label class="radio inline">
+                                                    <input value="CPF" id="cpf" name="TipoCnpjCpf" {CHECKED_CPF}   type="radio" onclick="javascript:mascararCPF()">
+                                                    CPF*
+                                                </label>
+                                                <label class="radio inline">
+                                                    <input value="CNPJ" id="cnpj" name="TipoCnpjCpf"   {CHECKED_CNPJ} type="radio" onclick="javascript:mascararCNPJ()">
+
+                                                    CNPJ*
+                                                </label> -->
+                                                <label  class="radio inline">
+                                                    E-mail
+                                                </label>
+
+                                            </div> 
+
+                                            <div class="span4" style="display: {MOSTRAR_DADOS}">
+                                                <input type="email" name="Email" id="email" maxlength="100" value="{VALOREMAIL}" class="span12">
+                                            </div>
+                                            <!-- END BLOCO_INPUT_CPF_CNPJ -->
+
+                                            <!-- BEGIN BLOCO_CPF_CNPJ_CONFIRMADO -->
+                                            <div class="span6">
+                                                <label for="txtObjeto" class="big">CPF/CNPJ</label>
+                                                <p>{NUMERO_INSCRICAO}</p>
+
+                                                <input type="hidden" name="CPF_CNPJ" value="{CPF_CNPJ}">
+                                                <input type="hidden" name="CnpjCpf" value="{CNPJ_CPF}">
+                                            </div>
+                                            <!-- END BLOCO_CPF_CNPJ_CONFIRMADO -->
+                                        </div>
+
+
+                                            <!-- BEGIN BLOCO_RAZAO_SOCIAL_E_ENDERECO -->
+                                            <input type="hidden" name="Numero" value="{NUMERO}">
+                                                <input type="hidden" name="Complemento" value="{COMPLEMENTO}">
+                                                <input type="hidden" name="Bairro" value="{BAIRRO}">
+                                                <input type="hidden" name="Cidade" value="{CIDADE}">
+                                                <input type="hidden" name="Estado" value="{ESTADO}">
+                                                <input type="hidden" name="CEP" value="{CEP}">
+                                            <div class="row-fluid">
+                                                <div class="span6">
+                                                	<label class="big" for="txtRazaoSocial">Razão Social*</label>
+                                                    <!-- BEGIN BLOCO_INPUT_RAZAO_SOCIAL -->
+                                                    <input type="text" id="txtRazaoSocial" name="RazaoSocial" size="40" maxlength="60" value="{RAZAO_SOCIAL}" class="span12">
+                                                    <!-- END BLOCO_INPUT_RAZAO_SOCIAL -->
+                                                    <!-- BEGIN BLOCO_P_RAZAO_SOCIAL -->
+                                                    <p>{RAZAO_SOCIAL}</p>
+                                                    <input type="hidden" name="RazaoSocial" value="{RAZAO_SOCIAL}" />
+                                                    <!-- END BLOCO_P_RAZAO_SOCIAL -->
+                                                </div>
+
+                                                <div class="span6" style="display: {MOSTRAR_DADOS}">
+                                                    <label class="big" for="txtEndereco">Endereço*</label>
+                                                    <!-- BEGIN BLOCO_INPUT_ENDERECO -->
+                                                    <input type="text" id="txtEndereco"  style="display: {MOSTRAR_DADOS}" name="Endereco" maxlength="60" value="{ENDERECO}" class="span12">
+                                                    <!-- END BLOCO_INPUT_ENDERECO -->
+                                                    <!-- BEGIN BLOCO_P_ENDERECO -->
+                                                    <p>{ENDERECO}</p>
+                                                    <input type="hidden" name="Endereco" value="{ENDERECO}">
+                                                    <!-- END BLOCO_P_ENDERECO -->
+                                                </div>
+                                            </div>
+                                            <!-- END BLOCO_RAZAO_SOCIAL_E_ENDERECO -->
+
+                                            <!-- BEGIN BLOCO_EMAIL_E_TELEFONE -->
+                                            <div class="row-fluid" style="display: {MOSTRAR_DADOS}">
+                                                <div class="span6">
+                                                    <label class="big" for="txtEmail">E-mail*</label>
+                                                    <!-- BEGIN BLOCO_INPUT_EMAIL -->
+                                                    <input type="text" id="txtEmail"name="Email" maxlength="60" value="{EMAIL}" class="span12" >
+                                                    <!-- END BLOCO_INPUT_EMAIL -->
+                                                    <!-- BEGIN BLOCO_P_EMAIL -->
+                                                    <p>{EMAIL}</p>
+                                                    <input type="hidden" name="Email" value="{EMAIL}" />
+                                                    <!-- END BLOCO_P_EMAIL -->
+                                                </div>
+
+                                                <div class="span6" style="display: {MOSTRAR_DADOS}">
+                                                    <label for="txtObjeto" class="big">Telefone</label>
+                                                    <!-- BEGIN BLOCO_P_TELEFONE -->
+                                                    <p>{TELEFONE}</p>
+                                                    <input type="hidden" name="Telefone" value="{TELEFONE}">
+                                                    <!-- END BLOCO_P_TELEFONE -->
+                                                    <!-- BEGIN BLOCO_INPUT_TELEFONE -->
+                                                    <input type="text" id="txtTelefone" name="Telefone" maxlength="25" value="{TELEFONE}" class="span12">
+                                                    <!-- END BLOCO_INPUT_TELEFONE -->
+                                                </div>
+                                            </div>
+                                            <!-- END BLOCO_EMAIL_E_TELEFONE -->
+
+                                            <!-- BEGIN BLOCO_FAX_E_NOME_CONTATO -->
+                                            <div class="row-fluid" style="display: {MOSTRAR_DADOS}">
+                                                <div class="span6">
+                                                    <label for="txtObjeto" class="big">Fax</label>
+                                                    <!-- BEGIN BLOCO_P_FAX -->
+                                                    <p>{FAX}</p>
+                                                    <input type="hidden" name="Fax" value="{FAX}">
+                                                    <!-- END BLOCO_P_FAX -->
+
+                                                    <!-- BEGIN BLOCO_INPUT_FAX -->
+                                                    <input type="text" id="txtFax" name="Fax" maxlength="25" value="{FAX}" class="span12"  style="display: {MOSTRAR_DADOS}">
+                                                    <!-- END BLOCO_INPUT_FAX -->
+                                                </div>
+
+                                                <div class="span6">
+                                                    <label for="txtObjeto" class="big">Nome do Contato</label>
+                                                    <!-- BEGIN BLOCO_P_NOME_CONTATO -->
+                                                    <p>{NOME_CONTATO}</p>
+                                                    <input type="hidden" name="NomeContato" value="{NOME_CONTATO}">
+                                                    <!-- END BLOCO_P_NOME_CONTATO -->
+
+                                                    <!-- BEGIN BLOCO_INPUT_NOME_CONTATO -->
+                                                    <input type="text" id="txtNomeContato" name="NomeContato" maxlength="60" value="{NOME_CONTATO}" class="span12"  style="display: {MOSTRAR_DADOS}">
+                                                    <!-- END BLOCO_INPUT_NOME_CONTATO -->
+                                                </div>
+                                            </div>
+                                            <!-- END BLOCO_FAX_E_NOME_CONTATO -->
+
+                                            <!-- BEGIN BLOCO_CONFIRMACAO_PARTICIPACAO -->
+                                            <div class="row-fluid">
+                                                <div class="span12">
+                                                    <label class="big">Deseja participar da licitação*</label>
+
+                                                    <label class="radio inline">
+                                                        <input type="radio" name="Participacao" value="S" {CHECKED_SIM}>
+                                                        Sim
+                                                    </label>
+
+                                                    <label class="radio inline">
+                                                        <input type="radio" name="Participacao" value="N" {CHECKED_NAO}>
+                                                        Não
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <!-- END BLOCO_CONFIRMACAO_PARTICIPACAO -->
+
+                                    </div>
+
+                                    <div class="pagination-right">
+                                        <input type="hidden" name="Critica" value="1">
+                                        <input type="hidden" name="FornCad" value="">
+                                        <input type="hidden" name="VerificaCPF" value="{VERIFICA_CPF}">
+                                        <input type="hidden" name="Objeto" value="{OBJETO}">
+                                        <input type="hidden" name="OrgaoLicitanteCodigo" value="{ORGAO_LICITANTE_CODIGO}">
+                                        <input type="hidden" name="ComissaoCodigo" value="{COMISSAO_CODIGO}">
+                                        <input type="hidden" name="ModalidadeCodigo" value="{MODALIDADE_CODIGO}">
+                                        <input type="hidden" name="LicitacaoProcesso" value="{LICITACAO_PROCESSO}">
+                                        <input type="hidden" name="LicitacaoAno" value="{LICITACAO_ANO}">
+                                        <input type="hidden" name="GrupoCodigo" value="{GRUPO_CODIGO}">
+                                        <input type="hidden" name="DocumentoCodigo" value="{DOCUMENTO_CODIGO}">
+                                        <input type="hidden" name="Botao" value="">
+
+                                        <!-- BEGIN BLOCO_BOTAO_CONFIRMAR -->
+                                        <input type="button" value="Baixar Arquivo" class="btn btn-primary" onclick="javascript:enviar('Enviar');">
+                                        <!-- END BLOCO_BOTAO_CONFIRMAR -->
+
+                                        <!-- BEGIN BLOCO_BOTAO_ENVIAR -->
+                                        <input type="button" value="Enviar" class="btn btn-primary" onclick="javascript:enviar('Enviar');">
+                                        <!-- END BLOCO_BOTAO_ENVIAR -->
+
+                                        <input type="button" id="btn-voltar" name="Voltar" value="Voltar" class="btn btn-primary">
+                                        <input type="hidden" name="TIPOCPFCNPJ" value="{TIPOCPFCNPJ}">
+                                        <input type="hidden" name="VALORCPFCNPJ" value="{VALORCPFCNPJ}">
+
+                                    </div>
+                                </article>
+                            </form>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

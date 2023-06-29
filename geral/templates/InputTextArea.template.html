@@ -1,0 +1,8 @@
+<font class="textonormal">máximo de {QTDE_MAXIMA} caracteres</font>
+<input type="text" name="NCaracteres{NOME_CAMPO}" disabled readonly size="3" value="{QTDE}" class="textonormal"><br>
+<textarea name="{NOME_CAMPO}" {ATRIBUTOS} cols="50" rows="4" OnKeyUp="javascript:Caracteres{NOME_CAMPO}(1)" OnBlur="javascript:Caracteres{NOME_CAMPO}(0)" OnSelect="javascript:Caracteres{NOME_CAMPO}(1)" class="textonormal">{TEXTO}</textarea>
+<script language="javascript" type="">
+  function Caracteres{NOME_CAMPO}(valor){
+	  {FORMULARIO}.NCaracteres{NOME_CAMPO}.value = '' +  {FORMULARIO}.{NOME_CAMPO}.value.length;
+  }
+</script>

@@ -1,0 +1,469 @@
+<!-- 220038-- -->
+<script type="text/javascript">
+<!--
+	function enviar(valor){
+		document.{NOME_PROGRAMA}.Botao.value = valor;
+		document.{NOME_PROGRAMA}.submit();
+	}
+
+	function mascaraCPF(){
+		$("#fornecedor").mask("999.999.999-99");
+	   }
+	   function mascaraCNPJ(){
+		$("#fornecedor").mask("99.999.999/9999-99");
+	   }
+	   jQuery(document).ready(function($) {
+		   jQuery(".reset").click(function (event) {
+			   event.preventDefault();
+
+			   jQuery(":text").each(function () {
+				   jQuery(this).val("");
+			   });
+
+			   jQuery(":password").each(function () {
+				   jQuery(this).val("");
+			   });
+
+			   jQuery(":checkbox").each(function () {
+				   jQuery(this).prop({ checked: false })
+			   });
+
+			   jQuery("select").each(function () {
+				   jQuery(this).val("");
+			   });
+		   });
+
+		   //Caso o check do tipo ata não tenha sido informado, por padrão será interno
+		   var radioTipoInt = document.getElementById("checkInterno");
+		   var radioTipoExt = document.getElementById("checkExterno");
+
+		   if(!radioTipoInt.checked && !radioTipoExt.checked){
+			   jQuery("#checkInterno").prop({ checked: true });
+		   }
+
+		   var radio = document.getElementById("CPF");
+		   if(radio != null){
+			 if(radio.checked){
+			   $("#fornecedor").mask("999.999.999-99");
+				jQuery("#CPF").prop({ checked: true });
+
+			 } else {
+			   $("#fornecedor").mask("99.999.999/9999-99");
+			   jQuery("#CNPJ").prop({ checked: true });
+
+			 }
+		  }
+	   });
+		function AbreJanela(url,largura,altura){
+			window.open(url,'paginadetalhe','status=no,scrollbars=yes,left=90,top=150,width='+largura+',height='+altura);
+		}
+		function AbreJanelaItem(url,largura,altura){
+			window.open(url,'paginaitem','status=no,scrollbars=yes,left=90,top=150,width='+largura+',height='+altura);
+		}
+		//-->
+</script>
+<form action="{NOME_PROGRAMA}.php" method="post" name="{NOME_PROGRAMA}">
+	<!-- BEGIN BLOCO_CONSULTAR_FORM -->
+	<table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" width="100%" class="textonormal" bgcolor="#FFFFFF" >
+		<tbody>
+			<tr>
+				<td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3">CONSULTAR ATA</td>
+			</tr>
+			<tr>
+				<td class="textonormal">
+					<p align="justify">
+						Para consultar os dados de uma Ata de Registro de
+								Preços, selecione as opções desejadas e clique no botão
+								“Selecionar”.
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<table class="textonormal" border="0px" align="left" summary="">
+						<tr>
+							<table class="textonormal" border="0" width="100%" summary="">
+								<tr>
+									<td class="textonormal" bgcolor="#DCEDF7" width="30%">Tipo
+										da Ata
+									</td>
+									<td class="textonormal"><input type="radio" name="tipoAta"
+										id="checkInterno" value="I"{CHECK_ATA_INTERNA}>Interna
+										<input type="radio" name="tipoAta" id="checkExterno" value="E"{CHECK_ATA_EXTERNA}>Externa
+									</td>
+								</tr>
+								<tr>
+									<td class="textonormal" bgcolor="#DCEDF7" width="30%">Número
+										da Ata
+									</td>
+									<td class="textonormal"><input type="text" name="numeroAta"
+										class="textonormal" value="{NRATA}"></td>
+								</tr>
+								<tr>
+									<td class="textonormal" bgcolor="#DCEDF7" width="30%">Processo
+										Licitatório/Ano
+									</td>
+									<td class="textonormal"><input type="text" name="processo"
+										class="textonormal" value="{PROCESSO}"> <input
+										type="text" name="ano" size="4" maxlength="4"
+										class="textonormal" value="{ANO}"></td>
+								</tr>
+								<tr>
+									<td class="textonormal" bgcolor="#DCEDF7" width="30%">Órgão
+										Gerenciador
+									</td>
+									<td class="textonormal">
+										<select
+											onChange="javascript:enviarValorOrgao();"
+											name="orgaoGerenciador" class="textonormal">
+											<option value="">Informe um órgão</option>
+											<!-- BEGIN BLOCO_CONSULTAR_FORM_ORGAO_GERENCIADOR -->
+											<option value="{ORGAO_VALUE_GERENCIADOR}"{ORGAO_SELECTED_GERENCIADOR}>{ORGAO_TEXT_GERENCIADOR}</option>
+											<!-- END BLOCO_CONSULTAR_FORM_ORGAO_GERENCIADOR -->
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td class="textonormal" bgcolor="#DCEDF7" width="30%">Órgão
+										Participante
+									</td>
+									<td class="textonormal">
+										<select
+											onChange="javascript:enviarValorOrgao();"
+											name="orgaoParticipante" class="textonormal">
+											<option value="">Informe um órgão</option>
+											<!-- BEGIN BLOCO_CONSULTAR_FORM_ORGAO_PARTICIPANTE -->
+											<option value="{ORGAO_VALUE}"{ORGAO_SELECTED}>{ORGAO_TEXT}</option>
+											<!-- END BLOCO_CONSULTAR_FORM_ORGAO_PARTICIPANTE -->
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td class="textonormal" bgcolor="#DCEDF7" width="30%">Fornecedor</td>
+									<td class="textonormal"><input type="radio" name="cpfcnpj"
+										id="CNPJ" value="cnpj" onclick="javascript:mascaraCNPJ()"{CHECK_CNPJ}>CNPJ
+										<input type="radio" name="cpfcnpj" id="CPF" value="cpf"
+											onclick="javascript:mascaraCPF()"{CHECK_CPF}>CPF <input
+											type="text" name="fornecedor" id="fornecedor"
+											value="{FORNECEDOR}" class="textonormal"> <input
+											type="hidden" name="fornecedorCod" value="{COD_FORNECEDOR}">
+										<a id="fornecedorLink"
+											href="javascript:enviar('PesquisaFornecedor')"> <img
+											src="../midia/lupa.gif" border="0" />
+										</a>
+									</td>
+								</tr>
+								<tr>
+									<td class="textonormal" bgcolor="#DCEDF7" width="30%">Material</td>
+									<td class="textonormal">
+										<select name="pesquisaMaterial"
+											class="textonormal">
+											<option value="0"{CHECK_COD_M}>Código Reduzido</option>
+											<option value="1"{CHECK_DEC_M}>Descrição contendo</option>
+											<option value="2"{CHECK_DI_M}>Descrição iniciada por</option>
+										</select>
+										<input name="material" class="textonormal" value="{MATERIAL}">
+										<input name="codMaterial" type="hidden" value="{COD_MATERIAL}">
+										<a id="MaterialLink"
+											href="javascript:enviar('PesquisaMaterial')"> <img
+											src="../midia/lupa.gif" border="0">
+										</a>
+									</td>
+								</tr>
+								<tr>
+									<td class="textonormal" bgcolor="#DCEDF7" width="30%">Serviço</td>
+									<td class="textonormal">
+										<select name="pesquisaServico"
+											class="textonormal">
+											<option value="0"{CHECK_COD_S}>Código Reduzido</option>
+											<option value="1"{CHECK_DEC_S}>Descrição contendo</option>
+											<option value="2"{CHECK_DI_S}>Descrição iniciada por</option>
+										</select>
+										<input name="servico" class="textonormal" value="{SERVICO}">
+										<input name="codServico" type="hidden" value="{COD_SERVICO}">
+										<a id="ServicoLink"
+											href="javascript:enviar('PesquisarServico')"> <img
+											src="../midia/lupa.gif" border="0">
+										</a>
+									</td>
+								</tr>
+								<tr>
+									<td class="textonormal" bgcolor="#DCEDF7" width="30%">Grupo</td>
+									<td class="textonormal">
+										<input type="radio" value="M"
+											name="identificadorGrupo" onclick="javascript:enviar('Grupo')"{CHECK_M}>Material
+										<input type="radio" value="S" name="identificadorGrupo"
+											onclick="javascript:enviar('Grupo')"{CHECK_S}>Serviço
+										<select onChange="javascript:enviarValorOrgao();" name="grupo"
+											class="textonormal">
+											<!-- BEGIN BLOCO_CONSULTAR_FORM_GRUPO -->
+											<option value="{GRUPO_VALUE}"{GRUPO_SELECTED}>{GRUPO_TEXT}</option>
+											<!-- END BLOCO_CONSULTAR_FORM_GRUPO -->
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td class="textonormal" bgcolor="#DCEDF7" width="30%">Só
+										Vigentes
+									</td>
+									<td class="textonormal">
+										<input type="checkbox" name="vigentes" {CHECK_VIGENTES} VALUE="V" />
+									</td>
+								</tr>
+							</table>
+						</tr>
+						<tr>
+							<td class="textonormal" align="right"><input type="hidden"
+								name="InicioPrograma" value="1" /> <input type="button"
+								name="Selecionar" value="Selecionar" class="botao"
+								onclick="javascript:enviar('Selecionar')" /> <input type="button"
+								name="Limpar" value="Limpar" class="botao reset" /> <input
+								type="hidden" name="Botao" value="" /></td>
+						</tr>
+						<!-- BEGIN BLOCO_CONSULTAR_RESULTADO_ATA -->
+						<tr>
+							<td>
+								<table  width="100%">
+									<tr>
+										<td align="center" bgcolor="#75ADE6" colspan="5"
+											valign="middle" class="titulo3">Ata(s) de Registro de
+											Preço
+										</td>
+									</tr>
+									<!-- BEGIN BLOCO_CONSULTAR_SUB_TITULO -->
+									<!-- BEGIN BLOCO_CONSULTAR_TIPO_ATA -->
+									<tr>
+										<td align="center" bgcolor="#DCEDF7" colspan="5"
+											valign="middle" class="titulo3">{TIPO_ATA}</td>
+									</tr>
+									<!-- END BLOCO_CONSULTAR_TIPO_ATA -->
+									<!-- BEGIN BLOCO_CONSULTAR_ORGAO_ATA -->
+									<tr>
+										<td align="center" bgcolor="#75ADE6" colspan="5"
+											valign="middle" class="titulo3">{ORGAO_ATA}</td>
+									</tr>
+									<!-- END BLOCO_CONSULTAR_ORGAO_ATA -->
+									<!-- BEGIN BLOCO_CONSULTAR_TITULO_RESULTADO -->
+									<tr>
+										<td bgcolor="#DCEDF7" class="textonormal">Nº ATA</td>
+										<td bgcolor="#DCEDF7" class="textonormal">VIGÊNCIA</td>
+										<td bgcolor="#DCEDF7" class="textonormal">PROCESSO
+											LICITATÓRIO
+										</td>
+										<td bgcolor="#DCEDF7" class="textonormal">OBJETO</td>
+										<td bgcolor="#DCEDF7" class="textonormal">SITUAÇÃO</td>
+									</tr>
+									<!-- END BLOCO_CONSULTAR_TITULO_RESULTADO -->
+									<!-- BEGIN BLOCO_CONSULTAR_RESULTADO -->
+									<tr>
+										<td class="textonormal">
+											<input type="radio" name="tipoSelecionado[]" />{VALOR_NUMERO_ATA}
+											<input
+												type="hidden" value="{LINK_ATA}" name="linkAta[]" />
+										</td>
+										<td class="textonormal">{VALOR_VIGENCIA}</td>
+										<td class="textonormal">{VALOR_PROCESSO}</td>
+										<td class="textonormal">{VALOR_OBJETO}</td>
+										<td class="textonormal">{VALOR_SITUACAO}</td>
+									</tr>
+									<!-- END BLOCO_CONSULTAR_RESULTADO -->
+									<!-- END BLOCO_CONSULTAR_SUB_TITULO -->
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td class="textonormal" align="right"><input type="button"
+								name="extrato" value="Detalhar Ata" class="botao"
+								onclick="javascript:enviar('Detalhe')" /> <input type="button"
+								name="Voltar" value="Voltar" class="botao"
+								onclick="javascript:enviar('Voltar')" /></td>
+						</tr>
+						<!-- END BLOCO_CONSULTAR_RESULTADO_ATA -->
+					</table>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<!-- END BLOCO_CONSULTAR_FORM -->
+	<!-- BEGIN BLOCO_DETALHAR -->
+	<table border="1" cellpadding="3" cellspacing="0" summary="Detalhes da Consulta da Ata"
+		class="textonormal" bgcolor="#FFFFFF" style="width: 700px;">
+		<tr>
+			<td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3"
+				colspan="11">CONSULTAR ATAS - DETALHE</td>
+		</tr>
+		<tr bordercolor="#DCEDF7" colspan="11">
+			<td>
+				Para exibir as quantidades utilizadas, clique no item da
+				ata desejado.
+			</td>
+		</tr>
+		<tr>
+			<td colspan="11">
+				<table class="textonormal" border="0px" align="left" summary="">
+
+					<tr>
+						<td colspan="11">
+							<table summary="" class="textonormal" bgcolor="#FFFFFF">
+								<tr>
+									<td class="textonormal" bgcolor="#DCEDF7" >Nº
+										da Ata Interna ou Externa
+									</td>
+									<td class="textonormal" >{ATA}</td>
+								</tr>
+								<tr>
+									<td class="textonormal" bgcolor="#DCEDF7">
+										Processo Licitatório
+									</td>
+									<td class="textonormal" >{PROCESSO}</td>
+								</tr>
+								<tr>
+									<td class="textonormal" bgcolor="#DCEDF7">Ano
+										Processo
+									</td>
+									<td class="textonormal" >{ANOPROCESSO}</td>
+								</tr>
+								<tr>
+									<td class="textonormal" bgcolor="#DCEDF7">Comissão</td>
+									<td class="textonormal" >{COMISSAO}</td>
+								</tr>
+								<tr>
+									<td class="textonormal" bgcolor="#DCEDF7">Modalidade</td>
+									<td class="textonormal" >{MODALIDADE}</td>
+								</tr>
+								<tr>
+									<td class="textonormal" bgcolor="#DCEDF7">Licitação</td>
+									<td class="textonormal" >{LICITACAO}</td>
+								</tr>
+								<tr>
+									<td class="textonormal" bgcolor="#DCEDF7">Ano
+										da Licitação
+									</td>
+									<td class="textonormal" >{ANOLICITACAO}</td>
+								</tr>
+								<tr>
+									<td class="textonormal" bgcolor="#DCEDF7">Órgão
+										Licitante
+									</td>
+									<td class="textonormal" >{ORGAOLICITANTE}</td>
+								</tr>
+								<tr>
+									<td class="textonormal" bgcolor="#DCEDF7">Participantes</td>
+									<td class="textonormal">
+										<!-- BEGIN BLOCO_DETALHE_PARTICIPANTE -->
+										{PARTICIPANTES} <br />
+										<!-- END BLOCO_DETALHE_PARTICIPANTE -->
+									</td>
+								</tr>
+								<tr>
+									<td class="textonormal" bgcolor="#DCEDF7" >Objeto</td>
+									<td class="textonormal" >{OBJETO}</td>
+								</tr>
+								<tr>
+									<td class="textonormal" bgcolor="#DCEDF7">Data
+										Inicial da Ata
+									</td>
+									<td class="textonormal" >{DATAINICIALATA}</td>
+								</tr>
+								<tr>
+									<td class="textonormal" bgcolor="#DCEDF7">
+										Vigência da Ata
+									</td>
+									<td class="textonormal" >{VIGENCIAATA}</td>
+								</tr>
+								<tr>
+									<td class="textonormal" bgcolor="#DCEDF7">Documentos</td>
+									<td class="textonormal" >
+										<!-- BEGIN BLOCO_DETALHE_DOCUMENTOS -->
+										<a href="{ENDERECO_DOWNLOAD_DOCUMENTO}">{NOME_DOCUMENTO}</a><br />
+										<!-- END BLOCO_DETALHE_DOCUMENTOS -->
+									</td>
+								</tr>
+								<tr>
+									<td class="textonormal" bgcolor="#DCEDF7">Fornecedor
+										Original
+									</td>
+									<td class="textonormal" >{FORNECEDORORIGINAL}</td>
+								</tr>
+								<tr>
+									<td class="textonormal" bgcolor="#DCEDF7">Fornecedor
+										Atual
+									</td>
+									<td class="textonormal">{FORNECEDORATUAL}</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<!-- BEGIN BLOCO_DETALHE_RESULTADO_ATA -->
+		<tr>
+			<td colspan="11">
+				<table border="1" cellpadding="3" cellspacing="0" summary=""
+					class="textonormal">
+					<tr>
+						<td align="center" bgcolor="#75ADE6" colspan="11" valign="middle"
+							class="titulo3">ITENS DA ATA</td>
+					</tr>
+					<tr style="bgcolor: #75ADE6">
+						<td bgcolor="#DCEDF7" class="textonormal">ORD.</td>
+						<td bgcolor="#DCEDF7" class="textonormal">CADUS</td>
+						<td bgcolor="#DCEDF7" class="textonormal">DESCRIÇÃO</td>
+						<td bgcolor="#DCEDF7" class="textonormal">UND.</td>
+						<td bgcolor="#DCEDF7" class="textonormal">QTD. ORIGINAL</td>
+						<td bgcolor="#DCEDF7" class="textonormal">VALOR ORIGINAL
+							UNIT.
+						</td>
+						<td bgcolor="#DCEDF7" class="textonormal">VALOR TOTAL</td>
+						<td bgcolor="#DCEDF7" class="textonormal">LOTE</td>
+						<td bgcolor="#DCEDF7" class="textonormal">QTD. ATUAL</td>
+						<td bgcolor="#DCEDF7" class="textonormal">VALOR UNITÁRIO
+							ATUAL
+						</td>
+						<td bgcolor="#DCEDF7" class="textonormal">VALOR TOTAL ATUAL</td>
+					</tr>
+					<!-- BEGIN BLOCO_DETALHE_ITEM -->
+					<tr>
+						<td class="textonormal">{ORDEM} </td>
+						<td class="textonormal">{CAD}</td>
+						<td class="textonormal">{DESCRICAO}</td>
+						<td class="textonormal">{UNIDADE}</td>
+						<td class="textonormal">{QTD_ORIGINAL}</td>
+						<td class="textonormal">{VALOR_ORIGINAL_UNIT}</td>
+						<td class="textonormal">{VALOR_TOTAL}</td>
+						<td class="textonormal">{LOTE}</td>
+						<td class="textonormal">{QTD_ATUAL}</td>
+						<td class="textonormal">{VALOR_UNITARIO_ATUAL}</td>
+						<td class="textonormal">{VALOR_TOTAL_ATUAL}</td>
+					</tr>
+					<!-- END BLOCO_DETALHE_ITEM -->
+				</table>
+			</td>
+		</tr>
+		<!-- END BLOCO_DETALHE_RESULTADO_ATA -->
+		<tr>
+			<td colspan="11">
+				<table border="0" style="width: 700px;">
+					<tr>
+						<td colspan="6" align="left">TOTAL DA ATA</td>
+						<td colspan="5" align="right">{VALOR_TOTAL_SOMA}</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td class="textonormal" align="right">
+				<input type="button" name="imprimir" value="Imprimir ATA" class="botao" onclick="javascript:enviar('Extrato')" />
+				<input type="button" name="Voltar" value="Voltar" class="botao" onclick="javascript:enviar('Voltar')" />
+				<input type="hidden" name="Botao" />
+				<input type="hidden" name="orgao" value="{ORGAOURL}" />
+				<input type="hidden" name="ata" value="{ATAURL}" />
+				<input type="hidden" name="processo" value="{PROCESSOURL}" />
+				<input type="hidden" name="ano" value="{ANOURL}" />
+				<input type="hidden" name="tipo" value="{TIPOURL}" />
+			</td>
+		</tr>
+	</table>
+	<!-- END BLOCO_DETALHAR -->
+</form>

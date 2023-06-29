@@ -1,0 +1,116 @@
+<script>
+function carregaProcesso(valor) {
+	document.Acomp.Botao.value = 'carregaProcesso';
+	document.Acomp.carregaProcesso.value = valor;
+	document.Acomp.submit();
+}
+</script>
+<div class="content">
+	<div class="row">
+		<div class="span12">
+			<section class="box-article">
+			<header class="header">
+				<h1>Todas as Licitações do COVID - Resultado</h1>
+			</header>
+			<div class="body">
+				<ul class="breadcrumb">
+					<li><a href="{BASE_URL}home.php">Início</a><span class="divider"><i class="arrow-right"></i></span></li>
+					<li><a href="{BASE_URL}Licitacoes.php">Licitações</a><span class="divider"><i class="arrow-right"></i></span></li>
+					<li><li class="active">Todas as Licitações do COVID</li>
+				</ul>
+                <article class="article">
+                    <header class="article-header">
+                        <h1>Todas as Licitações do COVID - Resultado</h1>
+                    </header>
+                </article>
+				<div class="btn-toolbar pagination-right">
+					<button class="btn btn-primary" type="button" onClick="location.href='{BASE_URL}ConsTodasLicitacoesCovid.php'">Nova Pesquisa</button>
+				</div>
+
+				<section class="article-detail">
+					<table class="table table-report">
+						<thead>
+							<th colspan="12">
+								<span class="text-center"> CRITÉRIOS DE PESQUISA </span>
+							</th>
+						</thead>
+						<tbody>
+						<!-- BEGIN BLOCO_SEARCH -->
+						  <tr>
+							<td colspan="4" style="text-align: left"> {NAME_SEARCH}</td>
+							<td colspan="8" style="text-align: left"> {VALUE_SEARCH}</td>
+						  </tr>
+						<!-- END BLOCO_SEARCH -->
+						</tbody>
+					</table>
+				</section>
+
+			   <section class="article-detail">
+				 <table class="table table-report">
+				 <!-- BEGIN BLOCO_CORPO -->
+				  <!-- BEGIN BLOCO_TITULO -->
+				   <!-- BEGIN BLOCO_GRUPO -->
+					<thead>
+						<tr>
+							<th colspan="7" class="abc">
+								<span class="text-center">{GRUPO_DESCRICAO}</span>
+							</th>
+						</tr>
+					</thead>
+				  <!-- END BLOCO_GRUPO -->
+				  <tbody>
+
+				  <!-- BEGIN BLOCO_ORGAO -->
+				  <tr>
+					<td colspan="6">
+					  <article class="article">
+					    <header class="article-header">
+					      <h3>{ORGAO_DESCRICAO}</h3>
+					   </header>
+					 </article>
+
+				    </td>
+				  </tr>
+				  <!-- END BLOCO_ORGAO -->
+
+				  <!-- BEGIN BLOCO_CABECALHO -->
+				   <tr>
+				    <td style="vertical-align:middle;text-align:center;"><strong>OBJETO</strong></td>
+				    <td style="vertical-align:middle;text-align:center; width: 105px;"><strong>DATA/HORA ABERTURA</strong></td>
+				    <td style="vertical-align:middle;text-align:center;"><strong>FASE</strong></td>
+					<td style="vertical-align:middle;text-align:center;"><strong>PROCESSO</strong></td>
+					<td style="vertical-align:middle;text-align:center;"><strong>MODALIDADE</strong></td>
+					<td style="vertical-align:middle;text-align:center;"><strong>LICITAÇÃO</strong></td>
+				   </tr>
+				  <!-- END BLOCO_CABECALHO -->
+				  <!-- END BLOCO_TITULO -->
+
+				  <!-- BEGIN BLOCO_VALORES -->
+				  <tr>
+				    <td style="vertical-align:middle;text-align:justify;"><a href="javascript:carregaProcesso('{URL_DETALHES}');">{OBJETO}</a></td>
+				    <td style="vertical-align:middle;text-align:center;width:105px;">{DATA_HORA_ABERTURA}</td>
+				    <td style="vertical-align:middle;text-align:center;">{FASE}</td>
+				    <td style="vertical-align:middle;text-align:center;">{PROCESSO}</td>
+					<td style="vertical-align:middle;text-align:center;">{MODALIDADE_DESCRICAO}</td>
+					<td style="vertical-align:middle;text-align:center;">{LICITACAO}</td>
+					</tr>
+				  <!-- END BLOCO_VALORES -->
+				  <!-- BEGIN BLOCO_SEPARATOR -->
+				  <tr>
+					<td colspan="7"><span class="separator"></span></td>
+				  </tr>
+				  <!-- END BLOCO_SEPARATOR -->
+				  </tbody>
+				 <!-- END BLOCO_CORPO -->
+
+				</table>
+			   </section>
+			</div>
+			</section>
+			<form name="Acomp" method="post">
+				<input type="hidden" name="carregaProcesso" value="">
+				<input type="hidden" name="Botao" value="">
+			</form>
+		</div>
+	</div>
+</div>

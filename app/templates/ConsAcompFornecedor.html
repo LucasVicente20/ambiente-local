@@ -1,0 +1,502 @@
+<script language="javascript" type="">
+
+    function enviar(valor){
+        document.ConsAcompFornecedor.Botao.value = valor;
+        document.ConsAcompFornecedor.submit();
+    }
+    function baixarArquivo(cod){
+        document.ConsAcompFornecedor.CodDownload.value = cod;
+        enviar('Download');
+    }
+</script>
+<form action="{BASE_URL}ConsAcompFornecedor.php" method="post" name="ConsAcompFornecedor">
+    <div class="content">
+        <div class="row">
+            <div class="span12">
+                <section class="box-article">
+                    <header class="header">
+                        <h1> Acompanhamento de Fornecedores </h1>
+                    </header>
+                    <div class="body">
+                        <ul class="breadcrumb">
+                            <li><a href="{BASE_URL}home.php">Início</a><span class="divider"><i class="arrow-right"></i></span></li>
+                            <li><a href="{BASE_URL}Fornecedores.php">Fornecedores</a><span class="divider"><i class="arrow-right"></i></span></li>
+                            <li class="active">Acompanhamento</li>
+                        </ul>
+                        <article class="article">
+                            <header class="article-header">
+                                <h1>Acompanhamento de Fornecedores</h1>
+                            </header>
+                        </article>
+                        <article class="article">
+                            <section class="article-detail row-border">
+                                <p> Para imprimir os dados cadastrais abaixo clique no botão "Imprimir".</p>
+                            </section><!-- fim section article-->
+                            <div class="clearfix">&nbsp;</div>
+
+                            <!-- BEGIN BLOCO_MENSAGEM -->
+                            <div class="alert {TIPOALERT}">
+                                <button class="close" data-dismiss="alert" type="button">×</button>
+                                {MENSAGEM}
+                            </div>
+                            <!-- END BLOCO_MENSAGEM -->
+
+                            <section class="article-detail">
+                                <div class="well">
+                                    <div class="row-fluid">
+                                        <table class="table table-report table-striped">
+                                            <thead>
+                                                <th colspan="12">
+                                                    <span class="text-center">  ACOMPANHAMENTO DE FORNECEDORES  </span>
+                                                </th>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left">Tipo de Fornecedor</td>
+                                                    <td colspan="8" style="text-align: left">FORNECEDOR</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left">Código do Fornecedor</td>
+                                                    <td colspan="8" style="text-align: left">{SEQUENCIAL}</td>
+                                                </tr>
+                                                {CUMPRIMENTOINC}
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left">Situação</td>
+                                                    <td colspan="8" style="text-align: left">{DESCSITUACAO}</td>
+                                                </tr>
+                                                {DATASUSPENSAO}
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left">Data de Geração de CHF</td>
+                                                    <td colspan="8" style="text-align: left">{DATAGERACAOCHF}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left">Data de Validade de CHF</td>
+                                                    <td colspan="8" style="text-align: left">{DATAVALIDADECHF}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left">Data de Cadastramento</td>
+                                                    <td colspan="8" style="text-align: left">{DataInscricao}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left">Comissão Responsável Análise</td>
+                                                    <td colspan="8" style="text-align: left">{ComissaoResp}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left">Data da Análise</td>
+                                                    <td colspan="8" style="text-align: left">{DataAnaliseDoc}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left">Habilitação do fornecedor</td>
+                                                    <td colspan="8" style="text-align: left">{HABILITACAO}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <!-- OCORRENCIAS -->
+                                        <table class="table table-report table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th colspan="12">
+                                                        <span class="text-center"> OCORRÊNCIAS </span>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left"><strong>Data</strong></td>
+                                                    <td colspan="4" style="text-align: left"><strong>Tipo de Ocorrência</strong></td>
+                                                    <td colspan="4" style="text-align: left"><strong>Detalhamento</strong></td>
+                                                </tr>
+                                                {OCORRENCIAS}
+                                                <!-- BEGIN GRUPOOCORRENCIAS -->
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left"> {DATAOCORRENCIA}</td>
+                                                    <td colspan="4" style="text-align: left">{TIPOCORRENCIA}</td>
+                                                    <td colspan="4" style="text-align: left">{DETALHAMENTOOCORRENCIA}</td>
+                                                </tr>
+                                                <!-- END GRUPOOCORRENCIAS -->
+                                            </tbody>
+                                        </table>
+                                        <!-- FIM OCORRENCIAS -->
+                                        <table class="table table-report table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th colspan="12">
+                                                        <span class="text-center"> HABLITAÇÃO JURÍDICA </span>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left"> {NOMECNPJCPF} </td>
+                                                    <td colspan="8" style="text-align: left"> {CPF} {CNPJ}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left">{TITULO_MICROEMPRESA}</td>
+                                                    <td colspan="8" style="text-align: left">{MICROEMPRESA}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left"> Identidade </td>
+                                                    <td colspan="8" style="text-align: left"> {IDENTIDADE} </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left"> Órgao Emissor/UF </td>
+                                                    <td colspan="8" style="text-align: left"> {ORGAOEMISSORUF} </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left"> {NOME_OR_RAZAO} </td>
+                                                    <td colspan="8" style="text-align: left"> {RAZAOSOCIAL} </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left"> Nome Fantasia </td>
+                                                    <td colspan="8" style="text-align: left"> {NOMEFANTASIA} </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left"> CEP </td>
+                                                    <td colspan="8" style="text-align: left"> {CEP} </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left"> Logradouro</td>
+                                                    <td colspan="8" style="text-align: left"> {LOGADOURO} </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left"> Número </td>
+                                                    <td colspan="8" style="text-align: left"> {NUMERO} </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left"> Complemento </td>
+                                                    <td colspan="8" style="text-align: left"> {COMPLEMENTO} </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left"> Bairro </td>
+                                                    <td colspan="8" style="text-align: left"> {BAIRRO} </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left"> Cidade </td>
+                                                    <td colspan="8" style="text-align: left"> {CIDADE} </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left"> UF </td>
+                                                    <td colspan="8" style="text-align: left"> {UF} </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left"> DDD </td>
+                                                    <td colspan="8" style="text-align: left"> {DDD} </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left"> Telefone(s) </td>
+                                                    <td colspan="8" style="text-align: left"> {TELEFONE} </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left"> E Mail 1 </td>
+                                                    <td colspan="8" style="text-align: left"> {EMAIL} </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left"> E Mail 2 </td>
+                                                    <td colspan="8" style="text-align: left"> {EMAIL2} </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left"> Fax </td>
+                                                    <td colspan="8" style="text-align: left"> {FAX} </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left"> Registro Junta Comercial ou Cartório </td>
+                                                    <td colspan="8" style="text-align: left"> {REGISTROJUNTA} </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left"> Data Reg. Junta Comercial ou Cartório </td>
+                                                    <td colspan="8" style="text-align: left"> {DATAREGSTRO} </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left"> Nome do Contato </td>
+                                                    <td colspan="8" style="text-align: left"> {NOMECONTATO} </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left"> CPF do Contato </td>
+                                                    <td colspan="8" style="text-align: left"> {CPFCONTATO} </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left"> Cargo do Contato </td>
+                                                    <td colspan="8" style="text-align: left"> {CARGOCONTATO} </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left"> DDD do Contato </td>
+                                                    <td colspan="8" style="text-align: left"> {DDDCONTATO} </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left"> Telefone do Contato </td>
+                                                    <td colspan="8" style="text-align: left"> {TELEFONECONTATO} </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <!-- SOCIOS -->
+                                        <table class="table table-report table-striped">
+                                            <thead>
+                                                <th colspan="12">
+                                                    <span class="text-center"> SÓCIOS </span>
+                                                </th>
+                                            </thead>
+                                            <tbody>
+                                                {DADOSOCIOS}
+                                                <!-- BEGIN BLOCKSOCIOS -->
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left"> {socioNome}</td>
+                                                    <td colspan="8" style="text-align: left"> {socioCPF}</td>
+                                                </tr>
+                                                <!-- END BLOCKSOCIOS -->
+                                            </tbody>
+                                        </table>
+                                        <!-- FIM SOCIOS -->
+                                        <!-- REGULARIDADE FISCAL -->
+                                        <table class="table table-report table-striped">
+                                            <thead>
+                                                <th colspan="12">
+                                                    <span class="text-center"> REGULARIDADE FISCAL </span>
+                                                </th>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left">Inscrição Mercantil</td>
+                                                    <td colspan="8" style="text-align: left"> {InscMercantil}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left">Inscrição Outro Município </td>
+                                                    <td colspan="8" style="text-align: left"> {InscOMunic}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left">Inscrição Estadual</td>
+                                                    <td colspan="8" style="text-align: left"> {InscEstadual}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <!-- FIM REGULARIDADE FISCAL -->
+                                        <!-- CERTIDAO FISCAL -->
+                                        <table class="table table-report table-striped">
+                                            <thead>
+                                                <th colspan="12">
+                                                    <span class="text-center"> CERTIDÃO FISCAL </span>
+                                                </th>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td colspan="12" class="text-center"><strong>OBRIGATÓRIAS</strong></td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left;"><strong>Nome Certidão</strong></td>
+                                                    <td colspan="8" style="text-align: left"><strong>Data de Validade</strong></td>
+                                                </tr>
+                                                <!-- BEGIN CERTIDOESOBRIGATORIAS -->
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left"> {DESCRICAOCERTOB}</td>
+                                                    <td colspan="8" style="text-align: left"> {DATACERTOB}</td>
+                                                </tr>
+                                                <!-- END CERTIDOESOBRIGATORIAS -->
+
+                                                <tr>
+                                                    <td colspan="12" class="text-center"><strong>COMPLEMENTARES</strong></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left"><strong> Nome Certidão</strong></td>
+                                                    <td colspan="8" style="text-align: left"><strong> Data de Validade</strong></td>
+                                                </tr>
+                                                {CERTNAOOBRIGAT}
+                                                <!-- BEGIN CERTNAOOBRIGATORIA -->
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left"> {DESCRICAOCERTNAOOB}</td>
+                                                    <td colspan="8" style="text-align: left"> {DATACERTNAOOB}</td>
+                                                </tr>
+                                                <!-- END CERTNAOOBRIGATORIA -->
+                                            </tbody>
+                                        </table>
+                                        <!-- FIM CERTIDAO FISCAL -->
+
+                                        <!-- QUALIFICAÇÃO ECONÔMICA E FINANCEIRA -->
+                                        <table class="table table-report table-striped">
+                                            <thead>
+                                                <th colspan="12">
+                                                    <span class="text-center"> QUALIFICAÇÃO ECONÔMICA E FINANCEIRA </span>
+                                                </th>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="textonormal" colspan="4">Capital Social</td>
+                                                    <td class="textonormal" colspan="8">{CAPITAL_SOCIAL}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="textonormal" colspan="4">Capital Integralizado </td>
+                                                    <td class="textonormal" colspan="8">{CAPITAL_INTEGRALIZADO}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="textonormal" colspan="4">Patrimônio Líquido</td>
+                                                    <td class="textonormal" colspan="8">{PATRIMONIO_LIQUIDO}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="textonormal" colspan="4">Índice de Liquidez Corrente </td>
+                                                    <td class="textonormal" colspan="8">{INDICE_LIQUIDEZ_CORRENTE}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="textonormal" colspan="4">Índice de Liquidez Geral </td>
+                                                    <td class="textonormal" colspan="8">{INDICE_LIQUIDEZ_GERAL}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="textonormal" colspan="4">Índice de Endividamento</td>
+                                                    <td class="textonormal" colspan="8">{INDICE_ENDIVIDAMENTO}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="textonormal" colspan="4">Índice de Solvência</td>
+                                                    <td class="textonormal" colspan="8">{INDICE_SOLVENCIA}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="textonormal" colspan="4">Data validade do balanço</td>
+                                                    <td class="textonormal" colspan="8">{DATA_VALIDADE_BALANCO}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="textonormal" colspan="4">Data Certidão Negativa de Falência e Concordata</td>
+                                                    <td class="textonormal" colspan="8">{DATA_CERTIDAO_NEGATIVA_FALENCIA_CONCORDATA}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="textonormal" colspan="4">Data de última alteração de contrato ou estatuto</td>
+                                                    <td class="textonormal" colspan="8">{DATA_ULTIMA_ALTERACAO_CONTRATO}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="text-align: center"><strong>Banco</strong></td>
+                                                    <td style="text-align: center"><strong>Agência</strong></td>
+                                                    <td colspan="4" style="text-align: center"><strong>Conta Corrente</strong></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="text-align: left">{Banco1}</td>
+                                                    <td style="text-align: left"> {Agencia1}</td>
+                                                    <td colspan="4" style="text-align: left"> {ContaCorrente1}</td>
+                                                </tr>
+                                                <!-- BEGIN CONTA2 -->
+                                                <tr>
+                                                    <td style="text-align: left">{Banco2}</td>
+                                                    <td style="text-align: left"> {Agencia2}</td>
+                                                    <td colspan="4" style="text-align: left"> {ContaCorrente2}</td>
+                                                </tr>
+                                                <!-- END CONTA2 -->
+                                            </tbody>
+                                        </table>
+                                        <!-- FIM QUALIFICAÇÃO ECONÔMICA E FINANCEIRA -->
+                                        <!-- QUALIFICAÇÃO TÉCNICA -->
+                                        <table class="table table-report table-striped">
+                                            <thead>
+                                                <th colspan="12">
+                                                    <span class="text-center"> QUALIFICAÇÃO TÉCNICA </span>
+                                                </th>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left">Nome da Entidade </td>
+                                                    <td colspan="8" style="text-align: left">{NomeEntidade} </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left">Registro ou Inscrição  </td>
+                                                    <td colspan="8" style="text-align: left">{RegistroEntidade} </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left">Data da Vigência </td>
+                                                    <td colspan="8" style="text-align: left"> {DataVigencia}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left">Registro ou Inscrição do Técnico </td>
+                                                    <td colspan="8" style="text-align: left"> {TecnicoEntidade}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <!-- FIM QUALIFICAÇÃO TÉCNICA -->
+                                        <!-- AUTORIZAÇÃO ESPECÍFICA  -->
+                                        <table class="table table-report table-striped">
+                                            <thead>
+                                                <th colspan="12">
+                                                    <span class="text-center"> AUTORIZAÇÃO ESPECÍFICA  </span>
+                                                </th>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left"><strong>Nome da Entidade Emissora</strong></td>
+                                                    <td colspan="4" style="text-align: left"><strong>Registro ou Inscrição</strong></td>
+                                                    <td colspan="4" style="text-align: left"><strong>Data de Vigência</strong></td>
+                                                </tr>
+                                                <!-- BEGIN AUTORIZACAOBLOCO -->
+                                                <tr>
+                                                    <td colspan="4" style="text-align: left">{NOMEAUTOR}</td>
+                                                    <td colspan="4" style="text-align: left">{REGISTROAUTOR}</td>
+                                                    <td colspan="4" style="text-align: left">{DATAVIGAUTOR}</td>
+                                                </tr>
+                                                <!-- END AUTORIZACAOBLOCO -->
+                                                <tr>
+                                                    <td colspan="12" style="text-align: center">
+                                                        {AUTORIZACAOESPECIFICA}
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <!-- FIM AUTORIZAÇÃO ESPECÍFICA  -->
+
+                                        <!-- GRUPOS DE FORNECIMENTO (OBJETO SOCIAL)  -->
+                                        <table class="table table-report table-striped">
+                                            <thead>
+                                                <th colspan="12">
+                                                    <span class="text-center"> GRUPOS DE FORNECIMENTO (OBJETO SOCIAL)  </span>
+                                                </th>
+                                            </thead>
+                                            <tbody>
+                                                {MATERIAISHEAD}
+                                                <!-- BEGIN VALOR_LOOP_MATERIAL -->
+                                                <tr>
+                                                    <td colspan="12" style="text-align: left">{VALOR_MATERIAL}</td>
+                                                </tr>
+                                                <!-- END VALOR_LOOP_MATERIAL -->
+
+                                                {SERVICOSHEAD}
+                                                <!-- BEGIN VALOR_LOOP_SERVICO -->
+                                                <tr>
+                                                    <td colspan="12" style="text-align: left">{VALOR_SERVICO}</td>
+                                                </tr>
+                                                <!-- END VALOR_LOOP_SERVICO -->
+                                            </tbody>
+                                        </table>
+                                        <!-- FIM GRUPOS DE FORNECIMENTO (OBJETO SOCIAL)  -->
+
+                                        <!-- BEGIN bloco_documentos -->
+
+                                        <table class="table table-report table-striped">
+                                                <thead>
+                                                    <th colspan="12">
+                                                        <span class="text-center"> DOCUMENTOS ANEXADOS </span>
+                                                    </th>
+                                                </thead>
+                                                <tbody>
+                                                        {htmlDoc}
+                                                </tbody>
+                                            </table>
+
+
+
+
+                                        <!-- END bloco_documentos-->
+
+                                        <hr>
+                                        <div class="btn-toolbar pagination-right">
+                                            <input type="hidden" name="Sequencial" value="{SEQUENCIAL}">
+                                            <input type="hidden" name="Mensagem" value="{MENSAGEM}">
+                                            <input type="hidden" name="CodDownload" id="CodDownload" >
+                                            <input type="button" value="Imprimir" class="botao btn btn-primary" onclick="javascript:enviar('Imprimir');">
+                                            <input type="button" value="Voltar" class="botao btn btn-primary" onclick="javascript:enviar('Voltar');">
+                                            <input type="hidden" name="Botao" value="">
+
+                                        </div>
+
+                                    </div> <!-- fim div row fluid -->
+                                </div><!-- fim div well -->
+
+                            </section> <!-- fim section article detail -->
+                        </article><!-- fim article -->
+
+                    </div><!-- fim body -->
+                </section><!-- fim body box article -->
+            </div><!-- fim span12 -->
+        </div><!-- row -->
+    </div><!-- content -->
+</form>

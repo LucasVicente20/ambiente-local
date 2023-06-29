@@ -1,0 +1,8 @@
+#!/bin/bash
+if [[ -x /usr/libexec/installkernel/installkernel ]] ; then
+	exec /usr/libexec/installkernel/installkernel "${@}"
+elif [[ -x /usr/libexec/installkernel/installkernel-bls ]] ; then
+	exec /usr/libexec/installkernel/installkernel-bls "${@}"
+fi
+echo "installkernel is not installed correctly." >>/dev/stderr
+exit 1

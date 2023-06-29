@@ -1,0 +1,121 @@
+<!-- 220038-- -->
+<form action="CadAtaRegistroPrecoCaronaAtaExterna.php" method="post" id="CadAtaRegistroPrecoCaronaAtaExterna" name="CadAtaRegistroPrecoCaronaAtaExterna">
+    <table cellspacing="0" cellpadding="3" bordercolor="#75ADE6" border="1" bgcolor="#FFFFFF" width="100%" class="textonormal" summary="Formulário Ata Registro de Preço Carona Externa incluir">
+        <tbody>
+            <tr>
+                <td bgcolor="#75ADE6" valign="middle" align="center" colspan="4" class="titulo3">
+                    INCLUIR - CARONA ÓRGÃO EXTERNO
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4" class="textonormal">
+                    <p align="justify">
+                        Selecione o Órgão Gestor, o Ano e o Processo Licitatório que já possui numeração das Atas Interna e clique no Botão "Selecionar".
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <table border="0" width="100%" summary="">
+                        <tbody>
+                            <tr>
+                                <td class="textonormal" bgcolor="#DCEDF7" width="30%">Órgão Gestor</td>
+                                <td class="textonormal">
+                                    <select id="orgaoGestor" name="orgaoGestor" class="textonormal">
+                                        <!-- BEGIN BLOCO_ORGAO -->
+                                        <option value="{ORGAO_VALUE}" {ORGAO_SELECTED}>{ORGAO_TEXT}</option>
+                                        <!-- END BLOCO_ORGAO -->
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="textonormal" bgcolor="#DCEDF7" width="30%">Ano</td>
+                                <td class="textonormal">
+                                    <select id="valorAno" name="valorAno" class="textonormal">
+                                        <!-- BEGIN BLOCO_ANO -->
+                                        <option value="{ANO_VALUE}" {ANO_SELECTED}>{ANO_TEXT}</option>
+                                        <!-- END BLOCO_ANO -->
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="textonormal" bgcolor="#DCEDF7"width="30%">
+                                    Processo
+                                </td>
+                                <td class="textonormal">
+                                    <select name="GerarNumeracaoProcesso" class="textonormal">
+                                        <option value="">{TEXTO_PROCESSO_SELECIONE}</option>
+                                        <!-- BEGIN BLOCK_PROCESSO --> {OPTGROUP_INICIO}
+                                        <!-- BEGIN BLOCK_OPTION -->
+                                        <option value="{PROCESSO_VALUE}" {PROCESSO_SELECTED}>{TEXTO_PROCESSO}</option>
+                                        <!-- END BLOCK_OPTION --> {OPTGROUP_FINAL}
+                                        <!-- END BLOCK_PROCESSO -->
+                                    </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td align="right" colspan="4" class="textonormal">
+                    <input type="hidden" name="InicioPrograma" value="1" />
+                    <input type="button" name="Selecionar" value="Selecionar" class="botao" onclick="javascript:enviar('Selecionar')" />
+                    <input type="hidden" id="Botao" name="Botao" value="" />
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>
+<script type="text/javascript">
+<!--
+    function enviar(valor) {
+            document.CadAtaRegistroPrecoCaronaAtaExterna.Botao.value = valor;
+            document.CadAtaRegistroPrecoCaronaAtaExterna.submit();
+        }
+
+    function AbreJanela(url, largura, altura) {
+        window.open(url, 'paginadetalhe', 'status=no,scrollbars=yes,left=90,top=150,width=' + largura + ',height=' + altura);
+    }
+
+    function AbreJanelaItem(url, largura, altura) {
+        window.open(url, 'paginaitem', 'status=no,scrollbars=yes,left=90,top=150,width=' + largura + ',height=' + altura);
+    }
+
+    jQuery(document).ready(function ($) {
+        jQuery(".mascara-numero-intencao").mask("9999/9999");
+
+        jQuery(".reset").click(function (event) {
+            event.preventDefault();
+
+            jQuery(":text").each(function () {
+                jQuery(this).val("");
+            });
+
+            jQuery(":radio").each(function () {
+                jQuery(this).prop({
+                    checked: false
+                })
+            });
+
+            jQuery(":checkbox").each(function () {
+                jQuery(this).prop({
+                    checked: false
+                })
+            });
+
+            jQuery("select").each(function () {
+                jQuery(this).val("");
+            });
+        });
+
+
+        jQuery("#valorAno").change(function(){
+            var ano = jQuery(this).val();
+            jQuery("#Botao").val("atualizaProcessos");
+            jQuery("#CadAtaRegistroPrecoCaronaAtaExterna").submit();
+        });
+    });
+    //-->
+</script>

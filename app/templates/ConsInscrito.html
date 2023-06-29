@@ -1,0 +1,595 @@
+<script>
+function enviar(valor){
+	document.ConsInscrito.Botao.value = valor;
+	document.ConsInscrito.submit();
+}
+function baixarArquivo(cod){
+				document.ConsInscrito.codDownload.value = cod;
+				enviar('Download');
+}
+</script>
+
+<form action="{BASE_URL}ConsInscrito.php" method="post" name="ConsInscrito">
+	<div class="content">
+		<div class="row">
+			<div class="span12">
+				<section class="box-article">
+					<header class="header">
+						<h1>Consulta de Fornecedores Inscritos</h1>
+					</header>
+					<div class="body">
+						<ul class="breadcrumb">
+							<li>
+								<a href="{BASE_URL}home.php">Início</a>
+								<span class="divider">
+									<i class="arrow-right"></i>
+								</span>
+							</li>
+							
+							<li>
+								<a href="{BASE_URL}Fornecedores.php">Fornecedores</a>
+								<span class="divider">
+									<i class="arrow-right"></i>
+								</span>
+							</li>
+							
+							<li class="active">Consulta</li>
+						</ul>
+						<article class="article">
+							<header class="article-header">
+								<h1>
+									Consulta de Fornecedores Inscritos
+								</h1>
+							</header>
+						</article>
+						<article class="article">
+							<section class="article-detail row-border">
+								<p>Para imprimir os dados cadastrais abaixo clique no botão "Imprimir".</p>
+							</section>
+							
+							<div class="clearfix">&nbsp;</div>
+
+							<!-- BEGIN BLOCO_MENSAGEM -->
+							<div class="alert {TIPOALERT}">
+								<button class="close" data-dismiss="alert" type="button">×</button>
+								{MENSAGEM}
+							</div>
+							<!-- END BLOCO_MENSAGEM -->
+
+							<section class="article-detail">
+								<div class="well">
+									<div class="row-fluid">
+										<table class="table table-report">
+								  			<thead>
+												<tr>
+													<th colspan="12">
+														<span class="text-center">CONSULTA DE FORNECEDORES INSCRITOS </span>
+													</th>
+												</tr>
+											</thead>
+											
+											<tbody>
+												<tr>
+													<td width="45%">Código da Inscrição</td>
+													<td>{VALOR_SEQUENCIAL}</td>
+									  			</tr>
+									  			
+									  			<!-- BEGIN BLOCO_TIPO_HABILITACAO_L -->
+									  			<tr>
+													<td>Cumprimento Inc. XXXIII Art. 7º Cons. Fed.</td>
+													<td>SIM</td>
+												</tr>
+									  			<!-- END BLOCO_TIPO_HABILITACAO_L -->
+									  			
+									  			<tr>
+													<td>Situação</td>
+													<td>{DESCRICAO_SITUACAO}</td>
+									  			</tr>
+									  			
+									  			<!-- BEGIN BLOCO_MOTIVO -->
+									  			<tr>
+													<td class="textonormal" bgcolor="#DCEDF7" height="20">Motivo</td>
+													<td class="textonormal">{VALOR_MOTIVO}</td>
+									  			</tr>
+									  			<!-- END BLOCO_MOTIVO -->
+									  			
+									  			<tr>
+													<td>Data de Cadastramento</td>
+													<td>{DATA_INSCRICAO}</td>
+									  			</tr>
+									  			
+									  			<tr>
+													<td>Data da Última Alteração</td>
+													<td>{DATA_ALTERACAO}</td>
+									  			</tr>
+									  			
+									  			<tr>
+													<td>Comissão Responsável Análise Documentação</td>
+													<td>{COMISSAO_RESPONSAVEL}</td>
+									  			</tr>
+									  			
+									  			<tr>
+													<td>Data da Análise </td>
+													<td>{DATA_ANALISE}</td>
+									  			</tr>
+									  			
+									  			<tr>
+													<td class="textonormal" bgcolor="#DCEDF7" height="20" width="45%">Habilitação do fornecedor</td>
+													<td class="textonormal">{HABILITACAO_FORNECEDOR}</td>
+									  			</tr>
+											</tbody>
+										</table>
+										
+										<table class="table table-report">
+								  			<thead>
+												<tr>
+													<th colspan="12">
+														<span class="text-center">HABLITAÇÃO JURÍDICA</span>
+													</th>
+												</tr>
+											</thead>
+											
+											<tbody>
+												<tr>
+													<td width="45%">{TIPO_PESSOA}</td>
+													<td class="textonormal" height="20">{NUMERO_INSCRICAO}</td>
+						            			</tr>
+						            			
+						            			<!-- BEGIN BLOCO_PORTE_EMPRESA -->
+						            			<tr>
+													<td>{PORTE_EMPRESA_TITULO}</td>
+													<td>{PORTE_EMPRESA}</td>
+					            				</tr>
+					            				<!-- END BLOCO_PORTE_EMPRESA -->
+					            				
+					            				<!-- BEGIN BLOCO_DOCUMENTOS -->
+					            				<tr>
+					            					<td>{LABEL_IDENTIDADE}</td>
+					            					<td>{VALOR_IDENTIDADE}</td>
+					            				</tr>
+					            				
+					            				<tr>
+													<td>Órgao Emissor/UF</td>
+													<td>{ORGAO_EMISSOR_UF}</td>
+												</tr>
+					            				<!-- END BLOCO_DOCUMENTOS -->
+					            				
+					            				<tr>
+													<td>{LABEL_DESCRICAO}</td>
+									              	<td>{VALOR_DESCRICAO}</td>
+									            </tr>
+									            
+									            <tr>
+									              	<td>Nome Fantasia</td>
+									              	<td>{NOME_FANTASIA}</td>
+									            </tr>
+									            
+									            <tr>
+									              	<td>CEP</td>
+													<td>{VALOR_CEP}</td>
+									            </tr>
+									            
+									            <tr>
+									              	<td>Logradouro</td>
+									              	<td>{VALOR_LOGRADOURO}</td>
+									            </tr>
+									            
+									            <tr>
+									              	<td>Número</td>
+									              	<td>{VALOR_NUMERO}</td>
+									            </tr>
+									            
+									            <tr>
+									              	<td>Complemento</td>
+									              	<td>{VALOR_COMPLEMENTO}</td>
+									            </tr>
+									            
+									            <tr>
+									              	<td>Bairro</td>
+									              	<td>{VALOR_BAIRRO}</td>
+									            </tr>
+									            
+									            <tr>
+									              	<td>Cidade</td>
+									              	<td>{VALOR_CIDADE}</td>
+									            </tr>
+									            
+									            <tr>
+									              	<td>UF</td>
+							    	      			<td>{VALOR_UF}</td>
+									            </tr>
+									            
+									            <tr>
+									              	<td>DDD</td>
+									              	<td>{VALOR_DDD}</td>
+									            </tr>
+									            
+									            <tr>
+									              	<td>Telefone(s)</td>
+													<td>{VALOR_TELEFONE}</td>
+									            </tr>
+									            
+									            <tr>
+									              	<td>E-mail 1</td>
+													<td>{VALOR_EMAIL_1}</td>
+									            </tr>
+									            
+									            <tr>
+									              	<td>E-mail 2</td>
+													<td>{VALOR_EMAIL_2}</td>
+									            </tr>
+									            
+									            <tr>
+									              	<td>Fax</td>
+													<td>{VALOR_FAX}</td>
+									            </tr>
+									            
+									            <tr>
+									              	<td>Registro Junta Comercial ou Cartório</td>
+													<td>{VALOR_REGISTRO_JUNTA}</td>
+									            </tr>
+									            
+									            <tr>
+									              	<td width="45%">Data Reg. Junta Comercial ou Cartório</td>
+									              	<td>{VALOR_DATA_REGISTRO}</td>
+									            </tr>
+									            
+									            <tr>
+									              	<td>Nome do Contato</td>
+													<td>{VALOR_NOME_CONTATO}</td>
+									            </tr>
+									            
+									            <tr>
+									              	<td>CPF do Contato</td>
+													<td>{VALOR_CPF_CONTATO}</td>
+									            </tr>
+									            
+									            <tr>
+									              	<td>Cargo do Contato</td>
+													<td>{VALOR_CARGO_CONTATO}</td>
+									            </tr>
+									            
+									            <tr>
+									              	<td>DDD do Contato</td>
+													<td>{VALOR_DDD_CONTATO}</td>
+									            </tr>
+									            
+									            <tr>
+									              	<td>Telefone do Contato</td>
+													<td>{VALOR_TELEFONE_CONTATO}</td>
+									            </tr>
+											</tbody>
+										</table>
+										
+										<table class="table table-report">
+								  			<thead>
+												<tr>
+													<th colspan="12">
+														<span class="text-center">SÓCIOS</span>
+													</th>
+												</tr>
+											</thead>
+											
+											<tbody>
+												<!-- BEGIN BLOCO_NENHUM_CADASTRO_SOCIO -->
+												<tr>
+								              		<td class="text-center" colspan="2">NENHUM CADASTRADO</td>
+								              	</tr>
+												<!-- END BLOCO_NENHUM_CADASTRO_SOCIO -->
+												
+												<!-- BEGIN BLOCO_CADASTRO_SOCIO -->
+												<tr>
+								              		<td align="center" width="45%">Nome</td>
+								              		<td align="center">CPF/CNPJ</td>
+								              	</tr>
+								              	<!-- END BLOCO_CADASTRO_SOCIO -->
+								              	
+								              	<!-- BEGIN BLOCO_DADOS_SOCIO_CADASTRADO -->
+								              	<tr>
+								              		<td>{VALOR_SOCIO_NOME}</td>
+								              		<td>{VALOR_SOCIO_CPF}</td>
+								              	</tr>
+												<!-- END BLOCO_DADOS_SOCIO_CADASTRADO -->
+											</tbody>
+										</table>
+										
+										<table class="table table-report">
+								  			<thead>
+												<tr>
+													<th colspan="12">
+														<span class="text-center">REGULARIDADE FISCAL</span>
+													</th>
+												</tr>
+											</thead>
+											
+											<tbody>
+												<tr>
+									              	<td>Inscrição Mercantil</td>
+									              	<td>{VALOR_INSCRICAO_MERCANTIL}</td>
+									            </tr>
+									            
+									            <tr>
+									              	<td width="45%">Inscrição Outro Município</td>
+													<td>{VALOR_INSCRICAO_MUNICIPAL}</td>
+									            </tr>
+									            
+									            <tr>
+									              	<td>Inscrição Estadual</td>
+									              	<td>{VALOR_INSCRICAO_ESTADUAL}</td>
+									            </tr>
+									            
+									            <!-- BEGIN BLOCO_TIPO_HABILITACAO_L_QUALIFICACAO -->
+									            <tr>
+													<td colspan="2">
+														<table class="table table-report">
+															<tr>
+																<td colspan="2" class="text-center"><strong>CERTIDÃO FISCAL</strong></td>
+															</tr>
+															<tr>
+																<td colspan="2" class="text-center"><strong>OBRIGATÓRIAS</strong></td>
+															</tr>
+															<tr>
+																<td width="45%"><strong>Nome da Certidão</strong></td>
+																<td><strong>Data de Validade</strong></td>
+															</tr>
+															
+															<tr>
+																<td class="{VALOR_VALIDADE}">{VALOR_DESCRICAO_OB}</td>
+																<td class="text-center">{VALOR_DATA_CERTIDAO_OB}</td>
+															</tr>
+															
+															<tr>
+																<td colspan="2" class="text-center"><strong>COMPLEMENTARES</strong></td>
+															</tr>
+															
+															<!-- BEGIN BLOCO_CERTIDOES_COMPLEMENTARES -->
+																<!-- BEGIN BLOCO_HEADER_CERTIDOES_COMPLEMENTARES -->
+																<tr>
+																	<td><strong>Nome da Certidão</strong></td>
+																	<td><strong>Data de Validade</strong></td>
+																</tr>
+																<!-- END BLOCO_HEADER_CERTIDOES_COMPLEMENTARES -->
+																
+																<!-- BEGIN BLOCO_VALORES_CERTIDOES_COMPLEMENTARES -->
+																<tr>
+																	<td width="45%">{VALOR_DESCRICAO_OP}</td>
+																	<td class="text-center">{VALOR_DATA_CERTIDAO_OP}</td>
+																</tr>
+																<!-- END BLOCO_VALORES_CERTIDOES_COMPLEMENTARES -->
+																
+																<!-- BEGIN BLOCO_NAO_INFORMADO -->
+																<tr>
+																	<td class="text-center" colspan="2">NÃO INFORMADO</td>
+																</tr>
+																<!-- END BLOCO_NAO_INFORMADO -->
+															<!-- END BLOCO_CERTIDOES_COMPLEMENTARES -->
+														</table>
+													</td>
+												</tr>
+									            <!-- END BLOCO_TIPO_HABILITACAO_L_QUALIFICACAO -->
+											</tbody>
+										</table>
+										
+										<table class="table table-report">
+											<thead>
+												<tr>
+													<th colspan="12">
+														<span class="text-center">QUALIFICAÇÃO ECONÔMICA E FINANCEIRA</span>
+													</th>
+												</tr>
+											</thead>
+											
+											<tbody>
+												<tr>
+									              	<td>Capital Social Subscrito</td>
+									              	<td>{VALOR_CAP_SOCIAL}</td>
+									            </tr>
+									            
+												<tr>
+									              	<td>Capital Integralizado</td>
+									              	<td>{VALOR_CAP_INTEGRALIZADO}</td>
+									            </tr>
+									            
+									            <tr>
+									              	<td>Patrimônio Líquido</td>
+									              	<td>{VALOR_PATRIMONIO}</td>
+									            </tr>
+									            
+												<tr>
+									              	<td width="45%">Índice de Liquidez Corrente</td>
+									              	<td>{VALOR_INDICE_LIQUIDEZ}</td>
+									            </tr>
+									            
+									            <tr>
+									              	<td>Índice de Liquidez Geral</td>
+													<td>{VALOR_INDICE_LIQUIDEZ_GERAL}</td>
+									            </tr>
+									            
+									            <tr>
+									              	<td>Índice de Endividamento</td>
+													<td>{VALOR_INDICE_ENDIVIDAMENTO}</td>
+									            </tr>
+									            
+									            <tr>
+									              	<td>Índice de Solvência</td>
+													<td>{VALOR_INDICE_SOLVENCIA}</td>
+									            </tr>
+									            
+									            <tr>
+									              	<td width="45%">Data validade do balanço</td>
+													<td>{VALOR_DATA_VALIDADE_BALANCO}</td>
+									            </tr>
+									            
+									            <tr>
+									              	<td width="45%">Data Certidão Negativa de Falência e Concordata</td>
+													<td>{VALOR_DATA_CERTIDAO_NEGATIVA}</td>
+									            </tr>
+									            
+									            <tr>
+									              	<td width="45%">Data de última alteração de contrato ou estatuto</td>
+													<td>{VALOR_DATA_ULTIMA_ALTERACAO}</td>
+												</tr>
+												
+												<tr>
+									            	<td colspan="2">
+										            	<table class="table table-report">
+											              	<tr>
+											              		<td width="45%"><strong>Banco</strong></td>
+											              		<td><strong>Agência</strong></td>
+											              		<td><strong>Conta Corrente</strong></td>
+											              	</tr>
+											              	
+											              	<!-- BEGIN BLOCO_BANCO_1 -->
+										              		<tr>
+										              			<td>{VALOR_BANCO_1}</td>
+										            	  		<td>{VALOR_AGENCIA_1}</td>
+												              	<td>{VALOR_CC_1}</td>
+												            </tr>
+												            <!-- END BLOCO_BANCO_1 -->
+												            
+												            <!-- BEGIN BLOCO_BANCO_2 -->
+													        <tr>
+													          	<td>{VALOR_BANCO_2}</td>
+										            	  		<td>{VALOR_AGENCIA_2}</td>
+												              	<td>{VALOR_CC_2}</td>
+												            </tr>
+													        <!-- END BLOCO_BANCO_2 -->
+													          
+													        <!-- BEGIN BLOCO_SEM_BANCO -->
+													        <tr>
+												            	<td align="center" colspan="3">NÃO INFORMADO</td>
+												            </tr>
+												            <!-- END BLOCO_SEM_BANCO -->
+										            	</table>
+										            </td>
+									            </tr>
+											</tbody>
+										</table>
+										
+										<table class="table table-report">
+											<thead>
+												<tr>
+													<th colspan="12">
+														<span class="text-center">QUALIFICAÇÃO TÉCNICA</span>
+													</th>
+												</tr>
+											</thead>
+																					
+											<tbody>
+												<!-- BEGIN BLOCO_TIPO_HABILITACAO_L_TECNICA -->
+												<tr>
+													<td>Nome da Entidade</td>
+													<td>{VALOR_NOME_ENTIDADE}</td>
+												</tr>
+												
+												<tr>
+													<td width="45%">Registro ou Inscrição </td>
+													<td>{VALOR_REGISTRO_INSCRICAO}</td>
+												</tr>
+												
+												<tr>
+													<td>Data da Vigência</td>
+													<td>{VALOR_DATA_VIGENCIA}</td>
+												</tr>
+												
+												<tr>
+													<td>Registro ou Inscrição do Técnico</td>
+													<td>{VALOR_REGISTRO_TECNICO}</td>
+												</tr>
+												
+												<!-- BEGIN BLOCO_AUTORIZACAO_ESPECIFICA -->
+												<tr>
+													<td colspan="12">
+														<table class="table table-report">
+															<tr>
+																<td colspan="12" class="text-center"><strong>AUTORIZAÇÃO ESPECÍFICA</strong></td>
+															</tr>
+
+															<!-- BEGIN BLOCO_HEADER_AUTORIZACAO_ESPECIFICA -->
+															<tr>
+																<td colspan="4" width="45%"><strong>Nome da Entidade Emissora</strong></td>
+																<td colspan="4"><strong>Registro ou Inscrição</strong></td>
+																<td colspan="4"><strong>Data de Vigência</strong></td>
+															</tr>
+															<!-- END BLOCO_HEADER_AUTORIZACAO_ESPECIFICA -->
+															
+															<!-- BEGIN BLOCO_RESULTADO_AUTORIZACAO_TECNICA -->
+															<tr>
+																<td colspan="4">{VALOR_REGISTRO_AUTOR}</td>
+																<td colspan="4">{VALOR_NOME_AUTOR}</td>
+																<td colspan="4" align="center">{VALOR_DATA_VIG_AUTOR}</td>
+															</tr>
+															<!-- END BLOCO_RESULTADO_AUTORIZACAO_TECNICA -->
+															
+															<!-- BEGIN BLOCO_SEM_RESULTADO_AUTORIZACAO_TECNICA -->
+															<tr>
+																<td align="center" colspan="12">NÃO INFORMADO</td>
+															</tr>
+															<!-- END BLOCO_SEM_RESULTADO_AUTORIZACAO_TECNICA -->
+														</table>
+													</td>
+												</tr>
+												<!-- END BLOCO_AUTORIZACAO_ESPECIFICA -->
+												
+												<!-- END BLOCO_TIPO_HABILITACAO_L_TECNICA -->										
+											</tbody>
+										</table>
+										
+										<table class="table table-report">
+											<thead>
+												<tr>
+													<th colspan="12">
+														<span class="text-center">GRUPOS DE FORNECIMENTO (OBJETO SOCIAL)</span>
+													</th>
+												</tr>
+											</thead>
+																					
+											<tbody>
+												<!-- BEGIN BLOCO_MATERIAL -->
+												<tr>
+													<td colspan="2" class="text-center"><strong>MATERIAIS</strong></td>
+												</tr>
+												
+												<!-- BEGIN BLOCO_DESCRICAO_ANTES -->
+												<tr>
+													<td>{VALOR_DESCRICAO_GRUPO}</td>
+												</tr>
+												<!-- END BLOCO_DESCRICAO_ANTES -->
+												<!-- END BLOCO_MATERIAL -->
+												
+												<!-- BEGIN BLOCO_SERVICO -->
+												<tr>
+													<td colspan="2" class="text-center"><strong>SERVIÇOS</strong></td>
+												</tr>
+												
+												<!-- BEGIN BLOCO_DESCRICAO_SERVICO_ANTES -->
+												<tr>
+													<td>{VALOR_DESCRICAO_SERVICO_GRUPO}</td>
+												</tr>
+												<!-- END BLOCO_DESCRICAO_SERVICO_ANTES -->
+												<!-- END BLOCO_SERVICO -->
+											</tbody>
+										</table>
+
+										<table class="table table-report">
+												{htmlDocAnexo}
+										</table>
+										<hr>
+										
+										<div class="btn-toolbar pagination-right">
+											<input type="hidden" name="Sequencial" value="{SEQUENCIAL}">
+											<input type="hidden" name="Mensagem" value="{MENSAGEM}">
+											<input type="hidden" name="codDownload" id="codDownload">
+											<input type="button" value="Imprimir" class="botao btn btn-primary" onclick="javascript:enviar('Imprimir');">
+											<input type="hidden" name="Botao" value="">
+										</div>
+									</div>
+								</div>
+							</section>
+						</article>
+					</div>
+				</section>
+			</div>
+		</div>
+	</div>
+</form>

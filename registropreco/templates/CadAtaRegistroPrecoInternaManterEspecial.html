@@ -1,0 +1,110 @@
+<!-- 220038-- -->
+<script type="text/javascript">
+	function enviar(valor) {
+		document.CadAtaRegistroPrecoInternaManterEspecial.Botao.value = valor;
+		document.CadAtaRegistroPrecoInternaManterEspecial.submit();
+	}
+
+	function AbreJanela(url, largura, altura) {
+		window.open(url, 'paginadetalhe',
+				'status=no,scrollbars=yes,left=90,top=150,width=' + largura
+						+ ',height=' + altura);
+	}
+
+	function AbreJanelaItem(url, largura, altura) {
+		window.open(url, 'paginaitem',
+				'status=no,scrollbars=yes,left=90,top=150,width=' + largura
+						+ ',height=' + altura);
+	}
+
+	function pegarValorSelectAno() {
+		var valor = $('select[name=GerarNumeracaoAno]').val();
+		document.CadAtaRegistroPrecoInternaManterEspecial.Botao.value = valor;
+		document.CadAtaRegistroPrecoInternaManterEspecial.submit();
+	}
+
+	jQuery(document).ready(function($) {
+		jQuery(".mascara-numero-intencao").mask("9999/9999");
+
+		jQuery(".reset").click(function(event) {
+			event.preventDefault();
+
+			jQuery(":text").each(function() {
+				jQuery(this).val("");
+			}); 
+
+			jQuery(":radio").each(function() {
+				jQuery(this).prop({
+					checked : false
+				})
+			});
+
+			jQuery(":checkbox").each(function() {
+				jQuery(this).prop({
+					checked : false
+				})
+			});
+
+			jQuery("select").each(function() {
+				jQuery(this).val("");
+			});
+		});
+	});
+</script>
+<form action="CadAtaRegistroPrecoInternaManterEspecial.php" method="post"
+	name="CadAtaRegistroPrecoInternaManterEspecial">
+	<table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6"
+		summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 633px;">
+		<tr>
+			<td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3">MANTER ESPECIAL DE ATA INTERNA</td>
+		</tr>
+		<tr> 
+			<td>
+				<table class="textonormal" border="0" align="left" summary="">
+					<tr>
+						<td class="textonormal" bgcolor="#DCEDF7" width="30%">Órgão Gestor</td>
+						<td class="textonormal">
+							<select 
+							onChange="javascript:enviar('AlterarOrgao');" id="orgaoGestor" name="orgaoGestor" class="textonormal">
+								<!-- BEGIN BLOCO_ORGAO -->
+								<option value="{ORGAO_VALUE}"{ORGAO_SELECTED}>{ORGAO_TEXT}</option>
+								<!-- END BLOCO_ORGAO -->
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td class="textonormal" bgcolor="#DCEDF7" width="30%">Ano</td>
+						<td class="textonormal"><select
+							onChange="javascript:enviar('AlterarProcesso');"
+							name="GerarNumeracaoAno" class="textonormal">
+								<!-- BEGIN BLOCO_ANO -->
+								<option value="{ANO_VALUE}"{ANO_SELECTED}>{ANO_TEXT}</option>
+								<!-- END BLOCO_ANO -->
+						</select></td>
+					</tr>
+
+					<tr>
+						<td class="textonormal" bgcolor="#DCEDF7" width="30%">Processo</td>
+						<td class="textonormal"><select name="GerarNumeracaoProcess"
+							class="textonormal">
+								<option value="">{TEXTO_PROCESSO_SELECIONE}</option>
+								<!-- BEGIN BLOCK_PROCESSO -->
+								{OPTGROUP_INICIO}
+								<!-- BEGIN BLOCK_OPTION -->
+								<option value="{PROCESSO_VALUE}"{PROCESSO_SELECTED}>{TEXTO_PROCESSO}</option>
+								<!-- END BLOCK_OPTION -->
+								{OPTGROUP_FINAL}
+								<!-- END BLOCK_PROCESSO -->
+						</select></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td class="textonormal" align="right"><input type="button"
+				name="Pesquisar" value="Selecionar" class="botao"
+				onclick="javascript:enviar('Selecionar')" /> <input type="hidden"
+				name="Botao" value="" /></td>
+		</tr>
+	</table>
+</form>

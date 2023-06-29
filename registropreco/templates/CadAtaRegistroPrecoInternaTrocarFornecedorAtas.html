@@ -1,0 +1,195 @@
+<!-- 220038-- -->
+<script type="text/javascript">
+function enviar(valor){
+    document.{NOME_PROGRAMA}.Botao.value = valor;
+    document.{NOME_PROGRAMA}.submit();
+}
+
+function verificaSituacao(situacao){
+	if(situacao == 'ATIVA'){
+		document.{NOME_PROGRAMA}.ativar.disabled = true;
+		document.CadAtaRegistroPrecoInternaManterAtas.inativar.disabled = false;
+	}else{
+
+		document.{NOME_PROGRAMA}.ativar.disabled = false;
+		document.{NOME_PROGRAMA}.inativar.disabled = true;
+	}
+}
+
+function capturarNumeroDaAta(valor){
+	document.{NOME_PROGRAMA}.ata_real.value = valor;
+}
+
+function clean_hex(input) {
+    input = input.toUpperCase();
+    input = input.replace(/[^A-Fa-f0-9]/g, "");
+
+    return input;
+}
+
+function Convert(id, nomePdf) {
+    var binValue    = $('#'+id).val();
+
+    var cleaned_hex = clean_hex(binValue);
+    binValue        = cleaned_hex;
+
+    var filename    = nomePdf;
+    var binary      = new Array();
+
+    for (var i=0; i<cleaned_hex.length/2; i++) {
+        var h = cleaned_hex.substr(i*2, 2);
+        binary[i] = parseInt(h,16);
+    }
+
+	var byteArray = new Uint8Array(binary);
+	var a = window.document.createElement('a');
+
+	a.href = window.URL.createObjectURL(new Blob([byteArray], { type: 'application/octet-stream' }));
+	a.download = filename;
+
+	document.body.appendChild(a)
+	a.click();
+
+	document.body.removeChild(a)
+}
+
+$( document ).ready(function() {
+    $('.documentos a').click(function() {
+        var nomePdf   = $(this).html().replace(/\<br>/g, '');
+        var nomeClass = $(this).prop('class');
+        Convert(nomeClass, nomePdf);
+    });
+});
+</script>
+<form action="{NOME_PROGRAMA}.php" method="post" name="{NOME_PROGRAMA}">
+    <!-- BEGIN BLOCO_RESULTADO_PEQUISA -->
+    <table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 633px;">
+        <tr>
+            <td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3" colspan="9">
+                {TITULO_PROGRAMA} 
+            </td>
+
+        </tr>
+        <tr>
+            <td>
+                <table>
+                    <!-- BEGIN BLOCO_LICITACAO -->
+                    <tr>
+                        <td class="textonormal" bgcolor="#DCEDF7" width="20%" align="left">Comissão</td>
+                        <td class="textonormal" width="80%" align="left">
+                            {VALOR_COMISSAO}
+                        </td>
+                    </tr>
+                    <tr>
+                         <td class="textonormal" bgcolor="#DCEDF7" width="20%" align="left">Processo</td>
+                         <td class="textonormal" width="80%" align="left">
+                            {VALOR_PROCESSO}
+                         </td>
+                    </tr>
+                    <tr>
+                        <td class="textonormal" bgcolor="#DCEDF7" width="20%" align="left">Ano</td>
+                         <td class="textonormal" width="80%" align="left">
+                            {VALOR_ANO}
+                         </td>
+                    </tr>
+                    <tr>
+                        <td class="textonormal" bgcolor="#DCEDF7" width="20%" align="left">Modalidade</td>
+                         <td class="textonormal" width="80%" align="left">
+                            {VALOR_MODALIDADE}
+                         </td>
+                    </tr>
+                    <tr>
+                        <td class="textonormal" bgcolor="#DCEDF7" width="20%" align="left">Licitação</td>
+                        <td class="textonormal" width="80%" align="left">
+                            {VALOR_LICITACAO}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="textonormal" bgcolor="#DCEDF7" width="20%" align="left">Ano Licitação</td>
+                        <td class="textonormal" width="80%" align="left">
+                            {VALOR_ANO_LICITACAO}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="textonormal" bgcolor="#DCEDF7" width="20%" align="left">Org. Licitante</td>
+                        <td class="textonormal" width="80%" align="left">
+                            {VALOR_ORG_LIMITE}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="textonormal" bgcolor="#DCEDF7" width="20%" align="left">Participantes do Processo</td>
+                        <td class="textonormal" width="80%" align="left">
+                            {VALOR_PARTICIPANTES}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="textonormal" bgcolor="#DCEDF7" width="20%" align="left">Objeto</td>
+                        <td class="textonormal" width="80%" align="left">
+                            {VALOR_OBJETO}
+                        </td>
+                    </tr>
+                    <!-- END BLOCO_LICITACAO -->
+                </table>
+            </td>
+        </tr>
+
+     </table>
+    <!-- END BLOCO_RESULTADO_PEQUISA -->
+
+    <table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 633px;">
+        <tr>
+            <td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3">ATA(S) DE REGISTRO DE PREÇO   {TITULO_ATAS}</td>
+        </tr>
+        <tr>
+            <td>
+              <table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF">
+
+                 <tr>
+                     <td class="textoabason" bgcolor="#DCEDF7" width="300px" align="center">Nº ATA</td>
+                     <td class="textoabason" bgcolor="#DCEDF7" width="279px" align="center">VIGÊNCIA</td>
+                     <td class="textoabason" bgcolor="#DCEDF7" width="427px" align="center">DOCUMENTO</td>
+                     <td class="textoabason" bgcolor="#DCEDF7" width="506px" align="center">DATA ÚLTIMA ALTERAÇÃO</td>
+                     <td class="textoabason" bgcolor="#DCEDF7" width="127px" align="center">SITUAÇÃO</td>
+                 </tr>
+                 <!-- BEGIN BLOCO_RESULTADO_ATAS -->
+                 <tr>
+                     <td class="textonormal" align="center">
+                         <input type="radio" name="ata" value="{VALOR_ATA}"  onclick="javascript:capturarNumeroDaAta('{VALOR_ATA_REAL}');" />{VALOR_ATA}<br/>
+                     </td>
+
+                   <td class="textonormal" align="center">
+                         {VALOR_VIGENCIA}
+                   </td>
+                   <td class="textonormal documentos" align="center">
+                       <!-- BEGIN BLOCO_DOCUMENTOS -->
+                           <input type="hidden" value="{HEX_DOCUMENTO}" id="{VALOR_DOCUMENTO_KEY}">
+                           <a href="#" class="{VALOR_DOCUMENTO_KEY}">{VALOR_DOCUMENTO}</a><br>
+                       <!-- END BLOCO_DOCUMENTOS -->
+                   </td>
+                    <td class="textonormal" align="center">
+                         {VALOR_DATA}
+                   </td>
+                    <td class="textonormal" align="center">
+                         {VALOR_SITUACAO}
+                   </td>
+                </tr>
+                <!-- END BLOCO_RESULTADO_ATAS -->
+             </table>
+         </td>
+      </tr>
+      <tr>
+          <td class="textonormal" align="right" >
+            <!-- BEGIN BLOCO_BOTAO_ATAS_ALTERAR -->
+                <input type="button" name="{ACAO_ALTERAR}" value="{VALUE_ALTERAR}" class="botao" onclick="javascript:enviar('{ENVIAR_ALTERAR}')" ></input>
+            <!-- END BLOCO_BOTAO_ATAS_ALTERAR -->
+
+            <!-- BEGIN BLOCO_BOTAO_ATAS_VISUALIZAR -->
+                <input type="button" name="{ACAO_VISUALIZAR}" value="{VALUE_VISUALIZAR}" class="botao" onclick="javascript:enviar('{ENVIAR_VISUALIZAR}')" ></input>
+            <!-- END BLOCO_BOTAO_ATAS_VISUALIZAR -->
+                <input type="button" name="voltar" value="Voltar" class="botao" onclick="javascript:enviar('Voltar')" />
+                <input type="hidden" name="Botao" />
+                <input type="hidden" name="ata_real" />
+          </td>
+       </tr>
+   </table>
+ </form>

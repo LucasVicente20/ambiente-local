@@ -1,0 +1,453 @@
+body,
+.dropdown-menu {
+  background-color: black;
+  color: white;
+}
+
+a,
+a:hover {
+  color: white;
+}
+.ico-btn-atalho {
+  background-image:url("http://transparencia.recife.pe.gov.br/codigos/midia/ico_atalho_ac.png");
+  background-repeat:no-repeat;
+	background-position: center;
+	width:14px;
+	height:14px;
+}
+
+.tecla {
+  background: #000000;
+  color: #ffffff;
+  font-weight: bold;
+  padding-top: 1px;
+  padding-right: 5px;
+  padding-bottom: 1px;
+  padding-left: 5px;  
+  border-radius: 5px;
+}
+
+.informacao-atalho {
+  background: #ffffff;
+  color: #000000;
+}
+
+.row-consultas {
+	border-radius: 15px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  padding-top: 25px;
+  padding-bottom: 5px;
+  margin-bottom: 15px;
+}
+
+.site-header .header-links,
+.site-header .header-links .bg,
+.site-header .header-logo,
+.site-header .header-menu,
+.site-header .header-tools {
+  background: none;
+  border-bottom: white 1px solid;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+
+.site-header .header-links .nav ul li a {
+  color: white;
+}
+.site-header .header-links .nav ul li {
+    border-left: 1px solid gray;
+}
+
+.site-header .header-links,
+.site-header .header-links .bg {
+  background-color: white;
+  color: black;
+}
+.site-header .header-links .nav ul li a {
+  color: black;
+}
+
+.site-header .header-menu .menu .nav > li > a:hover, 
+.site-header .header-menu .menu .nav > li > a.active, 
+.site-header .header-menu .menu .nav > li.open > a {
+    box-shadow: inset 0 3px 0 gray;
+    -webkit-box-shadow: inset 0 3px 0 gray;
+    -moz-box-shadow: inset 0 3px 0 gray;
+    box-shadow: inset 0 3px 0 gray;
+    color: black;
+}
+.site-header .header-menu .menu .nav > li {
+  -webkit-box-shadow: 1px 0 0 rgba(0,0,0,.1), inset 0 -1px 0 gray, inset 0 -4px 0 gray;
+  -moz-box-shadow: 1px 0 0 rgba(0,0,0,.1), inset 0 -1px 0 gray, inset 0 -4px 0 gray;
+  box-shadow: 1px 0 0 rgba(0,0,0,.1), inset 0 -1px 0 gray, inset 0 -4px 0 gray;
+}  
+
+.site-header .header-menu .menu .nav > li .dropdown-menu {
+  border: 2px solid white;
+}
+.site-header .header-menu .menu .nav > li .dropdown-menu li a {
+  color: white;
+}
+.site-header .header-menu .menu .nav > li .dropdown-menu .dropdown-submenu:hover > a,
+.site-header .header-menu .menu .nav > li .dropdown-menu li a:hover {
+  background-color: white;
+  color: black;
+}
+.site-header .header-menu .menu .nav > li .dropdown-menu li {
+  border-top: 1px solid white;
+}
+
+.acessibilidade .btn,
+.acessibilidade .btn:hover,
+.btn,
+.btn:hover,
+.button-grid-3 .row-fluid a {
+  color: white;
+  -webkit-box-shadow: 0 1px 0 black;
+  -moz-box-shadow: 0 1px 0 black;
+  box-shadow: 0 1px 0 black;
+  background-color: black;
+  background-image: none;
+  border: 1px solid white;
+}
+.button-grid-3 .row-fluid a:hover {
+  color: black;
+  -webkit-box-shadow: 0 1px 0 white;
+  -moz-box-shadow: 0 1px 0 white;
+  box-shadow: 0 1px 0 white;
+  background-color: white;
+  background-image: none;
+  border: 1px solid black;
+}
+.button-grid-3 .row-fluid a:hover span {
+  color: black;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  background-image: url("http://transparencia.recife.pe.gov.br/codigos/css/themes/default/bootstrap/img/glyphicons-halflings-white.png");
+}
+
+
+input.procura {
+  border-color: gray;
+}
+
+textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
+  background-color: #ffffff;
+  border: 1px solid gray;
+  color: black;
+}
+
+.site-body {
+  background-image: none;
+}
+
+.button-grid-3 .row-fluid a {
+  color: black;
+  -webkit-box-shadow: 0 0px 0 white;
+  -moz-box-shadow: 0 0px 0 white;
+  box-shadow: 0 0px 0 white;
+  background-color: white;
+  background-image: none;
+}
+.button-grid-3 .row-fluid a span {
+  color: black;
+}
+.button-grid-3 .row-fluid a:hover {
+  color: white;
+  -webkit-box-shadow: 0 1px 0 black;
+  -moz-box-shadow: 0 1px 0 black;
+  box-shadow: 0 1px 0 black;
+  background-color: black;
+  background-image: none;
+  border: 1px solid white;
+}
+.button-grid-3 .row-fluid a:hover span {
+  color: white;
+}
+
+.box-list {
+  border: 1px solid white;
+  color: black;
+}
+.box-list .header h1 {
+  color: black;
+}
+.box-list .header {
+  border-bottom: 1px solid black;
+}
+.box-list .icon-relogio {
+  background: url("../css/themes/default/img/icon_time.png") no-repeat center;
+}
+.box-list .body ul li {
+  border-top: 1px dotted gray;
+}
+.box-list a, a:hover {
+    color: black;
+}
+
+.tooltip-inner {
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+}
+
+.box-content .header {
+  background-image: -webkit-linear-gradient(top, gray, black);
+  background-image: -o-linear-gradient(top, gray, black);
+  background-image: linear-gradient(to bottom, gray, black);
+  border: 1px solid white;
+}
+.box-content .body {
+  border: 1px solid white;
+  color: black;
+} 
+.box-content .body .btn {
+  border: none;
+}
+.box-content .body .btn:hover {
+  border: none;
+}
+
+.box-article .header {
+  background-image: -webkit-linear-gradient(top, gray, black);
+  background-image: -o-linear-gradient(top, gray, black);
+  background-image: linear-gradient(to bottom, gray, black);
+  border: 1px solid white;
+}
+.box-article .body {
+  border: 1px solid white;
+  color: black;
+} 
+.box-article .body .btn {
+  border: none;
+}
+.box-article .body .btn:hover {
+  border: none;
+}
+.box-article a, a:hover {
+  color: black;
+}
+.box-article .body .well .btn, .box-article .body .well .btn:hover {
+  background-color: white;
+  color: black;  
+}
+.box-article .body td.ch {
+  border-right: 1px dotted black;
+}
+.box-article .body td.cv {
+  color: #4F4F4F;
+}
+
+.article h1 {
+  color: black;
+}
+    
+.yellow {
+  color: white;
+}
+
+.site-footer {
+  background: none;
+  background-color: white;
+  color: black;
+}
+.site-footer .bg,
+.site-footer .footer-logo {
+  background: none;
+  border-top: 3px solid gray;
+}
+.site-footer a, 
+.site-footer a:hover,
+.site-footer .footer-menu h2 {
+  color: black;
+}
+.site-footer .footer-logo .endereco h2, .site-footer .footer-logo .contato h2 {
+  color: gray;
+}
+.site-footer .footer-links {
+  background: black;
+}
+.site-footer .footer-links a:hover {
+  color: white;
+}
+
+.well {
+  background: black;
+  border: 1px solid black;
+  color: white;
+}
+label.big {
+  color: white;
+  font-weight: bold !important;
+
+}
+
+.row-border {
+  border-bottom: 1px dotted black;
+}
+
+.blue {
+  color: #4F4F4F;
+}
+
+table.report-treetable {
+  border: 1px solid black;
+}
+table.report-treetable thead tr th {
+  background-color: white;
+  border-left: 1px solid black;
+  color: black;
+}
+table.report-treetable thead tr th span.separator {
+  background-color: gray;
+}
+.treeTable tr.collapsexd td a.expander {
+  background-image: url(../js/jquery_treetable/images/toggle-expand-light.png) !important;
+}
+.treeTable tr.expanded td a.expander {
+  background-image: url(../js/jquery_treetable/images/toggle-collapse-light.png) !important;
+}
+table.report-treetable tbody tr td {
+  border-top: 1px solid white;
+  border-left: 1px solid white;
+}
+.treeTable tr td a.expander {
+  color: white !important;
+}
+
+#treeview2 li {
+  color: black;
+}
+.treeview .hover {
+  color: #4F4F4F !important;
+}
+
+table.table-report {
+  border: 1px solid black;
+}
+table.table-report thead tr th {
+  background-color: white !important;
+  border-left: 1px solid black;
+  color: black;
+}
+table.table-report thead tr th acronym {
+  text-decoration: none;
+}
+table.table-report thead tr th span.separator {
+  background-color: gray;
+  border-top: 1px solid gray;
+  border-bottom: 1px solid gray;
+}
+table.dataTable thead tr th.sorting_asc span.separator,
+table table-report thead tr th.sorting_asc span.separator {
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  background: #F2F2F2 url("../midia/desc.gif") no-repeat center;
+}
+table.dataTable thead tr th.sorting_desc span.separator,
+table table-report thead tr th.sorting_desc span.separator,
+table.table-report thead tr th.active span.separator {
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  background: #F2F2F2 url("../midia/asc.gif") no-repeat center;
+}
+table.table-report tbody tr td {
+  border-top: 1px solid white;
+  border-left: 1px solid white;
+  background-color: black;
+  color: white;
+}
+
+.ui-widget-content {
+  border: 1px solid white;
+}
+.ui-dialog .ui-dialog-titlebar {
+  background-image: -webkit-linear-gradient(top, gray, black);
+  background-image: -o-linear-gradient(top, gray, black);
+  background-image: linear-gradient(to bottom, gray, black);
+  border: 0;
+}
+.ui-dialog-buttonset button {
+  color: white !important;
+  -webkit-box-shadow: 0 1px 0 black !important;
+  -moz-box-shadow: 0 1px 0 black !important;
+  box-shadow: 0 1px 0 black !important;
+  background-color: black !important;
+  background-image: none !important;
+  border: 1px solid black !important;
+}
+div.dataTables_wrapper div.bottom,
+.table-pagination {
+  background: black;
+}
+div.dataTables_wrapper div.paginacao .dataTables_paginate a.paginate_active,
+.table-pagination .pagination ul li a.paginate_active {
+  color: black;
+  background: white;
+}
+.dataTables_paginate a:hover, div.dataTables_wrapper div.paginacao a:hover,
+.table-pagination .pagination ul li a:hover {
+  color: black;
+  background: white;
+}
+
+.textoAzul {
+  color: black !important;
+  font-weight: bold !important;
+}
+
+.breadcrumb {
+  border-bottom: 1px dotted black;
+}
+
+table.table.table-report.dataTable.fundopreto {
+  border: 1px solid white;
+}
+
+.box-article a.btn {
+  color: white;
+}
+
+.article h2, .article h3, .normalPequenaAzul {
+  color: black;
+}
+
+.row-consultas{
+	background: rgb(255, 255, 255);
+}
+.row-consultas .consultas-titulo {
+  text-align: center;
+  text-transform: uppercase;
+  color: black;
+  font-weight: bold;  
+}
+.row-consultas .well {
+  background-color: black;
+}
+div.tooltip-inner, .fabTip, .fabTip3 {
+	background-color: #ffffff;
+	border: 2px solid black;
+}
+
+.fabProxy, .fab3{
+	background-color:black; 
+	color: white;  
+	border: 2px solid white;	
+}
+.hmapa {
+  color: white; 
+  font-family: sans-serif;
+}
+.article-header h3 {
+  color: #ffffff;
+}
+.table.table-report tr td a {
+  color: #ffffff;
+}
+.table.table-report tr td {
+  color: #ffffff;
+  background-color: #000000 !important;
+}

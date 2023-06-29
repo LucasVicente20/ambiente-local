@@ -1,0 +1,8 @@
+#!/bin/bash
+if [[ -x /usr/libexec/grubby/grubby-bls ]] ; then
+	exec /usr/libexec/grubby/grubby-bls "${@}"
+elif [[ -x /usr/libexec/grubby/grubby ]] ; then
+	exec /usr/libexec/grubby/grubby "${@}"
+fi
+echo "Grubby is not installed correctly." >>/dev/stderr
+exit 1

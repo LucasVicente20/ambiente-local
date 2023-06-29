@@ -1,0 +1,303 @@
+<!-- 220038-- -->
+<!-- <link rel="stylesheet" type="text/css" href="../import/bootstrap-3.3.7/css/bootstrap.css" media="screen"> 
+<script type="text/javascript" src="../import/bootstrap-3.3.7/js/bootstrap.min.js"></script> -->
+<!-- 
+  * -------------------------------------------------------------------
+  * Alterado: João Madson
+  * Data: 04/01/2023
+  * Tarefa: 276611
+  * -------------------------------------------------------------------
+ -->
+<script type="text/javascript">
+function enviar(valor) {
+
+    if(valor == "Devolver") {
+       var confirma = confirm("Tem certeza que deseja Devolver o DFD");
+        if(confirma != true) {
+            return false;
+        }
+    }
+    if(valor == 'Cancelar') {
+        document.CadAnalisarDFD.submit();
+    }
+    if(valor == 'Exibir') {
+        $('.justificativa').show();
+    }else {
+        document.CadAnalisarDFD.Botao.value = valor;
+        document.CadAnalisarDFD.submit();
+    }
+}
+
+$("#lupaCodClasse").on('click', function() {
+    $.post("PostDadosDFD.php",{op:"modalPesqClasse"}, function(data) {
+        $(".modal-content").html(data);
+        $(".modal-content").attr("style","min-height: 119px;width: 853px;");
+        $("#modal").show();
+    });
+});
+function ExportarPDF(){
+    $("[name='Botao']").val("ExportarPDF");
+    $("[name='CadAnalisarDFD']").submit();
+}
+function ExportarCSV(){
+    $("[name='Botao']").val("ExportarCSV");
+    $("[name='CadAnalisarDFD']").submit();
+}
+function ExportarXLS(){
+    $("[name='Botao']").val("ExportarXLS");
+    $("[name='CadAnalisarDFD']").submit();
+}
+
+
+// $(document).ready(function() {
+//
+//
+//
+// });
+
+function mascararCNPJ() {
+    $("#cnpj").mask("99.999.999/9999-99");
+}
+
+function limpar() {
+    document.CadAnalisarDFD.GerarNumeracaoAno.value = "";
+    document.CadAnalisarDFD.UnidadeCodigo.value = "";
+    document.CadAnalisarDFD.cnpj.value = "";
+    document.CadAnalisarDFD.cclamscodi.value = "";
+    document.CadAnalisarDFD.ematepdesc.value = "";
+    document.CadAnalisarDFD.DataInicio.value = "";
+    document.CadAnalisarDFD.DataFim.value = "";
+    document.CadAnalisarDFD.prioridade.value = "";
+    document.CadAnalisarDFD.vincular.value = "";
+    document.CadAnalisarDFD.submit();
+}
+
+</script>
+
+<form action="CadAnalisarDFD.php" method="post" name="CadAnalisarDFD">
+
+    <table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 1000px;">
+        <tr>
+            <td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3">ANALISAR DFD</td>
+        </tr>
+        <tr>
+            <td>
+                <table border="0" cellpadding="3" cellspacing="0"
+                       bordercolor="#75ADE6" summary="" class="textonormal"
+                       bgcolor="#FFFFFF" style="width: 1000px;">
+                    <tr>
+                        <td>Para Exibir os DFDs, selecione as opções e clique em “Pesquisar”.</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table class="textonormal" border="0px" align="left" summary="">
+                    <tr>
+                        <table class="textonormal" border="0" width="100%" summary="">
+                            <tr>
+                                <td class="textonormal" bgcolor="#DCEDF7" style="display: table; width: 200px">Ano PCA</td>
+                                <td class="textonormal">
+                                    <select name="GerarNumeracaoAno" class="textonormal capturarValorAcao" data-acao="SelecionarProcesso">
+                                        <!-- BEGIN BLOCO_ANO -->
+                                        <option value="{ANO_VALUE}" {ANO_SELECTED}>{ANO_TEXT}</option>
+                                        <!-- END BLOCO_ANO -->
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr id="nAta">
+                            <!-- BEGIN BLOCO_ORGAO_LICITANTE -->
+                                <td class="textonormal" bgcolor="#DCEDF7" style="display: table; width: 200px">
+                                    Nome da Área Requisitante
+                                </td>
+                                <td>
+                                    <select id="ddlOrgao" class="textonormal" name="UnidadeCodigo">
+                                        <option value="">Selecione a área requisitante...</option>
+                                        <!-- BEGIN BLOCO_ITEM_ORGAO_LICITANTE -->
+                                        <option value="{VALOR_ID_ORGAO_LICITANTE}"{VALOR_ORGAO_SELECTED}>{VALOR_NOME_ORGAO_LICITANTE}</option>
+                                        <!-- END BLOCO_ITEM_ORGAO_LICITANTE -->
+                                    </select>
+                                </td>
+                            <!-- END BLOCO_ORGAO_LICITANTE -->
+                            </tr>
+
+                            <tr id="obje">
+                                <td class="textonormal" bgcolor="#DCEDF7">CNPJ</td>
+                                <td class="textonormal">
+                                    <input type="text"  class="textonormal" name="cnpj" id="cnpj" class="" onclick="mascararCNPJ()" value="{CNPJ_PESQUISA}" style="text-transform:uppercase !important">
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="textonormal" bgcolor="#DCEDF7">Código da Classe</td>
+                                <td>
+                                    <img id="lupaCodClasse" src="../midia/lupa.gif" border="0">
+                                    </br>
+                                    <span></span>
+                                    <input type="hidden" name="cclamscodi" id="cclamscodi" value="{CODIGO_CLASSE}">
+                                    <input type="hidden" name="ematepdesc" id="ematepdesc" value="{DECRICAO_CLASSE}">
+                                </td>
+                            </tr>
+
+                            <tr id="comissaoLic">
+                                <td class="textonormal" bgcolor="#DCEDF7">Periodo de Conclusão</td>
+                                    <td>
+                                        <span>
+                                            <input type="text" name="DataInicio" size="10" maxlength="10" value="{VALOR_DATA_INICIO_CADASTRO}" class="textonormal">
+                                            <a href="javascript:janela('../calendario.php?Formulario=CadAnalisarDFD&Campo=DataInicio','Calendario',220,170,1,0)">
+                                            <img src="../midia/calendario.gif" border="0" alt=""></a> <font class="textonormal"> a </font>
+                                            </span>
+                                            <span>
+                                                <input type="text" name="DataFim" size="10" maxlength="10" value="{VALOR_DATA_FIM_CADASTRO}" class="textonormal">
+                                                <a href="javascript:janela('../calendario.php?Formulario=CadAnalisarDFD&Campo=DataFim','Calendario',220,170,1,0)">
+                                                <img src="../midia/calendario.gif" border="0" alt=""></a>
+                                            </span>
+                                    </td>
+                                </td>
+                            </tr>
+
+                            <tr id="processoInterno">
+                                <td class="textonormal" bgcolor="#DCEDF7">Grau de Prioridade</td>
+                                <td class="textonormal">
+                                    <select name="prioridade" class="textonormal capturarValorAcao" data-acao="prioridade">
+                                        <option value="" {PRIORIDADE_SELECTED_D}>Selecione um grau de  Prioridade</option>
+                                        <option value="1" {PRIORIDADE_SELECTED_A}>Alta</option>
+                                        <option value="2" {PRIORIDADE_SELECTED_B}>Media</option>
+                                        <option value="3" {PRIORIDADE_SELECTED_C}>Baixa</option>
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <tr id="processoExterno">
+                                <td class="textonormal" bgcolor="#DCEDF7">Vinculação com outro DFD</td>
+                                <td class="textonormal">
+                                    <input type="text" name="vincular" maxlength="100" class="textonormal" value="{VINCULAR}">
+                                </td>
+                            </tr>
+
+                            </tr>
+                        </table>
+                    </tr>
+                    <tr>
+                        <td class="textonormal" align="right">
+                            <input type="hidden" name="InicioPrograma" value="1" />
+                            <input type="button" name="Selecionar" value="Pesquisar" class="botao" onclick="javascript:enviar('Pesquisar')" />
+                            <input type="button" name="Limpar" value="Limpar" onclick="limpar()" class="botao reset" />
+                            <input type="hidden" name="Pesquisar" value="" />
+                        </td>
+                    </tr>
+                    <!--BEGIN BLOCO_MENSAGEM -->
+                            <tr class="removeresult">
+                                <td align="center"  colspan="4" class="titulo3">
+                                    {MENSAGEM}
+                                </td>
+                            </tr>
+                    <!-- END BLOCO_MENSAGEM-->
+
+            <!-- BEGIN BLOCO_RESULTADO -->
+        <tr>
+            <td colspan="2">
+                <table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 1000px;">
+                    <tr>
+                        <td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3" width="100%" colspan=12>
+                            <font color="white">Resultado da Pesquisa</font>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="5%" class="textonormal" bgcolor="#DCEDF7" align="center">&nbsp;</td>
+                        <td class="textonormal" bgcolor="#DCEDF7" size="5" align="center">Ano do PCA</td>
+                        <td class="textonormal" bgcolor="#DCEDF7" align="center">Identificador do DFD</td>
+                        <td class="textonormal" bgcolor="#DCEDF7" align="center">Unidade</td>
+                        <td class="textonormal" bgcolor="#DCEDF7" align="center">CNPJ</td>
+                        <td class="textonormal" bgcolor="#DCEDF7" align="center">Código da Classe</td>
+                        <td class="textonormal" bgcolor="#DCEDF7" align="center">Descrição da Classe</td>
+                        <td class="textonormal" bgcolor="#DCEDF7" align="center">Estimativa de Valor</td>
+                        <td class="textonormal" bgcolor="#DCEDF7" align="center">Previsão para Conclusão</td>
+                        <td class="textonormal" bgcolor="#DCEDF7" align="center">Tipo de Processo</td>
+                        <td class="textonormal" bgcolor="#DCEDF7" align="center">Grau de Prioridade</td>
+                        <td class="textonormal" bgcolor="#DCEDF7" align="center">Situação</td>
+                    </tr>
+                    <!-- BEGIN BLOCO_DADOS -->
+                    <tr>
+                        <td width="5%" class="textonormal" bgcolor="#DCEDF7" align="center">
+                            <input type="radio" name="sequencial" value="{SEQUENCIAL}">
+                        </td>
+                        <td class="textonormal" bgcolor="#DCEDF7" align="center">{ANOPCA}</td>
+                        <td class="textonormal" bgcolor="#DCEDF7" align="center">{IDENTIFICADOR}</td>
+                        <td class="textonormal" bgcolor="#DCEDF7" align="center">{UNIDADE}</td>
+                        <td class="textonormal" bgcolor="#DCEDF7" id="cnpj_result" align="center">{CNPJ}</td>
+                        <td class="textonormal" bgcolor="#DCEDF7" align="center">{CODIGOCLASSE}</td>
+                        <td class="textonormal" bgcolor="#DCEDF7" align="center">{DESCRICAOCLASSE}</td>
+                        <td class="textonormal" bgcolor="#DCEDF7" align="center">R${ESTIMATIVA_VALOR}</td>
+                        <td class="textonormal" bgcolor="#DCEDF7" align="center">{DATACONCLUSAO}</td>
+                        <td class="textonormal" bgcolor="#DCEDF7" align="center">{TIPOPROCESSO}</td>
+                        <td class="textonormal" bgcolor="#DCEDF7" align="center">{GRAU}</td>
+                        <td class="textonormal" bgcolor="#DCEDF7" align="center">{SITUACAO}</td>
+
+                    </tr>
+                    <!-- END BLOCO_DADOS -->
+                </table>
+            </td>            
+        </tr>
+        <!-- END BLOCO_RESULTADO -->
+
+        <!-- BEGIN BLOCO_SEM_RESULTADO -->
+        <tr class="removeresult">
+            <td align="center"  colspan="4" class="titulo3">
+                Não há DFDs para serem Analisados.
+            </td>
+        </tr>
+        <!-- END BLOCO_SEM_RESULTADO -->
+
+		<tr>
+			<td class="textonormal" align="right">
+                <!-- BEGIN BOTAO_ANALISAR -->
+                <input type="button" name="Analisar" value="Marcar como Analisado" class="botao" onclick="javascript:enviar('Analisar')">
+                <input type="button" name="Devolver" value="Devolver para Unidade" class="botao" onclick="javascript:enviar('Exibir')">
+                <input type="button" name="Exportar" value="Exportar PDF" class="botao" onclick="javascript:ExportarPDF()">
+                <input type="button" name="Exportar" value="Exportar CSV" class="botao" onclick="javascript:ExportarCSV()">
+                <input type="button" name="Exportar" value="Exportar XLS" class="botao" onclick="javascript:ExportarXLS()">
+                <!-- <div class="btn-group">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        Exportar <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a onclick="javascript:ExportarCSV()">CSV</a></li>
+                        <li><a onclick="javascript:ExportarXLS()">XLS</a></li>
+                        <li><a onclick="javascript:ExportarPDF()">PDF</a></li>
+                        <input type="hidden" name="BotaoExport" value="">
+                        <input type="hidden" name="FormatoExport" value="">
+                    </ul>
+                </div> -->
+                <input type="button" name="Voltar" value="Voltar" class="botao" onclick="javascript:enviar('Voltar')">
+                <!-- END BOTAO_ANALISAR -->
+				<input type="hidden" name="Botao" value="" />
+				<input type="hidden" name="valorAuxiliar" value="" />
+			</td>
+		</tr>
+	</table>
+            </td>
+        </tr>
+    </table>
+
+    <table style="display: none" class="justificativa" border="0" cellpadding="3" cellspacing="0"
+           bordercolor="#75ADE6" summary="" class="textonormal"
+           bgcolor="#FFFFFF" style="width: 1000px;">
+        <tr>
+            <td>Justificativa para Devolução.</td>
+        </tr>
+        <tr>
+            <textarea style="display: none" class="justificativa" name="Justificativa" placeholder="Escreva aqui o motivo da devolução do DFD">
+
+            </textarea>
+        </tr>
+        <tr>
+            <td>
+                <input type="button" name="Analisar" value="Confirmar" class="botao" onclick="javascript:enviar('Devolver')">
+                <input type="button" name="Cancelar" value="Cancelar" class="botao" onclick="javascript:enviar('Cancelar')">
+            </td>
+        </tr>
+    </table>
+</form>

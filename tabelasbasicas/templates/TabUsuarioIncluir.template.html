@@ -1,0 +1,101 @@
+<!--
+# Alterado: João Madson
+# Data:     16/11/2020 	
+# CR #240763
+#-------------------------------------------------------------------------
+# Alterado: João Madson
+# Data:     26/11/2020 	
+# CR #241276
+#-------------------------------------------------------------------------
+# Alterado : Osmar Celestino
+# Data: 06/07/2021
+# Objetivo: CR #249832
+#---------------------------------------------------------------------------
+-->
+<form action="TabUsuarioIncluir.php" method="post" name="Usuario">
+	<table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF">
+	    <tr>
+	        <td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3">
+		    	INCLUIR - USUÁRIO
+		    </td>
+		</tr>
+	  	<tr>
+	    	<td class="textonormal">
+	      	    <p align="justify">
+	        		Para incluir um novo usuário, informe os dados abaixo e clique no botão "Incluir". Os itens obrigatórios estão com *.
+	          	</p>
+	        </td>
+		</tr>
+		<tr>
+	  	    <td>
+	    	    <table class="textonormal" border="0" align="left" summary="">
+	            	<tr>
+	        	      	<td class="textonormal" bgcolor="#DCEDF7" width="30%">Login* </td>
+	          	    	<td class="textonormal">
+	          	    		<input type="text" name="Login" value="{VALOR_LOGIN}" size="10" maxlength="10" class="textonormal" style="text-transform: none;">
+							<input type="hidden" name="Critica" value="1">
+	            	  	</td>
+	            	</tr>
+	            	<tr>
+	        	    	<td class="textonormal" bgcolor="#DCEDF7">Nome do Usuário* </td>
+	          	    	<td class="textonormal">
+	          	    			<input type="text" name="Nome" value="{VALOR_USUARIO}" size="45" maxlength="60" class="textonormal">
+	          	    	</td>
+	            	</tr>
+	            	<tr>
+	        	      	<td class="textonormal" bgcolor="#DCEDF7" width="30%">CPF* </td>
+	          	    	<td class="textonormal">
+	          	    		<input type="text" name="CPF" value="{VALOR_CPF}" size="11" maxlength="11" class="textonormal">
+	            	  	</td>
+	            	</tr>
+	            	<tr>
+	        	      	<td class="textonormal" bgcolor="#DCEDF7">E-mail* </td>
+	          	    	<td class="textonormal">
+	          	    		<input type="text" name="Email" value="{VALOR_EMAIL}" size="45" maxlength="60" class="textonormal" style="text-transform: none;" />
+	          	    			<!-- @recife.pe.gov.br -->
+	          	    	</td>
+	            	</tr>
+					<tr>
+	        	      	<td class="textonormal" bgcolor="#DCEDF7">Telefone* </td>
+	          	    	<td class="textonormal">
+	          	    		<input type="text" name="Fone" value="{VALOR_TELEFONE}" size="25" maxlength="25" class="textonormal">
+	          	    	</td>
+	            	</tr>
+	            	<tr>
+	            		<td class="textonormal" bgcolor="#DCEDF7">Grupo* </td>
+	            	   	<td class="textonormal">
+							<select name="GrupoCodigo" class="textonormal">
+								<option value="">Selecione um grupo...</option>
+								<!-- BEGIN BLOCO_ITEM_GRUPO -->
+	            	  			<option value="{VALOR_ITEM_GRUPO}" {ITEM_GRUPO_SELECIONADO}>{ITEM_GRUPO}</option>
+								<!-- END BLOCO_ITEM_GRUPO -->
+							</select>
+						</td>
+					</tr>
+	            	<tr>
+	            	   	<td class="textonormal" bgcolor="#DCEDF7">Perfil*</td>
+	            	   	<td class="textonormal">
+							<select name="PerfilCodigo" class="textonormal">
+								<option value="">Selecione um perfil...</option>
+								<!-- BEGIN BLOCO_ITEM_PERFIL -->
+	            	  			<option value="{VALOR_ITEM_PERFIL}" {ITEM_PERFIL_SELECIONADO}>{ITEM_PERFIL}</option>
+								<!-- END BLOCO_ITEM_PERFIL -->
+							</select>
+						</td>
+					</tr>
+	            </table>
+		    </td>
+		</tr>
+	  	<tr>
+	    	<td class="textonormal" align="right">
+       	      	<input type="submit" name="Incluir" value="Incluir" class="botao">
+		    </td>
+		</tr>
+    </table>
+</form>
+<script language="javascript" type="">
+	<!--
+		document.Usuario.Login.focus();
+	//-->
+</script>
+		

@@ -1,0 +1,221 @@
+<!--
+ * Portal de Compras
+ * Programa: CadIndexacaoPreco.html
+ * Autor: Osmar Celestino
+ * Data: 03/01/2023
+ * Objetivo: Programa Indexação de Preço
+ * Tarefa Redmine: Criação de programa
+ * ---------------------------------------------------------------------------
+
+-->
+
+<!-- 220038-- -->
+<script type="text/javascript">
+
+function abrirModal(){
+  var modal = document.getElementById('#myModal');
+  modal.style.display = "block";
+}
+
+  // $(document).ready(function() {
+  //
+  //
+  //
+  // });
+
+  function mascararCNPJ() {
+    $("#cnpj").mask("99.999.999/9999-99");
+  }
+  function AbreJanela(url,largura,altura) {
+        window.open(url,'pagina','status=no,scrollbars=no,left=20,top=150,width='+largura+',height='+altura);
+    }
+
+  function limpar() {
+    document.CadIndexacaoPrecos.GerarNumeracaoAno.value = "";
+    document.CadIndexacaoPrecos.UnidadeCodigo.value = "";
+    document.CadIndexacaoPrecos.cnpj.value = "";
+    document.CadIndexacaoPrecos.cclamscodi.value = "";
+    document.CadIndexacaoPrecos.ematepdesc.value = "";
+    document.CadIndexacaoPrecos.DataInicio.value = "";
+    document.CadIndexacaoPrecos.DataFim.value = "";
+    document.CadIndexacaoPrecos.prioridade.value = "";
+    document.CadIndexacaoPrecos.vincular.value = "";
+    document.CadIndexacaoPrecos.submit();
+  }
+
+  // function excluir(){
+  //   var excluir = document.getElementsByName("checkboxID");
+
+  //   var valores = [];
+  //   var j=0;
+  //   for (var i=0; i<excluir.length; i++){
+  //     if(excluir[i].checked == true){
+  //       valores[j] = excluir[i].value;
+  //       j++;
+  //     }
+  //   }
+    
+  //   if(valores != ''){
+  //     var confirma = confirm("Essa ação irá deletar permanentemente os registros selecionados. Deseja continuar?");
+  //     if(confirma == true){
+  //       $.post("CadIndexacaoPrecos.php", {"valores":valores, "op":"excluir"}, function(data){
+          
+  //       })
+  //     }
+  //   }
+  //   if(valores == ''){
+  //     window.alert("Selecione pelo menos um sequencial.")
+  //   }
+    
+    
+
+  // }
+
+function enviar(valor) {
+  var valida = false;
+  var checkBoxes = document.querySelectorAll(".checkbox");
+				var selecionados = 0;
+				checkBoxes.forEach(function(el) {
+					
+					if(el.checked) {
+						valida = true;
+					}
+					
+				});
+if(valor == "excluir" && valida == true){
+
+  var confirma = confirm("Essa ação irá deletar permanentemente os registros selecionados. Deseja continuar?");
+    if(confirma != true){
+        return false;
+    }
+    if(valor){
+      document.CadIndexacaoPrecos.Botao.value = valor;
+    }else{
+      document.CadIndexacaoPrecos.Botao.value = '';
+    } 
+    document.CadIndexacaoPrecos.submit();
+
+
+}else{
+  document.CadIndexacaoPrecos.Botao.value = 'erro';
+  document.CadIndexacaoPrecos.submit();
+}
+// var wto;
+
+
+
+// wto = setTimeout(function() {
+  
+//   document.CadIndexacaoPrecos.submit();
+// }, 1000);
+
+
+
+}
+
+</script>
+<script language="javascript" src="../funcoes.js" type="text/javascript"></script>
+<form action="CadIndexacaoPrecos.php" method="post" name="CadIndexacaoPrecos">
+
+<!-- BEGIN BLOCO_SUCESSO -->
+<table cellpadding="3" cellspacing="0"
+		summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 800px;">
+<tr>
+	<td  colspan="2" id="mensagemFinal">
+		<div class="mensagem">
+			<div class="mensagem" width="600px;">
+				<div class="error">
+				<blink class="titulo2">Atenção</span>
+				</div>
+				<span class="mensagem-texto">
+            {MENSAGEM}
+				</span>
+			</div>
+	</td>
+</tr>
+</table>
+<!-- END BLOCO_SUCESSO -->
+          <tr>
+            <td colspan="2">
+              <table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 1000px;">
+                <tr>
+                  <td align="center" bgcolor="#75ADE6" valign="middle" colspan="4" class="titulo3">
+                      <font color="black">TABELA DE INDEXAÇÃO DE PREÇOS.</font>
+                  </td>
+                </tr> 
+                  <td class="textonormal" colspan="4">
+                      <p align="justify">Para cadastrar um novo índice de reajuste de preços, 
+                        clique em Incluir, insira o valor numérico e a data de referência e clique em 'INCLUIR'. 
+                        Para apagar um índice, selecione abaixo um ou mais índices e clique em Remover.</p>
+                  </td>
+                  <tr>
+                    <td align="right"valign="middle" class="titulo3 textonormal" width="100%" colspan=12>
+                      <input type="button" value="Incluir" onclick="javascript:AbreJanela('janelaIncluirPreco.php',700,370);" class="botao"></font>
+                      <input type="button" value="Excluir" onclick="javascript:enviar('excluir');" class="botao"></font>
+                      <input type="hidden" name="Botao" value="" />
+                    </td>
+                  </tr>
+                <tr>
+                  <td class="titulo3" bgcolor="#DCEDF7" size="2"></td>
+                  <td width="20%" class="titulo3" bgcolor="#DCEDF7"  align="center">SEQUENCIAL DO ÍNDICE</td>
+                  <td class="titulo3" bgcolor="#DCEDF7" size="5" align="center">ÍNDICE DE REAJUSTE</td>
+                  <td class="titulo3" bgcolor="#DCEDF7" align="center">DATA DO REAJUSTE</td>
+                </tr>
+                <!-- BEGIN DADOS_INDEX -->
+                <tr>
+                  <td size="2" align="center"><input type="checkbox" class="checkbox"  value="{CODIGO_INDICE}" name="checkboxID[]" id="checkboxID"></td>
+                  <td class="textonormal" bgcolor="#F7F7F7" align="center">{CODIGO_INDICE}</td>
+                  <td class="textonormal" bgcolor="#F7F7F7" class="dinheiro4casas" align="center">{VALOR_INDICE}</td>
+                  <td class="textonormal" bgcolor="#F7F7F7" align="center">{DATA_INDICE}</td>
+                </tr>
+                <!-- END DADOS_INDEX -->
+      
+              </table>
+            </td>
+          </tr>
+          
+
+          <!-- BEGIN BLOCO_SEM_RESULTADO -->
+          <tr class="removeresult">
+            <td align="center"  colspan="4" class="titulo3">
+              Não há DFDs para serem Analisados.
+            </td>
+          </tr>
+          <!-- END BLOCO_SEM_RESULTADO -->
+
+          <tr>
+            <td class="textonormal" align="right">
+              <!-- BEGIN BOTAO_ANALISAR -->
+              <input type="button" name="Analisar" value="Marcar como Analisado" class="botao" onclick="javascript:enviar('Analisar')">
+              <input type="button" name="Devolver" value="Devolver para Unidade" class="botao" onclick="javascript:enviar('Exibir')">
+              <input type="button" name="Exportar" value="Exportar PDF" class="botao" onclick="javascript:ExportarPDF()">
+              <input type="button" name="Voltar" value="Voltar" class="botao" onclick="javascript:enviar('Voltar')">
+              <!-- END BOTAO_ANALISAR -->
+              <input type="hidden" name="Botao2" value="" />
+              <input type="hidden" name="valorAuxiliar" value="" />
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+
+  <table style="display: none" class="justificativa" border="0" cellpadding="3" cellspacing="0"
+         bordercolor="#75ADE6" summary="" class="textonormal"
+         bgcolor="#FFFFFF" style="width: 1000px;">  
+    <tr>
+      <td>Justificativa para Devolução.</td>
+    </tr>
+    <tr>
+            <textarea style="display: none" class="justificativa" name="Justificativa" placeholder="Escreva aqui o motivo da devolução do DFD">
+
+            </textarea>
+    </tr>
+    <tr>
+      <td>
+        <input type="button" name="Analisar" value="Confirmar" class="botao" onclick="javascript:enviar('Devolver')">
+        <input type="button" name="Cancelar" value="Cancelar" class="botao" onclick="javascript:enviar('Cancelar')">
+      </td>
+    </tr>
+  </table>
+</form>

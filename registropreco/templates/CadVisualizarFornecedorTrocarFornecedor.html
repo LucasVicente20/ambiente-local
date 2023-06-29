@@ -1,0 +1,125 @@
+<!-- 220038-- -->
+<html>
+<head>
+<title>Portal Compras - Trocar Fornecedor Registro de Preço Ata Interna</title>
+<script language="javascript" src="../import/jquery/jquery.js" type="text/javascript"></script>
+<script language="javascript" src="../import/jquery/jquery.maskmoney.js" type="text/javascript"></script>
+<script language="javascript" src="../import/jquery/jquery.maskedinput.js" type="text/javascript"></script>
+<script language="javascript" src="../funcoes.js" type="text/javascript"></script>
+<script type="text/javascript">
+function enviar(valor){
+	document.CadVisualizarFornecedorTrocarFornecedor.Botao.value = valor;
+	document.CadVisualizarFornecedorTrocarFornecedor.submit();
+ }
+<!--
+
+function AbreJanela(url,largura,altura){
+    window.open(url,'paginadetalhe','status=no,scrollbars=yes,left=90,top=150,width='+largura+',height='+altura);
+}
+function AbreJanelaItem(url,largura,altura){
+    window.open(url,'paginaitem','status=no,scrollbars=yes,left=90,top=150,width='+largura+',height='+altura);
+}
+function ncaracteresO(valor){
+    document.CadVisualizarFornecedorTrocaFornecedor.NCaracteresO.value = '' +  document.CadVisualizarFornecedorTrocarFornecedor.Observacao.value.length;
+    if( navigator.appName == 'Netscape' && valor ){ //Netscape Only
+        document.CadVisualizarFornecedorTrocarFornecedor.NCaracteresO.focus();
+    }
+}
+jQuery(document).ready(function($) {
+	jQuery(".mascara-numero-intencao").mask("9999/9999");
+
+	jQuery(".reset").click(function (event) {
+		event.preventDefault();
+
+		jQuery(":text").each(function () {
+			jQuery(this).val("");
+        });
+
+		jQuery(":radio").each(function () {
+        	jQuery(this).prop({ checked: false })
+        });
+
+		jQuery(":checkbox").each(function () {
+        	jQuery(this).prop({ checked: false })
+        });
+
+		jQuery("select").each(function () {
+			jQuery(this).val("");
+        });
+	});
+});
+//-->
+</script>
+<link rel="stylesheet" type="text/css" href="../estilo.css">
+</head>
+<body background="../midia/bg.jpg" marginwidth="0" marginheight="0">
+	<!-- BEGIN BLOCO_ERRO -->
+	<tr>
+	  <td width='100'></td>
+	  <td align='left' colspan='2'>{MENSAGEM_ERRO}</td>
+	</tr>
+	<!-- END BLOCO_ERRO -->
+
+	<!-- BEGIN BLOCO_FORMULARIO_MANTER -->
+	<form action="CadVisualizarFornecedorTrocarFornecedor.php" method="post" id="formVisualisar" name="CadVisualizarFornecedorTrocarFornecedor">
+		<table border="0" cellspacing="0" cellpadding="3" summary="">
+			<tr>
+				<td align="left" colspan="4"></td>
+			</tr>
+
+			<tr>
+				<td class="textonormal">
+				    <table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 692px">
+				        <tr>
+				            <td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3">Detalhar - Fornecedor Credenciado</td>
+				        </tr>
+				        <tr>
+				            <td class="textonormal">
+				                <p align="justify">
+				                	Para visualizar um outro fornecedor, clique no botão  "Voltar".
+				                </p>
+				            </td>
+				        </tr>
+				        <tr>
+				            <td>
+				                <table class="textonormal" border="0" align="left" summary="">
+				                	<tr>
+				                        <td class="textonormal" bgcolor="#DCEDF7" width="30%">Código</td>
+				                        <td class="textonormal">
+				                        	{VALOR_CODIGO}
+				                       </td>
+				                    </tr>
+
+				                	<tr>
+				                        <td class="textonormal" bgcolor="#DCEDF7" width="30%">Razão Social</td>
+				                        <td class="textonormal">
+				                        	{VALOR_RAZAO_SOCIAL}
+				                        </td>
+				                    </tr>
+
+				                    <tr>
+				                        <td class="textonormal" bgcolor="#DCEDF7" width="30%">CGC/CPF</td>
+				                        <td class="textonormal">
+				                    		{VALOR_CGC_CPF}
+				                        </td>
+				                    </tr>
+                               </table>
+				            </td>
+				        </tr>
+				        <tr>
+				            <td class="textonormal" align="right" colspan="2">
+				                <input type="hidden" name="InicioPrograma" value="1" />
+				                <input type="button" name="SelecionarIntencao" value="Selecionar Fornecedor" class="botao" onClick="javascript:enviar('selecionarFornecdor');"/>
+				                <input type="button" name="Voltar" value="Voltar" class="botao" onClick="javascript:enviar('Voltar');" />
+				                <input type="hidden" name="Botao" value="" />
+				                <input type="hidden" name="NumeroFornecedor" id="NumeroFornecedor" value="{VALOR_CODIGO}" />
+				            </td>
+				        </tr>
+				    </table>
+				</td>
+			</tr>
+		</table>
+	</form>
+	<!-- END BLOCO_FORMULARIO_MANTER -->
+</body>
+</html>

@@ -1,0 +1,335 @@
+<!--
+    =============================================================
+    Autor: Osmar Celestino
+    Data: 28/06/2023
+    Cr: 285490
+    --->
+<script type="text/javascript">
+    window.onload = function () {
+
+        limparTextoItem();
+
+    }
+
+    function mascaraProcesso() {
+        const processo = document.querySelector("#processoLicitatorio");
+        console.log(processo.value);
+        const processoFormatado = processo.replace(/(\d{4})?(\d{4})/, "$1/$2");
+        document.ConsAvisoDispensaInexigibilidade.processoLicitatorio.value = processoFormatado;
+    }
+
+    function enviar(valor) {
+        
+        document.ConsAvisoDispensaInexigibilidade.Botao.value = valor;
+        localStorage.setItem("pesquisa", valor);
+        document.ConsAvisoDispensaInexigibilidade.submit();
+        
+    }
+    function mudarMascara(){
+        let cpfCnpj = document.querySelector("#fornecedorCpf");
+        if(cpfCnpj.value = "Cpf"){
+            $('#fornecedorCpf').mask('999.999.999-99');
+        }else{
+            $('#fornecedorCpf').mask('99.999.999/9999-99');
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function (e) {
+        $('#dataval1').mask('99/99/9999')
+        $('#dataval2').mask('99/99/9999')
+        $('#numeroScc').mask('9999.9999/9999');
+        var cpfcnpj = $("#fornecedorSelectCpf option:selected").val();
+        if(cpfcnpj == "Cpf"){
+                    $('#fornecedorCpf').mask('999.999.999-99');
+                }else{
+                    $('#fornecedorCpf').mask('99.999.999/9999-99');
+                }  
+        $('#fornecedorSelectCpf').live('click',function(){
+            var cpfcnpj = $("#fornecedorSelectCpf option:selected").val();
+                if(cpfcnpj == "Cpf"){
+                    $('#fornecedorCpf').mask('99.999.999/9999-99');
+                }else{
+                    $('#fornecedorCpf').mask('999.999.999-99');
+                    
+                }  
+            });
+        let cpfCnpj = document.querySelector("#fornecedorCpf");
+
+        if (localStorage.getItem("pesquisa")) {
+            let section = document.querySelector("#pesquisa");
+            section.style.display = "block";
+        }else{
+            document.ConsAvisoDispensaInexigibilidade.Objeto.value = "";
+        }
+        document.ConsAvisoDispensaInexigibilidade.Objeto.value = "";
+        localStorage.clear();
+    });
+    //CAIO MELQUIADES - FUNCAO PARA EXPORTAR DADOS
+    function exportar(valor, formato) {
+
+        //CAIO MELQUIADES - A VARIAVEL 'BotaoAcao' APARENTEMENTE NAO ESTAVA SENDO UTILIZADA NO CODIGO ORIGINAL
+        //ESTOU USANDO ELA NA FUNCAO DE EXPORTAR
+        document.ConsAvisoDispensaInexigibilidade.BotaoAcao.value = valor;
+        document.ConsAvisoDispensaInexigibilidade.FormatoExport.value = formato;
+        document.ConsAvisoDispensaInexigibilidade.submit();
+        document.ConsAvisoDispensaInexigibilidade.BotaoAcao.value = "";
+        document.ConsAvisoDispensaInexigibilidade.FormatoExport.value = "";
+    }
+
+    function AbreDocumentos(OrgaoLicitanteCodigo, ComissaoCodigo,
+        ModalidadeCodigo, GrupoCodigo, LicitacaoProcesso, LicitacaoAno) {
+        document.ConsAvisosDocumentos.OrgaoLicitanteCodigo.value = OrgaoLicitanteCodigo;
+        document.ConsAvisosDocumentos.ComissaoCodigo.value = ComissaoCodigo;
+        document.ConsAvisosDocumentos.ModalidadeCodigo.value = ModalidadeCodigo;
+        document.ConsAvisosDocumentos.GrupoCodigo.value = GrupoCodigo;
+        document.ConsAvisosDocumentos.LicitacaoProcesso.value = LicitacaoProcesso;
+        document.ConsAvisosDocumentos.LicitacaoAno.value = LicitacaoAno;
+
+        document.ConsAvisosDocumentos.submit();
+    }
+
+    function limpar() {
+        document.ConsAvisoDispensaInexigibilidade.Objeto.value = "";
+        document.ConsAvisoDispensaInexigibilidade.OrgaoLicitanteCodigo.value = "";
+        document.ConsAvisoDispensaInexigibilidade.ComissaoCodigo.value = "";
+        document.ConsAvisoDispensaInexigibilidade.tipoAta.value = "";
+        document.ConsAvisoDispensaInexigibilidade.TipoItemLicitacao.value = "";
+        document.ConsAvisoDispensaInexigibilidade.Item.value = "";
+        document.ConsAvisoDispensaInexigibilidade.Botao.value = "";
+        document.ConsAvisoDispensaInexigibilidade.processoLicitatorio.value = "";
+        //document.location.reload();
+        document.ConsAvisoDispensaInexigibilidade.submit();
+    }
+
+    function limparTextoItem() {
+        var valorSel = document.getElementById('idTipoItemLicitacao').value;
+        if (valorSel == "") {
+            document.getElementById('idItem').value = "";
+            document.getElementById('idItem').disabled = true;
+        } else {
+            document.getElementById('idItem').disabled = false;
+        }
+    }
+
+    function alerta() {
+        Alert("Alerta!");
+    }
+
+    function AbreJanela(url,largura,altura) {
+    
+    window.open
+    (url,'pagina','status=no,scrollbars=no,left=20,top=150,width='+largura+',height='+altura);
+    } 
+
+</script>
+<script language="javascript" src="../janela.js" type="text/javascript"></script>
+<script language="javascript" src="../import/jquery/jquery-1.7.2.min.js" type="text/javascript"></script>
+<script language="javascript" src="../import/jquery/jquery.maskmoney.js" type="text/javascript"></script>
+<script language="javascript" src="../import/jquery/jquery.maskedinput.js" type="text/javascript"></script>
+<style>
+    #containerPLTaTs{
+        display: grid;
+        grid-template-columns: 250px 150px 150px;
+    }
+    #container_Fornecedor_Periodo{
+        display: grid;
+        grid-template-columns: 450px 500px;
+    }
+    /* Este grid organiza os itens (Processo Licitatório, Tipo de SARP, Tipo de Ata) na div  */
+</style>
+<form action="{BASE_URL}ConsAvisoDispensaInexigibilidade.php" method="post" name="ConsAvisoDispensaInexigibilidade">
+    <div class="site-body">
+        <div class="container">
+            <div class="content">
+                <div class="row">
+                    <div class="span12">
+                        <section class="box-article">
+                            <header class="header">
+                                <h1>Dispensa/Inexigibilidade</h1>
+                            </header>
+                            <div class="body">
+                                <ul class="breadcrumb">
+                                    <li>Você está em:</li>
+                                    <li><a href="{BASE_URL}home.php">Início</a><span class="divider"><i
+                                                class="arrow-right"></i></span></li>
+                                    <li><a href="{BASE_URL}DispensaInexigibilidade.php">Dispensa/Inexigibilidade</a><span class="divider"><i
+                                                class="arrow-right"></i></span></li>
+                                    <li class="active">Avisos de Novas Dispensas</li>
+                                </ul>
+                                <article class="article">
+                                    <header class="article-header">
+                                        <h1>Processo de Consulta de Avisos de Novas Dispensas</h1>
+                                    </header>
+                                </article>
+                                <article class="article">
+                                    <section class="article-detail row-border">
+                                        <p>Para consultar os avisos de novas dispensas, informe os filtros desejados e 
+                                            clique em Pesquisar. Se quiser limpar todos os filtros, clique em Limpar. 
+                                            Para exportar o resultado obtido, clique em Exportar e selecione o formato de arquivo desejado</p>
+                                    </section>
+                                    <div class="clearfix">&nbsp;</div>
+                                    <!-- BEGIN BLOCO_MENSAGEM -->
+                                    <div class="alert {TIPOALERT}">
+                                        <button class="close" data-dismiss="alert" type="button">×</button>
+                                        {MENSAGEM}
+                                    </div>
+                                    <!-- END BLOCO_MENSAGEM -->
+                                    <section>
+                                        <div class="well">
+
+                                            <div class="row-fluid">
+                                                <div class="span5">
+                                                    <label for="txtObjeto" class="big">Objeto</label>
+                                                    <input type="text" style="text-transform: uppercase;" class="span12"
+                                                        id="Objeto" name="Objeto" value="{VALOR_OBJETO_PESQUISA}">
+                                                </div>
+
+                                                <!-- BEGIN BLOCO_ORGAO_LICITANTE -->
+                                                <div class="span7">
+                                                    <label for="ddlOrgao" class="big">Órgão Demandante</label> <select
+                                                        id="ddlOrgao" class="span12" name="OrgaoLicitanteCodigo">
+                                                        <option value="">Todos os Órgãos Demandantes...</option>
+                                                        <!-- BEGIN BLOCO_ITEM_ORGAO_LICITANTE -->
+                                                        <option value="{VALOR_ID_ORGAO_LICITANTE}"
+                                                            {VALOR_ORGAO_SELECTED}>{VALOR_NOME_ORGAO_LICITANTE}</option>
+                                                        <!-- END BLOCO_ITEM_ORGAO_LICITANTE -->
+                                                    </select>
+                                                </div>
+                                                <!-- END BLOCO_ORGAO_LICITANTE -->
+                                            </div>
+                                                <div class="row-fluid">
+                                                    <div class="span5">
+                                                        <label for="ddlItem" class="big">Item</label>
+                                                        <div class="form-inline">
+                                                            <select name="TipoItemLicitacao" id="idTipoItemLicitacao"
+                                                                class="span3">
+                                                                <option value="M" {VALOR_TIPO_MATERIAL}>Material
+                                                                </option>
+                                                                <option value="S" {VALOR_TIPO_SERVICO}>Serviço</option>
+                                                            </select> <input type="text" class="span9" name="Item"
+                                                                id="idItem" value="{VALOR_TEXTO_ITEM}">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="btn-toolbar pagination-right">
+                                                    <button class="btn btn-primary" type="button" name="Pesquisar"
+                                                        value="Pesquisar"
+                                                        onclick="javascript:enviar('Pesquisar');">Pesquisar</button>
+
+                                                    <!-- CAIO MELQUIADES - BOTAO EXPORTAR -->
+                                                    <div class="btn-group">
+                                                        <button type="button" class="btn btn-primary dropdown-toggle"
+                                                            data-toggle="dropdown" aria-haspopup="true"
+                                                            aria-expanded="false">
+                                                            Exportar <span class="caret"></span>
+                                                        </button>
+                                                        <ul class="dropdown-menu">
+                                                            <li><a
+                                                                    onclick="javascript:exportar('Exportar', 'csv');">CSV</a>
+                                                            </li>
+                                                            <li><a
+                                                                    onclick="javascript:exportar('Exportar', 'txt');">TXT</a>
+                                                            </li>
+                                                            <li><a
+                                                                    onclick="javascript:exportar('Exportar', 'xls');">XLS</a>
+                                                            </li>
+                                                            <li><a
+                                                                    onclick="javascript:exportar('Exportar', 'ods');">ODS</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+
+                                                    <button class="btn btn-primary reset" type="button" name="Limpar"
+                                                        onclick="Limpar();" value="Limpar">Limpar</button>
+
+                                                    <!-- CAIO MELQUIADES -ADICIONADO INPUT HIDDEN 'BotaoAcao', QUE NAO ESTAVA SENDO UTILIZADO -->
+                                                    <input type="hidden" name="BotaoAcao" value="">
+                                                    <!-- CAIO MELQUIADES -ADICIONADO INPUT HIDDEN 'FormatoExport', PARA PASSAR O FORMATO DE EXPORTACAO COMO PARAMETRO -->
+                                                    <input type="hidden" name="FormatoExport" value="">
+
+                                                    <input type="hidden" name="Botao" value="">
+
+                                                </div>
+                                            </div>
+
+                                    </section>
+</form>
+<form action="{BASE_URL}ConsAvisosDocumentos.php" method="post" name="ConsAvisosDocumentos">
+    <section id="pesquisa" style="display:none">
+        <header class="article-header">
+            <h1>Resultado da Pesquisa</h1>
+        </header>
+        <table style="max-width: 1200px;" class="table table-report table-striped">
+            
+        <!-- BEGIN BLOCO_RESULTADO_PESQUISA -->
+        <!-- BEGIN BLOCO_ORGAO -->
+            <thead {SENAOEXISTE}>
+                <tr>
+                    <th colspan="8">
+                        <span class="text-center">Pesquisa sem Ocorrências</span>
+                    </th>
+                </tr>
+            </thead> 
+            <thead {SEEXISTE}> 
+                <tr>
+                    <th colspan="8">
+                        <span class="text-center">{ORGAO_DESC}</span>
+                    </th>
+                </tr>
+            </thead> 
+            <tbody {SEEXISTE}>
+                <tr>
+                    <td align="center">
+                        <center><strong>SCC</strong></center>
+                    </td>
+                    <td align="center">
+                        <center><strong>OBJETO</strong></center>
+                    </td>
+                    <td align="center">
+                        <center><strong>DATA</strong></center>
+                    </td>
+                    <td align="center">
+                        <center><strong>VALOR ESTIMADO</strong></center>
+                    </td>
+                </tr>
+                
+                 <!-- BEGIN BLOCO_RESULTADO -->
+                    <tr>
+                        <td style="width: 60px; vertical-align:middle" align="center" style="vertical-align:middle">
+                            <a onclick="AbreJanela('{BASE_URL}ConsAcompSolicitacaoCompraVersaoAPP.php?SeqSolicitacao={NUMERO_SCC}&programa=window', 600, 400);" href="#">
+                                <center>{SCC}</center>
+                            </a>
+
+                        </td>
+                        <td style="vertical-align:middle; vertical-align:middle">
+                            <center>{VALOR_OBJETO}</center>
+                        </td>
+                        <td style="vertical-align:middle; vertical-align:middle; width: 100px;">
+                            <center>{DATA_DESC}</center>
+                        </td>
+                        <td align="center" style="vertical-align:middle; width: 300px;">
+                            <center>{VALOR_ESTIMADO}</center>
+                        </td>
+                    </tr>
+                 <!-- END BLOCO_RESULTADO -->
+                 <!-- END BLOCO_ORGAO -->
+            </tbody>
+        </table>
+       
+        <!-- END BLOCO_RESULTADO_PESQUISA -->
+    </section>
+    </article>
+    </div>
+    </section>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+
+    <input type="hidden" name="Objeto"> <input type="hidden" name="OrgaoLicitanteCodigo"> <input type="hidden"
+        name="ComissaoCodigo"> <input type="hidden" name="ModalidadeCodigo"> <input type="hidden" name="GrupoCodigo">
+    <input type="hidden" name="LicitacaoProcesso"> <input type="hidden" name="LicitacaoAno">
+    <input type="hidden" name="pesquisaInput">
+
+</form>

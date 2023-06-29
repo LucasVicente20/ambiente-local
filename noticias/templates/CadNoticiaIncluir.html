@@ -1,0 +1,205 @@
+<script type="text/javascript">
+function enviar(valor) {
+	var seguirSubmit = true;
+
+	if (valor == 'Excluir') {
+		seguirSubmit = confirm('Realmente deseja excluir essa notícia?\n\nAtenção:\nEssa operação não poderá ser revertida.');
+	}
+
+	if (seguirSubmit) {
+	    document.formNoticia.Botao.value = valor;
+	    document.formNoticia.submit();
+	}
+}
+
+function AbreJanela(url,largura,altura) {
+    window.open(url,'paginadetalhe','status=no,scrollbars=yes,left=90,top=150,width='+largura+',height='+altura);
+}
+
+function AbreJanelaItem(url,largura,altura) {
+    window.open(url,'paginaitem','status=no,scrollbars=yes,left=90,top=150,width='+largura+',height='+altura);
+}
+
+function ncaracteresO(valor) {
+	var limite = 200;
+	var campoTexto = $("#texto-noticia-textarea");
+
+	if ($(campoTexto).val().length > limite) {
+		var textoPermitido = $(campoTexto).val().substr(0, limite);
+		$(campoTexto).val(textoPermitido);
+		return;
+	}
+
+	document.formNoticia.NCaracteresO.value = '' + $("#texto-noticia-textarea").val().length;
+	if( navigator.appName == 'Netscape' && valor ){ //Netscape Only
+		document.formNoticia.NCaracteresO.focus();
+	}
+}
+
+function definirFocoTextarea() {
+	$("#texto-noticia-textarea").focus();
+}
+
+$(document).ready(function() {
+	function iniciarData() {
+		if ($("#data").val() == "") {
+			var dataAtual = new Date();
+		    var dia = dataAtual.getDate();
+		    if (dia < 10) {
+		    	dia = "0" + dia;
+		    }
+
+		    var mes = dataAtual.getMonth() + 1;
+		    if (mes < 10) {
+		    	mes = "0" + mes;
+		    }
+
+		    var ano = dataAtual.getFullYear();
+
+		    $("#data").val(dia + "/" + mes + "/" + ano);
+		}
+	}
+
+	function iniciarHora() {
+		if ($("#hora").val() == "") {
+			var dataAtual = new Date();
+
+			var hora = dataAtual.getHours();
+			if (hora < 10) {
+				hora = "0" + hora;
+			}
+
+			var minuto = dataAtual.getMinutes();
+			if (minuto < 10) {
+				minuto = "0" + minuto;
+			}
+
+			$("#hora").val(hora + ":" + minuto);
+		}
+	}
+
+	function limparFormulario() {
+		$(":text").each(function () {
+			$(this).val("");
+        });
+
+		$(":radio").each(function () {
+        	$(this).prop({ checked: false })
+        });
+
+		$(":checkbox").each(function () {
+        	$(this).prop({ checked: false })
+        });
+
+		$("select").each(function () {
+			$(this).val("");
+        });
+
+		$("textarea").each(function () {
+			$(this).val("");
+		});
+	}
+
+	$(".hora").mask("99:99" ,{placeholder:"_"});
+
+	$(".reset").click(function (event) {
+		event.preventDefault();
+		limparFormulario();
+	});
+
+	iniciarData();
+	iniciarHora();
+	habilitarTextoConformeDestino();
+
+	function habilitarTextoConformeDestino() {
+		var htmltexto = document.getElementById("campo-texto");
+		var htmllink = document.getElementById("campo-link");
+
+		if ($("#link").attr("checked")) {
+			htmllink.innerHTML = "<td class=\"textonormal\" height=\"20\" bgcolor=\"#DCEDF7\" width=\"30%\">Link<span style=\"color: red;\">*</span></td>" +
+								 	"<font class=\"textonormal\">máximo de 200 caracteres</font>" + 
+			 					  	"<input type=\"text\" id=\"texto-noticia-text\" name=\"texto\" size=\"45\" maxlength=\"200\" value=\"{TEXTO}\" class=\"textonormal texto-link\">" +
+								 	"<font class=\"textonormal\" id=\"dica-link\">exemplo: http://www.google.com.br</font>";
+			$("#campo-texto").hide();
+			$("#campo-link").show();
+		} else if ($("#popup").attr("checked")) {
+			htmltexto.innerHTML = "<td class=\"textonormal\" height=\"20\" bgcolor=\"#DCEDF7\" width=\"30%\">Texto<span style=\"color: red;\">*</span></td>" +
+									"<td class=\"textonormal\">" + 
+									"<font class=\"textonormal\">máximo de 200 caracteres</font>" + 
+                        		 		"<input type=\"text\" name=\"NCaracteresO\" disabled size=\"3\" value=\"{QTD_CARACTERES_DIGITADOS}\" class=\"textonormal\">" + 
+			 					 		"<textarea rows=\"3\" cols=\"45\" name=\"texto\" class=\"textonormal\" OnKeyUp=\"javascript:ncaracteresO(1)\" OnBlur=\"javascript:ncaracteresO(0)\" OnSelect=\"javascript:ncaracteresO(1)\">{TEXTO}</textarea>" +
+			 						"</td>";
+			$("#campo-texto").show();
+			$("#campo-link").hide();
+		}
+	}
+
+	$(".destino-noticia").change(function () {
+		habilitarTextoConformeDestino();
+	})
+});
+</script>
+
+<form action="" method="post" name="formNoticia">
+    <table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 566px">
+        <tr>
+            <td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3">INCLUIR – NOTÍCIA</td>
+        </tr>
+        <tr>
+            <td class="textonormal">
+                <p align="justify">
+                	Preencha os dados abaixo e clique no botão 'Incluir'.
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table class="textonormal" border="0" align="left" summary="">
+                	<tr>
+                        <td class="textonormal" height="20" bgcolor="#DCEDF7" width="30%">Título<span style="color: red;">*</span></td>
+                        <td class="textonormal">
+                        	<input type="text" name="titulo" size="45" maxlength="200" value="{TITULO}" class="textonormal">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="textonormal" height="20" bgcolor="#DCEDF7" width="30%">Destino da notícia<span style="color: red;">*</span></td>
+                        <td class="textonormal">
+                        	<input type="radio" {CHECKED_LINK} id="link" class="destino-noticia" value="L" name="destino"> Link
+							<input type="radio" {CHECKED_POPUP} id="popup" class="destino-noticia" value="P" name="destino"> Popup
+                        </td>
+                    </tr>
+					
+					<tr id="campo-texto"></tr>
+					<tr id="campo-link"></tr>
+
+                    <tr>
+                        <td class="textonormal" height="20" bgcolor="#DCEDF7" width="30%">Situação<span style="color: red;">*</span></td>
+                        <td class="textonormal">
+                        	<input type="radio" {CHECKED_ATIVA} value="A" name="situacao"> Ativa
+							<input type="radio" {CHECKED_INATIVA} value="I" name="situacao"> Inativa
+                        </td>
+                    </tr>
+
+                	<tr>
+                        <td class="textonormal" height="20" bgcolor="#DCEDF7" width="30%">Data e hora<span style="color: red;">*</span></td>
+                        <td class="textonormal">
+                        	<input type="text" id="data" name="data" size="10" maxlength="10" value="{DATA}" class="textonormal data">
+							<a href="javascript:janela('../calendario.php?Formulario=formNoticia&Campo=data','Calendario',220,170,1,0)"><img src="../midia/calendario.gif" border="0" alt=""></a>
+							&nbsp;às&nbsp;
+							<input type="text" id="hora" name="hora" size="10" maxlength="10" value="{HORA}" class="textonormal hora">
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="textonormal" align="right" colspan="2">
+                <input type="button" name="Incluir" value="Incluir" class="botao" onClick="javascript:enviar('Incluir');" />
+                <input type="button" name="Limpar" value="Limpar" class="botao reset" />
+                <input type="hidden" name="Botao" value="" />
+            </td>
+        </tr>
+    </table>
+</form>

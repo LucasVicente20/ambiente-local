@@ -1,0 +1,184 @@
+<!--
+	Alterado: Lucas Baracho
+	Data:     23/05/2019
+	Objetivo: Tarefa Redmine 210696
+-->
+
+<script language="javascript" src="../import/jquery/jquery.js" type="text/javascript"></script>
+<script language="javascript" src="../import/jquery/jquery.maskmoney.js" type="text/javascript"></script>
+<script language="javascript" src="../import/jquery/jquery.maskedinput.js" type="text/javascript"></script>
+<script language="javascript" src="../funcoes.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="../estilo.css">
+<form action="{NOME_PROGRAMA}" id="formAtasProcesso" method="post" name="{NOME_PROGRAMA}"  enctype="multipart/form-data">
+
+<script type="text/javascript">
+
+function clean_hex(input) {
+	input = input.toUpperCase();
+	input = input.replace(/[^A-Fa-f0-9]/g, "");
+
+	return input;
+}
+
+function Convert(id, nomePdf) {
+	var binValue    = $('#'+id).val();
+	var filename    = nomePdf;
+	var cleaned_hex = clean_hex(binValue);
+
+
+	var ia = new Array();
+		
+
+	for (var i=0; i<cleaned_hex.length/2; i++) {
+		var h = cleaned_hex.substr(i*2, 2);
+		ia[i] = parseInt(h,16);
+	}
+
+	var byteArray = new Uint8Array(ia);
+
+	// create a download anchor tag
+	var downloadLink      = document.createElement('a');
+	downloadLink.target   = '_blank';
+	downloadLink.download = nomePdf;
+
+	// convert downloaded data to a Blob
+	var blob = new Blob([byteArray], { type: 'application/pdf' }); 
+
+	// create an object URL from the Blob
+	var URL = window.URL || window.webkitURL;
+	var downloadUrl = URL.createObjectURL(blob);
+
+	// set object URL as the anchor's href
+	downloadLink.href = downloadUrl;
+
+	// append the anchor to document body
+	document.body.appendChild(downloadLink);
+
+	// fire a click event on the anchor
+	downloadLink.click();
+
+	// cleanup: remove element and revoke object URL
+	document.body.removeChild(downloadLink);
+	URL.revokeObjectURL(downloadUrl);
+
+
+}
+
+$(document).ready(function() {
+	$('a').click(function() {
+		var nomePdf   = $(this).html().replace(/\<br>/g, '');
+		var nomeClass = $(this).prop('class');
+		Convert(nomeClass, nomePdf);
+	});
+});
+</script>
+
+<script language="javascript" type="">
+
+function enviar(valor)
+{
+document.{NOME_PROGRAMA}.Botao.value = valor;
+document.{NOME_PROGRAMA}.submit();
+}
+</script>
+	<table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 100%;">
+	<!-- <table class="textonormal" border="0" align="left" width="100%" summary=""> -->
+		<tr>
+			<td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3" colspan="5">
+				{ACESSO_TITULO}
+			</td>
+		</tr>
+		<tr>
+			<td class="textonormal" colspan="5">
+				<p align="justify"><b>{DESCRICAO}</b></p>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="5">
+				<table>
+					<tr>
+					<td class="textonormal" bgcolor="#DCEDF7">Comissão</td>
+					<td class="textonormal">{CAMPO_COMISSAO}</td>
+					</tr>
+					<tr>
+					<td class="textonormal" bgcolor="#DCEDF7">Processo</td>
+					<td class="textonormal">{CAMPO_PROCESSO}</td>
+					</tr>
+					<tr>
+					<td class="textonormal" bgcolor="#DCEDF7">Ano</td>
+					<td class="textonormal">{CAMPO_ANO}</td>
+					</tr>
+					<tr>
+					<td class="textonormal" bgcolor="#DCEDF7">Modalidade</td>
+					<td class="textonormal">{CAMPO_MODALIDADE}</td>
+					</tr>
+					<tr>
+					<td class="textonormal" bgcolor="#DCEDF7">Licitação</td>
+					<td class="textonormal">{CAMPO_LICITACAO}</td>
+					</tr>
+					<tr>
+					<td class="textonormal" bgcolor="#DCEDF7">Ano Licitação</td>
+					<td class="textonormal">{CAMPO_ANO_LICITACAO}</td>
+					</tr>
+					<tr>
+						<td class="textonormal" bgcolor="#DCEDF7">Órgão Gestor</td>
+						<td class="textonormal">{CAMPO_ORGAO_LICITANTE}</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+				
+		<tr align="center">
+			<td align="center" bgcolor="#75ADE6" valign="middle" colspan="5" class="titulo3">
+				{ACESSO_TITULO_ATA}				
+			</td>
+		</tr>
+		<tr>
+			<td class="textonormal" bgcolor="#DCEDF7">Nº ATA</td>
+			<td class="textonormal" bgcolor="#DCEDF7">VIGÊNCIA</td>
+			<td class="textonormal" bgcolor="#DCEDF7">DOCUMENTO</td>
+			<td class="textonormal" bgcolor="#DCEDF7">DATA ÚLTIMA ALTERAÇÃO</td>
+			<td class="textonormal" bgcolor="#DCEDF7">SITUAÇÃO<Obj></Obj></td>
+		</tr>
+		<!-- BEGIN bloco_lista_ata -->
+		<tr>
+			<td class="textonormal">
+				<input type="{TIPO}" name="radioItem" value="{ID_ATA}">
+				{NUMERO_ATA}{MSG_FORN}
+				<input type="hidden" name="numeroAta[{ID_ATA}]" value="{NUMERO_ATA}" />
+			</td>
+			<td class="textonormal">{MESES_ATA} MESES</td>
+			<td class="textonormal">
+				<!-- BEGIN BLOCO_DOCUMENTOS -->
+				<input type="hidden" value="{HEX_DOCUMENTO}" id="{VALOR_DOCUMENTO_KEY}">
+				<a href="#" class="{VALOR_DOCUMENTO_KEY}">{VALOR_DOCUMENTO}</a><br>
+			<!-- END BLOCO_DOCUMENTOS -->
+			</td>
+			<td class="textonormal">{ALTERACAO_ATA}</td>
+			<td class="textonormal">{SITUACAO_ATA}</td>
+		</tr>
+		<!-- END bloco_lista_ata -->
+		<tr>
+			<td align="right" colspan="5">
+			<input name="{NAME_BOTAO}" value="{VALOR_BOTAO}" class="botao" type="button" onClick="{CLICK_BOTAO}" />
+			<input name="{NAME_BOTAO_VOLTAR}" value="{VALOR_BOTAO_VOLTAR}" class="botao" type="button" onClick="{CLICK_BOTAO_VOLTAR}" />
+			<input name="botao" type="hidden"/>
+			</td>
+		</tr>
+	</table>	
+</form>
+
+<script>
+		$(document).ready(function(){
+			// Verificar se selecionou uma ata
+			$("form#formAtasProcesso").submit(function(){
+				var checked = $('#formAtasProcesso input[name=radioItem]:checked').length > 0;
+				if(!checked) {
+					return false;
+				}	
+
+				opener.document.forms[0].submit()			
+			});				
+	
+		});
+	</script>

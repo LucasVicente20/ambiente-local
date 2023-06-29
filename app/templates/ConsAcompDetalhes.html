@@ -1,0 +1,373 @@
+<!--
+	Alterado:	Lucas Baracho
+	Data:		09/07/2018
+	Objetivo:	Tarefa Redmine 169917
+-->
+<!--
+	Alterado:	Osmar Celestino
+	Data:		20/04/2021
+	Objetivo:	Tarefa Redmine #247219
+----------------------------------------------------
+	Alterado:	Lucas Vicente
+	Data:		20/02/2023
+	Objetivo:	Tarefa Redmine #245983
+-----------------------------------------------------
+	Alterado: Lucas Vicente
+	Data:     23/02/2023
+	Objetivo: Tarefa Redmine 245977
+  -----------------------------------------------------------------------------
+-->
+<script>
+	function AbreJanelaDocumentos(url, largura, altura) {
+		window.open(
+			url,
+			'pagina',
+			'status=no,scrollbars=yes,left=20,top=150,width=' + largura	+ ',height=' + altura
+		);
+	}
+</script>
+<style>
+	table.table-report {
+		font-size : 12px;
+	}
+</style>
+
+<div class="content">
+	<div class="row">
+		<div class="span12">
+			<section class="box-article">
+				<header class="header">
+					<h1>Licitações Concluídas - Detalhamento</h1>
+				</header>
+				<div class="body">
+					<ul class="breadcrumb">
+						<li><a href="{BASE_URL}home.php">Início</a><span
+							class="divider"><i class="arrow-right"></i></span></li>
+						<li><a href="{BASE_URL}Licitacoes.php">Licitações</a><span
+							class="divider"><i class="arrow-right"></i></span></li>
+						<li><a href="{BASE_URL}ConsLicitacoesConcluidas.php">Licitações
+								concluídas</a><span class="divider"><i class="arrow-right"></i></span></li>
+						<li class="active">Detalhamento</li>
+					</ul>
+
+					<article class="article">
+						<header class="article-header">
+							<h1>Licitações Concluídas - Detalhamento</h1>
+						</header>
+					</article>
+					<article class="article">
+						<!-- BEGIN BLOCO_MENSAGEM -->
+						<div class="alert alert-info">
+							<button class="close" data-dismiss="alert" type="button">×</button>
+							{MENSAGEM}
+						</div>
+						<!-- END BLOCO_MENSAGEM -->
+
+						<section class="article-detail row-border">
+							<p>Para visualizar os documentos e Atas da Licitação, clique
+								no item desejado. Para visualizar todas as Licitações
+								Pesquisadas, clique no botão "Voltar".</p>
+						</section>
+						<div class="tab-content">
+							<div id="tab1" class="tab-pane active">
+								<form action="{BASE_URL}ConsAcompanhamentoPesquisar.php"
+									method="post" name="Acompanhamento">
+									<section class="article-detail">
+										<table class="table table-report">
+											<thead>
+												<tr>
+													<th colspan="13"><span class="text-center">LICITAÇÕES CONCLUÍDAS - DETALHAMENTO</span></th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td colspan="4" style="text-align: left"><strong>GRUPO</strong></td>
+													<td colspan="9" style="text-align: left">{GRUPODESCRI}</td>
+												</tr>
+
+												<tr>
+													<td colspan="4" style="text-align: left"><strong>COMISSÃO</strong></td>
+													<td colspan="9" style="text-align: left">
+														{COMISSAODESCR} <!-- BEGIN BLOCO_NOME_PRESIDENTE --> <!--                                                        <br/>{VALOR_PRESIDENTE}-->
+														<!-- END BLOCO_NOME_PRESIDENTE -->
+														<!-- BEGIN BLOCO_DADOS_EXTRAS -->
+														<br />{VALOR_ENDERECO} {VALOR_TELEFONE} {VALOR_FAX}
+														<!-- END BLOCO_DADOS_EXTRAS -->
+													</td>
+												</tr>
+
+												<tr>
+													<td colspan="4" style="text-align: left"><strong>PROCESSO</strong></td>
+													<td colspan="9" style="text-align: left">{PROCESSOANO}</td>
+												</tr>
+
+												<tr>
+													<td colspan="4" style="text-align: left"><strong>MODALIDADE</strong></td>
+													<td colspan="9" style="text-align: left">{MODALIDADEDESC}</td>
+												</tr>
+
+												<tr>
+													<td colspan="4" style="text-align: left"><strong>LICITAÇÃO</strong></td>
+													<td colspan="9" style="text-align: left">{LICITACAOANO}</td>
+												</tr>
+
+												<tr>
+													<!-- BEGIN BLOCO_REGISTROPRECO -->
+													<td colspan="4" style="text-align: left"><strong>REGISTRO
+															DE PREÇO {REGISTROPRECO}</strong></td>
+													<td colspan="9" style="text-align: left">{REGISTROPRECOVALOR}</td>
+													<!-- END BLOCO_REGISTROPRECO -->
+												</tr>
+
+												<tr>
+													<td colspan="4" style="text-align: left"><strong>OBJETO</strong></td>
+													<td colspan="9" style="text-align: left">{OBJETOLICITACAO}</td>
+												</tr>
+												<tr>
+													<td colspan="4" style="text-align: left"><strong>DATA/HORA
+															DE ABERTURA</strong></td>
+													<td colspan="9" style="text-align: left">{DATAABERTURA}
+														{HORAABERTURA}</td>
+												</tr>
+												<tr>
+													<td colspan="4" style="text-align: left"><strong>ÓRGÃO
+															DEMANDANTE</strong></td>
+													<td colspan="9" style="text-align: left">{ORGAOLICITACAO}</td>
+												</tr>
+												<!--Inserção de scc |MADSON|-->
+												<tr {SEEXISTESCC} >
+													<td colspan="4" style="text-align: left"><strong>SOLICITAÇÃO DE COMPRA</strong></td>
+													<td colspan="9" style="text-align: left"> 
+														<a href="#" onclick="javascript:AbreJanelaDocumentos('{LINKSCC}',window.screen.width-100,window.screen.height-200);" >{SCC}</a> 
+												    </td>
+												</tr>
+												<!-- ATA DE REGISTRO DE PREÇO --> 
+												<tr {SEEXISTEARP} >
+													<td colspan="4" style="text-align: left"><strong>ATA DE REGISTRO DE PREÇO</strong></td>
+													<td colspan="9" style="text-align: left">
+														<a href="{BASE_URL}ConsRegistroPrecoDetalhes.php?GrupoCodigo={CODIGOGRUPO}&Processo={PROCESSO}&ProcessoAno={PROCESSOANO}&ComissaoCodigo={CODIGOCOMISSAO}&OrgaoLicitanteCodigo={ORGAOLICITANTE}&ata={ARP}" target="_blank">
+															{NUMEROATA} 
+														</a>
+													</td>
+												</tr> 
+												<!-- NUMERO DO CONTRATO -->
+												<tr {SEEXISTECONTRATO} >
+													<td colspan="4" style="text-align: left"><strong>CONTRATO CONSOLIDADO</strong></td>
+													<td colspan="9" style="text-align: left">
+														<a href="../contratos/CadContratoConsolidado.php?idregistro={SEQUCONTRATO}&internet=true&Destino=A" target="_blank">
+															{NUMCONTRATO} 
+														</a>
+													</td>
+												</tr> 
+												<tr>
+													<td colspan="4" style="text-align: left"><strong>NECESSIDADE
+															DE APRESENTAÇÃO DE DEMONSTRAÇÕES CONTÁBEIS</strong></td>
+													<td colspan="9" style="text-align: left">{VALIDACAOFORNECEDOR}</td>
+												</tr>
+
+												<tr>
+													<td class="textonegrito" bgcolor="#DCEDF7" colspan="13">
+														<a href="#"
+														onclick="javascript:AbreJanelaDocumentos('{CONSULTADOCUMENTO}',980,350);">EDITAL E ANEXOS</a>
+													</td>
+												</tr>
+	
+
+												<!-- BEGIN BLOCO_VALOR_ESTIMADO -->
+												<tr>
+													<td colspan="4" style="text-align: left"><strong>TOTAL
+															GERAL ESTIMADO<br>(Itens que Lograram Êxito)
+													</strong></td>
+													<td colspan="9" style="text-align: left">{TOTALGERALESTIMADO}</td>
+												</tr>
+												<!-- END BLOCO_VALOR_ESTIMADO -->
+
+												<!-- BEGIN HOMOLOGACAO -->
+												<tr>
+													<td colspan="4" style="text-align: left"><strong>VALOR
+															HOMOLOGADO<br>(Itens que Lograram Êxito)
+													</strong></td>
+													<td colspan="9" style="text-align: left">{VALORHOMOLOGADO}</td>
+												</tr>
+												<!-- END HOMOLOGACAO -->
+
+												<tr>
+													<td colspan="13"><strong>BLOQUEIOS</strong></td>
+												</tr>
+												<!-- BEGIN TABELA_INTERNA -->
+												<tr>
+													<td colspan="3" style="text-align: left">EXERCÍCIO</td>
+													<td colspan="3" style="text-align: left">No BLOQUEIO</td>
+													<td colspan="3" style="text-align: left">UNIDADE
+														ORÇAMENTÁRIA</td>
+													<td colspan="4" style="text-align: left">DOTAÇÃO</td>
+												</tr>
+												<!-- BEGIN TABELA_EXERCICIO -->
+												<tr>
+													<td colspan="3" style="text-align: left">{EXERCICIOBLOQ}</td>
+													<td colspan="3" style="text-align: left">
+														<!-- BEGIN BLOCO_DOTACAO --> {DOTACAO} <!-- END BLOCO_DOTACAO -->
+													</td>
+													<td colspan="3" style="text-align: left">
+														{UNIDADEORCAMENTARIA}</td>
+													<td colspan="4" style="text-align: left">
+														{DOTACAOINTERNA}</td>
+												</tr>
+												<!-- END TABELA_EXERCICIO -->
+												<!-- END TABELA_INTERNA -->
+
+												<!-- BEGIN NAO_HA_DADOS -->
+												<tr>
+													<td class="textonegrito" bgcolor="#DCEDF7" colspan="13">
+														{NAOHADADOS}</td>
+												</tr>
+												<!-- END NAO_HA_DADOS -->
+
+												<!-- BEGIN GRADE_ITENS -->
+											<thead>
+												<tr>
+													<th colspan="13"><span class="text-center">ITENS
+															DE MATERIAL DA LICITAÇÃO</span></th>
+												</tr>
+											</thead>
+
+											<!-- BEGIN BLOCO_RESULTADO_PESQUISA -->
+											<!-- BEGIN BLOCO_RESULTADO -->
+											<tr class="textonegrito" bgcolor="#75ADE6">
+												<td colspan="13"><strong>{NUMEROLOTEMAT}</strong></td>
+											</tr>
+											<tr bgcolor="#DCEDF7">
+												<td colspan="1"
+													style="vertical-align: middle; text-align: center; width: 50px;"><strong>ORD.</strong></td>
+												<td colspan="{COLSPAN_DESCRICAO_MAT}"
+													style="vertical-align: middle; text-align: center;"><strong>DESC.
+														ITEM</strong></td>
+												<td colspan="1"
+													style="vertical-align: middle; text-align: center;"><strong>CÓD</strong></td>
+												<td colspan="1"
+													style="vertical-align: middle; text-align: center;"><strong>UNIDADE</strong></td>
+
+												<!-- BEGIN BLOCO_DETALHAMENTO -->
+												<td colspan='{COLSPAN_DESCRICAO_DETALHADA}'><strong>DESC. DETALHADA ITEM</strong></td>
+												<!-- END BLOCO_DETALHAMENTO -->
+
+												<td colspan="1"
+													style="vertical-align: middle; text-align: center;"><strong>QUANTIDADE</strong></td>
+												<td colspan="2"
+													style="vertical-align: middle; text-align: center;"><strong>MARCA</strong></td>
+												<td colspan="1"
+													style="vertical-align: middle; text-align: center;"><strong>MODELO</strong></td>
+
+												<!-- BEGIN TDVALORESTIMADO -->
+												<td colspan="{COLSPAN_VALORES}"
+													style="vertical-align: middle; text-align: center;"><strong>VALOR
+														ESTIMADO</strong></td>
+												<!-- END TDVALORESTIMADO -->
+
+                                                <!-- BEGIN BLOCO_VALOR_HOMOLOGADO -->
+                                                <td colspan="{COLSPAN_VALORES}"
+													style="vertical-align: middle; text-align: center;"><strong>VALOR HOMOLOGADO</strong></td>
+                                                <!-- END BLOCO_VALOR_HOMOLOGADO -->
+
+											</tr>
+											<!-- END BLOCO_RESULTADO -->
+
+														<tr>
+															<td colspan='1'
+																style='vertical-align: middle; text-align: center;'>{ORDEM_MATERIAL}</td>
+
+															<td colspan='{COLSPAN_DESCRICAO_MAT}'
+																style='vertical-align: middle; text-align: center;'>{DESCRICAO_MATERIAL}</td>
+
+															<td colspan='1'
+																style='vertical-align: middle; text-align: center;'>{SEQ_MATERIAL}
+															</td>
+
+															<td colspan='1'
+																style='vertical-align: middle; text-align: center;'>{UNIDADE_MATERIAL}</td>
+
+														<!-- BEGIN DETALHAMENTO -->
+														    <td colspan='{COLSPAN_DESCRICAO_DETALHADA}' style='vertical-align: middle;'>{DESCRICAO_DETALHADA}</td>
+
+														<!-- END DETALHAMENTO -->
+														    <td colspan='1'
+																style='vertical-align: middle; text-align: right;'>{QUANTIDADE_MATERIAL}</td>
+
+															<td colspan='2'
+																style='vertical-align: middle; text-align: center;'>{MARCA_MATERIAL}</td>
+														    <td colspan='1' style='vertical-align: middle;'>{MODELO_MATERIAL}</td>
+
+														<!-- BEGIN VALORES -->
+
+															<td colspan='{COLSPAN_VALORES}'
+																style='vertical-align: middle; text-align: right;'>{VALOR_ESTIMADO}</td>
+														    <td colspan='{COLSPAN_VALORES}'
+																style='vertical-align: middle; text-align: right;'>{VALOR_HOMOLOGADO}</td>
+														<!-- END VALORES -->
+
+											<!-- END BLOCO_RESULTADO_PESQUISA -->
+											<!-- END GRADE_ITENS -->
+											<!-- BEGIN BLOCO_SERVICO -->
+											<thead>
+												<tr>
+													<th colspan="13"><span class="text-center">ITENS
+															DE SERVIÇO DA LICITAÇÃO</span></th>
+												</tr>
+											</thead>
+
+											{VALORSERVICO}
+											<!-- END BLOCO_SERVICO -->
+
+											<!-- BEGIN BLOCO_FASE_HOMOLOGACAO_URL -->
+											<tr>
+												<td class="textonegrito" bgcolor="#DCEDF7" colspan="13">
+													<a href="{VALORURL}">RESULTADO DO PROCESSO LICITATÓRIO</a>
+												</td>
+											</tr>
+											<!-- END BLOCO_FASE_HOMOLOGACAO_URL -->
+
+											<!-- BEGIN BLOCO_FASE_HOMOLOGACAO -->
+											<tr>
+												<td class="textonegrito" bgcolor="#DCEDF7" colspan="13">
+													<a href="#" $paramentrosConsultaDocumentos
+													onclick="javascript:AbreJanela('../app/ConsAcompDetalhesDocumentosResultadoProcessoLicitatorio.php?{PARAMETRODOCUMENTO}', 900, 350);">
+														RESULTADO DO PROCESSO LICITATÓRIO </a>
+												</td>
+											</tr>
+											<!-- END BLOCO_FASE_HOMOLOGACAO -->
+
+											<!-- BEGIN BLOCO_TABELA_FINAL -->
+											<thead>
+												<tr>
+													<th colspan="13"><span class="text-center">HISTÓRICO</span>
+													</th>
+												</tr>
+											</thead>
+
+											<tr>
+												<td colspan="3" style="text-align: left"><strong>FASE</strong></td>
+												<td colspan="3" style="text-align: left"><strong>DATA</strong></td>
+												<td colspan="3" style="text-align: left"><strong>DETALHE</strong></td>
+												<td colspan="4" style="text-align: left"><strong>ATA(S)
+														DA FASE</strong></td>
+											</tr>
+
+											<!-- BEGIN BLOCO_LISTA_FASES -->
+											{BLOCOTD} {BLOCOTOTAL}
+											<!-- END BLOCO_LISTA_FASES -->
+											<!-- END BLOCO_TABELA_FINAL -->
+										</table>
+										</tbody>
+									</section>
+									<br /> <input class="btn btn-primary pull-right" type="button"
+										onClick="location.href='{VALOR_BOTAO_VOLTAR}'" name="Voltar"
+										value="Voltar">
+								</form>
+							</div>
+						</div>
+					</article>
+				</div>
+			</section>
+		</div>
+	</div>
+</div>

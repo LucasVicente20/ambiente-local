@@ -1,0 +1,222 @@
+<!-- 220038-- -->
+<script type="text/javascript">
+
+	function enviar(valor) {
+		if(valor == "Limpar"){
+			document.CadEncaminharDFD.GerarNumeracaoAno.value = '';
+			document.CadEncaminharDFD.UnidadeCodigo.value = '';
+        }
+		if(valor == "Pesquisar"){
+				if(valor){
+					document.CadEncaminharDFD.Botao.value = valor;
+				}else{
+					document.CadEncaminharDFD.Botao.value = '';
+				}
+				document.CadEncaminharDFD.submit();
+				document.CadEncaminharDFD.submit();		
+		}
+		
+		var valida = false;
+			if(valor == "Encaminhar"){
+				var checkBoxes = document.querySelectorAll(".checkbox");
+				var selecionados = 0;
+				checkBoxes.forEach(function(el) {
+					
+					if(el.checked) {
+						valida = true;
+					}
+					
+				});
+			if(valida){
+				var confirma = confirm("Tem certeza que deseja encaminhar o DFD para análise?");
+					if(confirma != true){
+						return false;
+					}else{
+							wto = setTimeout(function() {
+								if(valor){
+									document.CadEncaminharDFD.Botao.value = valor;
+								}else{
+									document.CadEncaminharDFD.Botao.value = '';
+								}
+								document.CadEncaminharDFD.submit();
+								document.CadEncaminharDFD.submit();
+							}, 1000);
+						}
+					}else{
+						document.CadEncaminharDFD.Botao.value = 'Valida';
+						document.CadEncaminharDFD.submit();
+					}
+			}
+				
+	}
+	$(document).ready(function() {
+		$("#numDFDAll").live("click", function(){
+			const SelectAll = $("#numDFDAll").prop("checked");
+			if(SelectAll == true){
+				$(".checkbox").prop("checked", true);
+			}
+			if(SelectAll == false){
+				$(".checkbox").prop("checked", false);
+			}
+		})
+		$(".checkbox").live("click", function(){
+			const SelectAll = $("#numDFDAll").prop("checked");
+			if(SelectAll == true){
+				$("#numDFDAll").prop("checked", false)
+			}
+		})
+	})
+	
+
+</script>
+<style>
+	.mensagem-texto-fim {
+		color: #007fff;
+		font-weight: bolder;
+		font-family: Verdana,sans-serif,Arial;
+		font-size: 8pt;
+		font-style: normal;
+	}
+</style>
+<!-- BEGIN BLOCO_SUCESSO -->
+<table cellpadding="3" cellspacing="0"
+		summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 800px;">
+<tr>
+	<td  colspan="2" id="mensagemFinal">
+		<div class="mensagem">
+			<div class="mensagem" width="600px;">
+				<div class="error">
+				<blink class="titulo2">Atenção</span>
+				</div>
+				<span class="mensagem-texto-fim">
+					DFD(S) Encaminhado(s) com Sucesso
+				</span>
+			</div>
+	</td>
+</tr>
+</table>
+<!-- END BLOCO_SUCESSO -->
+
+<!-- BEGIN BLOCO_BLOQUEIA -->
+<table cellpadding="3" cellspacing="0"
+		summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 800px;">
+<tr>
+	<td  colspan="2" id="mensagemFinal">
+		<div class="mensagem">
+			<div class="mensagem" width="600px;">
+				<div class="error">
+				<blink class="titulo2">Atenção</span>
+				</div>
+				<span class="mensagem-texto-fim">
+					No atual período, não está autorizado o encaminhamento de DFD para o Ano do PCA e para a Área Requisitante selecionados.
+				</span>
+			</div>
+	</td>
+</tr>
+</table>
+<!-- END BLOCO_BLOQUEIA -->
+
+<!-- BEGIN BLOCO_ERROR -->
+<table id="tableError" cellpadding="3" cellspacing="0"
+		summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 800px;">
+<tr>
+	<td  colspan="2" id="mensagemFinal">
+		<div class="mensagem">
+			<div class="mensagem" width="600px;">
+				<div class="error">
+				Error
+				</div>
+				<span class="mensagem-texto-fim">
+					{MENSAGEM_ERROR}
+				</span>
+			</div>
+	</td>
+</tr>
+</table>
+<!-- END BLOCO_ERROR -->
+<form action="CadEncaminharDFD.php" method="post" name="CadEncaminharDFD">
+
+
+	<table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6"
+		summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 633px;">
+		<tr>
+			<td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3"
+				colspan="9">ENCAMINHAR DFD</td>
+		</tr>
+		<tr>
+			<td>
+				<table border="0" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 633px;">
+					<tr>
+						<td>Para alterar a situação de uma DFD, preencha os dados abaixo e clique no botão "Pesquisar".</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<table border="0" cellpadding="3" cellspacing="2" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 633px;">
+					<input type="hidden" id="comissaoselecionada" name="comissaoselecionada" value=""/>
+					<input type="hidden" id="gruposelecionada" name="gruposelecionada" value=""/>
+					<tr>
+						<td class="textonormal" bgcolor="#DCEDF7" width="30%">Ano*</td>
+						<td class="textonormal">
+							<select name="GerarNumeracaoAno" class="textonormal capturarValorAcao" data-acao="SelecionarProcesso">
+								<!-- BEGIN BLOCO_ANO -->
+								<option value="{ANO_VALUE}" {ANO_SELECTED}>{ANO_TEXT}</option>
+								<!-- END BLOCO_ANO -->
+							</select>
+						</td>
+					</tr>
+					<tr id="nAta">
+						<!-- BEGIN BLOCO_ORGAO_LICITANTE -->
+							<td class="textonormal" bgcolor="#DCEDF7" style="display: table; width: 200px">
+								Área Requisitante*
+							</td>
+							<td>
+								<select id="ddlOrgao" class="textonormal" name="UnidadeCodigo">
+									<option value="">Selecione a área requisitante...</option>
+									<!-- BEGIN BLOCO_ITEM_ORGAO_LICITANTE -->
+									<option value="{VALOR_ID_ORGAO_LICITANTE}"{VALOR_ORGAO_SELECTED}>{VALOR_NOME_ORGAO_LICITANTE}</option>
+									<!-- END BLOCO_ITEM_ORGAO_LICITANTE -->
+								</select>
+							</td>
+						<!-- END BLOCO_ORGAO_LICITANTE -->
+						</tr>
+				</table>
+			</td>
+        </tr>
+		<tr>
+			<td class="textonormal" align="right">
+                <input type="button" name="Pesquisar" value="Pesquisar" class="botao" onclick="javascript:enviar('Pesquisar')">
+				<input type="button" name="Limpar" value="Limpar" class="botao" onclick="javascript:enviar('Limpar')">
+			</td>
+		</tr>
+        <!-- BEGIN BLOCO_RESULTADO -->
+        <tr >
+            <td colspan="2">
+                
+                    <!-- BEGIN BLOCO_DADOS -->
+					<tr id="resultadoHTML">
+						{RESULTADO}
+					</tr>
+                    <!-- END BLOCO_DADOS -->
+            </td>            
+        </tr>
+		
+        <!-- END BLOCO_RESULTADO -->
+
+		<tr style="display:none;">
+			<td class="textonormal" align="right"> 
+				<input type="hidden" name="Botao" value="" />
+				<input type="hidden" name="valorAuxiliar" value="" />
+			</td>
+		</tr>
+		<!-- BEGIN BOTAO_ENCAMINHAR -->
+		<tr>
+			<td class="textonormal" align="right"> 
+				<input type="button" name="Encaminhar" value="Encaminhar" class="botao" onclick="javascript:enviar('Encaminhar')">
+			</td>
+		</tr>
+		<!-- END BOTAO_ENCAMINHAR -->
+	</table>
+</form>

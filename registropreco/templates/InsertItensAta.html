@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<!-- /**
+ * Autor: João Madson Felix
+ * Data: 09 de Abril de 2021
+ * Objetivo: Realizar a inserção de itens em ata que estagvam com erro
+ * ==========================================================================
+ * Alterado: Eliakim Ramos
+ * Data:     16/08/2022
+ * Objetivo: CR #267552
+ */ -->
+<html>
+    <head>
+
+    </head>
+    <body>
+        <h1>Upload Excel</h1>
+        <span>{MENSAGEM}</span>
+        <table border="0" width="100%" summary="">
+            <tbody>
+                <tr>
+                    <td class="textonormal" bgcolor="#DCEDF7" width="30%">Ano</td>
+                    <td class="textonormal">
+                         <select id="anoProcesso" name="anoProcesso" class="textonormal">
+                           
+                         </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="textonormal" bgcolor="#DCEDF7" width="30%">Processo Externo</td>
+                    <td class="textonormal">
+                         <select id="processoexterno" name="processoexterno" class="textonormal">
+                          
+                         </select>
+                    </td>
+                </tr>
+                </tbody>
+           </table>
+        <form name="formM" action="InsertItensAta.php" method="POST" enctype="multipart/form-data">
+            <table border="0" width="100%" summary="">
+                <tbody>
+                    <tr>
+                        <td class="textonormal" bgcolor="#DCEDF7" width="30%">Nº da Ata Externa *</td>
+                        <td class="textonormal">
+                            <input id="NUMERO_ATA_EXTERNA" type="text" name="NUMERO_ATA_EXTERNA" readonly>
+                            <input id="SITUACAO_ATA_EXTERNA" type="hidden" name="SITUACAO_ATA_EXTERNA">
+                            <input type="hidden" name="SEQ_PROCESSO" id="SEQ_PROCESSO">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="textonormal" bgcolor="#DCEDF7" width="30%">Ano da Ata Externa</td>
+                        <td class="textonormal">
+                            <input id="ANO_ATA_EXTERNA" type="text" name="ANO_ATA_EXTERNA" readonly>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="textonormal" bgcolor="#DCEDF7" width="30%">Processo Licitatório Externo *</td>
+                        <td class="textonormal">
+                            <input id="PROCESSO_ATA_EXTERNA" type="text" name="PROCESSO_ATA_EXTERNA" readonly>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="textonormal" bgcolor="#DCEDF7" width="40%">Órgão Gestor da Ata Externa*</td>
+                        <td class="textonormal">
+                            <input id="ORGAO_ATA_EXTERNA" type="text" name="ORGAO_ATA_EXTERNA" readonly>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="textonormal" bgcolor="#DCEDF7" width="30%">Objeto*</td>
+                        <td class="textonormal">
+                            <textarea name="OBJETO_ATA_EXTERNA" id="OBJETO_ATA_EXTERNA"cols="62" rows="5" class="textonormal contarCaracteres" maxlength="200" readonly></textarea>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <label>Arquivo XML</label><br>
+            <span style="font-size: 9px;">
+                Campos necessarios no arquivo: ("Quant","Item","CADUS","CADUM","Valor Unit",
+                "Valor Unit com BDI", "Descricao")
+            </span><br>
+            <input type="file" name="arquivo"><br><br>
+            <input type="submit" name="enviar" value="enviar">
+        </form>
+        <script>
+            function postAjax(url, data, success) {
+                var params = typeof data == 'string' ? data : Object.keys(data).map(
+                        function(k){ return encodeURIComponent(k) + '=' + encodeURIComponent(data[k]) }
+                    ).join('&');
+
+                var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
+                xhr.open('POST', url);
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState>3 && xhr.status==200) { success(xhr.responseText); }
+                };
+                xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                xhr.send(params);
+                return xhr;
+            }
+            document.addEventListener("DOMContentLoaded", function(event) {
+                // Your code to run since DOM is loaded and ready
+                let anoProcesso = document.getElementById("anoProcesso");
+                let processoExterno = document.getElementById("processoexterno");
+                
+                postAjax('InsertItensAta.php', { op: "AnoProcesso" }, function(data){ anoProcesso.innerHTML = data; });
+                anoProcesso.addEventListener("change",function(){
+                    let anoSelected = anoProcesso.options[anoProcesso.options.selectedIndex].value;
+                    postAjax('InsertItensAta.php', { op: "Processo", Ano: anoSelected }, function(data){ processoExterno.innerHTML = data; });
+                });
+                processoExterno.addEventListener("change", function(){
+                    let anoSelected = anoProcesso.options[anoProcesso.options.selectedIndex].value;
+                    let processoSelected = processoExterno.options[processoExterno.selectedIndex].value;
+                    let numeroAtaExterna = document.getElementById("NUMERO_ATA_EXTERNA");
+                    let anoAtaExterna = document.getElementById("ANO_ATA_EXTERNA");
+                    let processoAtaExterna = document.getElementById("PROCESSO_ATA_EXTERNA");
+                    let seqProcesso = document.getElementById("SEQ_PROCESSO");
+                    let situacaoAtaExterna = document.getElementById("SITUACAO_ATA_EXTERNA");
+                    let orgaoAtaExterna = document.getElementById("ORGAO_ATA_EXTERNA");
+                    let objetoAtaExterna = document.getElementById("OBJETO_ATA_EXTERNA");
+                    postAjax('InsertItensAta.php', { op: "GetAtaRegistroPrecoAtiva", ano: anoSelected, processo: processoSelected }, 
+                    function(data){ 
+                        dadosResponse = JSON.parse(data);
+                        numeroAtaExterna.value = dadosResponse.NUMERO_ATA_EXTERNA;
+                        anoAtaExterna.value = dadosResponse.ANO_ATA_EXTERNA;
+                        processoAtaExterna.value = dadosResponse.PROCESSO_ATA_EXTERNA;
+                        seqProcesso.value = dadosResponse.SEQ_PROCESSO;
+                        situacaoAtaExterna.value = dadosResponse.SITUACAO_ATA_EXTERNA;
+                        orgaoAtaExterna.value = dadosResponse.ORGAO_ATA_EXTERNA;
+                        objetoAtaExterna.value = dadosResponse.OBJETO_ATA_EXTERNA;
+                    });
+                });
+            });
+        </script>
+    </body>
+</html>

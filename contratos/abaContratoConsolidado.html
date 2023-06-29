@@ -1,0 +1,3374 @@
+
+<!---------------------------------------------------------------------------
+# Portal da DGCO
+# Programa: abaContratoConsolidado.html
+# Autor:    Marcello Albuquerque
+# Data:     19/04/2021
+# Objetivo: Verificar os campos do Representante legal CR #246829
+#---------------------------------------------------------------------------
+# Autor:    Madson Felix
+# Data:     07/05/2021
+# CR #246939
+# -------------------------------------------------------------------------
+# Portal da DGCO
+# Programa: abaContratoConsolidado.html
+# Autor:    Marcello Albuquerque
+# Data:     21/06/2021
+# Objetivo: Adicionar botão de voltar CR #249865
+#-----------------------------------------------------------------------------
+# Autor:    Osmar Celestino | Lucas Vicente
+# Data:     07/06/2022
+# CR #244295
+# -------------------------------------------------------------------------
+# Autor: Lucas Vicente
+# Data:  15/02/2023
+# Objetivo: CR #275671
+# -------------------------------------------------------------------------
+#--------------------------------------------------------------------------->
+
+
+
+<style>
+	div.conteudo table th {
+		text-align: center;
+	}
+</style>
+<div>
+	<!-- Corpo -->
+
+	<div id="painelModalVisualizar" class="conteudo">
+		<!--TITULO 		-->
+		<br>
+		<section class="box-article">
+			<header class="header">
+				<h1>
+					Detalhamento de Contrato Consolidado
+				</h1>
+			</header>
+			<div class="body">
+				<script language="javascript">
+					jQuery(document).ready(function ($) {
+						$("#tabsContratoConsolidado").tabs({
+							cookie: {
+								expires: 1
+							},
+							selected: 0
+						});
+
+						//VERIFICA SE OS CAMPOS DO REPRESENTANTE LEGAL TA VÁZIO #246829
+						$('#nome').ready(function(){
+							if($.trim($("#representante").html()).length==0){
+							
+								$("#nome").hide()
+							}else{
+								$("#nome").show()
+							}
+						});
+
+						$('#cpf').ready(function(){
+							if($.trim($("#cpfrepresentante").html()).length==0){
+							
+								$("#cpf").hide()
+							}else{
+								$("#cpf").show()
+							}
+						});
+
+						$('#cargo').ready(function(){
+							if($.trim($("#cargorepre").html()).length==0){
+							
+								$("#cargo").hide();
+							}else{
+								$("#cargo").show()
+							}
+						});
+
+						$('#identidade').ready(function(){
+							if($.trim($("#identidaderepre").html()).length==0){
+							
+								$("#identidade").hide();
+							}else{
+								$("#identidade").show()
+							}
+						});
+
+						$('#orgao').ready(function(){
+							if($.trim($("#orgaorepre").html()).length==0){
+							
+								$("#orgao").hide();
+							}else{
+								$("#orgao").show()
+							}
+						});
+
+						$('#uf').ready(function(){
+							if($.trim($("#ufrepre").html()).length==0){
+							
+								$("#uf").hide();
+							}else{
+								$("#uf").show()
+							}
+						});
+
+
+						$('#cidade').ready(function(){
+							if($.trim($("#cidaderepre").html()).length==0){
+							
+								$("#cidade").hide();
+							}else{
+								$("#cidade").show()
+							}
+						});
+				
+						$('#estado').ready(function(){
+							if($.trim($("#estadorepre").html()).length==0){
+							
+								$("#estado").hide();
+							}else{
+								$("#estado").show()
+							}
+						});
+
+						$('#nacionalidade').ready(function(){
+							if($.trim($("#nacionalidaderepre").html()).length==0){
+							
+								$("#nacionalidade").hide();
+							}else{
+								$("#nacionalidade").show()
+							}
+						});
+
+						$('#estadocivil').ready(function(){
+							if($.trim($("#estadocivilrepre").html()).length==0){
+							
+								$("#estadocivil").hide();
+							}else{
+								$("#estadocivil").show()
+							}
+						});
+
+						$('#profissao').ready(function(){
+							if($.trim($("#profissaorepre").html()).length==0){
+							
+								$("#profissao").hide();
+							}else{
+								$("#profissao").show()
+							}
+						});
+
+						$('#email').ready(function(){
+							if($.trim($("#emailrepre").html()).length==0){
+								$("#email").hide();
+							}else{
+								$("#email").show()
+							}
+						});
+
+						$('#telefone').ready(function(){
+							if($.trim($("#telefonerepre").html()).length==0){
+								$("#telefone").hide();
+							}else{
+								$("#telefone").show()
+							}
+						});
+
+					});
+				</script>
+				<div id="tabsContratoConsolidado" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
+					<ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+						<!-- BEGIN CONTRATO_TAB -->
+						<li class="ui-state-default ui-corner-top ui-tabs-selected {CLASSEATIVO}">
+							<a href="{REFABA}">
+								<span>{TITULOABA}</span>
+							</a>
+						</li>
+						<!-- END CONTRATO_TAB -->
+					</ul>
+					<div id="tabContrato_001" class="ui-tabs-panel ui-widget-content ui-corner-bottom">
+						<form id="j_id177" name="j_id177" method="post"
+							action="/contratos-emprel/paginaspublicas/ConsultaContratoConsolidado.jsf"
+							enctype="application/x-www-form-urlencoded">
+							<input type="hidden" name="j_id177" value="j_id177">
+							<div class="rich-panel " id="j_id177:painelVisualizarConsolidado">
+								<div class="rich-panel-body " id="j_id177:painelVisualizarConsolidado_body">
+
+									<table cellpadding="0" cellspacing="0" id="TableVisualizarContrato">
+										<tbody>
+
+											<table id="j_id971:0:gridBasicoApostilamentoVisualizar">
+												<tbody>
+													<tr>
+														<td class="labels"><label for="j_id971:0:" class="">
+															Número do Contrato/Ano </label></td>
+														<td  style="font-size: 12px;" class="inputs">
+															<span id="j_id971:0:numeroApostilamento">
+																{NUMEROCONTRATO}
+															</span>
+														</td>														
+													</tr>
+													<tr>
+														<td class="labels"><label for="j_id971:0:tipoApostilamento" class="">
+															Solicitação de Compra/Contratação-SCC</label></td>
+														<td class="inputs">
+															<span style="font-size: 12;" id="j_id971:0:tipoApostilamento">
+																SCC {SCC}
+															</span></td>
+													</tr>
+													<tr>
+													</tr>
+														
+													<tr>
+														<td class="labels"><label for="j_id971:0:" class="">
+															Origem</label></td>
+														<td  style="font-size: 12;"class="inputs">
+															{ORIGEM}
+														</td>
+													</tr>
+													<tr>
+														<td class="labels"><label for="j_id971:0:" class="">
+															Órgão Contratante Responsável</label></td>
+														<td class="inputs" style="font-size: 12px;">
+															{ORGAOCONTRATANTE}
+														</td>
+													</tr>
+													<tr>
+														<td class="labels"><label for="j_id971:0:" class="">
+															Objeto</label></td>
+														<td  style="font-size: 12px;" class="inputs">
+															<label id="j_id971:0:lblSituacaoApostilamento">
+															</label >
+															{OBJETO}
+														</td>
+													</tr>
+													<table class="table">
+														<thead>
+															<tr>
+																<th scope="col"
+																	style="text-align:center;background:#1257aa;font-size: 12px;" colspan="2">
+																	CONTRATADO</th>
+															</tr>
+														</thead>
+													</thead>
+												</table>
+												<table id="j_id971:0:gridBasicoApostilamentoVisualizar">
+													<tbody>
+													<tr>
+														<td class="labels"><label for="j_id971:0:" class="">
+															{CPFCNPJ}
+														</label>
+													</td>
+														<td  style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+															</label >
+															{CNPJCONTRATADOCONS}
+														</td>
+													</tr>
+
+													<tr>
+														<td class="labels"><label for="j_id971:0:" class="">
+															Razão Social</label></td>
+														<td  style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+															</label >
+															{RAZAOSOCIALCONS}
+														</td>
+													</tr>
+
+													<tr>
+														<td class="labels"><label for="j_id971:0:" class="">
+															Logradouro</label></td>
+														<td  style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+															</label >
+															{LOGRADOUROCONS}
+														</td>
+													</tr>
+
+													<tr>
+														<td class="labels"><label for="j_id971:0:" class="">
+															Número</label></td>
+														<td  style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+															</label >
+															{NUMEROCONS}
+														</td>
+													</tr>
+
+													<tr>
+														<td class="labels"><label for="j_id971:0:" class="">
+															Complemento</label></td>
+														<td  style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+															</label >
+															{COMPLEMENTOCONS}
+														</td>
+													</tr>
+
+													<tr>
+														<td class="labels"><label for="j_id971:0:" class="">
+															Bairro</label></td>
+														<td  style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+															</label >
+															{BAIRROCONS}
+														</td>
+													</tr>
+
+													<tr>
+														<td class="labels"><label for="j_id971:0:" class="">
+															Cidade</label></td>
+														<td  style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+															</label >
+															{CIDADECONS}
+														</td>
+													</tr>
+
+													<tr style="border-bottom: 1px solid #b2e4f0;">
+														<td class="labels"><label for="j_id971:0:" class="">
+															UF</label></td>
+														<td  style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+															</label >
+															{UF_FORNECEDORCONS}
+														</td>
+													</tr>
+
+													<tr>
+														<td class="labels"><label for="j_id971:0:" class="">
+															Consórcio</label></td>
+														<td  style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+															</label >
+															{CONSOCIO}
+														</td>
+													</tr>
+
+
+												</tbody>
+											</table>
+											<tr {EXIBEFORNECEDOREXTRA}>
+												<td id="colunaOSContratoConsolidado" colspan="2">
+													<table cellpadding="0" cellspacing="0" id="_tableOS123">
+														<tbody>
+															<tr id="linhaTableOSConsolidado">
+																<td id="colunaVaziaOSConsolidado" width="35%">
+																</td>
+																<td id="colunaDataInicioOSConsolidado">
+																	<table
+																		id="j_id177:panelDataInicioOrdemServicoConsolidado"
+																		class="table-head">
+																		<thead>
+																			<tr>
+																				<th colspan="1" scope="colgroup" style="background: #1257aa; font-size: 12px;" id="idconsorcio">
+																					<span
+																						id="j_id177:labelDataInicioOrdemServicoConsolidado">
+																						Identificador do Contratado
+																					</span>
+																				</th>
+																			</tr>
+																		</thead>
+																		<tbody>
+																		</tbody>
+																	</table>
+																</td>
+																<td id="colunaDataTerminoOSConsolidado">
+																	<table
+																		id="j_id177:panelDataTerminoOrdemServicoConsolidado"
+																		class="table-head">
+																		<thead>
+																			<tr>
+																				<th colspan="1" scope="colgroup" style="background: #1257aa; font-size: 12px;" id="razaosocialconsorcio">
+																					<span
+																						id="j_id177:labelDataTerminoOrdemServicoConsolidado">
+																						Razão Social 
+																					</span>
+																				</th>
+																			</tr>
+																		</thead>
+																		<tbody>
+																		</tbody>
+																	</table>
+																</td>
+															</tr>
+															<tr id="linhaConteudoTabelaOS1Consolidado">
+																<td id="colunaConteudoTabelaOS1Consolidado">
+																	<table
+																		id="j_id177:gridLabelVigenciaDataInicioOSVisualizar1Consolidado"
+																		style="border: 0px;">
+																		<tbody>
+																			<tr>
+																				<td class="labels">
+																					
+																					<label for="j_id177:">
+																						<div id="fornecedor">
+																						Fornecedores
+																						</div>
+																					</label>
+																					
+																				</td>
+																			</tr>
+																		</tbody>
+																	</table>
+																</td>
+																<td id="colunaConteudoTabelaOS2Consolidado">
+																	<table
+																		id="j_id177:gridLabelVigenciaDataInicioOSVisualizar2Consolidado"
+																		style="border: 0px;">
+																		<tbody>
+																			<!-- BEGIN FORNECEDOREXTRACNPJ -->
+																			<tr>
+																				<td class="inputs" id="cnpjfornecedor">
+																					<span
+																						id="j_id177:vigenciaDataInicioVisualizarConsolidado"
+																						style="text-align: center; display:block">
+																						{CNPJFORNECEDORESEXTRA}
+																					</span>
+																				</td>
+																			</tr>
+																			<!-- END FORNECEDOREXTRACNPJ -->
+																		</tbody>
+																	</table>
+																</td>
+																<td id="colunaConteudoTabelaOS3Consolidado">
+																	<table
+																		id="j_id177:gridLabelVigenciaDataInicioOSVisualizar3Consolidado"
+																		style="border: 0px;">
+																		<tbody>
+																			<!-- BEGIN FORNECEDOREXTRARAZAO -->
+																			<tr>
+																				<td class="inputs" id="razaofornecedor">
+																					<span
+																						id="j_id177:vigenciaDataTerminoVisualizarConsolidado"
+																						style="text-align: center; display:block">
+																						{RAZAOFORNECEDORESTRA}
+																					</span>
+																				</td>
+																			</tr>
+																			<!-- END FORNECEDOREXTRARAZAO -->
+																		</tbody>
+																	</table>
+																</td>
+															</tr>
+														</tbody>
+													</table>
+												</td>
+											</tr>
+
+											<table id="j_id971:0:gridBasicoApostilamentoVisualizar">
+												<tbody>
+													<tr>
+														<td class="labels"><label for="j_id971:0:" class="">
+															Contínuo </label></td>
+														<td  style="font-size: 12px;" class="inputs">
+															<span id="j_id971:0:numeroApostilamento">{CONTINUO}</span>
+														</td>														
+													</tr>
+													<tr>
+														<td class="labels"><label for="j_id971:0:tipoApostilamento" class="">
+															Obra</label></td>
+														<td class="inputs">
+															<span style="font-size: 12;" id="j_id971:0:tipoApostilamento">
+																{OBRA}
+															</span></td>
+													</tr>
+													<tr>
+													</tr><tr>
+														<td class="labels"><label for="j_id971:0:" class="">
+															{TITULORELACIONADOAOBRA}</label></td>
+														<td  style="font-size: 12;"class="inputs">{MODO_FORNECIMENTO}</td>
+													</tr>
+													<tr>
+														<td class="labels"><label for="j_id971:0:" class="">
+															Opção de Execução do Contrato</label></td>
+														<td class="inputs" style="font-size: 12px;">{OP_EXEC_CONTRATO}</td>
+													</tr>
+													<tr>
+														<td class="labels"><label for="j_id971:0:" class="">
+															Prazo de Execução do Contrato</label></td>
+														<td  style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+															</label >{PRAZO_EXEC_CONTRATO}</td>
+													</tr>
+													<tr>
+														<td class="labels"><label for="j_id971:0:" class="">
+															Data de Publicação no DOM</label></td>
+														<td  style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+															</label >{DATAPUBLICACAODOM}</td>
+													</tr>
+												</tbody>
+											</table>
+
+											<table class="table">
+												<thead>
+													<tr>
+														<th scope="col" style="border-bottom: 1px solid #b2e4f0;"></th>
+														<th scope="col" style="border-bottom: 1px solid #b2e4f0;"></th>
+														<th scope="col"
+															style="text-align:center;background:#1257aa;font-size: 12px;">
+															DATA DE INÍCIO</th>
+														<th scope="col"
+															style="text-align:center;background:#1257aa;font-size: 12px;">
+															DATA DE TÉRMINO</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<th scope="row"
+															style="color: #1257aa;margin-bottom: 5px; text-align: left;">
+															<label for="j_id177:">
+																Vigência
+															</label>
+														</th>
+														<td></td>
+														<td style="font-size: 12px; text-align: center;">
+															{DATAVIGENCIAINI}</td>
+														<td style="font-size: 12px; text-align: center;">
+															{DATAVIGENCIAFIM}</td>
+													</tr>
+													<tr style="border-bottom: 1px solid #b2e4f0;">
+														<th scope="row"
+															style="color: #1257aa;margin-bottom: 5px; text-align: left; border-top: 1px solid #b2e4f0;">
+															<label for="j_id177:">
+																Execução 
+															</label>
+														</th>
+														<td style="border-top: 1px solid #b2e4f0;"></td>
+														<td style="font-size: 12px; text-align: center; border-top: 1px solid #b2e4f0;">
+															{DATAEXECUCAOINI}</td>
+														<td style="font-size: 12px; text-align: center; border-top: 1px solid #b2e4f0;">
+															{DATAEXECUCAOFIM}</td>
+													</tr>
+												</tbody>
+											</table>
+
+											<table id="j_id971:0:gridBasicoApostilamentoVisualizar">
+
+												<tbody>
+													<tr>
+														<td class="labels"><label for="j_id971:0:" class="">
+															Valor Original </label></td>
+														<td  style="font-size: 12px;" class="inputs"><span id="j_id971:0:numeroApostilamento">R$ {VALORORIGINAL}</span>
+														</td>
+														
+													</tr>
+													<tr>
+														<td class="labels"><label for="j_id971:0:tipoApostilamento" class="">
+															Valor Global com <br />aditivos/apostilamentos</label></td>
+														<td class="inputs"><span style="font-size: 12;" id="j_id971:0:tipoApostilamento">R$ {VALORGLOBALADTIVOAPOSTOLAMENTO}</span></td>
+													</tr>
+													<tr>
+													</tr><tr>
+														<td class="labels"><label for="j_id971:0:" class="">
+															Valor Executado Acumulado</label></td>
+														<td  style="font-size: 12;"class="inputs">R$ {VALOREXECACUMULADO}</td>
+													</tr>
+													<tr>
+														<td class="labels"><label for="j_id971:0:" class="">
+															Saldo a Executar</label></td>
+														<td class="inputs" style="font-size: 12px;">R$ {SALDOAEXECUTAR}</td>
+													</tr>
+													<tr>
+														<td class="labels"><label for="j_id971:0:" class="">
+																Garantia</label></td>
+														<td  style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+															</label >{GARANTIA}</td>
+													</tr>
+													<tr>
+														<td class="labels"><label for="j_id971:0:" class="">
+																Número de Parcelas</label></td>
+														<td  style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+															</label >{NUMERODEPARCELAS}</td>
+													</tr>
+													<tr>
+														<td class="labels"><label for="j_id971:0:" class="">
+																Valor das Parcelas</label></td>
+														<td  style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+															</label >{VALORDAPARCELA}</td>
+													</tr>
+												</tbody>
+											</table>
+
+
+											<table class="table">
+												<thead>
+													<tr>
+														<th scope="col" 
+															style="text-align:center;background:#1257aa;font-size: 12px;">
+															REPRESENTANTE LEGAL</th>
+													</tr>
+												</thead>
+											</table>
+											<table id="j_id971:0:gridBasicoApostilamentoVisualizar">
+
+												<tbody>
+													<tr id="nome">
+														<td class="labels"><label for="j_id971:0:" class="">
+															Nome </label></td>
+														<td style="font-size: 12px;" class="inputs">
+															<span id="representante">{REPRESENTANTELEGALNOMECONS}</span>
+														</td>
+														
+													</tr>
+													<tr id="cpf">
+														<td class="labels"><label for="j_id971:0:tipoApostilamento" class="">
+															CPF</label></td>
+														<td class="inputs">
+															<span style="font-size: 12;" id="cpfrepresentante">
+																{CPFREPRESENTANTELEGALCONS}</span></td>
+													</tr>
+													<tr>
+													</tr>
+													<tr id="cargo">
+														<td class="labels"><label for="j_id971:0:" class="">
+															Cargo</label></td>
+														<td  style="font-size: 12;" class="inputs">
+															<span style="font-size: 12;" id="cargorepre">
+																{CARGOREPRESENTANTELEGALCONS}
+															</span>
+															</td>
+													</tr>
+													<tr id="identidade">
+														<td class="labels"><label for="j_id971:0:" class="">
+															Identidade</label></td>
+														<td class="inputs" style="font-size: 12px;">
+															<span style="font-size: 12;" id="identidaderepre">
+																{IDENTIDADEREPRESENTANTELEGALCONS}
+															</span>
+														</td>
+													</tr>
+													<tr id="orgao">
+														<td class="labels"><label for="j_id971:0:" class="">
+															Órgão Emissor</label></td>
+														<td style="font-size: 12px;" class="inputs">
+															<label id="orgaorepre">
+																{ORGAOREPRESENTANTELEGALCONS}
+															</label>
+														</td>
+													</tr>
+													<tr id="uf">
+														<td class="labels"><label for="j_id971:0:" class="">
+															UF da Identidade</label></td>
+														<td style="font-size: 12px;" class="inputs">
+															<label id="ufrepre">
+																{UFIDENTIDADEREPRESENTANTELEGALCONS}
+															</label>
+														</td>
+													</tr>
+													<tr id="cidade">
+														<td class="labels"><label for="j_id971:0:" class="">
+															Cidade de Domicílio</label></td>
+														<td style="font-size: 12px;" class="inputs">
+															<label id="cidaderepre">
+																{CIDADEDOMREPRESENTANTELEGALCONS}
+															</label>
+														</td>
+													</tr>
+													<tr id="estado">
+														<td class="labels"><label for="j_id971:0:" class="">
+															Estado de Domicílio</label></td>
+														<td style="font-size: 12px;" class="inputs">
+															<label id="estadorepre">
+																{ESTADODOMREPRESENTANTELEGALCONS}
+															</label>
+														</td>
+													</tr>
+
+													<tr id="nacionalidade">
+														<td class="labels"><label for="j_id971:0:" class="">
+															Nacionalidade</label></td>
+														<td style="font-size: 12px;" class="inputs">
+															<label id="nacionalidaderepre">
+																{NACIONALIDADEREPRESENTANTELEGALCONS}
+															</label>
+														</td>
+													</tr>
+
+													<tr id="estadocivil">
+														<td class="labels"><label for="j_id971:0:" class="">
+															Estado Civil</label></td>
+														<td style="font-size: 12px;" class="inputs">
+															<label id="estadocivilrepre">
+																{ESTADOCIVILREPRESENTANTELEGALCONS}
+															</label>
+														</td>
+													</tr>
+
+													<tr id="profissao">
+														<td class="labels"><label for="j_id971:0:" class="">
+															Profissão</label></td>
+														<td style="font-size: 12px;" class="inputs">
+															<label id="profissaorepre">
+																{PROFISSAOREPRESENTANTELIEGALCONS}
+															</label>
+														</td>
+													</tr>
+
+													<tr id="email">
+														<td class="labels"><label for="j_id971:0:" class="">
+															E-mail</label></td>
+														<td style="font-size: 12px;" class="inputs">
+															<span id="emailrepre">
+																{EMAILREPRESENTANTELEGALCONS}
+															</span>
+														</td>
+													</tr>
+
+													<tr id="telefone">
+														<td class="labels"><label for="j_id971:0:" class="">
+															Tefefone</label></td>
+														<td style="font-size: 12px;" class="inputs">
+															<label id="telefonerepre">
+																{TELEFONEREPRESENTANTELEGALCONS}
+															</label>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+
+											<table class="table">
+												<thead>
+													<tr>
+														<th scope="col" colspan="4"
+															style="text-align:center;background:#1257aa;font-size: 12px; ">
+															<label for="j_id177:" style="font-weight: bold; font-size: 12px;">
+																GESTOR
+														</th>
+													</tr>
+												</thead>
+											</table>
+										
+											<table id="j_id971:0:gridBasicoApostilamentoVisualizar">
+												
+												<tbody>
+													<tr>
+														<td class="labels"><label for="j_id971:0:" class="">
+															Nome </label></td>
+														<td style="font-size: 12px;" class="inputs"><span id="j_id971:0:numeroApostilamento">{NOMEGESTORCONS}</span>
+														</td>
+													</tr>
+													<tr>
+														<td class="labels"><label for="j_id971:0:tipoApostilamento" class="">
+															Matrícula</label></td>
+														<td class="inputs"><span style="font-size: 12;" id="j_id971:0:tipoApostilamento">{MATRICULAGESTORCONS}</span></td>
+													</tr>
+													<tr>
+													</tr><tr>
+														<td class="labels"><label for="j_id971:0:" class="">
+															CPF</label></td>
+														<td style="font-size: 12;" class="inputs">{CPFGESTORCONS}</td>
+													</tr>
+													<tr>
+														<td class="labels"><label for="j_id971:0:" class="">
+															E-mail</label></td>
+														<td class="inputs" style="font-size: 12px;">{EMAILGESTORCONS}</td>
+													</tr>
+													<tr>
+														<td class="labels"><label for="j_id971:0:" class="">
+															Tefefone</label></td>
+														<td style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+															</label>{TELEFONEGESTORCONS}</td>
+													</tr>
+												</tbody>
+												
+											</table>
+										
+
+											<div style="display: block;width: 100%;overflow-x: auto;">
+
+												<table id="tableFiscalDocumentoConsolidado" cellpadding="0"
+													cellspacing="0">
+													<tbody>
+														<tr>
+															<td colspan="2">
+																<span
+																	id="j_id177:painelTabelaFiscalDocumentoConsolidado">
+																	<table
+																		id="j_id177:dataTableFiscalDocumentoConsolidado"
+																		class="table table-report table-striped"
+																		style="background-color: #e9f9fc;">
+
+																		<thead>
+																			<tr style="text-transform: uppercase;">
+																				<th colspan="8"
+																					class="table-report-head"
+																					scope="col">
+																					<span style="font-size: 12px; border-bottom: 1px solid #b2e4f0;"
+																						id="j_id177:dataTableFiscalDocumentoConsolidado:lblTipoFiscalDocumentoConsolidado">
+																						FISCAL(IS)
+																					</span>
+																				</th>
+																			</tr>
+																		</thead>
+
+																		<thead>
+																			<tr style="text-transform: uppercase;">
+																				<th class="table-report-head"
+																					scope="col">
+																					<span style="font-size: 12px;"
+																						id="j_id177:dataTableFiscalDocumentoConsolidado:lblTipoFiscalDocumentoConsolidado">
+																						FISCAL(IS)
+																					</span>
+																				</th>
+																				<th class="table-report-head"
+																					scope="col">
+																					<span style="font-size: 12px;"
+																						id="j_id177:dataTableFiscalDocumentoConsolidado:lblNomeFiscalDocumentoConsolidado">
+																						Nome
+																					</span>
+																				</th>
+																				<th class="table-report-head"
+																					scope="col">
+																					<span style="font-size: 12px;"
+																						id="j_id177:dataTableFiscalDocumentoConsolidado:lblMatriculaFiscalDocumentoConsolidado">
+																						Matrícula
+																					</span>
+																				</th>
+																				<th class="table-report-head"
+																					scope="col">
+																					<span style="font-size: 12px;width: 8em;"
+																						id="j_id177:dataTableFiscalDocumentoConsolidado:lblCpfFiscalDocumentoConsolidado">
+																						Cpf
+																					</span>
+																				</th>
+																				<th class="table-report-head"
+																					scope="col">
+																					<span style="font-size: 12px;"
+																						id="j_id177:dataTableFiscalDocumentoConsolidado:lblEntidadeFiscalDocumentoConsolidado">
+																						Entidade Competente
+																					</span>
+																				</th>
+																				<th class="table-report-head"
+																					scope="col">
+																					<span style="font-size: 12px;"
+																						id="j_id177:dataTableFiscalDocumentoConsolidado:lblRegistroFiscalDocumentoConsolidado">
+																						Registro ou Inscrição
+																					</span>
+																				</th>
+																				<th class="table-report-head"
+																					scope="col">
+																					<span style="font-size: 12px;"
+																						id="j_id177:dataTableFiscalDocumentoConsolidado:lblEmailFiscalDocumentoConsolidado">
+																						E-mail
+																					</span>
+																				</th>
+																				<th class="table-report-head"
+																					scope="col">
+																					<span style="font-size: 12px;"
+																						id="j_id177:dataTableFiscalDocumentoConsolidado:lblTelefoneFiscalDocumentoConsolidado">
+																						Telefone
+																					</span>
+																				</th>
+																			</tr>
+																		</thead>
+																		<tbody
+																			id="j_id177:dataTableFiscalDocumentoConsolidado:tbody_element">
+																			<!-- BEGIN FISCAL -->
+																			<tr class="list-row">
+																				<td class="list-column-center">
+																					<span
+																						id="j_id177:dataTableFiscalDocumentoConsolidado:0:txtTipoFiscalDocumentoConsolidado">
+																						{TIPOFISCALCONSOLIDADO}
+																					</span>
+																				</td>
+																				<td class="list-column-right">
+																					<span
+																						id="j_id177:dataTableFiscalDocumentoConsolidado:0:txtNomeFiscalDocumentoConsolidado">
+																						{NOMEFISCALCONSOLIDADO}
+																					</span>
+																				</td>
+																				<td class="list-column-center">
+																					<span
+																						id="j_id177:dataTableFiscalDocumentoConsolidado:0:txtMatriculaFiscalDocumentoConsolidado">
+																						{MATRICULAFISCALCONSOLIDADO}
+																					</span>
+																				</td>
+																				<td class="list-column-right" style="border-bottom: 1px solid #b2e4f0;">
+																					<span
+																						id="j_id177:dataTableFiscalDocumentoConsolidado:0:txtCpfFiscalDocumentoConsolidado">
+																						{CPFFISCALCONSOLIDADO}
+																					</span>
+																				</td>
+																				<td class="list-column-center" style="border-bottom: 1px solid #b2e4f0;">
+																					<span
+																						id="j_id177:dataTableFiscalDocumentoConsolidado:0:txtEntidadeFiscalDocumentoConsolidado">
+																						{ENTIDADECOMPETENTEFISCALCONSOLIDADO}
+																					</span>
+																				</td>
+																				<td class="list-column-right" style="border-bottom: 1px solid #b2e4f0;">
+																					<span
+																						id="j_id177:dataTableFiscalDocumentoConsolidado:0:txtRegistroFiscalDocumentoConsolidado">
+																						{RESGISTROINSCRICAOCONSOLIDADO}
+																					</span>
+																				</td>
+																				<td class="list-column-center" style="border-bottom: 1px solid #b2e4f0;">
+																					<span
+																						id="j_id177:dataTableFiscalDocumentoConsolidado:0:txtEmailFiscalDocumentoConsolidado">
+																						{EMAILFISCALCONSOLIDADO}
+																					</span>
+																				</td>
+																				<td class="list-column-right" style="border-bottom: 1px solid #b2e4f0;">
+																					<span
+																						id="j_id177:dataTableFiscalDocumentoConsolidado:0:txtTelefoneFiscalDocumentoConsolidado">
+																						{TELEFONEFISCALCONSOLIDADO}
+																					</span>
+																				</td>
+																			</tr>
+																			<!-- END FISCAL -->
+																		</tbody>
+																		<tfoot>
+																			<tr>
+																				<td class="table-report-head"
+																					scope="col" colspan="3"
+																					style="text-transform: uppercase; vertical-align: middle; text-align: center; font-size: 12px;">
+																					Situação do contrato:</td>
+																				<td class="list-column-center"
+																					style="background-color: #e9f9fc; border-bottom: 1px solid #b2e4f0;">
+																					{SITUACAOCONTRATO}</td>
+																					<td class="list-column-center"
+																					style="background-color: #e9f9fc; border-bottom: 1px solid #b2e4f0;">
+																					</td>
+																					<td class="list-column-center"
+																					style="background-color: #e9f9fc; border-bottom: 1px solid #b2e4f0;">
+																					</td>
+																					<td class="list-column-center"
+																					style="background-color: #e9f9fc; border-bottom: 1px solid #b2e4f0;">
+																					</td>
+																					<td class="list-column-center"
+																					style="background-color: #e9f9fc; border-bottom: 1px solid #b2e4f0;">
+																					</td>
+																			</tr>
+																		</tfoot>
+																	</table>
+																</span>
+															</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+											<br/>
+											<div style="display: block;width: 100%;overflow-x: auto;">
+
+												<table id="tableFiscalDocumentoConsolidado" cellpadding="0" cellspacing="0">
+													<tbody>
+														<tr>
+															<td colspan="2">
+																<span id="j_id177:painelTabelaFiscalDocumentoConsolidado">
+																	<table id="j_id177:dataTableFiscalDocumentoConsolidado" class="table table-report table-striped" style="background-color: #e9f9fc;">
+
+																		<thead>
+																			<tr style="text-transform: uppercase;">
+																				<th colspan="8" class="table-report-head" scope="col">
+																					<span style="font-size: 12px; border-bottom: 1px solid #b2e4f0;" id="j_id177:dataTableFiscalDocumentoConsolidado:lblTipoFiscalDocumentoConsolidado">
+																						DOCUMENTOS ANEXOS
+																					</span>
+																				</th>
+																			</tr>
+																		</thead>
+
+																		<thead>
+																			<tr style="text-transform: uppercase;">
+																				<th class="table-report-head" scope="col">
+																					<span style="font-size: 12px;" id="j_id177:dataTableFiscalDocumentoConsolidado:lblTipoFiscalDocumentoConsolidado">
+																						ARQUIVO
+																					</span>
+																				</th>
+																				<th class="table-report-head" scope="col">
+																					<span style="font-size: 12px;" id="j_id177:dataTableFiscalDocumentoConsolidado:lblNomeFiscalDocumentoConsolidado">
+																						DATA DA INCLUSÃO
+																					</span>
+																				</th>
+																			</tr>
+																		</thead>
+
+																		<tbody
+																	id="j_id177:tableDocumentoAnexoConsolidado:tbody_element">
+																	<!-- BEGIN DOCUMENTOANEXO -->
+																	<tr class="list-row">
+																		<td class="list-column-center" style="border-bottom: 1px solid #b2e4f0;">
+																			<a
+																				href="downloadDocContratoConsolidado.php?arquivo={CONTATORK}&nome={NOMEARQUIVO}">
+																				{NOMEARQUIVO}
+																			</a>
+																		</td>
+																		<td class="list-column-right" style="border-bottom: 1px solid #b2e4f0;">
+																			<span
+																				id="j_id177:tableDocumentoAnexoConsolidado:0:dataDocConsolidado"
+																				style="text-align: center; display: block;">
+																				{DATAINCLUSAO}
+																			</span>
+																		</td>
+																	</tr>
+																	<!-- END DOCUMENTOANEXO -->
+																</tbody>
+															
+																	</table>
+																</span>
+															</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+
+											<table class="table">
+												<tr>
+													<td colspan="2">
+														<span id="j_id177:panelListaDocumentosAnexoConsolidado">
+														
+															<table id="j_id177:tableDocumentoAnexoConsolidado"
+																class="table table-report table-striped">
+															
+																
+															</table>
+														</span>
+													</td>
+												</tr>
+
+											</table>
+
+										</tbody>
+									</table>
+
+									<table cellpadding="0" cellspacing="0" id="TableVisualizarContrato">
+										<tbody>
+											<tr>
+												<td colspan="2">
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<table id="j_id177:gridNumeroContratoConsolidado"
+														style="border: 0px;">
+
+													</table>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<table id="j_id177:gridSolicitacaoCompraConsolidado"
+														style="border: 0px;">
+
+													</table>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<table id="j_id177:gridLabelOrigemConsolidado" style="border: 0px;">
+
+													</table>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<table id="j_id177:gridLabelOrgaoConsolidado" style="border: 0px;">
+
+													</table>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<table id="j_id177:gridLabelObjetoConsolidado" style="border: 0px;">
+
+													</table>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<table id="j_id177:gridContratadoContratoConsolidado"
+														style="border: 0px solid #000;">
+														<tbody>
+															<tr>
+
+																<td class="inputs">
+																	<table
+																		id="j_id177:gridContratadoNovoContratoConsolidado">
+																		<tbody>
+																			<tr>
+
+
+																			</tr>
+																			<tr>
+
+																			</tr>
+																			<tr>
+
+
+																			</tr>
+																			<tr>
+
+																			</tr>
+																			<tr>
+
+																			</tr>
+
+																		</tbody>
+																	</table>
+																</td>
+															</tr>
+														</tbody>
+													</table>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<table id="j_id177:gridLabelConsorcioConsolidado"
+														style="border: 0px;">
+
+													</table>
+												</td>
+											</tr>
+
+											<tr>
+
+											</tr>
+											<tr>
+
+											</tr>
+											<tr>
+												<td colspan="2">
+
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<table id="j_id177:gridLabelDataPublicacaoDom" style="border: 0px;">
+
+													</table>
+												</td>
+											</tr>
+											<!-- ORDEM DE SERVI&#199;O -->
+											<tr id="linhaOSContrato">
+												<td id="colunaOSContratoConsolidado" colspan="2">
+													<table cellpadding="0" cellspacing="0" id="_tableOS">
+														<tbody>
+															<tr id="linhaTableOSConsolidado">
+																<td id="colunaVaziaOSConsolidado" width="35%">
+																</td>
+																<td id="colunaDataInicioOSConsolidado">
+																	<table
+																		id="j_id177:panelDataInicioOrdemServicoConsolidado"
+																		class="table-head">
+
+																	</table>
+																</td>
+																<td id="colunaDataTerminoOSConsolidado">
+
+																</td>
+															</tr>
+															<tr id="linhaConteudoTabelaOS1Consolidado">
+																<td id="colunaConteudoTabelaOS1Consolidado">
+																	<table
+																		id="j_id177:gridLabelVigenciaDataInicioOSVisualizar1Consolidado"
+																		style="border: 0px;">
+
+																	</table>
+																</td>
+																<td id="colunaConteudoTabelaOS2Consolidado">
+																	<table
+																		id="j_id177:gridLabelVigenciaDataInicioOSVisualizar2Consolidado"
+																		style="border: 0px;">
+
+																	</table>
+																</td>
+																<td id="colunaConteudoTabelaOS3Consolidado">
+																	<table
+																		id="j_id177:gridLabelVigenciaDataInicioOSVisualizar3Consolidado"
+																		style="border: 0px;">
+
+																	</table>
+																</td>
+															</tr>
+															<tr id="linhaConteudoTabelaOS2Consolidado">
+																<td id="colunaConteudoTabelaComOS4">
+																	<table
+																		id="j_id177:gridLabelExecucaoDataInicioOSVisualizar1Consolidado"
+																		style="border: 0px;">
+
+																	</table>
+																</td>
+																<td id="colunaConteudoTabelaComOS5Consolidado">
+																	<table
+																		id="j_id177:gridLabelExecucaoDataInicioOSVisualizar2Consolidado"
+																		style="border: 0px;">
+
+																	</table>
+																</td>
+																<td id="colunaConteudoTabelaComOS6">
+																	<table
+																		id="j_id177:gridLabelExecucaoDataInicioOSVisualizar3Consolidado"
+																		style="border: 0px;">
+																		<tbody>
+																			<tr>
+
+																			</tr>
+																		</tbody>
+																	</table>
+																</td>
+															</tr>
+														</tbody>
+													</table>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<table id="j_id542:visualizaContratoId_gridLabelValorTotal"
+														style="border: 0px;">
+														<tbody>
+															<tr>
+
+															</tr>
+														</tbody>
+													</table>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<table id="j_id177:_gridLabelValorGlobal" style="border: 0px;">
+														<tbody>
+
+														</tbody>
+													</table>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<table id="j_id177:_gridLabelValorExeAcumulado"
+														style="border: 0px;">
+
+													</table>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<table id="j_id177:_gridLabelSaldoExecutarExercicio"
+														style="border: 0px;">
+
+													</table>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<table id="j_id177:gridTipoGarantiaVisualizarConsolidado"
+														style="border: 0px;">
+
+													</table>
+												</td>
+											</tr>
+											<!-- REPRESENTANTE LEGAL -->
+											<tr>
+												<td colspan="2">
+													<table id="j_id177:consolidado_panel5" class="table-head">
+														<thead>
+															<tr>
+
+															</tr>
+														</thead>
+														<tbody>
+														</tbody>
+													</table>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<table id="j_id177:consolidado_gridLabelNomeRep"
+														style="border: 0px;">
+														<tbody>
+
+														</tbody>
+													</table>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<table id="j_id177:consolidado_gridLabelCPFRep"
+														style="border: 0px;">
+														<tbody>
+
+														</tbody>
+													</table>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<table id="j_id177:consolidado_gridLabelCargo" style="border: 0px;">
+
+													</table>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<table id="j_id177:consolidado_gridLabelRG" style="border: 0px;">
+
+													</table>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<table id="j_id177:consolidado_gridLabelOrgao" style="border: 0px;">
+
+													</table>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<table id="j_id177:consolidado_gridLabelUF" style="border: 0px;">
+														<tbody>
+
+														</tbody>
+													</table>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<table id="j_id177:consolidado_gridLabelCidade"
+														style="border: 0px;">
+														<tbody>
+
+														</tbody>
+													</table>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<table id="j_id177:consolidado_gridLabelEstado"
+														style="border: 0px;">
+														<tbody>
+
+														</tbody>
+													</table>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<table id="j_id177:consolidado_gridLabelNacionalidade"
+														style="border: 0px;">
+														<tbody>
+
+														</tbody>
+													</table>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<table id="j_id177:consolidado_gridLabelCivil" style="border: 0px;">
+														<tbody>
+
+														</tbody>
+													</table>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<table id="j_id177:consolidado_gridLabelProfissao"
+														style="border: 0px;">
+														<tbody>
+
+														</tbody>
+													</table>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<table id="j_id177:consolidado_gridLabelEmailRep"
+														style="border: 0px;">
+														<tbody>
+
+														</tbody>
+													</table>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<table id="j_id177:consolidado_gridLabelTelefoneRep"
+														style="border: 0px;">
+														<tbody>
+
+														</tbody>
+													</table>
+												</td>
+											</tr>
+											<!-- GESTOR -->
+											<tr>
+												<td colspan="2">
+													<table class="table-head">
+														<thead>
+
+														</thead>
+														<tbody>
+														</tbody>
+													</table>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<table id="j_id177:gridLabelNomeGestorConsolidado"
+														style="border: 0px;">
+														<tbody>
+															<tr>
+
+															</tr>
+														</tbody>
+													</table>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<table id="j_id177:gridLabelMatriculaGestorConsolidado"
+														style="border: 0px;">
+														<tbody>
+															<tr>
+
+
+															</tr>
+														</tbody>
+													</table>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<table id="j_id177:gridLabelCPFGestorConsolidado"
+														style="border: 0px;">
+														<tbody>
+
+														</tbody>
+													</table>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<table id="j_id177:gridLabelEmailGestorConsolidado"
+														style="border: 0px;">
+														<tbody>
+
+														</tbody>
+													</table>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<table id="j_id177:gridLabelTelefoneGestorConsolidado"
+														style="border: 0px;">
+														<tbody>
+
+														</tbody>
+													</table>
+												</td>
+											</tr>
+											<!-- ADD PAINEL DE FISCAL -->
+											<tr>
+												<td colspan="2">
+
+												</td>
+											</tr>
+											<!-- DADOS DOS CAMPOS DO FLUXO -->
+											<!-- LISTA DE DOCUMENTOS ANEXO -->
+										</tbody>
+									</table>
+									<br>
+
+								</div>
+							</div>
+							<input type="hidden" name="javax.faces.ViewState" id="javax.faces.ViewState" value="j_id3">
+						</form>
+					</div>
+					<div id="tabContrato_002" class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide">
+						<!--<form id="j_id364" name="j_id364" method="post"
+							action="/contratos-emprel/paginaspublicas/ConsultaContratoConsolidado.jsf"
+							enctype="application/x-www-form-urlencoded">
+							<input type="hidden" name="j_id364" value="j_id364">-->
+							<input type="hidden" name="javax.faces.ViewState" id="javax.faces.ViewState" value="j_id3">
+						</form>
+						<!--<form id="j_id542" name="j_id542" method="post"
+							action="/contratos-emprel/paginaspublicas/ConsultaContratoConsolidado.jsf"
+							enctype="application/x-www-form-urlencoded"> -->
+							<input type="hidden" name="j_id542" value="j_id542">
+							<div style="display: block;width: 100%;overflow-x: auto;">
+								<div class="rich-panel " id="j_id542:visualizaContratoId_painelVisualizar">
+									<div class="rich-panel-body "
+										id="j_id542:visualizaContratoId_painelVisualizar_body">
+
+										<table cellpadding="0" cellspacing="0" id="TableVisualizarContrato">
+											<tbody>
+
+												<table id="j_id971:0:gridBasicoApostilamentoVisualizar">
+													<tbody>
+														<tr>
+															<td class="labels"><label for="j_id971:0:" class="">
+																Número do Contrato/Ano </label></td>
+															<td  style="font-size: 12px;" class="inputs">
+																<span id="j_id971:0:numeroApostilamento">
+																	{NUMEROCONTRATO}
+																</span>
+															</td>														
+														</tr>
+														<tr>
+															<td class="labels"><label for="j_id971:0:tipoApostilamento" class="">
+																Solicitação de Compra/Contratação-SCC</label></td>
+															<td class="inputs">
+																<span style="font-size: 12;" id="j_id971:0:tipoApostilamento">
+																	SCC {SCC}
+																</span></td>
+														</tr>
+														<tr>
+														</tr><tr>
+															<td class="labels"><label for="j_id971:0:" class="">
+																Origem</label></td>
+															<td  style="font-size: 12;"class="inputs">
+																{ORIGEM}
+															</td>
+														</tr>
+														<tr>
+															<td class="labels"><label for="j_id971:0:" class="">
+																Órgão Contratante Responsável</label></td>
+															<td class="inputs" style="font-size: 12px;">
+																{ORGAOCONTRATANTE}
+															</td>
+														</tr>
+														<tr>
+															<td class="labels"><label for="j_id971:0:" class="">
+																Objeto</label></td>
+															<td  style="font-size: 12px;" class="inputs">
+																<label id="j_id971:0:lblSituacaoApostilamento">
+																</label >
+																{OBJETO}
+															</td>
+														</tr>
+														<table class="table">
+														<thead>
+															<tr>
+																<th scope="col"
+																	style="text-align:center;background:#1257aa;font-size: 12px;" colspan="2">
+																	CONTRATADO</th>
+															</tr>
+														</thead>
+														</table>
+														<table id="j_id971:0:gridBasicoApostilamentoVisualizar">
+															<tbody>
+														<tr>
+															<td class="labels"><label for="j_id971:0:" class="">
+																{CPFCNPJORIGINAL}</label></td>
+															<td  style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+																</label >
+																{CNPJCONTRATADO}
+															</td>
+														</tr>
+	
+														<tr>
+															<td class="labels"><label for="j_id971:0:" class="">
+																Razão Social</label></td>
+															<td  style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+																</label >
+																{RAZAOSOCIAL}
+															</td>
+														</tr>
+	
+														<tr>
+															<td class="labels"><label for="j_id971:0:" class="">
+																Logradouro</label></td>
+															<td  style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+																</label >
+																{LOGRADOURO}
+															</td>
+														</tr>
+	
+														<tr>
+															<td class="labels"><label for="j_id971:0:" class="">
+																Número</label></td>
+															<td  style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+																</label >
+																{NUMERO}
+															</td>
+														</tr>
+	
+														<tr>
+															<td class="labels"><label for="j_id971:0:" class="">
+																Complemento</label></td>
+															<td  style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+																</label >
+																{COMPLEMENTO}
+															</td>
+														</tr>
+	
+														<tr>
+															<td class="labels"><label for="j_id971:0:" class="">
+																Bairro</label></td>
+															<td  style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+																</label >
+																{BAIRRO}
+															</td>
+														</tr>
+	
+														<tr>
+															<td class="labels"><label for="j_id971:0:" class="">
+																Cidade</label></td>
+															<td  style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+																</label >
+																{CIDADE}
+															</td>
+														</tr>
+	
+														<tr style="border-bottom: 1px solid #b2e4f0;">
+															<td class="labels"><label for="j_id971:0:" class="">
+																UF</label></td>
+															<td  style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+																</label >
+																{UF_FORNECEDOR}
+															</td>
+														</tr>
+	
+														<tr>
+															<td class="labels"><label for="j_id971:0:" class="">
+																Consórcio</label></td>
+															<td  style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+																</label >
+																{CONSOCIO}
+															</td>
+														</tr>
+	
+	
+													</tbody>
+												</table>
+
+												<tr {EXIBEFORNECEDOREXTRAORIGI}>
+													<td id="colunaOSContratoConsolidado" colspan="2">
+														
+														<table cellpadding="0" cellspacing="0" id="_tableOS">
+															
+															<tbody>
+																<tr id="linhaTableOSConsolidado">
+																	<td id="colunaVaziaOSConsolidado" width="35%">
+																	</td>
+																	<td id="colunaDataInicioOSConsolidado">
+																		<table
+																			id="j_id177:panelDataInicioOrdemServicoConsolidado"
+																			class="table-head">
+																			
+																			<thead>
+																				<tr>
+																					<th colspan="1" scope="colgroup" style="background: #1257aa; font-size: 12px;" id="idconsorciooriginal">
+																						<span
+																							id="j_id177:labelDataInicioOrdemServicoConsolidado">
+																							Identificador do Contratado
+																						</span>
+																					</th>
+																				</tr>
+																			</thead>
+																			<tbody>
+																			</tbody>
+																		</table>
+																	</td>
+																	<td id="colunaDataTerminoOSConsolidado">
+																		<table
+																			id="j_id177:panelDataTerminoOrdemServicoConsolidado"
+																			class="table-head">
+																			<thead>
+																				<tr>
+																					<th colspan="1" scope="colgroup" style="background: #1257aa; font-size: 12px;" id="razaosocialconsorciooriginal">
+																						<span
+																							id="j_id177:labelDataTerminoOrdemServicoConsolidado">
+																							Razão Social
+																						</span>
+																					</th>
+																				</tr>
+																			</thead>
+																			<tbody>
+																			</tbody>
+																		</table>
+																	</td>
+																</tr>
+																
+																<tr id="linhaConteudoTabelaOS1Consolidado">
+																	<td id="colunaConteudoTabelaOS1Consolidado">
+																		<table
+																			id="j_id177:gridLabelVigenciaDataInicioOSVisualizar1Consolidado"
+																			style="border: 0px;">
+																			<tbody>
+																				<tr>
+																					<td class="labels" id="fornecedororiginal">
+																						<label for="j_id177:">
+																							Fornecedores:
+																						</label>
+																					</td>
+																				</tr>
+																			</tbody>
+																		</table>
+																	</td>
+																	
+																	<td id="colunaConteudoTabelaOS2Consolidado">
+																		<table
+																			id="j_id177:gridLabelVigenciaDataInicioOSVisualizar2Consolidado"
+																			style="border: 0px;">
+																			<tbody>
+																				<!-- BEGIN FORNECEDOREXTRACNPJORIGI -->
+																				<tr>
+																					<td class="inputs" id="cnpjfornecedororiginal">
+																						<span
+																							id="j_id177:vigenciaDataInicioVisualizarConsolidado"
+																							style="text-align: center; display:block">
+																							{CNPJFORNECEDORESEXTRA}
+																						</span>
+																					</td>
+																				</tr>
+																				<!-- END FORNECEDOREXTRACNPJORIGI -->
+																			</tbody>
+																		</table>
+																	</td>
+																	<td id="colunaConteudoTabelaOS3Consolidado">
+																		<table
+																			id="j_id177:gridLabelVigenciaDataInicioOSVisualizar3Consolidado"
+																			style="border: 0px;">
+																			<tbody>
+																				<!-- BEGIN FORNECEDOREXTRARAZAOORIGI -->
+																				<tr>
+																					<td class="inputs" id="razaofornecedororiginal">
+																						<span
+																							id="j_id177:vigenciaDataTerminoVisualizarConsolidado"
+																							style="text-align: center; display:block">
+																							{RAZAOFORNECEDORESTRA}
+																						</span>
+																					</td>
+																				</tr>
+																				<!-- END FORNECEDOREXTRARAZAOORIGI -->
+																			</tbody>
+																		</table>
+																	</td>
+																</tr>
+															</tbody>
+														</table>
+													</td>
+												</tr>
+												<table id="j_id971:0:gridBasicoApostilamentoVisualizar">
+													<tbody>
+														<tr>
+															<td class="labels"><label for="j_id971:0:" class="">
+																Contínuo </label></td>
+															<td  style="font-size: 12px;" class="inputs">
+																<span id="j_id971:0:numeroApostilamento">{CONTINUO}</span>
+															</td>														
+														</tr>
+														<tr>
+															<td class="labels"><label for="j_id971:0:tipoApostilamento" class="">
+																Obra</label></td>
+															<td class="inputs">
+																<span style="font-size: 12;" id="j_id971:0:tipoApostilamento">
+																{OBRA}
+																</span></td>
+														</tr>
+														<tr>
+														</tr><tr>
+															<td class="labels"><label for="j_id971:0:" class="">
+																Modo de Fornecimento</label></td>
+															<td  style="font-size: 12;"class="inputs">{MODO_FORNECIMENTO}</td>
+														</tr>
+														<tr>
+															<td class="labels"><label for="j_id971:0:" class="">
+																Opção de Execução do Contrato</label></td>
+															<td class="inputs" style="font-size: 12px;">{OP_EXEC_CONTRATO}</td>
+														</tr>
+														<tr>
+															<td class="labels"><label for="j_id971:0:" class="">
+																Prazo de Execução do Contrato</label></td>
+															<td  style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+																</label >{PRAZO_EXEC_CONTRATO}</td>
+														</tr>
+														<tr>
+															<td class="labels"><label for="j_id971:0:" class="">
+																Data de Publicação no DOM</label></td>
+															<td  style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+																</label >{DATAPUBLICACAODOM}</td>
+														</tr>
+													</tbody>
+												</table>
+												
+												<table class="table">
+													<thead>
+														<tr>
+															<th scope="col" style="border-bottom: 1px solid #b2e4f0;"></th>
+															<th scope="col" style="border-bottom: 1px solid #b2e4f0;"></th>
+															<th scope="col"
+																style="text-align:center;background:#1257aa;font-size: 12px;">
+																DATA DE INÍCIO</th>
+															<th scope="col"
+																style="text-align:center;background:#1257aa;font-size: 12px;">
+																DATA DE TÉRMINO</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<th scope="row"
+																style="color: #1257aa;margin-bottom: 5px; text-align: left;">
+																<label for="j_id177:">
+																	Vigência
+																</label>
+															</th>
+															<td></td>
+															<td style="font-size: 12px; text-align: center;">
+																{DATAVIGENCIAINIORIGI}</td>
+															<td style="font-size: 12px; text-align: center;">
+																{DATAVIGENCIAFIMORIGI}</td>
+														</tr>
+														<tr style="border-bottom: 1px solid #b2e4f0;">
+															<th scope="row"
+																style="color: #1257aa;display: block;margin-bottom: 5px; text-align: left; border-top: 1px solid #b2e4f0;">
+																<label for="j_id177:">
+																	Execução
+																</label>
+															</th>
+															<td style="border-top: 1px solid #b2e4f0;"></td>
+															<td style="font-size: 12px; text-align: center; border-top: 1px solid #b2e4f0;">
+																{DATAEXECUCAOINIORIGI}</td>
+															<td style="font-size: 12px; text-align: center; border-top: 1px solid #b2e4f0;">
+																{DATAEXECUCAOFIMORIGI}</td>
+														</tr>
+													</tbody>
+												</table>
+												<table id="j_id971:0:gridBasicoApostilamentoVisualizar">
+	
+													<tbody>
+														<tr>
+															<td class="labels"><label for="j_id971:0:" class="">
+																Valor Original </label></td>
+															<td style="font-size: 12px;" class="inputs">
+																<span id="j_id971:0:numeroApostilamento">R$ {VALORORIGINAL}</span>
+															</td>
+															
+														</tr>
+														<tr>
+															<td class="labels"><label for="j_id971:0:tipoApostilamento" class="">
+																Garantia</label></td>
+															<td class="inputs">
+																<span style="font-size: 12;" id="j_id971:0:tipoApostilamento">{GARANTIA}</span></td>
+														</tr>
+														<tr>
+															<td class="labels"><label for="j_id971:0:" class="">
+																	Número de Parcelas</label></td>
+															<td  style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+																</label >{NUMERODEPARCELAS}</td>
+														</tr>
+														<tr>
+															<td class="labels"><label for="j_id971:0:" class="">
+																	Valor das Parcelas</label></td>
+															<td  style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+																</label >{VALORDAPARCELA}</td>
+														</tr>
+													</tbody>
+												</table>
+												
+												<table class="table">
+													<thead>
+														<tr>
+															<th scope="col" colspan="4"
+																style="text-align:center;background:#1257aa;font-size: 12px;">
+																REPRESENTANTE LEGAL</th>
+														</tr>
+													</thead>
+												</table>
+												
+											<table id="j_id971:0:gridBasicoApostilamentoVisualizar">
+
+												<tbody>
+													<tr>
+														<td class="labels"><label for="j_id971:0:" class="">
+															Nome </label></td>
+														<td style="font-size: 12px;" class="inputs">
+															<span id="j_id971:0:numeroApostilamento">{REPRESENTANTELEGALNOME}</span>
+														</td>
+														
+													</tr>
+													<tr>
+														<td class="labels"><label for="j_id971:0:tipoApostilamento" class="">
+															CPF</label></td>
+														<td class="inputs">
+															<span style="font-size: 12;" id="j_id971:0:tipoApostilamento">
+																{CPFREPRESENTANTELEGAL}</span></td>
+													</tr>
+													<tr>
+													</tr><tr>
+														<td class="labels"><label for="j_id971:0:" class="">
+															Cargo</label></td>
+														<td style="font-size: 12;" class="inputs">{CARGOREPRESENTANTELEGAL}</td>
+													</tr>
+													<tr>
+														<td class="labels"><label for="j_id971:0:" class="">
+															Identidade</label></td>
+														<td class="inputs" style="font-size: 12px;">{IDENTIDADEREPRESENTANTELEGAL}</td>
+													</tr>
+													<tr>
+														<td class="labels"><label for="j_id971:0:" class="">
+															Órgão Emissor</label></td>
+														<td style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+															</label>{ORGAOREPRESENTANTELEGAL}</td>
+													</tr>
+													<tr>
+														<td class="labels"><label for="j_id971:0:" class="">
+															UF da Identidade</label></td>
+														<td style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+															</label>{UFIDENTIDADEREPRESENTANTELEGAL}</td>
+													</tr>
+													<tr>
+														<td class="labels"><label for="j_id971:0:" class="">
+															Cidade de Domicílio</label></td>
+														<td style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+															</label>{CIDADEDOMREPRESENTANTELEGAL}</td>
+													</tr>
+													<tr>
+														<td class="labels"><label for="j_id971:0:" class="">
+															Estado de Domicílio</label></td>
+														<td style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+															</label>{ESTADODOMREPRESENTANTELEGAL}</td>
+													</tr>
+
+													<tr>
+														<td class="labels"><label for="j_id971:0:" class="">
+															Nacionalidade</label></td>
+														<td style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+															</label>{NACIONALIDADEREPRESENTANTELEGAL}</td>
+													</tr>
+
+													<tr>
+														<td class="labels"><label for="j_id971:0:" class="">
+															Estado Civil</label></td>
+														<td style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+															</label>{ESTADOCIVILREPRESENTANTELEGAL}</td>
+													</tr>
+
+													<tr>
+														<td class="labels"><label for="j_id971:0:" class="">
+															Profissão</label></td>
+														<td style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+															</label>{PROFISSAOREPRESENTANTELIEGAL}</td>
+													</tr>
+
+													<tr>
+														<td class="labels"><label for="j_id971:0:" class="">
+															E-mail</label></td>
+														<td style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+															</label>{EMAILREPRESENTANTELEGAL}</td>
+													</tr>
+
+													<tr>
+														<td class="labels"><label for="j_id971:0:" class="">
+															Tefefone</label></td>
+														<td style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+															</label>{TELEFONEREPRESENTANTELEGAL}</td>
+													</tr>
+												</tbody>
+											</table>
+
+												<table class="table">
+													<thead>
+														<tr>
+															<th scope="col" colspan="4"
+																style="text-align:center;background: #1257aa; font-size: 12px; ">
+																<label for="j_id177:" style="font-weight: bold; font-size: 12px;">
+																	GESTOR
+																</label>
+															</th>
+														</tr>
+													</thead>
+												</table>
+												<table id="j_id971:0:gridBasicoApostilamentoVisualizar">
+	
+													<tbody>
+														<tr>
+															<td class="labels"><label for="j_id971:0:" class="">
+																Nome </label></td>
+															<td style="font-size: 12px;" class="inputs"><span id="j_id971:0:numeroApostilamento">{NOMEGESTOR}</span>
+															</td>
+															
+														</tr>
+														<tr>
+															<td class="labels"><label for="j_id971:0:tipoApostilamento" class="">
+																Matrícula</label></td>
+															<td class="inputs"><span style="font-size: 12;" id="j_id971:0:tipoApostilamento">{MATRICULAGESTOR}</span></td>
+														</tr>
+														<tr>
+														</tr><tr>
+															<td class="labels"><label for="j_id971:0:" class="">
+																CPF</label></td>
+															<td style="font-size: 12;" class="inputs">{CPFGESTOR}</td>
+														</tr>
+														<tr>
+															<td class="labels"><label for="j_id971:0:" class="">
+																E-mail</label></td>
+															<td class="inputs" style="font-size: 12px;">{EMAILGESTOR}</td>
+														</tr>
+														<tr>
+															<td class="labels"><label for="j_id971:0:" class="">
+																Tefefone</label></td>
+															<td style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+																</label>{TELEFONEGESTOR}</td>
+														</tr>
+													</tbody>
+												</table>
+
+												<div style="display: block;width: 100%;overflow-x: auto;">
+													<table id="tableFiscalDocumentoConsolidado" cellpadding="0" cellspacing="0">
+														<tbody>
+															<tr>
+																<td colspan="2">
+																	<span id="j_id177:painelTabelaFiscalDocumentoConsolidado">
+																		<table id="j_id177:dataTableFiscalDocumentoConsolidado" class="table table-report table-striped" style="background-color: #e9f9fc;">
+	
+																			<thead>
+																				<tr style="text-transform: uppercase;">
+																					<th colspan="8" class="table-report-head" scope="col">
+																						<span style="font-size: 12px; border-bottom: 1px solid #b2e4f0;" id="j_id177:dataTableFiscalDocumentoConsolidado:lblTipoFiscalDocumentoConsolidado">
+																							FISCAL(IS)
+																						</span>
+																					</th>
+																				</tr>
+																			</thead>
+	
+																			<thead>
+																				<tr style="text-transform: uppercase;">
+																					<th class="table-report-head" scope="col">
+																						<span style="font-size: 12px;" id="j_id177:dataTableFiscalDocumentoConsolidado:lblTipoFiscalDocumentoConsolidado">
+																							FISCAL(IS)
+																						</span>
+																					</th>
+																					<th class="table-report-head" scope="col">
+																						<span style="font-size: 12px;" id="j_id177:dataTableFiscalDocumentoConsolidado:lblNomeFiscalDocumentoConsolidado">
+																							Nome
+																						</span>
+																					</th>
+																					<th class="table-report-head" scope="col">
+																						<span style="font-size: 12px;" id="j_id177:dataTableFiscalDocumentoConsolidado:lblMatriculaFiscalDocumentoConsolidado">
+																							Matrícula
+																						</span>
+																					</th>
+																					<th class="table-report-head" scope="col">
+																						<span style="font-size: 12px;width: 8em;" id="j_id177:dataTableFiscalDocumentoConsolidado:lblCpfFiscalDocumentoConsolidado">
+																							Cpf
+																						</span>
+																					</th>
+																					<th class="table-report-head" scope="col">
+																						<span style="font-size: 12px;" id="j_id177:dataTableFiscalDocumentoConsolidado:lblEntidadeFiscalDocumentoConsolidado">
+																							Entidade Competente
+																						</span>
+																					</th>
+																					<th class="table-report-head" scope="col">
+																						<span style="font-size: 12px;" id="j_id177:dataTableFiscalDocumentoConsolidado:lblRegistroFiscalDocumentoConsolidado">
+																							Registro ou Inscrição
+																						</span>
+																					</th>
+																					<th class="table-report-head" scope="col">
+																						<span style="font-size: 12px;" id="j_id177:dataTableFiscalDocumentoConsolidado:lblEmailFiscalDocumentoConsolidado">
+																							E-mail
+																						</span>
+																					</th>
+																					<th class="table-report-head" scope="col">
+																						<span style="font-size: 12px;" id="j_id177:dataTableFiscalDocumentoConsolidado:lblTelefoneFiscalDocumentoConsolidado">
+																							Telefone
+																						</span>
+																					</th>
+																				</tr>
+																			</thead>
+																			<tbody id="j_id177:dataTableFiscalDocumentoConsolidado:tbody_element">
+																				<!-- BEGIN FISCALORIGINAL -->
+																				<tr class="list-row">
+																					<td class="list-column-center">
+																						<span id="j_id177:dataTableFiscalDocumentoConsolidado:0:txtTipoFiscalDocumentoConsolidado">
+																							{TIPOFISCAL}
+																						</span>
+																					</td>
+																					<td class="list-column-right">
+																						<span id="j_id177:dataTableFiscalDocumentoConsolidado:0:txtNomeFiscalDocumentoConsolidado">
+																							{NOMEFISCAL}
+																						</span>
+																					</td>
+																					<td class="list-column-center">
+																						<span id="j_id177:dataTableFiscalDocumentoConsolidado:0:txtMatriculaFiscalDocumentoConsolidado">
+																							{MATRICULAFISCAL}
+																						</span>
+																					</td>
+																					<td class="list-column-right" style="border-bottom: 1px solid #b2e4f0;">
+																						<span id="j_id177:dataTableFiscalDocumentoConsolidado:0:txtCpfFiscalDocumentoConsolidado">
+																							{CPFFISCAL}
+																						</span>
+																					</td>
+																					<td class="list-column-center" style="border-bottom: 1px solid #b2e4f0;">
+																						<span id="j_id177:dataTableFiscalDocumentoConsolidado:0:txtEntidadeFiscalDocumentoConsolidado">
+																							{ENTIDADECOMPETENTEFISCAL}
+																						</span>
+																					</td>
+																					<td class="list-column-right" style="border-bottom: 1px solid #b2e4f0;">
+																						<span id="j_id177:dataTableFiscalDocumentoConsolidado:0:txtRegistroFiscalDocumentoConsolidado">
+																							{RESGISTROINSCRICAO}
+																						</span>
+																					</td>
+																					<td class="list-column-center" style="border-bottom: 1px solid #b2e4f0;">
+																						<span id="j_id177:dataTableFiscalDocumentoConsolidado:0:txtEmailFiscalDocumentoConsolidado">
+																							{EMAILFISCAL}
+																						</span>
+																					</td>
+																					<td class="list-column-right" style="border-bottom: 1px solid #b2e4f0;">
+																						<span id="j_id177:dataTableFiscalDocumentoConsolidado:0:txtTelefoneFiscalDocumentoConsolidado">
+																							{TELEFONEFISCAL}
+																						</span>
+																					</td>
+																				</tr>
+																				<!-- END FISCALORIGINAL -->
+																				</tbody>
+																			<tfoot>
+																				<tr>
+																					<td class="table-report-head" scope="col" colspan="3" style="text-transform: uppercase; vertical-align: middle; text-align: center; font-size: 12px;">
+																						Situação do contrato</td>
+																					<td class="list-column-center" style="background-color: #e9f9fc; border-bottom: 1px solid #b2e4f0;">
+																						{SITUACAOCONTRATO}</td>
+																						<td class="list-column-center"
+																					style="background-color: #e9f9fc; border-bottom: 1px solid #b2e4f0;">
+																					</td>
+																					<td class="list-column-center"
+																					style="background-color: #e9f9fc; border-bottom: 1px solid #b2e4f0;">
+																					</td>
+																					<td class="list-column-center"
+																					style="background-color: #e9f9fc; border-bottom: 1px solid #b2e4f0;">
+																					</td>
+																					<td class="list-column-center"
+																					style="background-color: #e9f9fc; border-bottom: 1px solid #b2e4f0;">
+																					</td>
+																				</tr>
+																			</tfoot>
+																		</table>
+																	</span>
+																</td>
+															</tr>
+														</tbody>
+													</table>
+	
+													</div>
+
+												<br/>
+												<table class="table">
+
+													<tr>
+															<table id="j_id177:painelVisualizarAnexo"
+																class="table-head">
+																
+																<thead>
+																	<tr>
+																		<th colspan="1" scope="colgroup" style="background: #1257aa; border-left: 2px solid #1257aa; border-bottom: 1px solid #b2e4f0;">
+																			<span id="j_id177:visualizarAnexo" style="font-size: 12px;">
+																				DOCUMENTOS ANEXOS
+																			</span>
+																		</th>
+																	</tr>
+																</thead>
+															</table>
+														</td>
+													</tr>
+													<tr>
+														<td colspan="2">
+															<span id="j_id177:panelListaDocumentosAnexoConsolidado">
+																<table id="j_id177:tableDocumentoAnexoConsolidado"
+																	class="table table-report table-striped">
+																	<thead>
+																		<tr style="text-transform: uppercase;">
+																			<th class="table-report-head" scope="col">
+																				<span style="text-transform: uppercase; font-size: 12px;"
+																					id="j_id177:tableDocumentoAnexoConsolidado:labelArquivoConsolidado">
+																					ARQUIVO
+																				</span>
+																			</th>
+																			<th class="table-report-head" scope="col">
+																				<span style="font-size: 12px;"
+																					id="j_id177:tableDocumentoAnexoConsolidado:labelDataDocConsolidado">
+																					DATA DA INCLUSÃO
+																				</span>
+																			</th>
+																		</tr>
+																	</thead>
+																	<tbody
+																		id="j_id177:tableDocumentoAnexoConsolidado:tbody_element">
+																		<!-- BEGIN DOCUMENTOANEXOORIGINAL -->
+																		<tr class="list-row">
+																			<td class="list-column-center">
+																				<a
+																					href="downloadDocContratoConsolidado.php?arquivo={CONTATORK}&nome={NOMEARQUIVO}">
+																					{NOMEARQUIVO}
+																				</a>
+																			</td>
+																			<td class="list-column-right">
+																				<span
+																					id="j_id177:tableDocumentoAnexoConsolidado:0:dataDocConsolidado"
+																					style="text-align: center; display: block;">
+																					{DATAINCLUSAO}
+																				</span>
+																			</td>
+																		</tr>
+																		<!-- END DOCUMENTOANEXOORIGINAL -->
+																	</tbody>
+																</table>
+															</span>
+														</td>
+													</tr>
+												</table>
+													<!-- ITENS DO CONTRATO -->
+
+
+												<div style="display: block;width: 100%;overflow-x: auto;">
+													<td colspan="2">
+														<table
+															id="j_id542:visualizaContratoId_panelGridItensContratoVisualizar"
+															>
+															<thead>
+
+															</thead>
+															<tbody>
+																<tr>
+																	<td colspan="2">
+																		<br/>
+																		<table
+																			id="j_id542:visualizaContratoId_panelGridItensContratoVisualizar"
+																			class="table-head">
+																			<thead>
+																				<tr>
+																					<th colspan="1" scope="colgroup" style="background: #1257aa; border-left: 2px solid #1257aa; border-bottom: 1px solid #b2e4f0;">
+																						<span style="font-size: 12px;"
+																							id="j_id542:visualizaContratoId_tituloItensContratoVisualizar">
+																							Itens do Contrato
+																						</span>
+																					</th>
+																				</tr>
+																			</thead>
+																			<tbody>
+																			</tbody>
+																		</table>
+																		<span
+																			id="j_id542:visualizaContratoId_pgp_ItensContratoVisualizar">
+																			<table
+																				id="j_id542:visualizaContratoId_dataTableItensContratoVisualizar"
+																				class="table table-report table-striped">
+																				<thead>
+																					<tr
+																						style="text-transform: uppercase;">
+																						<th class="table-report-head" style="font-size: 12px;">
+																							Ord
+																						</th>
+																						<th class="table-report-head" style="font-size: 12px;">
+																							Descrição do Item
+																						</th>
+																						<th class="table-report-head" style="font-size: 12px;"> 
+																							Cod Reduzido
+																						</th>
+																						<th class="table-report-head" style="font-size: 12px;">
+																							UND
+																						</th>
+																						<th class="table-report-head" style="font-size: 12px;">
+																							Qtd.
+																						</th>
+																						<th class="table-report-head" style="font-size: 12px;">
+																							Valor Unitario
+																						</th>
+																						<th class="table-report-head" style="font-size: 12px;">
+																							Valor Total
+																						</th>
+																						<th class="table-report-head" style="font-size: 12px;">
+																							Tipo
+																						</th>
+																					</tr>
+																				</thead>
+																				<tbody
+																					id="j_id542:visualizaContratoId_dataTableItensContratoVisualizar:tbody_element">
+																					<!-- BEGIN ITEMCONTRATO -->
+																					<tr class="list-row">
+																						<td class="list-column-center">
+																							<div
+																								style="text-align: right">
+																								<label
+																									style="font-size: 12px;"
+																									id="j_id542:visualizaContratoId_dataTableItensContratoVisualizar:0:visualizaContratoId_lblItemValor1Visualizar">
+																									{ORDITEM}
+																								</label>
+																							</div>
+																						</td>
+																						<td class="list-column-right">
+																							<label
+																								style="font-size: 12px;"
+																								id="j_id542:visualizaContratoId_dataTableItensContratoVisualizar:0:visualizaContratoId_lblItemValor2Visualizar">
+																								{DESC_ITEM}
+																							</label>
+																						</td>
+																						<td class="list-column-center">
+																							<label
+																								style="font-size: 12px;"
+																								id="j_id542:visualizaContratoId_dataTableItensContratoVisualizar:0:visualizaContratoId_llblItemValor3Visualizar">
+																								{COD_REDU_ITEM}
+																							</label>
+																						</td>
+																						<td class="list-column-right">
+																							<label
+																								style="font-size: 12px;"
+																								id="j_id542:visualizaContratoId_dataTableItensContratoVisualizar:0:visualizaContratoId_llblItemUND1">
+																								{UNDITEM}
+																							</label>
+																						</td>
+																						<td class="list-column-center">
+																							<label
+																								style="font-size: 12px;"
+																								id="j_id542:visualizaContratoId_dataTableItensContratoVisualizar:0:visualizaContratoId_lblItemQtdAtual1">
+																								{QTDITEM}
+																							</label>
+																						</td>
+																						<td class="list-column-right">
+																							<span
+																								style="font-size: 12px;"
+																								id="j_id542:visualizaContratoId_dataTableItensContratoVisualizar:0:visualizaContratoId_lblItemValorUnitario1">
+																								R$ {VALOR_UNITARIO_ITEM}
+																							</span>
+																						</td>
+																						<td class="list-column-center">
+																							<span
+																								style="font-size: 12px;"
+																								id="j_id542:visualizaContratoId_dataTableItensContratoVisualizar:0:visualizaContratoId_lblItemTotal1">
+																								R$ {VALOR_TOTAL_ITEM}
+																							</span>
+																						</td>
+																						<td class="list-column-right">
+																							<label
+																								style="font-size: 12px;"
+																								id="j_id542:visualizaContratoId_dataTableItensContratoVisualizar:0:lblTipoServicoAbaContratoOriginal">
+																								{TIPOITEM}
+																							</label>
+																						</td>
+																					</tr>
+																					<!-- END ITEMCONTRATO -->
+																					<tr class="list-row">
+																						<td class="list-column-center">
+																							<div
+																								style="text-align: right">
+																							</div>
+																							<label
+																								id="j_id542:visualizaContratoId_dataTableItensContratoVisualizar:1:visualizaContratoId_lblValorTotal1Visualizar">
+																								TOTAL
+																							</label>
+																						</td>
+																						<td class="list-column-right">
+																							<label
+																								id="j_id542:visualizaContratoId_dataTableItensContratoVisualizar:1:visualizaContratoId_lblValorTotal2Visualizar">
+																							</label>
+																						</td>
+																						<td class="list-column-center">
+																							<label
+																								id="j_id542:visualizaContratoId_dataTableItensContratoVisualizar:1:visualizaContratoId_lblValorTotal3Visualizar">
+																							</label>
+																						</td>
+																						<td class="list-column-right">
+																							<label
+																								id="j_id542:visualizaContratoId_dataTableItensContratoVisualizar:1:visualizaContratoId_lblUND2">
+																							</label>
+																						</td>
+																						<td class="list-column-center">
+																							<label
+																								id="j_id542:visualizaContratoId_dataTableItensContratoVisualizar:1:visualizaContratoId_lblQtdAtual2">
+																							</label>
+																						</td>
+																						<td class="list-column-right">
+																							<label
+																								id="j_id542:visualizaContratoId_dataTableItensContratoVisualizar:1:visualizaContratoId_lblValorUnitario2">
+																							</label>
+																						</td>
+																						<td class="list-column-center">
+																							<span
+																								id="j_id542:visualizaContratoId_dataTableItensContratoVisualizar:1:visualizaContratoId_lblTotal2"
+																								style="text-align: right;">
+																								R$ {TOTALITENS}
+																							</span>
+																						</td>
+																						<td class="list-column-right">
+																							<label
+																								id="j_id542:visualizaContratoId_dataTableItensContratoVisualizar:1:visualizaContratoId_lblValorTotal7Visualizar">
+																							</label>
+																						</td>
+																					</tr>
+																				</tbody>
+																			</table>
+																		</span>
+																	</td>
+																</tr>
+															</tbody>
+														</table>
+
+													</td>
+
+												</div>
+
+											</tbody>
+										</table>
+
+										<span id="j_id542:visualizaContratoIdpainelContratoDados"
+											style="border: 0px solid #000;">
+
+									</div>
+								</div>
+								<input type="hidden" name="javax.faces.ViewState" id="javax.faces.ViewState"
+									value="j_id3">
+							</div>
+						</form>
+
+					</div>
+					<!-- medição -->
+					<div id="{IDTABMEDICAO}" {EXIBEMEDICAO} class="ui-tabs-panel ui-widget-content ui-corner-bottom">
+
+						<form id="form" name="form" method="post"
+							action="/contratos-emprel/paginaspublicas/ConsultaContratoConsolidado.jsf"
+							enctype="application/x-www-form-urlencoded">
+							<input type="hidden" name="form" value="form">
+							<div class="rich-panel " id="form:painelResultadoPesquisar">
+								<div class="rich-panel-body " id="form:painelResultadoPesquisar_body">
+									<table id="form:gridResultadoPesquisarContrato" style="border: 0px solid #000;">
+										<tbody>
+											<tr>
+												<td class="labels">
+
+												</td>
+											</tr>
+										</tbody>
+									</table>
+
+									<div style="display: block;width: 100%;overflow-x: auto;">
+										<table cellpadding="0" cellspacing="0" id="TableVisualizarContrato">
+											<tbody>
+
+												<tr>
+													<th
+														style="color: #1257aa;display: block;margin-bottom: 5px; text-align: left;">
+														<label for="j_id177:">
+															Número do Contrato/Ano
+														</label>
+
+													</th>
+													<td style="font-size: 12px;">
+														{NUMEROCONTRATO}
+													</td>
+												</tr>
+
+												<tr>
+													<th
+														style="color: #1257aa;display: block;margin-bottom: 5px; text-align: left;">
+														<label for="j_id177:">
+															Objeto
+														</label>
+
+													</th>
+													<td style="font-size: 12px;">
+														{OBJETO}
+													</td>
+												</tr>
+
+												<tr>
+													<th
+														style="color: #1257aa;display: block;margin-bottom: 5px; text-align: left;">
+														<label for="j_id177:">
+															Valor Total da Medições
+														</label>
+													</th>
+													<td style="font-size: 12px;">
+														R$ {VALORTOTALMEDICAO}
+													</td>
+												</tr>
+
+												<tr>
+													<th
+														style="color: #1257aa;display: block;margin-bottom: 5px; text-align: left;">
+														<label for="j_id177:">
+															<label for="j_id177:">
+																Saldo a Executar
+															</label>
+														</label>
+
+													</th>
+													<td style="font-size: 12px;">
+														R$ {SALDOAEXECUTAR}
+													</td>
+												</tr>
+
+												<table class="table table-report table-striped">
+													<thead>
+														<tr>
+															<th class="table-report-head" scope="col" style="font-size: 12px;">Nº DA MEDIÇÃO</th>
+															<th class="table-report-head" scope="col" style="font-size: 12px;">PERÍODO DE MEDIÇÃO
+															</th>
+															<th class="table-report-head" scope="col" style="font-size: 12px;">VALOR DA MEDIÇÃO
+															</th>
+
+													</thead>
+													<tbody id="form:j_id728:tbody_element">
+														<!-- BEGIN DADOSMEDICAO -->
+														<tr class="list-row">
+															<td class="list-column-center">{NUMEROMEDICAO}</td>
+															<td class="list-column-right">
+																<div style="text-align: center; display:block"
+																	name="Período">
+																	{PERIODODAMENDICAO}
+																</div>
+															</td>
+															<td class="list-column-center">
+																<div style="text-align: center; display:block"
+																	name="Período">R$ {VALORDAMEDICAO}</div>
+															</td>
+															<!--  TAG COM HIDDEN  -->
+															<td class="list-column-center" hidden>
+																<div style="text-align: center; display:block"
+																	name="Período" hidden>{STATUSDEMEDICAO}</div>
+															</td>
+														</tr>
+														<!-- END DADOSMEDICAO -->
+													</tbody>
+												</table>
+
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+
+							<input type="hidden" name="javax.faces.ViewState" id="javax.faces.ViewState" value="j_id3">
+						</form>
+					</div>
+					<!-- fim medição -->
+					<!-- BEGIN ADITIVOTAB -->
+					<div id="{TABID}" class="ui-tabs-panel ui-widget-content ui-corner-bottom">
+						<div class="rich-panel " id="j_id851:0:painelVisualizarAditivo">
+							<div class="rich-panel-body " id="j_id851:0:painelVisualizarAditivo_body">
+								<span id="j_id851:0:painelAditivoDados" style="border: 0px solid #000;">
+									<table id="j_id851:0:gridAditivoNumero">
+										<tbody>
+											<tr>
+												<td class="labels"><label for="j_id851:0:" class="">
+														Número do Contrato </label></td>
+												<td class="inputs"><span
+														id="j_id851:0:numeroContrato">{NUMEROCONTRATO}</span></td>
+											</tr>
+											<tr>
+												<td class="labels"><label for="j_id851:0:" class="">
+														Número do Aditivo </label></td>
+												<td class="inputs"><span
+														id="j_id851:0:numeroAditivo">{NUMEROADITIVO}</span></td>
+											</tr>
+											<tr>
+												<td class="labels"><label for="j_id851:0:" class="">
+														Tipo de Aditivo (SAGRES TCE) </label></td>
+												<td class="inputs"><span id="j_id851:0:tipoAditivo">{TIPOADITIVO}</span>
+												</td>
+											</tr>
+											<tr>
+												<td class="labels"><label for="j_id851:0:" class="">
+														Justificativa do Aditivo </label></td>
+												<td class="inputs"><span
+														id="j_id851:0:justificativaAditivo">{JUSTIFICATIVAADITIVO}</span>
+												</td>
+											</tr>
+											<tr>
+												<td class="labels"><label for="j_id851:0:" class="">
+														Há Alteração de Prazo </label></td>
+												<td class="inputs"><span
+														id="j_id851:0:radioAlteracaoPrazoAditivo">{ISAJUSTEDEPRAZO}</span>
+												</td>
+											</tr>
+											<tr>
+												<td class="labels"><label for="j_id851:0:" class="">
+														Há Alteração de Valor </label></td>
+												<td class="inputs"><span
+														id="j_id851:0:radioAlteracaoValorAditivo">{TEMALTERACAOVALOR}</span>
+												</td>
+											</tr>
+											<tr>
+												<td class="labels"><label for="j_id851:0:" class="">
+														Acréscimo do Prazo de Execução do Aditivo </label></td>
+												<td class="inputs"><span
+														id="j_id851:0:acrescimoPrazoAditivo">{ACRESCIMODOPRAZO}</span>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+										<table class="table" {DISPLAY_STYLEADIT}>
+											<thead>
+												<tr {DISPLAY_STYLEADIT}>
+													<th scope="col"
+														style="text-align:center;background:#1257aa;font-size: 12px;" colspan="2">
+														CONTRATADO</th>
+												</tr>
+											</thead>
+										</table>
+	
+											<table {DISPLAY_STYLEADIT} >
+												<tbody>
+											<tr {DISPLAY_STYLEADIT}>
+												<td class="labels"><label for="j_id971:0:" class="">
+													{cpf_cnpj_adit}</label></td>
+												<td  style="font-size: 12px;" class="inputs"><label >
+													</label>
+													{CPF_CNPJFORN_ADIT}
+												</td>
+											</tr>
+	
+											<tr>
+												<td class="labels"><label for="j_id971:0:" class="">
+													Razão Social</label></td>
+												<td  style="font-size: 12px;" class="inputs"><label >
+													</label >
+													{NOMEFORN_ADIT}
+												</td>
+											</tr>
+	
+											<tr>
+												<td class="labels"><label for="j_id971:0:" class="">
+													Logradouro</label></td>
+												<td  style="font-size: 12px;" class="inputs"><label >
+													</label >
+													{LOGRAFORN_ADIT}
+												</td>
+											</tr>
+											<tr>
+												<td class="labels"><label for="j_id971:0:" class="">
+													Complemento</label></td>
+												<td  style="font-size: 12px;" class="inputs"><label >
+													</label >
+													{COMPLEFORN_ADIT}
+												</td>
+											</tr>
+	
+											<tr>
+												<td class="labels"><label for="j_id971:0:" class="">
+													Bairro</label></td>
+												<td  style="font-size: 12px;" class="inputs"><label >
+													</label >
+													{BAIRROFORN_ADIT}
+												</td>
+											</tr>
+	
+											<tr>
+												<td class="labels"><label for="j_id971:0:" class="">
+													Cidade</label></td>
+												<td  style="font-size: 12px;" class="inputs"><label >
+													</label >
+													{CIDFORN_ADIT}
+												</td>
+											</tr>
+	
+											<tr style="border-bottom: 1px solid #b2e4f0;">
+												<td class="labels"><label for="j_id971:0:" class="">
+													UF</label></td>
+												<td  style="font-size: 12px;" class="inputs"><label >
+													</label >
+													{UFORN_ADIT}
+												</td>
+											</tr>
+	
+	
+										</tbody>
+									</table>
+									
+
+									<table cellpadding="0" cellspacing="0" id="1tableOS">
+										<tbody>
+											<tr id="1linhaTabelaOSAditivo">
+												<td id="1colunaVaziaOSAditivo" width="35%"></td>
+												<td id="1colunaDataInicioOSAditivo">
+													<table id="j_id851:0:panelDataInicioOrdemServicoAditivo"
+														class="table-head">
+														<thead>
+															<tr>
+																<th colspan="1" scope="colgroup" style="background: #1257aa; font-size: 12px;"><span
+																		id="j_id851:0:labelDataInicioOrdemServicoAditivo">Data
+																		de Início</span></th>
+															</tr>
+														</thead>
+														<tbody>
+														</tbody>
+													</table>
+												</td>
+												<td id="1colunaDataTerminoOSAditivo">
+													<table id="j_id851:0:panelDataTerminoOrdemServicoAditivo"
+														class="table-head">
+														<thead>
+															<tr>
+																<th colspan="1" scope="colgroup" style="background: #1257aa; font-size: 12px;"><span
+																		id="j_id851:0:labelDataTerminoOrdemServicoAditivo">Data
+																		de Término</span></th>
+															</tr>
+														</thead>
+														<tbody>
+														</tbody>
+													</table>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+									<table id="j_id851:0:gridPainelTabelaOrdemServico" style="border: 0px solid #000;">
+
+										<tbody>
+											<tr>
+												<td class="labels"><label for="j_id851:0:" class="">
+														Vigência </label></td>
+												<td class="inputs">
+													<table>
+														<tbody>
+															<td style="text-align: center;"><span
+																	id="j_id851:0:vigenciaDataInicioVisualizar">{DATAINIVIGENCIA}</span>
+															</td>
+															<td style="text-align: center;"><span
+																	id="j_id851:0:vigenciaDataTerminoVisualizar">{DATAFIMVIGENCIA}</span>
+															</td>
+														</tbody>
+													</table>
+												</td>
+											</tr>
+											<tr>
+												<td class="labels"><label for="j_id851:0:" class="">
+														Execução </label></td>
+												<td class="inputs">
+													<table>
+														<td style="text-align: center; width: 50%;"><span
+																id="j_id851:0:execucaoDataInicioAditivo1">{DATAINIEXEC}</span>
+														</td>
+														<td style="text-align: center; width: 50%;"><span
+																id="j_id851:0:execucaoDataTerminoAditivo1">{DATAFIMEXEC}</span>
+														</td>
+													</table>
+												</td>
+											</tr>
+											<tr>
+												<td class="labels"><label for="j_id851:0:" class="">
+														Valor Total do Aditivo </label></td>
+												<td class="inputs"><span id="j_id851:0:valorTotalAditivo">R$
+														{VALORTOTALADITIVO}</span></td>
+											</tr>
+											<tr>
+												<td class="labels"><label for="j_id851:0:" class="">
+														Situação </label></td>
+												<td class="inputs"><span id="j_id851:0:lblSituacaoAditivoValue">
+														{FASEEXECUCAOADV}</span></td>
+											</tr>
+											<tr>
+												<td class="labels"><label for="j_id851:0:" class="">
+														Observação </label></td>
+												<td class="inputs"><span id="j_id851:0:lblSituacaoAditivoValue">
+														{OBSERVACAOADV}</span></td>
+											</tr>
+										</tbody>
+									</table>
+									<table style="border: 0px solid #000;">
+										<tbody>
+											<tr>
+												<td colspan="2">
+													<table id="j_id851:0:painelRepresentanteLegalAditivo"
+														class="table-head">
+														<thead>
+															<tr>
+																<th colspan="1" scope="colgroup" style="background: #1257aa; font-size: 12px;"><span
+																		id="j_id851:0:labelRepresentanteLegalAditivo">Representante
+																		Legal </span></th>
+															</tr>
+														</thead>
+														<tbody>
+														</tbody>
+													</table>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+
+									<!-- REPRESENTANTE LEGAL -->
+									<table id="j_id851:0:gridRepresentanteAditivo">
+										<tbody>
+											<tr>
+												<td class="labels"><label for="j_id851:0:" class="">
+														Nome </label></td>
+												<td class="inputs"><span
+														id="j_id851:0:nomeRepAditivo">{NOMEREPRESENTANTEADV}</span></td>
+											</tr>
+											<tr>
+												<td class="labels"><label for="j_id851:0:" class="">
+														CPF </label></td>
+												<td class="inputs"><span
+														id="j_id851:0:cpfRepAditivo">{CPFREPRESENTANTEADV}</span></td>
+											</tr>
+											<tr>
+												<td class="labels"><label for="j_id851:0:" class="">
+														Cargo </label></td>
+												<td class="inputs"><span
+														id="j_id851:0:inputCargoAditivo">{CARGOREPRESENTANTEADV}</span>
+												</td>
+											</tr>
+											<tr>
+												<td class="labels"><label for="j_id851:0:" class="">
+														Identidade </label></td>
+												<td class="inputs"><span
+														id="j_id851:0:inputIdentidadeAditivo">{RGREPRESENTANTEADV}</span>
+												</td>
+											</tr>
+											<tr>
+												<td class="labels"><label for="j_id851:0:" class="">
+														Órgão Emissor </label></td>
+												<td class="inputs"><span
+														id="j_id851:0:inputOrgaoEmissorAditivo">{ORGAOREPRESENTANTEADV}</span>
+												</td>
+											</tr>
+											<tr>
+												<td class="labels"><label for="j_id851:0:" class="">
+														UF da Identidade </label></td>
+												<td class="inputs"><span
+														id="j_id851:0:inputUfIdentidadeAditivo">{UFREPRESENTANTEADV}</span>
+												</td>
+											</tr>
+											<tr>
+												<td class="labels"><label for="j_id851:0:" class="">
+														Cidade de Domicílio </label></td>
+												<td class="inputs"><span
+														id="j_id851:0:inputCidadeDomicilioAditivo">{CIDADEREPRESENTANTEADV}</span>
+												</td>
+											</tr>
+											<tr>
+												<td class="labels"><label for="j_id851:0:" class="">
+														Estado de Domicílio </label></td>
+												<td class="inputs"><span
+														id="j_id851:0:inputEstadoDomicilioAditivo">{UFDOMREPRESENTANTEADV}</span>
+												</td>
+											</tr>
+											<tr>
+												<td class="labels"><label for="j_id851:0:" class="">
+														Nacionalidade </label></td>
+												<td class="inputs"><span
+														id="j_id851:0:inputNacionalidadeAditivo">{NACIONALIDADEREPRESENTANTEADV}</span>
+												</td>
+											</tr>
+											<tr>
+												<td class="labels"><label for="j_id851:0:" class="">
+														Estado Civil </label></td>
+												<td class="inputs"><span
+														id="j_id851:0:estadoCivilAditivo">{ESTADOCIVILREPRESENTANTEADV}</span>
+												</td>
+											</tr>
+											<tr>
+												<td class="labels"><label for="j_id851:0:" class="">
+														Profissão </label></td>
+												<td class="inputs"><span
+														id="j_id851:0:inputProfissaoAditivo">{PROFISSAOREPRESENTANTEADV}</span>
+												</td>
+											</tr>
+											<tr>
+												<td class="labels"><label for="j_id851:0:" class="">
+														E-mail </label></td>
+												<td class="inputs"><span
+														id="j_id851:0:emailRepAditivo">{EMAILREPRESENTANTEADV}</span>
+												</td>
+											</tr>
+											<tr>
+												<td class="labels"><label for="j_id851:0:" class="">
+														Tefefone </label></td>
+												<td class="inputs"><span
+														id="j_id851:0:telefoneRepAditivo">{TELEFONEREPRESENTANTEADV}</span>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+
+									<!-- FIM REPRESENTANTE LEGAL -->
+									<form id="j_id851:0:j_id921" name="j_id851:0:j_id921" method="post"
+										action="/contratos-emprel/paginaspublicas/ConsultaContratoConsolidado.jsf"
+										enctype="application/x-www-form-urlencoded">
+										<input type="hidden" name="j_id851:0:j_id921" value="j_id851:0:j_id921">
+										<br/>
+										<table style="border: 0px solid #000;">
+											<!-- ANEXAR DOCUMENTOS -->
+											<tbody>
+												<tr>
+													<td colspan="2">
+														<table class="table-head">
+															<thead>
+																<tr>
+																	<th colspan="1" scope="colgroup" style="background: #1257aa; font-size: 12px; border-left: 2px solid #1257aa;"><span
+																			id="j_id851:0:j_id921:documentosAditivo">
+																			DOCUMENTOS ANEXO</span></th>
+																</tr>
+															</thead>
+															<tbody>
+															</tbody>
+														</table>
+													</td>
+												</tr>
+
+												<!-- LISTA DE DOCUMENTOS ANEXO -->
+												<tr>
+													<td colspan="2"><span
+															id="j_id851:0:j_id921:panelListaDocumentosAnexoAditivo">
+															<table id="j_id851:0:j_id921:tableDocumentoAnexoAditivo"
+																class="table table-report table-striped">
+																<thead>
+																	<tr>
+																		<th class="table-report-head" scope="col">
+																			<span style="font-size: 12px;"
+																				id="j_id851:0:j_id921:tableDocumentoAnexoAditivo:labelArquivoAditivo">ARQUIVO</span>
+																		</th>
+																		<th class="table-report-head" scope="col">
+																			<span style="font-size: 12px;"
+																				id="j_id851:0:j_id921:tableDocumentoAnexoAditivo:labelDataDocAditivo">DATA DA INCLUSÃO</span>
+																		</th>
+																	</tr>
+																</thead>
+																<tbody
+																	id="j_id851:0:j_id921:tableDocumentoAnexoAditivo:tbody_element">
+
+																	<!-- BEGIN DOCUMENTOANEXOADV -->
+																	<tr class="list-row">
+																		<td class="list-column-center">
+																			<a
+																				href="downloadDocContratoConsolidado.php?arquivo={CONTATORKADV}&nome={NOMEARQUIVOADV}">
+																				{NOMEARQUIVOADV}
+																			</a>
+																		</td>
+																		<td class="list-column-right">
+																			<span
+																				id="j_id177:tableDocumentoAnexoConsolidado:0:dataDocConsolidado"
+																				style="text-align: center; display: block;">
+																				{DATAINCLUSAOADV}
+																			</span>
+																		</td>
+																	</tr>
+																	<!-- END DOCUMENTOANEXOADV -->
+
+																</tbody>
+															</table>
+														</span></td>
+												</tr>
+											</tbody>
+										</table>
+										<!-- FIM ANEXAR DOCUMENTOS --><input type="hidden" name="javax.faces.ViewState"
+											id="javax.faces.ViewState" value="j_id3">
+									</form>
+									<!-- FIM CAMPOS DE VALORES -->
+								</span>
+							</div>
+						</div>
+					</div>
+					<!-- END ADITIVOTAB -->
+					<!-- BEGIN APOSTILAMENTOTAB -->
+					<div id="{TABIDAP}" class="ui-tabs-panel ui-widget-content ui-corner-bottom">
+
+						<div class="rich-panel " id="j_id971:0:painelVisualizarApostilamento" style="border:0px">
+							<div class="rich-panel-body " id="j_id971:0:painelVisualizarApostilamento_body">
+								<span id="j_id971:0:painelDadosApostilamento" style="border: 0px solid #000;">
+									<table id="j_id971:0:gridBasicoApostilamentoVisualizar">
+
+										<tbody>
+											<tr>
+												<td class="labels"><label for="j_id971:0:" class="">
+														Número do Contrato/Ano </label></td>
+												<td class="inputs"><span
+														id="j_id971:0:numeroContratoApostilamento">{NUMEROCONTRATO}</span>
+												</td>
+											</tr>
+											<tr>
+												<td class="labels"><label for="j_id971:0:" class="">
+														Número do Apostilamento </label></td>
+												<td class="inputs"><span
+														id="j_id971:0:numeroApostilamento">{NUMEROAPOSTILAMENTO}</span>
+												</td>
+											</tr>
+											<tr>
+												<td class="labels"><label for="j_id971:0:tipoApostilamento" class="">
+														Tipo de Apostilamento* </label></td>
+												<td class="inputs"><span
+														id="j_id971:0:tipoApostilamento">{TIPOAPOSTILAMENTO}</span></td>
+											</tr>
+											<tr>
+											<tr>
+												<td class="labels"><label for="j_id971:0:" class="">
+														Valor retroativo do Apostilamento </label></td>
+												<td class="inputs">R$ {VALORRETROATIVOAPOSTILAMENTO}</td>
+											</tr>
+											<tr>
+												<td class="labels"><label for="j_id971:0:" class="">
+														Valor do Apostilamento </label></td>
+												<td class="inputs">R$ {VALORTOTALAPOSTILAMENTO}</td>
+											</tr>
+											<tr>
+												<td class="labels"><label for="j_id971:0:" class="">
+														Situação </label></td>
+												<td class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+													</label>{STATUSDOAPOSTILAMENTO}</td>
+											</tr>
+										</tbody>
+									</table>
+
+									<table class="table" {DISPLAY_STYLE}>
+										<thead>
+											<tr>
+												<th scope="col"
+													style="text-align:center;background:#1257aa;font-size: 12px;" colspan="2">
+													CONTRATADO</th>
+											</tr>
+										</thead>
+										</table>
+
+										<table id="j_id971:0:gridBasicoApostilamentoVisualizar" {DISPLAY_STYLE}>
+											<tbody>
+										<tr>
+											<td class="labels"><label for="j_id971:0:" class="">
+												{cpf_cnpj}</label></td>
+											<td  style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+												</label >
+												{CPF_CNPJFORN_APOST}
+											</td>
+										</tr>
+
+										<tr>
+											<td class="labels"><label for="j_id971:0:" class="">
+												Razão Social</label></td>
+											<td  style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+												</label >
+												{NOMEFORN_APOST}
+											</td>
+										</tr>
+
+										<tr>
+											<td class="labels"><label for="j_id971:0:" class="">
+												Logradouro</label></td>
+											<td  style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+												</label >
+												{LOGRAFORN_APOST}
+											</td>
+										</tr>
+										<tr>
+											<td class="labels"><label for="j_id971:0:" class="">
+												Complemento</label></td>
+											<td  style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+												</label >
+												{COMPLEFORN_APOST}
+											</td>
+										</tr>
+
+										<tr>
+											<td class="labels"><label for="j_id971:0:" class="">
+												Bairro</label></td>
+											<td  style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+												</label >
+												{BAIRROFORN_APOST}
+											</td>
+										</tr>
+
+										<tr>
+											<td class="labels"><label for="j_id971:0:" class="">
+												Cidade</label></td>
+											<td  style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+												</label >
+												{CIDFORN_APOST}
+											</td>
+										</tr>
+
+										<tr style="border-bottom: 1px solid #b2e4f0;">
+											<td class="labels"><label for="j_id971:0:" class="">
+												UF</label></td>
+											<td  style="font-size: 12px;" class="inputs"><label id="j_id971:0:lblSituacaoApostilamento">
+												</label >
+												{UFORN_APOST}
+											</td>
+										</tr>
+
+										
+
+
+									</tbody>
+									</table>
+									<span style="border: 0px solid #000;">
+										<table class="table-head">
+											<thead>
+												<tr>
+													<th colspan="1" scope="colgroup" style="background: #1257aa; font-size: 12px;">GESTOR</th>
+												</tr>
+											</thead>
+											<tbody>
+											</tbody>
+										</table>
+									</span>
+									<table id="j_id971:0:gridGestorApostilamento">
+										<tbody>
+											<tr>
+												<td class="labels"><label for="j_id971:0:nomeGestorApostilamento"
+														class="">
+														Nome </label></td>
+												<td class="inputs"><span
+														id="j_id971:0:nomeGestorApostilamento">{NOMEGESTORAPOSTILAMENTO}</span>
+												</td>
+											</tr>
+											<tr>
+												<td class="labels"><label for="j_id971:0:matriculaGestorApostilamento"
+														class="">
+														Matrícula </label></td>
+												<td class="inputs"><span
+														id="j_id971:0:matriculaGestorApostilamento">{MATRICULAGESTORAPOSTILAMENTO}</span>
+												</td>
+											</tr>
+											<tr>
+												<td class="labels"><label for="j_id971:0:cpfGestorApostilamento"
+														class="">
+														CPF </label></td>
+												<td class="inputs"><span id="j_id971:0:cpfGestorApostilamento"
+														class="cpf">{CPFGESTORAPOSTILAMNETO}</span></td>
+											</tr>
+											<tr>
+												<td class="labels"><label for="j_id971:0:emailGestorApostilamento"
+														class="">
+														E-mail </label></td>
+												<td class="inputs"><span
+														id="j_id971:0:emailGestorApostilamento">{EMAILGESTORAPOSTILAMENTO}</span>
+												</td>
+											</tr>
+											<tr>
+												<td class="labels"><label for="j_id971:0:telefoneGestorApostilamento"
+														class="">
+														Telefone </label></td>
+												<td class="inputs"><span
+														id="j_id971:0:telefoneGestorApostilamento">{TELEFONEGESTORAPOSTILAMENTO}</span>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+
+									<div style="display: block;width: 100%;overflow-x: auto;">
+
+												<table id="tableFiscalDocumentoConsolidado" cellpadding="0"
+													cellspacing="0">
+													<tbody>
+														<tr>
+															<td colspan="2">
+																<span
+																	id="j_id177:painelTabelaFiscalDocumentoConsolidado">
+																	<table
+																		id="j_id177:dataTableFiscalDocumentoConsolidado"
+																		class="table table-report table-striped"
+																		style="background-color: #e9f9fc;">
+
+																		<thead>
+																			<tr style="text-transform: uppercase;">
+																				<th colspan="8"
+																					class="table-report-head"
+																					scope="col">
+																					<span style="font-size: 12px;"
+																						id="j_id177:dataTableFiscalDocumentoConsolidado:lblTipoFiscalDocumentoConsolidado">
+																						FISCAL(IS)
+																					</span>
+																				</th>
+																			</tr>
+																		</thead>
+
+																		<thead>
+																			<tr style="text-transform: uppercase;">
+																				<th class="table-report-head"
+																					scope="col">
+																					<span style="font-size: 12px;"
+																						id="j_id177:dataTableFiscalDocumentoConsolidado:lblTipoFiscalDocumentoConsolidado">
+																						FISCAL(IS)
+																					</span>
+																				</th>
+																				<th class="table-report-head"
+																					scope="col">
+																					<span style="font-size: 12px;"
+																						id="j_id177:dataTableFiscalDocumentoConsolidado:lblNomeFiscalDocumentoConsolidado">
+																						Nome
+																					</span>
+																				</th> 
+																				<th class="table-report-head"
+																					scope="col">
+																					<span style="font-size: 12px;"
+																						id="j_id177:dataTableFiscalDocumentoConsolidado:lblMatriculaFiscalDocumentoConsolidado">
+																						Matrícula
+																					</span>
+																				</th>
+																				<th class="table-report-head"
+																					scope="col">
+																					<span style="font-size: 12px;width: 8em;"
+																						id="j_id177:dataTableFiscalDocumentoConsolidado:lblCpfFiscalDocumentoConsolidado">
+																						Cpf
+																					</span>
+																				</th>
+																				<th class="table-report-head"
+																					scope="col">
+																					<span style="font-size: 12px;"
+																						id="j_id177:dataTableFiscalDocumentoConsolidado:lblEntidadeFiscalDocumentoConsolidado">
+																						Entidade Competente
+																					</span>
+																				</th>
+																				<th class="table-report-head"
+																					scope="col">
+																					<span style="font-size: 12px;"
+																						id="j_id177:dataTableFiscalDocumentoConsolidado:lblRegistroFiscalDocumentoConsolidado">
+																						Registro ou Inscrição
+																					</span>
+																				</th>
+																				<th class="table-report-head"
+																					scope="col">
+																					<span style="font-size: 12px;"
+																						id="j_id177:dataTableFiscalDocumentoConsolidado:lblEmailFiscalDocumentoConsolidado">
+																						E-mail
+																					</span>
+																				</th>
+																				<th class="table-report-head"
+																					scope="col">
+																					<span style="font-size: 12px;"
+																						id="j_id177:dataTableFiscalDocumentoConsolidado:lblTelefoneFiscalDocumentoConsolidado">
+																						Telefone
+																					</span>
+																				</th>
+																			</tr>
+																		</thead>
+																		<tbody
+																			id="j_id177:dataTableFiscalDocumentoConsolidado:tbody_element">
+																			<!-- BEGIN FISCALAPOSTILAMENTO -->
+																			<tr class="list-row">
+																				<td class="list-column-center">
+																					<span
+																						id="j_id177:dataTableFiscalDocumentoConsolidado:0:txtTipoFiscalDocumentoConsolidado">
+																						{TIPOFISCALAPOSTILAMENTO}
+																					</span>
+																				</td>
+																				<td class="list-column-right">
+																					<span
+																						id="j_id177:dataTableFiscalDocumentoConsolidado:0:txtNomeFiscalDocumentoConsolidado">
+																						{NOMEFISCALAPOSTILAMENTO}
+																					</span>
+																				</td>
+																				<td class="list-column-center">
+																					<span
+																						id="j_id177:dataTableFiscalDocumentoConsolidado:0:txtMatriculaFiscalDocumentoConsolidado">
+																						{MATRICULAFISCALAPOSTILAMENTO}
+																					</span>
+																				</td>
+																				<td class="list-column-right" style="border-bottom: 1px solid #b2e4f0;">
+																					<span
+																						id="j_id177:dataTableFiscalDocumentoConsolidado:0:txtCpfFiscalDocumentoConsolidado">
+																						{CPFFISCALAPOSTILAMENTO}
+																					</span>
+																				</td>
+																				<td class="list-column-center" style="border-bottom: 1px solid #b2e4f0;">
+																					<span
+																						id="j_id177:dataTableFiscalDocumentoConsolidado:0:txtEntidadeFiscalDocumentoConsolidado">
+																						{ENTIDADECOMPETENTEFISCALAPOSTILAMENTO}
+																					</span>
+																				</td>
+																				<td class="list-column-right" style="border-bottom: 1px solid #b2e4f0;">
+																					<span
+																						id="j_id177:dataTableFiscalDocumentoConsolidado:0:txtRegistroFiscalDocumentoConsolidado">
+																						{RESGISTROINSCRICAOAPOSTILAMENTO}
+																					</span>
+																				</td>
+																				<td class="list-column-center" style="border-bottom: 1px solid #b2e4f0;">
+																					<span
+																						id="j_id177:dataTableFiscalDocumentoConsolidado:0:txtEmailFiscalDocumentoConsolidado">
+																						{EMAILFISCALAPOSTILAMENTO}
+																					</span>
+																				</td>
+																				<td class="list-column-right" style="border-bottom: 1px solid #b2e4f0;">
+																					<span
+																						id="j_id177:dataTableFiscalDocumentoConsolidado:0:txtTelefoneFiscalDocumentoConsolidado">
+																						{TELEFONEFISCALAPOSTILAMENTO}
+																					</span>
+																				</td>
+																			</tr>
+																			<!-- END FISCALAPOSTILAMENTO -->
+																		</tbody>
+																		<tfoot>
+																			<tr>
+																				<td class="table-report-head"
+																					scope="col" colspan="3"
+																					style="text-transform: uppercase; vertical-align: middle; text-align: center; font-size: 12px;">
+																					Situação do contrato:</td>
+																				<td class="list-column-center"
+																					style="background-color: #e9f9fc; border-bottom: 1px solid #b2e4f0;">
+																					{SITUACAOCONTRATO}</td>
+																					<td class="list-column-center"
+																					style="background-color: #e9f9fc; border-bottom: 1px solid #b2e4f0;">
+																					</td>
+																					<td class="list-column-center"
+																					style="background-color: #e9f9fc; border-bottom: 1px solid #b2e4f0;">
+																					</td>
+																					<td class="list-column-center"
+																					style="background-color: #e9f9fc; border-bottom: 1px solid #b2e4f0;">
+																					</td>
+																					<td class="list-column-center"
+																					style="background-color: #e9f9fc; border-bottom: 1px solid #b2e4f0;">
+																					</td>
+																			</tr>
+																		</tfoot>
+																	</table>
+																</span>
+															</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+
+
+									<form id="j_id971:0:j_id1044" name="j_id971:0:j_id1044" method="post"
+										action="/contratos-emprel/paginaspublicas/ConsultaContratoConsolidado.jsf"
+										enctype="application/x-www-form-urlencoded">
+										<input type="hidden" name="j_id971:0:j_id1044" value="j_id971:0:j_id1044">
+										<span style="border: 0px solid #000;">
+											<br/>
+											<table class="table-head">
+												<thead>
+													<tr style="background: #1257aa; border-bottom: 1px solid #dddddd; border-left: 2px solid #1257aa;">
+														<th colspan="1" scope="colgroup" style="font-size: 12px;">DOCUMENTOS ANEXOS</th>
+													</tr>
+												</thead>
+												
+
+											</table>
+											<span id="j_id971:0:j_id1044:anexosApostilamento">
+												<table id="j_id971:0:j_id1044:tableDocumentoAnexoApostilamento"
+													class="table table-report table-striped">
+													<thead>
+														<tr>
+															<th class="table-report-head" scope="col" style="font-size: 12px;">ARQUIVO</th>
+															<th class="table-report-head" scope="col" style="font-size: 12px;">DATA DA INCLUSÃO
+															</th>
+														</tr>
+													</thead>
+													<tbody
+														id="j_id971:0:j_id1044:tableDocumentoAnexoApostilamento:tbody_element">
+														<!-- BEGIN ARQUIVOSAPOSTILAMENTO -->
+														<tr class="list-row">
+															<td class="list-column-center">
+																<a style="font-size: 12px;"
+																	href="downloadDocContratoConsolidado.php?arquivo={CONTATORKAPOS}&nome={NOMEARQUIVOAPOS}">
+																	{NOMEARQUIVOAPOS}
+																</a>
+															</td>
+															<td class="list-column-right">
+																<span style="font-size: 12px;"
+																	id="j_id177:tableDocumentoAnexoConsolidado:0:dataDocConsolidado"
+																	style="text-align: center; display: block;">
+																	{DATAINCLUSAOAPOS}
+																</span>
+															</td>
+														</tr>
+														<!-- END ARQUIVOSAPOSTILAMENTO -->
+													</tbody>
+												</table>
+											</span>
+										</span>
+									</form>
+									<!-- FIM ITENS APOSTILAMENTO -->
+								</span>
+							</div>
+						</div>
+					</div>
+					<!-- END APOSTILAMENTOTAB -->
+				</div> 
+				<a href="CadContratoConsolidadoPesquisar.php?portalCompras=true">
+					<button class="btn btn-primary" type="button" style="margin-left: 75em;">Voltar</button>
+				</a>
+			</div>
+		</section>
+	</div>
+</div>
+<!-- Comando JavaScript para ajustar a tela a resolu&#231;&#227;o do cliente -->
+<script language="JavaScript" type="text/javascript">
+	var aw = screen.availWidth - 244;
+	document.getElementById('conteudo').setAttribute('style', 'width:' + aw + 'px;');
+</script>
+<!-- Fim do Corpo -->
+</div>

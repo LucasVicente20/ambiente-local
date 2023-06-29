@@ -1,0 +1,84 @@
+<div class="content">
+	<div class="row">
+		<div class="span12">
+			<section class="box-article">
+				<header class="header">
+					<h1>Consulta de Registro de Preços - Detalhamento</h1>
+				</header>
+				<div class="body">
+					<ul class="breadcrumb">
+                        <li><a href="{BASE_URL}home.php">Início</a><span class="divider"><i
+                                class="arrow-right"></i></span></li>
+                        <li><a href="{BASE_URL}ConsRegistroPrecoPesquisar.php">Registro Preço</a><span class="divider"><i
+                                class="arrow-right"></i></span></li>
+                        <li>Consulta<span class="divider"><i
+                                class="arrow-right"></i></span></li>
+                    </ul>
+					<article class="article">
+						<header class="article-header">
+							<h1>Consulta de Registro de Preços - Detalhamento</h1>
+						</header>
+					</article>
+					<article class="article">
+						<!-- BEGIN BLOCO_MENSAGEM -->
+						<div class="alert {TIPOALERT}">
+							<button class="close" data-dismiss="alert" type="button">×</button>
+							{MENSAGEM}
+						</div>
+						<!-- END BLOCO_MENSAGEM -->
+
+						<section class="article-detail row-border">
+							<p>Para visualizar os documentos, clique no item desejado.
+								Para visualizar a tela de pesquisa, clique no botão "Voltar".</p>
+						</section>
+						<section class="article-detail">
+							<table class="table table-report table-bordered">
+								<!-- Corpo -->
+								<tbody>
+									<tr class="info">{TITULO}</tr>
+									{DADOS}
+								</tbody>
+							</table>
+							
+							<table class="table table-report table-bordered">
+								<thead>
+                                    <tr>
+                                        <th colspan="5">
+                                            <span>{TITULO_DOCUMENTOS}</span>
+                                            <span class="separator"></span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                	<tr>
+										<td colspan="4">{DOCUMENTOS}</td>
+									</tr>
+                                </tbody>
+							</table>
+
+							<div class="clearfix">&nbsp;</div>
+
+							<div class="btn-toolbar pagination-right">
+								<form id="form1" method="post" action="{BASE_URL}ConsRegistroPrecoResultado2017.php">
+									<input type="hidden" name="ComissaoCodigo" value="{COMISSAO_CODIGO}" />
+									<input type="hidden" name="OrgaoLicitanteCodigo" value="{ORGAO_LICITANTE_CODIGO}" />
+									<input type="hidden" name="ModalidadeCodigo" value="{MODALIDADE_CODIGO}" />
+									<input type="hidden" name="GrupoCodigo" value="{GRUPO_CODIGO}" />
+									<input type="hidden" name="Objeto" value="{OBJETO}" />
+									
+									<input type="hidden" name="ItemComissao" value="{COMISSAO_PESQUISA}" />
+									<input type="hidden" name="ItemOrgao" value="{ORGAO_PESQUISA}" />
+									<!--<input type="hidden" name="ItemObjeto" value="{OBJETO_PESQUISA}" />-->
+									
+									<!--<input type="button" name="Voltar" value="Voltar" class="botao btn btn-primary" onClick="document.getElementById('form1').submit();" />-->
+								</form>
+							</div>
+
+							<!-- Fim do Corpo -->
+						</section>
+					</article>
+				</div>
+			</section>
+		</div>
+	</div>
+</div>

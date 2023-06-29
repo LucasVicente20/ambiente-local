@@ -1,0 +1,149 @@
+<!-- 220038-- -->
+<script type="text/javascript">
+    function enviar(valor){
+
+        document.{NOME_PROGRAMA}.Botao.value = valor;
+        document.{NOME_PROGRAMA}.submit();
+    }
+
+    function clean_hex(input) {
+    input = input.toUpperCase();
+    input = input.replace(/[^A-Fa-f0-9]/g, "");
+
+    return input;
+}
+
+function Convert(id, nomePdf) {
+    var binValue    = $('#'+id).val();
+    var filename    = nomePdf;
+    var cleaned_hex = clean_hex(binValue);
+
+    var ia = new Array();
+
+
+    for (var i=0; i<cleaned_hex.length/2; i++) {
+        var h = cleaned_hex.substr(i*2, 2);
+        ia[i] = parseInt(h,16);
+    }
+
+    var byteArray = new Uint8Array(ia);
+
+    // create a download anchor tag
+    var downloadLink      = document.createElement('a');
+    downloadLink.target   = '_blank';
+    downloadLink.download = nomePdf;
+
+    // convert downloaded data to a Blob
+    var blob = new Blob([byteArray], { type: 'application/pdf' });
+
+    // create an object URL from the Blob
+    var URL = window.URL || window.webkitURL;
+    var downloadUrl = URL.createObjectURL(blob);
+
+    // set object URL as the anchor's href
+    downloadLink.href = downloadUrl;
+
+    // append the anchor to document body
+    document.body.appendChild(downloadLink);
+
+    // fire a click event on the anchor
+    downloadLink.click();
+
+    // cleanup: remove element and revoke object URL
+    document.body.removeChild(downloadLink);
+    URL.revokeObjectURL(downloadUrl);
+}
+
+$(document).ready(function() {
+    $('a').click(function() {
+        var nomePdf   = $(this).html().replace(/\<br>/g, '');
+        var nomeClass = $(this).prop('class');
+        Convert(nomeClass, nomePdf);
+    });
+});
+
+</script>
+
+<style media="screen">
+    table tr td {
+        height: 20px;
+    }
+</style>
+
+ <form action="{NOME_PROGRAMA}.php" method="post" name="{NOME_PROGRAMA}" id="formDetalhe">
+     <table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 700px;">
+         <tr>
+             <td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3">
+                 EXTRATO ATAS COMPRAS - DETALHE
+             </td>
+         </tr>
+
+         <tr>
+            <td>
+                <table border="0" cellpadding="3" cellspacing="0"
+                    bordercolor="#75ADE6" summary="" class="textonormal"
+                    bgcolor="#FFFFFF" style="width: 633px;">
+                </table>
+            </td>
+        </tr>
+         <tr>
+             <td colspan="11">
+                 <table class="textonormal" border="0px" align="left" summary="">
+                    <!-- BEGIN BLOCO_RESULTADO_ATA --> 
+                     <tr>
+                         <td colspan="11">
+                             <table class="textonormal" border="0" width="100%" summary="">
+                                 <tr>
+                                     <td class="textonormal" bgcolor="#DCEDF7" width="30%">Nº SCC</td>
+                                     <td class="textonormal" width="70%">{SCC}</td>
+                                 </tr>
+
+                                 <tr {STYLE}>
+                                     <td class="textonormal" bgcolor="#DCEDF7" width="30%">OBJETO</td>
+                                     <td class="textonormal" width="70%">{VALOR_OBJETO}</td>
+                                 </tr>
+
+                                 <tr>
+                                     <td class="textonormal" bgcolor="#DCEDF7" width="30%">ORGÃO</td>
+                                     <td class="textonormal"  width="70%">{VALOR_ORGAO}</td>
+                                 </tr>
+                                 <tr>
+                                     <td class="textonormal" bgcolor="#DCEDF7" width="30%">DATA SCC</td>
+                                     <td class="textonormal"  width="70%">{DATA_SCC}</td>
+                                 </tr>
+                                 <tr {DISPLAY}>
+                                     <td class="textonormal" bgcolor="#DCEDF7" width="30%">TIPO DE SARP</td>
+                                     <td class="textonormal"  width="70%">{TIPO_SOLICITACAO}</td>
+                                 </tr>
+                                 <tr>
+                                     <td class="textonormal" bgcolor="#DCEDF7" width="30%">TIPO DE ATA</td>
+                                     <td class="textonormal"  width="70%">{TIPO_ATA_DESC}</td>
+                                 </tr>
+                                 <tr>
+                                     <td class="textonormal" bgcolor="#DCEDF7" width="30%">FORNECEDOR</td>
+                                     <td class="textonormal"  width="70%">{FORNECEDOR}</td>
+                                 </tr>
+                             </table>
+                         </td>
+                     </tr>
+                 </table>
+             </td>
+         </tr>
+                    <!-- END BLOCO_ITEM -->
+                </table>
+            </td>
+        </tr>
+        <!-- END BLOCO_RESULTADO_ATA -->
+        <!--<tr>
+            <td colspan="11">
+                <table border="0" style="width: 700px;">
+                    <tr>
+                        <td colspan="6" align="left">TOTAL DA ATA</td>
+                        <td colspan="5" align="right">{VALOR_TOTAL_SOMA}</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>-->
+
+    </table>
+</form>

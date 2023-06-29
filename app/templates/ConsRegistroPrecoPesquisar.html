@@ -1,0 +1,217 @@
+<!--
+Portal de Compras
+
+Programa: ConsRegistroPrecoPesquisar.html
+----------------------------------------------------------------------------
+* Alterado: Lucas Vicente
+* Data:     20/06/2022
+* Objetivo: CR 244837
+* ---------------------------------------------------------------------------
+* Alterado: Lucas Vicente
+* Data:     06/09/2022
+* Objetivo: CR 268483
+* ---------------------------------------------------------------------------
+-->
+
+<form action="ConsRegistroPrecoResultado.php" method="post" name="ConsRegistroPrecoPesquisar" class="formSubmit">
+        <div class="content">
+            <div class="row">
+                <input type="hidden" name="BotaoAcao" id="botaoAcao"/>
+                <div class="span12">
+                    <section class="box-article">
+                        <header class="header">
+                            <h1>Consulta de atas de registro de preço</h1>
+                        </header>
+                        <div class="body">
+                            <ul class="breadcrumb">
+                                <li>Você está em:</li>
+                                <li><a href="{BASE_URL}home.php">Início</a><span class="divider"><i class="arrow-right"></i></span></li>
+                                <li><a href="{BASE_URL}RegPrecos.php">Registro Preço</a><span class="divider"><i class="arrow-right"></i></span></li>
+                                    <li>Consulta<span class="divider"><i class="arrow-right"></i></span></li>
+                                <li class="active">Ata interna</li>
+                            </ul>
+                            <article class="article">
+                                <header class="article-header">
+                                    <h1>Consulta de atas de registro de preço</h1>
+                                </header>
+                            </article>
+                            <article class="article">
+                                <section class="article-detail row-border">
+                                    <p>Para consultar as atas de registro de preço, informe os filtros abaixo conforme desejado e clique no botão "Pesquisar". Para limpar os filtros clique no botão "Limpar"</p>
+                                    <p>Para consulta de atas anteriores, clique <a href="{BASE_URL}ConsRegistroPrecoPesquisar2017.php">aqui</a></p>
+                                </section>
+                                <div class="clearfix">&nbsp;</div>
+                                <section>
+                                    <div class="well">
+                                        <div class="row-fluid">
+                                            <div class="span5">
+                                                <label for="txtObjeto" class="big">Número da Ata</label>
+                                                <input type="text" class="span12 ataMascara" id="numeroAta" name="numeroAta">
+                                            </div>
+                                            <div class="span5">
+                                                <label for="txtObjeto" class="big">Objeto</label>
+                                                <input type="text" style="text-transform: uppercase;" class="span12" id="txtObjeto" name="ItemObjeto">
+                                            </div>                                                                                                        
+                                        </div>
+                                        <div class="row-fluid">
+                                            <div class="span5">
+                                                <label for="ddlComissao" class="big">Comissão de Licitação</label>
+                                                <select id="ddlComissao" class="span12" name="ItemComissao">
+                                                    <option value="">Todas as Comissões...</option>
+                                                    <!--<option value="41">CARONA EXTERNA</option>
+                                                    <option value="34">COMISSÃO ESP DE LIC DA SEC DE SANEAMENTO - CELSS</option>
+                                                    <option value="47">COMISSÃO ESP DE LIC DE COMPRAS CORPORATIVAS -CELCC</option>
+                                                    <option value="44">COMISSÃO ESP DE LIC DE EVENTOS CULTURAIS - CELEC</option>
+                                                    <option value="46">COMISSÃO ESP DE LIC RECURSO INTERNACIONAIS - CELRI</option>
+                                                    <option value="39">COMISSÃO ESPECIAL DE LICITAÇÃO - CEL</option>-->
+                                                    <!-- BEGIN BLOCK_OPTION_2 -->
+                                                    <option value="{ID_CONSULTA_COMISSAO}">{NOME_CONSULTA_COMISSAO}</option>
+                                                    <!-- END BLOCK_OPTION_2 -->
+                                                </select>
+                                            </div>
+                                            <div class="span5">
+                                                <label for="processo" class="big">Processo Licitatório </label>
+                                                <input type="text" class="span12 processoMascara" id="processo" name="processo">
+                                            </div>
+                                        </div>
+                                        <div class="row-fluid">
+                                            <div class="span5">
+                                                <label for="ddlOrgao" class="big">Órgão Gestor</label>
+                                                <select id="ddlOrgao" class="span12" name="ItemOrgao">
+                                                    <option value="">Todos os Órgãos Gestores...</option>
+                                                    <!-- BEGIN BLOCK_OPTION -->
+                                                    <option value="{ID_CONSULTA_LICITANTE}">{NOME_CONSULTA_LICITANTE}</option>
+                                                    <!-- END BLOCK_OPTION -->
+                                                </select>
+                                            </div>
+                                            <div class="span5">
+                                                <label for="orgapParticipante" class="big">Órgão Participante</label>
+                                                <select id="orgapParticipante" class="span12" name="orgapParticipante">
+                                                    <option value="">Todos os Órgãos Participantes...</option>
+                                                    <!-- BEGIN BLOCK_OPTION_3 -->
+                                                    <option value="{ID_CONSULTA_LICITANTE}">{NOME_CONSULTA_LICITANTE}</option>
+                                                    <!-- END BLOCK_OPTION_3 -->
+                                                </select>
+                                            </div>                                                                                                        
+                                        </div>
+                                        <div class="row-fluid">
+                                            <div class="span2">
+                                                <label for="ddlItem" class="big">Item</label>
+                                                <select id="ddlItem" class="span12" name="tipoItemLicitacao">
+                                                    <option value="" selected="true">Selecione o item</option>
+                                                    <option value="M" >Material</option>
+                                                    <option value="S" >Serviço</option>
+                                                </select>
+                                            </div>
+                                            <div class="span3">
+                                                <label for="txtItemInput" class="big"> Descrição do item</label>
+                                                <input type="text" class="span12" id="ItemInput" name="itemInput" disabled="true">
+                                            </div>
+                                            <div class="span2">
+                                                <label for="ddlGrupo" class="big">Grupo</label>
+                                                <select id="ddlGrupo" class="span12" name="tipoGrupo">
+                                                    <option value="" selected="true">Tipo do Grupo</option>
+                                                    <option value="M" >Material</option>
+                                                    <option value="S" >Serviço</option>
+                                                </select>
+                                            </div>
+                                            <div class="span3">
+                                                <label for="grupoInput" class="big"> &nbsp;</label>
+                                                <select id="ddlGrupoM" class="span12" name="grupoMaterial" style="display:none">
+                                                    <option value="" selected="true">Selecione o Grupo do Material</option>
+                                                    <!-- BEGIN BLOCK_GRUPO_MATERIAL -->
+                                                    <option value="{GRUPO_MATERIAL_KEY}" >{GRUPO_MATERIAL_VALUE}</option>
+                                                    <!-- END BLOCK_GRUPO_MATERIAL -->
+                                                </select>
+                                                <select id="ddlGrupoS" class="span12" name="grupoServico" style="display:none">
+                                                    <option value="" selected="true">Selecione o Grupo do Serviço</option>
+                                                    <!-- BEGIN BLOCK_GRUPO_SERVICO -->
+                                                    <option value="{GRUPO_SERVICO_KEY}" >{GRUPO_SERVICO_VALUE}</option>
+                                                    <!-- END BLOCK_GRUPO_SERVICO -->
+                                                </select>
+                                            </div>                                                                                                     
+                                        </div>
+                                        
+                                        <div class="row-fluid">
+                                            <div class="span6">
+                                                <label for="RAZAO" class="big">Razão Social/Nome :</label>
+                                                <select id="tprsocial" class="span4" name="tprsocial">
+                                                    <option value="iniciando">Iniciando com</option>
+                                                    <option value="contendo">Contendo</option>
+                                                </select>
+                                                <input type="text" class="span8" id="rsocial" name="rsocial" value="{RAZAO}">
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row-fluid">
+                                            <div id="fornecedor" class="span2">
+                                                <label for="fornecedor" class="big">Fornecedor</label>
+                                                CNPJ <input class="radio inline" type="radio" value="0" name="pesqFornecedor" style="margin-right:5px;" onclick="showCNPJ()" checked>
+                                                CPF<input class="radio inline" type="radio" value="1" name="pesqFornecedor" onclick="showCPF()">
+                                            </div>
+                                            <div id="divCnpj" class="span3">
+                                                <label for="inputCnpj" class="big">&nbsp;</label>
+                                                <input type="text" class="span12 cnpjMascara" id="inputCnpj" name="cnpj">
+                                            </div>
+                                            <div id="divCpf" class="span3" style="display:none;">
+                                                <label for="inputCnpj" class="big">&nbsp;</label>
+                                                <input type="text" class="span12 cpfMascara" id="inputCpf" name="cpf">
+                                            </div>
+                                            <div id="fornecedor" class="span2">
+                                                <label for="fornecedor" class="big">Só Vigentes</label>
+                                                Sim <input class="radio inline" type="radio" value="1" name="pesqVigentes" style="margin-right:5px;" checked>
+                                                Não<input class="radio inline" type="radio" value="0" name="pesqVigentes">
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="btn-toolbar pagination-right">
+                                            <button class="btn btn-primary" type="button" onClick="javascript:enviar('Pesquisar','BotaoAcao')">Pesquisar</button>
+                                            <button class="btn btn-primary reset" type="button">Limpar</butt1on>
+                                        </div>
+                                    </div>
+                                </section>
+                            </article>
+                        </div>
+                    </section>                
+                </div>
+            </div>
+        </div>
+    </form>
+    <script>
+        
+        $( "#ddlGrupo" ).change(function() {
+              var selecao = $(this).find('option:selected');
+              var valor = selecao[0].value;
+            if (valor == 'M'){
+                $('#ddlGrupoM').show();
+                $('#ddlGrupoS').hide();
+            }else if (valor == 'S'){
+                $('#ddlGrupoS').show();
+                $('#ddlGrupoM').hide();
+            } else {
+                $('#ddlGrupoS').hide();
+                $('#ddlGrupoM').hide();
+            }
+        });
+
+        $( "#ddlItem" ).change(function() {
+            var selecao = $(this).find('option:selected');
+            var valor = selecao[0].value;
+          if (valor.length > 0) {
+              $( "#ItemInput" ).removeAttr("disabled");
+          } else {
+              $( "#ItemInput" ).attr("disabled","true");
+        }
+      });
+    
+        function showCNPJ(){
+            $('#divCnpj').show();
+            $('#divCpf').hide();
+        }
+    
+        function showCPF(){
+            $('#divCnpj').hide();
+            $('#divCpf').show();    
+        }
+    
+    </script>

@@ -1,0 +1,765 @@
+
+<!-- 
+
+* Alterado: Osmar Celestino
+* Data:     08/06/2022
+* Objetivo: Tarefa Redmine  #264502 
+* -----------------------------------------------------------------------------
+* Criado por : Eliakim Ramos
+* Data:    09/06/2022
+* Objetivo: Tarefa Redmine  #264564
+* -----------------------------------------------------------------------------
+-->
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js lt-ie10 lt-ie9 lt-ie8 lt-ie7" lang="pt"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie10 lt-ie9 lt-ie8" lang="pt"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie10 lt-ie9" lang="pt"> <![endif]-->
+<!--[if IE 9]>    <html class="no-js lt-ie10" lang="pt"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="no-js" lang="pt">
+<!--<![endif]-->
+    <head>
+        <style type="text/css">
+            .gsc-control-wrapper-cse {
+                margin-top: -12px !important;
+            }
+            .gsc-search-button {
+                margin-right: 70px !important;
+            
+            }
+            .gsc-search-button-v2{
+                width: 30px !important;
+                height: 15px !important;
+                visibility: hidden !important;
+
+            }
+                #pesquisagoogle{
+                    width: 300px !important;
+                    margin-left: 75% !important;
+                }
+                #pesquisagoogle input {
+                background: white !important;
+                width: 150px !important;
+                margin-right: -15px !important;
+                border: 1px solid #1e90ff !important;
+                border-radius: 10px !important;
+                }
+                #pesquisagoogle td {
+                width: 100px !important;
+                
+                }
+                #pesquisagoogle tr {
+                width: 100px !important;
+                border:none !important;
+                margin-left: -120px !important;
+                
+                }
+                #gsc-iw-id1{
+
+                    border:none !important; 
+
+                }
+                #pesquisagoogle table {
+
+                border:none !important;
+                
+                }
+                #pesquisagoogle tbody {
+
+                border:none !important;
+
+                }
+                #pesquisagoogle button {
+                align-items: center !important;
+                width: 40px !important;
+                height: 20px !important;
+                
+                }
+                #pesquisagoogle svg {
+                align-items: center;
+                margin-left: -5px !important;
+                
+                }
+                .gsc-input{
+                    border:none !important;
+                    
+                }
+                .ambiente {
+                    position: relative;
+                    float: right;
+                    margin-top: -44px;
+                    margin-right: 350px;
+                }
+            .acessibilidade {
+                margin-top: 0px !important;
+                margin-bottom: 0px !important;
+                margin-right: 307px !important;
+                position: relative !important;
+                top: -43px !important;
+            }
+            .ico-btn-atalho {
+                background-image: url(http://transparencia.recife.pe.gov.br/codigos/midia/ico_atalho.png);
+                background-repeat: no-repeat;
+                background-position: center;
+                width: 14px;
+                height: 14px;
+            }
+            #gsc-i-id1::-webkit-input-placeholder{
+        
+                font-family:Verdana,sans-serif,Arial;
+                font-size: 11px;
+            }
+            .tecla {
+                background: #105bab;
+                color: #ffffff;
+                font-weight: bold;
+                padding-top: 1px;
+                padding-right: 5px;
+                padding-bottom: 1px;
+                padding-left: 5px;
+                border-radius: 5px;
+            }
+
+            .site-header .header-tools .container {
+                height: 49px !important;
+            }
+            .hmapa {
+                color: #1257AA; 
+                font-family: sans-serif;
+            }
+        </style>
+
+        <meta charset="utf-8">
+        <title>Portal de Compras - PCR</title>
+        <meta http-equiv="cache-control" content="no-cache" />
+        <meta http-equiv="expires" content="0" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="Portal da Transparência - Prefeitura do Recife">
+        <link rel="shortcut icon" href="favicon.ico" />
+        <link rel="stylesheet" href="{BASE_URL}templates/_assets/themes/default/bootstrap/css/bootstrap.css">
+        <link rel="stylesheet" href="{BASE_URL}templates/_assets/themes/default/bootstrap/css/bootstrap-responsive.css">
+        <link rel="stylesheet" href="{BASE_URL}templates/_assets/themes/default/css/build.css">
+        <link rel="stylesheet" href="{BASE_URL}templates/_assets/themes/default/css/jquery-ui.css">
+        <link rel="stylesheet" href="{BASE_URL}templates/_assets/themes/default/css/jquery.treeview.css">
+
+        <!-- <link rel="stylesheet" href="http://transparencia.recife.pe.gov.br/codigos/css/acessibilidade.css"> -->
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+    <!-- LESS / Desenvolvimento -->
+    <!--
+        <link rel="stylesheet/less" type="text/css" href="{BASE_URL}_assets/themes/default/bootstrap/less/bootstrap.less">
+        <link rel="stylesheet/less" type="text/css" href="{BASE_URL}_assets/themes/default/bootstrap/less/responsive.less">
+        <link rel="stylesheet/less" type="text/css" href="{BASE_URL}_assets/themes/default/less/build.less">
+        <script>localStorage.clear();</script>
+        <script src="{BASE_URL}_assets/scripts/less/less-1.3.0.min.js"></script>
+        -->
+
+        <!-- scripts -->
+        <script src="{BASE_URL}templates/_assets/scripts/modernizr/modernizr-2.5.3.min.js"></script>
+        <script src="{BASE_URL}templates/_assets/scripts/bootstrap/respond.min.js"></script>
+
+        <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
+        <script src="{BASE_URL}templates/_assets/scripts/jquery/jquery-1.7.2.min.js"></script>
+
+        <script>
+            window.jQuery
+                    || document
+                            .write('<script src="{BASE_URL}templates/_assets/scripts/jquery/jquery-1.7.2.min.js"><\/script>')
+        </script>
+        <script src="../import/jquery/jquery.maskmoney.js" type="text/javascript"></script>
+        <script src="../import/jquery/jquery.maskedinput.js" type="text/javascript"></script>
+        <script src="../import/jquery/jquery.crypt.js" type="text/javascript"></script>
+        <script type="text/javascript" src="//use.typekit.net/ths1xet.js"></script>
+        <script type="text/javascript">
+
+        window.onload = function(){
+            document.getElementById('gsc-i-id1').placeholder = ' O que você procura? ';
+            var url_string = window.location.href;
+            var url = new URL(url_string);
+            var data = url.searchParams.get("ac"); //pega o value
+            if(data === "contraste"){
+                var contrastte = localStorage.getItem("ativaContraste")==1 ? 0 : 1;
+                localStorage.setItem("ativaContraste",contrastte);
+            }
+            if(localStorage.getItem("ativaContraste") == 1){
+                var link = document.createElement( "link" );
+                link.href = "{BASE_URL}templates/_assets/themes/default/css/acessibilidade.css";
+                link.type = "text/css";
+                link.rel = "stylesheet";
+                link.media = "screen,print";
+
+                document.getElementsByTagName( "head" )[0].appendChild( link );
+            }
+        };
+            try {
+                Typekit.load();
+                window.location.reload(true);
+            } catch (e) {
+            }
+
+            function exibir(chk, campo) {
+                if (chk.checked) {
+                    document.getElementById(campo).style.display = 'block';
+                } else {
+                    document.getElementById(campo).value = '';
+                    document.getElementById(campo).style.display = 'none';
+                }
+            }
+
+            function enviar(valor,botao) {
+                var valorForm = $('.formSubmit').val();
+                $('input[name='+botao+']').val(valor);
+                $('form[name=' + valorForm + ']').submit();
+            }
+
+            function AbreJanela(url,largura,altura) {
+                window.open(url,'pagina','status=no,scrollbars=no,left=20,top=150,width='+largura+',height='+altura);
+            }
+
+            function carregaProcesso(valor){window.location.reload(true);
+                var valorForm = $('.formSubmit').val();
+                $('input[name=Botao]').val('carregaProcesso');
+                $('input[name=carregaProcesso]').val(valor);
+                $('form[name=' + valorForm + ']').submit();
+            }
+
+            jQuery(document).ready(function($) {
+
+                if($("input[name=TipoCnpjCpf][value=CNPJ]").is(":checked") == false && $("input[name=TipoCnpjCpf][value=CPF").is(":checked") == false){
+                    $("input[name=TipoCnpjCpf][value=CPF]").click();
+                }
+                else{
+                    if($("input[name=TipoCnpjCpf][value=CNPJ]").is(":checked") == true){
+                        $("input[name=TipoCnpjCpf][value=CNPJ]").click();
+                    }
+                    else{
+                        $("input[name=TipoCnpjCpf][value=CPF]").click();
+                    }
+                }
+
+
+                jQuery(".reset").click(function (event) {
+                    event.preventDefault();
+
+                    jQuery(":text").each(function () {
+                        jQuery(this).val("");
+                    });
+
+                    jQuery(":password").each(function () {
+                        jQuery(this).val("");
+                    });
+
+        //          jQuery(":radio").each(function () {
+        //              jQuery(this).prop({ checked: true })
+        //          });
+
+                    jQuery(":checkbox").each(function () {
+                        jQuery(this).prop({ checked: false })
+                    });
+
+                    jQuery("select").each(function () {
+                        jQuery(this).val("");
+                    });
+                });
+
+                $(".telefone").mask("9999-9999");
+                $(".ataMascara").mask("9999.9999/9999", {placeholder:"_"});
+                $(".cnpjMascara").mask("99.999.999/9999-99");
+                $(".cpfMascara").mask("999.999.999-99");
+                $(".processoMascara").mask("9999/9999");
+                $(".numero").keydown(function(event){
+                    /* Allow backspace, delete, tab, esc e enter */
+                    if ( event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 27 || event.keyCode == 13 ||
+                        /* Allow CTRL+A */ (event.keyCode == 65 && event.ctrlKey === true) ||
+                         /* Allow CTRL+C */ (event.keyCode == 67 && event.ctrlKey === true) ||
+                         /* Allow CTRL+X */ (event.keyCode == 88 && event.ctrlKey === true) ||
+                         /* Allow CTRL+V */ (event.keyCode == 86 && event.ctrlKey === true) ||
+                         /* Allow Command+A (Mac) */ (event.keyCode == 65 && event.metaKey === true) ||
+                         /* Allow Command+C (Mac) */ (event.keyCode == 67 && event.metaKey === true) ||
+                         /* Allow Command+X (Mac) */ (event.keyCode == 88 && event.metaKey === true) ||
+                         /* Allow Command+V (Mac) */ (event.keyCode == 86 && event.metaKey === true) ||
+                         /* Allow home, end, left e right keys */ (event.keyCode >= 35 && event.keyCode <= 39)
+                    ){
+                        /* Boo */
+                        return;
+                    } else {
+                        /* Stop key press */
+                        if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105 )) {
+                            event.preventDefault();
+                        }
+                    }
+                });
+
+                $(".dinheiro4casas").maskMoney( { thousands:'.', decimal:',', precision:2 } );
+            });
+
+            function mascararCPF () {
+                $("#cpfcnpj").mask("999.999.999-99");
+            }
+            function mascararCNPJ () {
+                $("#cpfcnpj").mask("99.999.999/9999-99");
+            }
+            /**
+             *
+             */
+            function getHashPortalCompras(inputLogin)
+            {
+                var retorno = null;
+                $.ajax({
+                    type: "POST",
+                    url: "HashPortalCompras.php",
+                    dataType: 'json',
+                    async: false,
+                    beforeSend: function(xhr){ //Observe o parâmetro na função
+                        xhr.setRequestHeader('X-Login', inputLogin); //Mágica aqui
+                    }
+                }).success(function(data) {
+                    retorno = data.emac;
+                }).error(function(data) {
+                    retorno = false;
+                });
+
+                return retorno;
+            }
+            document.getElementsById('gsc-i-id1').placeholder='Pesquisar';
+            
+        </script>
+        <style>
+            table.table-report {
+                font-size : 12px;
+            }
+        </style>
+    </head>
+
+<body>
+    <a href="{BASE_URL}acessibilidade.php" accesskey="0"></a>
+    <a href="home.php" accesskey="1"></a>
+
+    <a href="{BASE_URL}ConsRegistroPrecoPesquisar.php" accesskey="r"></a>
+    <a href="{BASE_URL}ConsDispensaInexigibilidadePesquisar.php" accesskey="d"></a>
+    <a href="{BASE_URL}ConsDocumento.php" accesskey="m"></a>
+    <a href="{BASE_URL}Licitacoes.php" accesskey="l"></a>
+
+    <a href="{BASE_URL}CadContratoConsolidadoPesquisar.php?portalCompras=true" id="urlcontratos" accesskey="c"></a>
+    <a href="{BASE_URL}ConsSancoesSelecionar.php" accesskey="s"></a>
+    <a href="{BASE_URL}ConsDocumentacaoFornecedores.php" accesskey="o"></a>
+    <a href="{BASE_URL}RotGerarNovaSenha.php" accesskey="p"></a>
+
+    <a href="{BASE_URL}ConsDocumento.php" accesskey="g"></a>
+    <a href="{BASE_URL}Fornecedores.php" accesskey="f"></a>
+    <a href="https://www.tst.jus.br/certidao1" accesskey="n"></a>
+    <a href="http://transparencia.recife.pe.gov.br/codigos/web/geral/home.php" accesskey="t"></a>
+
+    <a href="{BASE_URL}ConsInformacaoFornecedores.php" accesskey="u"></a>
+    <a href="{BASE_URL}AtualizaDocumentoSenha.php" accesskey="e"></a>
+    <a href="{BASE_URL}ConsComissao.php" accesskey="h"></a>
+    <!-- <a href="{BASE_URL}estaticos/estaticos.php?nat=COV#filho" accesskey="v"></a>
+
+    <a href="{BASE_URL}lai/pedidoInformacaoForm.php" accesskey="i"></a> -->
+    <a href="{BASE_URL}EmailFornecedor.php" accesskey="x"></a>
+    <a href="{BASE_URL}EmailLicitacoes.php" accesskey="k"></a>
+    <a href="#footerid" accesskey="9"></a>
+
+
+    <div class="site-container">
+
+        <header class="site-header">
+            <section class="header-links">
+                <div class="bg">
+                    <div class="container">
+                        <div class="row">
+                            <div class="span2">
+                                <div class="logo">
+                                    <a href="http://www.recife.pe.gov.br" target="_blank"><img
+                                        src="{BASE_URL}templates/_assets/themes/default/img/logo_pcr_small.png"
+                                        alt="" title="" /></a>
+                                </div>
+                            </div>
+                            <div class="span10">
+                                <div class="nav">
+                                    <ul class="inline pull-right">
+                                        <li><a href="http://www2.recife.pe.gov.br/pagina/sobre-prefeitura-do-recife"
+                                            target="_blank">A Prefeitura</a></li>
+                                        <!--
+                                        -->
+                                        <li><a
+                                            href="http://www2.recife.pe.gov.br/servicos/cidadao"
+                                            target="_blank">Serviços</a></li>
+                                        <!--
+                                                                                -->
+                                        <li><a
+                                            href="http://www2.recife.pe.gov.br/pagina/horarios-de-atendimento-das-secretarias-e-orgaos-0"
+                                            target="_blank">Secretarias e Órgãos</a></li>
+                                        <!--
+                                        -->
+                                        <li><a
+                                            href="http://www.turismonorecife.com.br/pt-br/a-cidade"
+                                            target="_blank">Conheça o Recife</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="header-logo">
+                <div class="bg">
+                    <div class="container">
+                        <div class="row">
+                            <div class="span12">
+                                <div class="logo">
+                                    <a href="{BASE_URL}home.php">
+                                        <img
+                                            src="{BASE_URL}templates/_assets/themes/default/img/logo_portaldecompras.png"
+                                            alt="" title=""
+                                        />
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="header-menu">
+                <div class="container">
+                    <div class="menu">
+                       {MENU_DINAMICO}
+                    </div>
+                </div>
+            </section>
+            <section class="header-tools" style="background: white;">
+                <div class="container">
+                    <script async src="https://cse.google.com/cse.js?cx=e474a7b236fb60674"></script>
+                    <div id="pesquisagoogle" class="gcse-search">
+                        <input autocomplete="off" placeholder=" O que Voce Procura? " type="text" size="10" class="gsc-input" name="search" title="pesquisar" id="gsc-i-id1" dir="ltr" spellcheck="false" style="width: 100%; padding: 0px; border: none; margin: 0px; height: auto; background: url(&quot;https://www.google.com/cse/static/images/1x/pt_PT/branding.png&quot;) left center no-repeat rgb(255, 255, 255); outline: none;">
+                    </div>
+                    <div class="btn-toolbar acessibilidade ambiente" style="float: right;">
+                        <button class="btn" title="Informação sobre teclas de atalho" onclick="javascript: mostrarInformacaoAtalho();" style="font-size: 14px; min-height: 30px;"><span class="ico-btn-atalho">&nbsp;&nbsp;&nbsp;&nbsp;</span></button>
+                        <div class="btn-group">
+                          <button class="btn inc-font" title="Aumentar fonte" style="font-size: 14px; min-height: 30px;">+A</button>
+                          <button class="btn res-font" title="Tamanho normal da fonte" style="font-size: 14px; min-height: 30px;">A</button>
+                          <button class="btn dec-font" title="Diminuir fonte" style="font-size: 14px; min-height: 30px;">-A</button>
+                        </div>
+                        <button class="btn" title="Contraste" onclick="javascript: document.location.href ='?ac=contraste'" style="font-size: 14px; min-height: 30px;"><i class="icon-adjust"></i></button>
+                    </div>
+                    <div class="clearfix">
+                        <!-- BEGIN BLOCO_DEFINICAO_AMBIENTE -->
+                        <div class="text-right">
+                            <span class="ambiente"> <img src="{IMG_DEFINICAO_AMBIENTE}">{DESCRICAO_AMBIENTE}</span>
+                        </div>
+                        <!-- END BLOCO_DEFINICAO_AMBIENTE -->
+                    </div>
+                </div>
+            </section>
+        </header>
+        <div class="site-body">
+            <div class="container">
+
+                <div class="alert alert-info informacao-atalho" id="informacao-atalho" hidden="" style="display: none; margin-top: 30px;">
+                    <p>As teclas de atalho são (em alguns navegadores ao invés de ALT, apertar SHIFT + ALT):</p>
+                        <ul>
+                            <li><span class="tecla">ALT</span> <b>+</b> <span class="tecla">0</span> - Informações de Acessibilidade</li>
+                            <li><span class="tecla">ALT</span> <b>+</b> <span class="tecla">1</span> - Página inicial</li>
+                            <li><span class="tecla">ALT</span> <b>+</b> <span class="tecla">9</span> - Mapa do site</li>
+                            <li><span class="tecla">ALT</span> <b>+</b> <span class="tecla">R</span> - Atas de Registro de Preços</li>
+                            <li><span class="tecla">ALT</span> <b>+</b> <span class="tecla">D</span> - Dispensas / Inexigibilidades</li>
+                            <li><span class="tecla">ALT</span> <b>+</b> <span class="tecla">M</span> - Legislação de Compras</li>
+                            <li><span class="tecla">ALT</span> <b>+</b> <span class="tecla">L</span> - Licitações</li>
+                            <li><span class="tecla">ALT</span> <b>+</b> <span class="tecla">C</span> - Contratos</li>
+                            <li><span class="tecla">ALT</span> <b>+</b> <span class="tecla">S</span> - Sanções</li>
+                            <li><span class="tecla">ALT</span> <b>+</b> <span class="tecla">O</span> - Documentação Fornecedores</li>
+                            <li><span class="tecla">ALT</span> <b>+</b> <span class="tecla">P</span> - Gera nova senha</li>
+                            <li><span class="tecla">ALT</span> <b>+</b> <span class="tecla">G</span> -  Legislação de Compras  Consultar</li>
+                            <li><span class="tecla">ALT</span> <b>+</b> <span class="tecla">F</span> - Fornecedores</li>
+                            <li><span class="tecla">ALT</span> <b>+</b> <span class="tecla">N</span> - Certidão Negativa de Débitos Trabalhistas</li>
+                            <li><span class="tecla">ALT</span> <b>+</b> <span class="tecla">T</span> - + Transparencia</li>
+                            <li><span class="tecla">ALT</span> <b>+</b> <span class="tecla">U</span> - Informação Sobre o Cadastro de Fornecedores</li>
+                            <li><span class="tecla">ALT</span> <b>+</b> <span class="tecla">E</span> - Atualização de Documentos</li>
+                            <li><span class="tecla">ALT</span> <b>+</b> <span class="tecla">H</span> - Consulta das Comissões</li>
+                            <!-- <li><span class="tecla">ALT</span> <b>+</b> <span class="tecla">V</span> - Covid 19</li>
+                            <li><span class="tecla">ALT</span> <b>+</b> <span class="tecla">I</span> - Pedido de Informação</li> -->
+                            <li><span class="tecla">ALT</span> <b>+</b> <span class="tecla">X</span> - Fale Conosco - Fornecedores</li>
+                            <li><span class="tecla">ALT</span> <b>+</b> <span class="tecla">K</span> - Fale Conosco - Licitações</li>
+                        </ul>
+                </div>
+
+
+                <!-- BEGIN BLOCK_FORM -->
+                   <input type="hidden" name="form" value="'{FORM}'" class="formSubmit">
+                <!-- END BLOCK_FORM -->
+                {CORPO}
+                
+        
+          
+        </div>
+        
+    </div>
+	  <!---Mapa do Site Header--> 
+          <div class="content cmapa" >
+            <header class="artic-header">
+                <h4 class="hmapa">
+                    Mapa do Site
+                </h4>
+            </header>
+          </div>
+        <div>
+        <footer class="site-footer" id ="footerid">
+            <div class="bg">
+                <section class="footer-menu">
+                    <div class="container">
+                        <div class="row">
+                            {MAPA_SITE}
+                            <div class="span2">
+                                <h2>
+                                    <a href="{BASE_URL}LinkInteresse.php">Links de interesse</a>
+                                </h2>
+                                <ul class="unstyled">
+                                    <li><a href ="http://portaltransparencia.recife.pe.gov.br" target="_blank">Portal da Transparência</a></li>
+                                    <li><a href="http://dados.recife.pe.gov.br/" target="_blank">Portal de Dados Abertos do Recife</a></li>
+                                    <li><a href="http://www.tst.jus.br/certidao" target="_blank">Certidão Negativa de Débitos
+                                            Trabalhistas</a></li>
+                                    <li><a href="http://www.pgfn.fazenda.gov.br/divida-ativa-da-uniao" target="_blank">Dívida Ativa da União</a></li>
+                                    <li><a href="http://www.caixa.gov.br/fgts/" target="_blank">FGTS</a></li>
+                                    <li><a href="http://www.previdencia.gov.br/a-previdencia/instituto-nacional-do-seguro-social-inss/" target="_blank">INSS</a></li>
+                                    <li><a href="http://www.receita.fazenda.gov.br/" target="_blank">Receita Federal</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="footer-logo">
+                    <div class="container">
+                        <div class="row">
+                            <div class="span3">
+                                <div class="logo">
+                                    <a href="#"><img
+                                        src="{BASE_URL}templates/_assets/themes/default/img/logo_portaldecompras_small.png"
+                                        alt="" title="" /></a>
+                                </div>
+                            </div>
+                            <div class="span5">
+                                <div class="endereco">
+                                    <h2>GGLIC – Gerência Geral de Licitações e Compras</h2>
+                                    <address>
+                                        Av. Cais do Apolo, 925, Bairro do Recife, Recife / PE, CEP: 50030-903<br />
+                                        <abbr title="Telefone">Fone:</abbr> (81) 3355-8216
+                                    </address>
+                                </div>
+                            </div>
+                            <div class="span4">
+                                <div class="contato">
+                                    <h2>Contato com a Equipe do Portal</h2>
+                                    <p>
+                                        <abbr title="Telefone">Fone:</abbr> (81) 3355-8790<br />
+                                        E-mail: <a href="mailto:portalcompras@recife.pe.gov.br">portalcompras@recife.pe.gov.br</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="footer-links">
+                    <div class="container">
+                        <ul class="inline">
+                            <li><a href="home.php">Início</a></li>
+                            <li class="separator" id="separatorId">
+                                <i class="circle"></i>
+                            </li>
+                            {MENU_FOOTER}
+                        </ul>
+                    </div>
+                </section>
+            </div>
+        </footer>
+    </div>
+
+    <script src="{BASE_URL}templates/_assets/scripts/bootstrap/bootstrap.min.js"></script>
+    <script
+        src="{BASE_URL}templates/_assets/scripts/bootstrap/bootstrap-hover-dropdown.min.js"></script>
+    <script src="{BASE_URL}templates/_assets/scripts/bootstrap/jquery-ui.js"></script>
+    <script src="{BASE_URL}templates/_assets/scripts/bootstrap/datepicker-pt-BR.js"></script>
+    <script src="{BASE_URL}templates/_assets/scripts/bootstrap/jquery.treeview.js"></script>
+
+    <script>
+        function setCookie(cname,cvalue,exdays) {
+            var d = new Date();
+            d.setTime(d.getTime() + (exdays*24*60*60*1000));
+            var expires = "expires=" + d.toGMTString();
+            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+        }
+
+        function getCookie(cname) {
+            var name = cname + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for(var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+
+        function mostrarInformacaoAtalho(){
+			if(isMenuPrincipal){
+				if(isAtalhoVisivel){
+                    document.getElementsByClassName("info-tecla-atalho").style.display = "none";
+					isAtalhoVisivel=false;
+                    document.getElementById("informacao-atalho-2").style.display = "none";
+				}else{
+                    document.getElementsByClassName("info-tecla-atalho").style.display = "block";
+					isAtalhoVisivel=true;
+                    document.getElementById("informacao-atalho-2").style.display = "block";
+				}
+			}	else{
+				if(isAtalhoVisivel){
+					isAtalhoVisivel=false;
+                    document.getElementById("informacao-atalho").style.display = "none";
+				}else{
+					isAtalhoVisivel=true;
+                    document.getElementById("informacao-atalho").style.display = "block";
+				}	
+			}
+
+
+		}
+		var isMenuPrincipal=false;
+		var isAtalhoVisivel=false;
+
+        let urlcontrato = document.getElementById('urlcontratos').href;
+        document.getElementById('urlcontratos').href = urlcontrato.replace('/app/','/contratos/');
+        $(document).ready(function() {
+
+
+            // aumentando a fonte
+            $(".inc-font").click(function () {
+                var f14 = getCookie('f14');
+                f14 = parseInt(f14) + 1.4;
+                setCookie('f14', f14, 1);
+
+                var f18 = getCookie('f18');
+                f18 = parseInt(f18) + 1.4;
+                setCookie('f18', f18, 1);
+
+                var f12 = getCookie('f12');
+                f12 = parseInt(f12) + 1.4;
+                setCookie('f12', f12, 1);
+
+                $("body, h2, h5, label, select, textarea, input, .btn").animate({'font-size' : f14 + 'px'});
+                $("select, textarea, input, .btn").animate({'min-height' : (f14*2) + 'px'});
+                $(".button-grid-3 span, .header h1").animate({'font-size' : f18 + 'px'});
+                $(".date, .table td, .table-report td, table td.cv, .textoAzul").animate({'font-size' : f12 + 'px'});
+            });
+
+            //diminuindo a fonte
+            $(".dec-font").click(function () {
+                var f14 = getCookie('f14');
+                f14 = parseInt(f14) - 1.4;
+                setCookie('f14', f14, 1);
+
+                var f18 = getCookie('f18');
+                f18 = parseInt(f18) - 1.4;
+                setCookie('f18', f18, 1);
+
+                var f12 = getCookie('f12');
+                f12 = parseInt(f12) - 1.4;
+                setCookie('f12', f12, 1);
+
+                $("body, h2, h5, label, select, textarea, input, .btn").animate({'font-size' : f14 + 'px'});
+                $("select, textarea, input, .btn").animate({'min-height' : (f14*2) + 'px'});
+                $(".button-grid-3 span, .header h1").animate({'font-size' : f18 + 'px'});
+                $(".date, .table td, .table-report td, table td.cv, .textoAzul").animate({'font-size' : f12 + 'px'});
+            });
+
+            // resetando a fonte
+            $(".res-font").click(function () {   
+                $("body, h2, h5, label, select, textarea, input, .btn").animate({'font-size' : '14px'});
+                $("select, textarea, input, .btn").animate({'min-height' : '30px'});
+                $(".button-grid-3 span, .header h1").animate({'font-size' : '18px'});
+                $(".date, .table td, .table-report td, table td.cv, .textoAzul").animate({'font-size' : '12px'});
+
+                setCookie('f14', 14, 1);
+                setCookie('f18', 18, 1);
+                setCookie('f12', 12, 1);
+            });
+
+            if (!getCookie('f14')) {
+                setCookie('f14', 14, 1);
+                setCookie('f18', 18, 1);
+                setCookie('f12', 12, 1);
+            } else {
+                $("body, h2, h5, label, select, textarea, input, .btn").css({'font-size' : getCookie('f14') + 'px'});
+                $("select, textarea, input, .btn").css({'min-height' : (getCookie('f14')*2) + 'px'});
+                $(".button-grid-3 span, .header h1").css({'font-size' : getCookie('f18') + 'px'});
+                $(".date, .table td, .table-report td, table td.cv, .textoAzul").css({'font-size' : getCookie('f12') + 'px'});
+            }
+        });
+
+        $(function() {
+            $('.dropdown-hover').dropdownHover();
+            $('.activate-tooltip').tooltip();
+
+            $('.button-contrast').on('click', function(e) {
+                var body = $('body');
+                if (body.hasClass('accessibility')) {
+                    body.removeClass('accessibility');
+                } else {
+                    body.addClass('accessibility');
+                }
+            });
+        });
+
+        $(document).ready(function() {
+            $('.datepicker').datepicker();
+            $("#navigation").treeview({
+                persist: "location",
+                collapsed: true,
+                unique: true
+            });
+        });
+
+        $(function() {
+            $('.dropdown-hover').dropdownHover();
+            $('.activate-tooltip').tooltip();
+
+            $('.button-contrast').on('click', function(e) {
+                var body = $('body');
+                if (body.hasClass('accessibility')) {
+                    body.removeClass('accessibility');
+                } else {
+                    body.addClass('accessibility');
+                }
+            });
+
+            // nav menu animation
+            $('.nav li.submenu > a').on(
+                    'click',
+                    function(e) {
+                        e.preventDefault();
+                        if ($(this).parent().hasClass('opened')) {
+                            $(this).find('> .arrow-up').removeClass('arrow-up')
+                                    .addClass('arrow-down');
+                            $(this).parent().children('ul').slideUp('fast',
+                                    function() {
+                                        $(this).parent().removeClass('opened');
+                                    });
+                        } else {
+                            $(this).find('> .arrow-down').removeClass(
+                                    'arrow-down').addClass('arrow-up');
+                            $(this).parent().children('ul').slideDown('fast',
+                                    function() {
+                                        $(this).parent().addClass('opened');
+                                    });
+                        }
+                    });
+        });
+        </script>
+    </body>
+</html>

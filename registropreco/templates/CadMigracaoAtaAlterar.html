@@ -1,0 +1,99 @@
+<!-- 220038-- -->
+<script type="text/javascript">
+
+function enviar(valor){
+    document.CadMigracaoAta.Botao.value = valor;    
+    document.CadMigracaoAta.submit();
+}
+function capturarValorAcao(valorClicado,acao){
+      document.CadMigracaoAta.Botao.value = acao;
+      document.CadMigracaoAta.valorAuxiliar.value = valorClicado; 
+      document.CadMigracaoAta.submit();
+    }
+
+</script>
+<form action="CadMigracaoAtaAlterar.php" method="post" name="CadMigracaoAtaAlterar" enctype="multipart/form-data">
+
+    <table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 633px;">
+        <tr>
+            <td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3" colspan="9">
+            MANTER ATA INTERNA
+            </td>
+            
+        </tr>
+        <tr>
+            <td>
+                <table border="0" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 633px;">
+                    <tr>
+                        <td class="textonormal" bgcolor="#DCEDF7" width="30%">
+                          N° da Ata Interna*
+                        </td>
+                        <td>
+                          <input name="Nata" type="text" value="{NATA}">
+                        </td>
+                    </tr>
+                     <tr>
+                        <td class="textonormal" bgcolor="#DCEDF7" width="30%">           
+                            Processo Licitatório
+                         
+                        </td>
+                        <td>
+                            <input type="hidden" value="{PROCESSO}" name="processo">
+                         {PROCESSO}
+                        </td>
+                    </tr>
+                     <tr>
+                        <td class="textonormal" bgcolor="#DCEDF7" width="30%">
+                         Ano Processo
+                        </td>
+                        <td>
+                         {ANO}
+                                                        <input type="hidden" value="{ANO}" name="ano">
+                        </td>
+                    </tr>
+                     <tr>
+                        <td class="textonormal" bgcolor="#DCEDF7" width="30%">
+                         Fornecedor
+                        </td>
+                        <td>
+                         {DADOSFORNECEDOR}
+                        </td>
+                    </tr>
+                     <tr>
+                        <td class="textonormal" bgcolor="#DCEDF7" width="30%">
+                         Objeto*
+                        </td>
+                        <td>
+                         <input name="objeto" type="text" value="{OBJETO}">
+                        </td>
+                    </tr>
+                     <tr>
+                        <td class="textonormal" bgcolor="#DCEDF7" width="30%">
+                         Documentos(s)*
+                        </td>
+                        <td>
+                           <input type="file" name="documento">
+                            {LISTA_DOCUMENTO}
+                        </td>
+                    </tr>
+                     <tr>
+                        <td class="textonormal" bgcolor="#DCEDF7" width="30%">
+                         Data Inicial
+                        </td>
+                        <td>
+                         <input type="text" value="{DATA}">
+                        </td>
+                    </tr>
+                     <tr>
+                        <td class="textonormal" bgcolor="#DCEDF7" width="30%">
+                         Vigência
+                        </td>
+                        <td>
+                         <input name="VIGENCIA" type="text" value="{VIGENCIA}"> Meses
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+   </table>
+ </form>

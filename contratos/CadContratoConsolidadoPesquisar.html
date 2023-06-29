@@ -1,0 +1,277 @@
+<!-- <link rel="stylesheet" type="text/css" href="../estilo.css"> -->
+<!-- Alterações:
+# Alterado : João Madson
+# Data: 09/03/2022
+# Objetivo: CR #260440 
+#--------------------------------------------------------------------------- -->
+
+<div class="content" style="font-family: Arial, verdana, sans-serif;line-height: 20px;">
+	<div class="row-fluid">
+		<section class="box-article">
+			<header class="header">
+				<h1>Contratos Consolidados</h1>
+			</header>
+			<div class="body">
+			  <ul class="breadcrumb">
+				<li>Você está em:</li>
+				<li><a href="{BASE_URL}home.php">Início</a><span class="divider"><i class="arrow-right"></i></span></li>
+				<li><a href="ConsContratoSelecao.php?portalCompras=true">Contratos</a><span class="divider"><i class="arrow-right"></i></span>
+				<li><li class="active">Contratos Consolidados</li>
+			   </ul>
+               <article class="article">
+                   <header class="article-header">
+                       <h1>Contratos Consolidados</h1>
+                   </header>
+               </article>
+			   <article class="article">
+				<!-- Genérico - texto explicativo-->
+					<p> Para realizar a pesquisa dos Contratos, selecione o item de pesquisa e clique no botão 
+						"Pesquisar". Para executar pesquisas especificas de contratos relacionados com a 
+						pandemia <strong>COVID</strong>, basta colocar no campo <STRONg>OBJETO</STRONg> 
+						abaixo a palavra chave <strong>COVID/IMUNIZAÇÃO</strong>.
+					</p>
+				</article>
+
+				<div class="clearfix">&nbsp;</div>
+
+				<!-- BEGIN BLOCO_MENSAGEM -->
+					<div class="alert {TIPOALERT}">
+						<button class="close" data-dismiss="alert" type="button">×</button>
+						{MENSAGEM}
+					</div>
+				<!-- END BLOCO_MENSAGEM -->
+
+				<article class="article">
+					<!-- Genérico - tabelas e afins-->
+					<section>
+						<form name="ConsLicitacoesAndamento" action="{BASEURL_CONTRATO}/CadContratoConsolidadoPesquisar.php?portalCompras=true" method="post"  class="formSubmit">
+							<div class="well">
+								<div class="row-fluid">
+									<div class="span6">
+										<label for="numerocontratoano" class="big">Número do Contrato/Ano :</label>
+										<input type="text" class="span12" {READONLY} id="numerocontratoano" name="numerocontratoano" value="{NUMEROCONTRATO}">
+										
+									</div>
+									<div class="span6">
+										<label for="orgaoGestor" class="big">Órgão</label>
+										<select id="orgaoGestor" {READONLY} class="span12" name="Orgao">
+											<!-- BEGIN BLOCK_ORGAO_LICIANTE -->
+											<option value="{VALUE_ORGAO_LICITANTE}" {SELECTEDORGAO} data-tipo="{DATA_TIPO}"> {NOME_ORGAO_LICITANTE} </option>
+											<!-- END BLOCK_ORGAO_LICIANTE -->
+										</select>
+										<input type="hidden" name="valororgaol" value="{VALUE_ORGAO_LICITANTE}" id="valororgaol">
+									</div>
+								</div>
+
+								<div class="row-fluid">
+									<div class="span6">
+										<label for="razao" class="big">Razão Social/Nome :</label>
+										<select id="tprazao" {READONLY} class="span4" name="tprazao">
+											<option value="iniciado" {SELECTEDINI} >Iniciado com </option>
+											<option value="contendo" {SELECTEDCON} > Contendo  </option>
+										</select>
+										<input type="text" class="span8" {READONLY} id="razao" name="razao" value="{RAZAO}">
+									</div>
+									<div class="span6">
+										<label for="situacao" class="big">Situação</label>
+										<select id="situacao" {READONLY} class="span12" name="situacao">
+											<option value="" {SELECTEDTDSIT}>SELECIONE UMA SITUAÇÃO</option>
+											<option value="{VALUE_TODAS_SITUACAO}" {SELECTEDTDSIT}>TODAS</option>
+											<!-- BEGIN BLOCK_SITUACAO -->
+											<option value="{VALUE_SITUACAO}" {SELECTEDSIT}> {NOME_SITUACAO} </option>
+											<!-- END BLOCK_SITUACAO -->
+										</select>
+									</div>
+								</div>
+								<div class="row-fluid">
+									<div class="span6">
+										<label for="objeto" class="big">Objeto :</label>
+										<input type="text" {READONLY} class="span12" id="objeto" name="objeto" value="{OBJETO}" style="text-transform: uppercase;">
+									</div>
+									<div class="span6">
+										<label for="origem" class="big">Origem</label>
+										<select id="origem" {READONLY} class="span12" name="origem">
+											<option value="" {SELECTEDTDORI}>SELECIONE UMA ORIGEM</option>
+											<option value="{VALUE_TODOS_ORIGEM}" {SELECTEDTDORI}>TODAS</option>
+											<!-- BEGIN BLOCK_ORIGEM -->
+											<option value="{VALUE_ORIGEM}" {SELECTEDORI} > {NOME_ORIGEM} </option>
+											<!-- END BLOCK_ORIGEM -->
+										</select>
+									</div>
+								</div>
+								<div class="row-fluid">
+									<div class="span6">
+										<label for="objeto" class="big">Apenas Contratos Vigentes?
+										
+										<input style="margin-right: 5px;" {READONLY} type="radio" name="vigente" id="vigente" value="vigente" {VIGENTE} checked>Sim
+                                        <input style="margin-right: 5px;" {READONLY} type="radio" name="vigente" id="nvigente" value="nvigente" {NVIGENTE}>Não
+									</label>
+									</div>
+								</div>
+								<div class="row-fluid"> 
+									<label for="ddlUnid" class="big">Período:</label>
+									<div class="input-append span5" style="margin: 0;">
+										<label>Inicio</label>
+										<input id="dataval1" class="datepicker span11" type="text" name="dataInicial" value="{VALOR_DATA_INI}">
+										<label class="add-on" for="dataval1"><i class="icon-calendar"></i></label>
+									</div>
+									<div class="input-append span5" style="padding-left: 4px;" >
+										<label >Fim</label>
+										<input id="dataval2" class="datepicker span11" type="text" name="dataFinal" value="{VALOR_DATA_FIM}">
+										<label class="add-on" for="dataval2"><i class="icon-calendar"></i></label>
+									</div>
+								</div>
+							</div>
+
+							<hr>
+							<div class="btn-toolbar pagination-right">
+								<input type="hidden" name="Botao" value="">
+								<!-- CAIO MELQUIADES -ADICIONADO INPUT HIDDEN 'BotaoExport' -->
+								<input type="hidden" name="BotaoExport" value="">
+								<!-- CAIO MELQUIADES -ADICIONADO INPUT HIDDEN 'FormatoExport', PARA PASSAR O FORMATO DE EXPORTACAO COMO PARAMETRO -->
+								<input type="hidden" name="FormatoExport" value="">
+								<input type="hidden" name="internet" value="true">
+								<button class="btn btn-primary" type="button" onClick="javascript:enviar('{BTNPESQUISAR_VALOR}', 'Botao')">{BTNPESQUISAR} </button>
+								<!-- CAIO MELQUIADES - BOTAO EXPORTAR -->
+								<div class="btn-group">
+									<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									  Exportar <span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu">
+									  <li><a onClick="javascript:exportar('Exportar', 'csv');">CSV</a></li>
+									  <li><a onClick="javascript:exportar('Exportar', 'txt');">TXT</a></li>
+									  <li><a onClick="javascript:exportar('Exportar', 'xls');">XLS</a></li>
+									  <li><a onClick="javascript:exportar('Exportar', 'ods');">ODS</a></li>
+									</ul>
+								</div>
+								
+								<button class="btn btn-primary" type="button" onclick="javascript:window.location.href='CadContratoConsolidadoPesquisar.php?portalCompras=true'">Limpar</button>
+							</div>
+						</form>
+					</section>
+				</article>
+				<section {BLOCK_RESULTADO_PESQUISA} class="article-detail">
+				  <form action="" id="formPesquisa" method = "post" target="_blank" >
+					<input type="hidden" name="idregistro" id="regitrocontrato">
+					<input type="hidden" name="internet" id="internet" value="true">
+					<input type="hidden" name="Destino" id="Destino" value="A">
+					<input type="hidden" name="internet" id="portalCompras" value="true">
+				  </form>
+					<table class="table table-report">
+						<thead>
+							<tr class="removeresult">
+								<th colspan="7" class="abc">
+									<span class="text-center">RESULTADO DA PESQUISA</span> 
+								</th>
+							</tr>
+						</thead>
+						<!-- BEGIN BLOCK_SEM_OCORRENCIA -->
+						<tr class="removeresult">
+							<td align="center"  colspan="4" class="titulo3">
+								Pesquisa sem ocorrências.
+							</td>
+						</tr>
+					   <!-- END BLOCK_SEM_OCORRENCIA -->
+					   
+					   <!-- BEGIN BLOCK_ORGAO -->
+						<tr class="removeresult">
+							<td colspan="6">
+								<article class="article">
+									<header class="article-header">
+									  <h3 style="font-size: 16px;">{NOME_ORGAO_PESQUISA}  ({QTDCONTRATOS} CONTRATOS)</h3>
+									</header>
+								  </article>
+							</td>
+						</tr>
+						<tr class="removeresult">
+							<td class="textonormal" >
+								<div id="formTablePesquisa"  >
+									<div class="loader"></div>
+										<table style="font-size: 11px;">
+											<thead >
+													<tr>
+														<td style="vertical-align:middle;text-align:center; font-weight: bold;">N° CONTRATO</td>
+														<td style="vertical-align:middle;text-align:center; font-weight: bold;">SCC</td>
+														<td style="vertical-align:middle;text-align:center; font-weight: bold;">OBJETO</td>
+														<td style="vertical-align:middle;text-align:center; font-weight: bold;">ORIGEM</td>
+														<td style="vertical-align:middle;text-align:center; font-weight: bold;">FORNECEDOR</td>
+														<td style="vertical-align:middle;text-align:center; font-weight: bold;">CNPJ/CPF</td>
+														<td style="vertical-align:middle;text-align:center; font-weight: bold;">SITUACAO</td>
+													</tr>
+											</thead>
+											<tbody>
+											<!-- BEGIN CONTRATO_RESULTADO -->
+												<tr> 
+													<td style="vertical-align:middle;text-align:center;" width="8%"> 
+														<a href="javascript:selecionar('{CDOCPSEQU}')" style="text-transform: capitalize">
+															{ECTRPCNUMF}
+														</a>
+													</td>
+													<td style="vertical-align:middle;text-align:center;" width="8%">{SCC}</td>
+													<td style="vertical-align:middle;text-align:center;" width="30%">{ECTRPCOBJE}</td>
+													<td style="vertical-align:middle;text-align:center;" width="14%">{ETPCOMNOME}</td>
+													<td style="vertical-align:middle;text-align:center;" width="14%">{NFORCRRAZS}</td>
+													<td style="vertical-align:middle;text-align:center;" width="12%">{CPFCNPJ}</td>
+													<td style="vertical-align:middle;text-align:center;" width="14%">{ESITDCDESC}</td>
+												</tr>
+											<!-- END CONTRATO_RESULTADO -->
+											</tbody>
+										</table>
+								</div>
+							</td>
+						</tr>
+						<!-- END BLOCK_ORGAO -->
+					</table>
+				</section>
+			</div>
+		</div>
+	</section>
+</div>
+</div>
+<script>
+	//CAIO MELQUIADES - FUNCAO PARA EXPORTAR DADOS
+    function exportar(valor, formato) {
+
+		//-----PENDENTE DE CORRECAO-----
+		//o nome do form esta incorreto, mas nao foi alterado para nao quebrar o funcionamento
+		//o correto seria 'ConsTodasLicitacoes', mas esta como 'ConsLicitacoesAndamento'
+		document.ConsLicitacoesAndamento.BotaoExport.value = valor;
+		document.ConsLicitacoesAndamento.FormatoExport.value = formato;
+		document.ConsLicitacoesAndamento.action = "{BASEURL_CONTRATO}/ContratoConsolidadoExport.php";
+		document.ConsLicitacoesAndamento.submit();
+		document.ConsLicitacoesAndamento.action = "{BASEURL_CONTRATO}/CadContratoConsolidadoPesquisar.php?portalCompras=true";
+		document.ConsLicitacoesAndamento.BotaoExport.value = "";
+		document.ConsLicitacoesAndamento.FormatoExport.value = "";
+	}
+	function selecionar(registro){
+			// formPesquisa
+			if(registro != '' && registro!= null && registro !='undefined' ){
+				$("#regitrocontrato").val(registro);
+				$("#formPesquisa").attr('action','./CadContratoConsolidado.php');
+				$("#formPesquisa").submit();
+			}
+		}
+	$(document).ready(function() {
+		$("#mostracpf").hide();
+        $('#numerocontratoano').mask('9999.9999/9999');
+        $('#cnpj').mask('99.999.999/9999-99');
+        $('#cpf').mask('999.999.999-99');
+		$("#orgaoGestor").on("change",function(){
+			$("#valororgaol").val($(this).val());
+		});
+		$.post("postDadosPesquisa.php",{op:"OrgaoGestor",internet:true,vol:$("#valororgaol").val()}, function(data){
+				$("#orgaoGestor").append(data);
+			});
+		$('#radio-cpf').on('click',function(){
+			$("#mostracnpj").hide();
+			$("#cnpj").val('');
+            $("#mostracpf").show();
+        });
+        $('#radio-cnpj').on('click',function(){
+			$("#mostracnpj").show();
+			$("#cpf").val('');
+            $("#mostracpf").hide();
+        });
+    });
+
+</script>

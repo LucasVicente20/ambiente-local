@@ -1,0 +1,432 @@
+<!-- 220038-- -->
+<script type="text/javascript">
+<!--
+    function enviar(valor) {
+        document.{NOME_PROGRAMA}.Botao.value = valor;
+        document.{NOME_PROGRAMA}.submit();
+    }
+
+    function mascaraCPF() {
+        $("#fornecedor").mask("999.999.999-99");
+    }
+
+    function mascaraCNPJ() {
+        $("#fornecedor").mask("99.999.999/9999-99");
+    }
+    jQuery(document).ready(function($) {
+        
+        var tipoAtaSessao = '{TIPO_ATA_SESSAO}';
+
+        tipoSelecionada(tipoAtaSessao);
+        
+        jQuery(".reset").click(function(event) {
+            window.location = 'ConsAtaRegistroPrecoExtratoAta.php';            
+        });
+
+        //Caso o check do tipo ata não tenha sido informado, por padrão será interno
+        var radioTipoInt = document.getElementById("checkInterno");
+        var radioTipoExt = document.getElementById("checkExterno");
+
+        // if (!radioTipoInt.checked && !radioTipoExt.checked) {
+        //     jQuery("#checkInterno").prop({
+        //         checked: true
+        //     });
+        // }
+
+        var radio = document.getElementById("CPF");
+        if (radio != null) {
+            if (radio.checked) {
+                $("#fornecedor").mask("999.999.999-99");
+                jQuery("#CPF").prop({
+                    checked: true
+                });
+
+            } else {
+                $("#fornecedor").mask("99.999.999/9999-99");
+                jQuery("#CNPJ").prop({
+                    checked: true
+                });
+
+            }
+        }
+
+        MASCARA_ATA = "9999.9999/9999";
+        MASCARA_ATA_EXTERNA = "9999/9999";
+
+        $('.tipoAta').click(function() {  
+                  
+            if ( $('#checkInterno').attr('checked')) {
+                $( "#numeroAta" ).removeClass( "ataMascara ataMascaraExterna" ).addClass( "ataMascara" );  
+                $(".ataMascara").mask(MASCARA_ATA, {placeholder:"_"});          
+            } else {
+                $( "#numeroAta" ).removeClass( "ataMascara ataMascaraExterna" ).addClass( "ataMascaraExterna" );  
+                $(".ataMascaraExterna").mask(MASCARA_ATA_EXTERNA, {placeholder:"_"});              
+            }
+        });
+
+        if ( $('#checkInterno').attr('checked')) {
+            $( "#numeroAta" ).removeClass( "ataMascara ataMascaraExterna" ).addClass( "ataMascara" );  
+            $(".ataMascara").mask(MASCARA_ATA, {placeholder:"_"});          
+        } else {           
+            $( "#numeroAta" ).removeClass( "ataMascara ataMascaraExterna" ).addClass( "ataMascaraExterna" );  
+            $(".ataMascaraExterna").mask(MASCARA_ATA_EXTERNA, {placeholder:"_"});              
+        }
+        
+    });
+   
+    function tipoSelecionada(tipoAta){
+        
+        if(tipoAta == "interna" || tipoAta == ''){
+            $("#comissaoLic").show();
+            $("#OrgaoPart").show();
+            $("#orgaoGestor").show();
+            $("#nAta").show();
+            $("#processoInterno").show();
+            $("#orgaoGestorExterno").hide();
+            $("#nAtaExterna").hide();
+            $("#processoExterno").hide();
+        }else{
+            $("#comissaoLic").hide();
+            $("#OrgaoPart").hide();
+            $("#orgaoGestor").hide();
+            $("#nAta").hide();
+            $("#processoInterno").hide();
+            $("#nAtaExterna").show();
+            $("#orgaoGestorExterno").show();
+            $("#processoExterno").show();
+        }        
+    }    
+
+    function AbreJanela(url, largura, altura) {
+        window.open(url, 'paginadetalhe', 'status=no,scrollbars=yes,left=90,top=150,width=' + largura + ',height=' + altura);
+    }
+
+    function AbreJanelaItem(url, largura, altura) {
+        window.open(url, 'paginaitem', 'status=no,scrollbars=yes,left=90,top=150,width=' + largura + ',height=' + altura);
+    }
+//-->
+</script>
+<form action="{NOME_PROGRAMA}.php" method="post" name="{NOME_PROGRAMA}">
+    <table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 800px;">
+        <tr>
+            <td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3">EXTRATO ATAS</td>
+        </tr>        
+		<tr>
+			<td>
+				<table border="0" cellpadding="3" cellspacing="0"
+					bordercolor="#75ADE6" summary="" class="textonormal"
+					bgcolor="#FFFFFF" style="width: 633px;">
+					<tr>
+						<td>Para exibir o Extrato de Ata de Registro de Preços, selecione as opções desejadas e clique no botão “Pesquisar”.</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+
+
+        <tr>
+            <td>
+                <table class="textonormal" border="0px" align="left" summary="">                    
+                    <tr>
+                        <table class="textonormal" border="0" width="100%" summary="">
+                            <tr>
+                                <td class="textonormal" bgcolor="#DCEDF7" style="display: table; width: 200px">Tipo da Ata</td>
+                                <td class="textonormal">
+                                    <input type="radio" name="tipoAta" onChange="javascript:tipoSelecionada('interna');" checked="checked" id="checkInterno" class="tipoAta" value="I" {CHECK_ATA_INTERNA}>Interna
+                                    <input type="radio" name="tipoAta" onChange="javascript:tipoSelecionada('externa');" id="checkExterno" class="tipoAta" value="E" {CHECK_ATA_EXTERNA}>Externa
+                                </td>
+                            </tr>
+                            <tr id="nAta">
+                                <td class="textonormal" bgcolor="#DCEDF7">Número da Ata</td>
+                                <td class="textonormal">
+                                    <input type="text"  class="textonormal" name="numeroAta" id="numeroAta" class="" value="{NRATA}">
+                                </td>
+                            </tr>
+
+                            <tr id="obje">
+                                <td class="textonormal" bgcolor="#DCEDF7">Objeto</td>
+                                <td class="textonormal">
+                                    <input type="text"  class="textonormal" name="objeto" id="objeto" class="" value="{OBJETO}" style="text-transform:uppercase !important">
+                                </td>
+                            </tr>
+
+                            <tr id="nAtaExterna">
+                                <td class="textonormal" bgcolor="#DCEDF7">Número / Ano da Ata Externa</td>
+                                <td class="textonormal">
+                                    <input type="text" name="codigoAtaE" size="4" maxlength="9" class="textonormal" value="{CODIGO_EXTERNO}" height="19px"> / <input type="text" height="19px" name="anoAtaE" size="4" maxlength="4" class="textonormal" value="{ANO_EXTERNO}">
+                                </td>
+                            </tr>
+
+                            <tr id="comissaoLic">
+                                <td class="textonormal" bgcolor="#DCEDF7">Comissão de Licitação</td>
+                                <td class="textonormal">
+                                    <select onChange="javascript:enviarValorOrgao();" name="orgaoComissaoLicitacao" class="textonormal">
+                                        <option value="">Informe uma comissão</option>
+                                        <!-- BEGIN BLOCO_COMISSAO_GERENCIADOR -->
+                                        <option value="{COMISSAO_VALUE_GERENCIADOR}" {COMISSAO_SELECTED_GERENCIADOR}>{COMISSAO_TEXT_GERENCIADOR}</option>
+                                        <!-- END BLOCO_COMISSAO_GERENCIADOR -->
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <tr id="processoInterno">
+                                <td class="textonormal" bgcolor="#DCEDF7">Processo Licitatório/Ano</td>
+                                <td class="textonormal">
+                                    <input type="text" name="processo" size="4" maxlength="4" class="textonormal" value="{PROCESSO}"> / <input type="text" name="ano" size="4" maxlength="4" class="textonormal" value="{ANO}">
+                                </td>
+                            </tr>
+                            <tr id="processoExterno">
+                                <td class="textonormal" bgcolor="#DCEDF7">Processo Licitatório/Ano Ata Externa</td>
+                                <td class="textonormal">
+                                    <input type="text" name="processo_ano" maxlength="100" class="textonormal" value="{PROCESSO_ANO_EXTERNO}">
+                                </td>
+                            </tr>
+                            <tr id="orgaoGestorExterno">
+                                <td class="textonormal" bgcolor="#DCEDF7">Órgão Gestor da Ata Externa</td>
+                                <td class="textonormal">
+                                    <select onChange="javascript:enviarValorOrgao();" name="orgaoGerenciadorAtaExterna" class="textonormal">
+                                        <option value="">Informe um órgão</option>
+                                        <!-- BEGIN BLOCO_ORGAO_EXTERNO_GERENCIADOR  -->
+                                        <option value="{ORGAO_VALUE_GERENCIADOR_EXTERNA}" {ORGAO_SELECTED_GERENCIADOR_EXTERNA}>{ORGAO_TEXT_GERENCIADOR_EXTERNA}</option>
+                                        <!-- END BLOCO_ORGAO_EXTERNO_GERENCIADOR  -->
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr id="orgaoGestor">
+                                <td class="textonormal" bgcolor="#DCEDF7">Órgão Gestor</td>
+                                <td class="textonormal">
+                                    <select onChange="javascript:enviarValorOrgao();" name="orgaoGerenciador" class="textonormal">
+                                        <option value="">Informe um órgão</option>
+                                        <!-- BEGIN BLOCO_ORGAO_GERENCIADOR -->
+                                        <option value="{ORGAO_VALUE_GERENCIADOR}" {ORGAO_SELECTED_GERENCIADOR}>{ORGAO_TEXT_GERENCIADOR}</option>
+                                        <!-- END BLOCO_ORGAO_GERENCIADOR -->
+                                    </select>
+                                </td>
+                            </tr>
+							<tr id="OrgaoPart">
+                                <td class="textonormal" bgcolor="#DCEDF7">Órgão Participante</td>
+                                <td class="textonormal">
+                                    <select onChange="javascript:enviarValorOrgao();" name="orgaoParticipante" class="textonormal">
+                                        <option value="">Informe um órgão</option>
+                                        <!-- BEGIN BLOCO_ORGAO_PARTICIPANTE -->
+                                        <option value="{ORGAO_VALUE}" {ORGAO_SELECTED}>{ORGAO_TEXT}</option>
+                                        <!-- END BLOCO_ORGAO_PARTICIPANTE -->
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="textonormal" bgcolor="#DCEDF7">Fornecedor</td>
+                                <td class="textonormal">
+                                    <input type="radio" name="cpfcnpj" id="CNPJ" value="cnpj" onclick="javascript:mascaraCNPJ()" {CHECK_CNPJ}>CNPJ
+                                    <input type="radio" name="cpfcnpj" id="CPF" value="cpf" onclick="javascript:mascaraCPF()" {CHECK_CPF}>CPF
+                                    <input type="text" name="fornecedor" id="fornecedor" value="{FORNECEDOR}" class="textonormal">
+                                    <label class="textonormal" bgcolor="#DCEDF7">Razão Social</label>
+                                    <input type="text" name="fornecedorRaz" id="fornecedor" value="{FORNECEDOR_RAZ}" class="textonormal">
+                                    <input type="hidden" name="fornecedorCod" value="{COD_FORNECEDOR}">
+                                    <a id="fornecedorLink" href="javascript:enviar('PesquisaFornecedor')"  style="text-decoration: none;">
+                                        <img src="../midia/lupa.gif" border="0">
+                                    </a>
+                                    <br/>
+                                        {VALORES_AUXILIARES_FORNECEDOR}
+                                    <br/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="textonormal" bgcolor="#DCEDF7">Material</td>
+                                <td class="textonormal">
+                                    <select name="pesquisaMaterial" class="textonormal">
+                                        <option value="0" {CHECK_COD_M}>Código Reduzido</option>
+                                        <option value="1" {CHECK_DEC_M}>Descrição contendo</option>
+                                        <option value="2" {CHECK_DI_M}>Descrição iniciada por</option>
+                                    </select>
+                                    <input name="material" class="textonormal" value="{MATERIAL}" style="text-transform:uppercase !important">
+                                    <input name="codMaterial" type="hidden" value="{COD_MATERIAL}">
+                                    <!--<a id="MaterialLink" href="javascript:enviar('PesquisaMaterial')">
+                                        <img src="../midia/lupa.gif" border="0">
+                                    </a>-->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="textonormal" bgcolor="#DCEDF7">Serviço</td>
+                                <td class="textonormal">
+                                    <select name="pesquisaServico" class="textonormal">
+                                        <option value="0" {CHECK_COD_S}>Código Reduzido</option>
+                                        <option value="1" {CHECK_DEC_S}>Descrição contendo</option>
+                                        <option value="2" {CHECK_DI_S}>Descrição iniciada por</option>
+                                    </select>
+                                    <input name="servico" class="textonormal" value="{SERVICO}" style="text-transform:uppercase !important">
+                                    <input name="codServico" type="hidden" value="{COD_SERVICO}">
+                                    <!--<a id="ServicoLink" href="javascript:enviar('PesquisaServico')">
+                                        <img src="../midia/lupa.gif" border="0">
+                                    </a>-->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="textonormal" bgcolor="#DCEDF7">Grupo</td>
+                                <td class="textonormal">
+                                    <input type="radio" value="M" name="identificadorGrupo" onclick="javascript:enviar('Grupo')" {CHECK_M}>Material
+                                    <input type="radio" value="S" name="identificadorGrupo" onclick="javascript:enviar('Grupo')" {CHECK_S}>Serviço
+                                    <select onChange="javascript:enviarValorOrgao();" name="grupo" class="textonormal">
+                                        <!-- BEGIN BLOCO_GRUPO -->
+                                        <option value="{GRUPO_VALUE}" {GRUPO_SELECTED}>{GRUPO_TEXT}</option>
+                                        <!-- END BLOCO_GRUPO -->
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="textonormal" bgcolor="#DCEDF7">Só Vigentes</td>
+                                <td class="textonormal">
+                                    <input type="checkbox" name="vigentes" {CHECK_VIGENTES} VALUE="V">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="textonormal" bgcolor="#DCEDF7">Exibir Materiais e Serviços Inativos</td>
+                                <td class="textonormal">
+                                    <input type="checkbox" name="inativos" value="I" {CHECK_INATIVOS}>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="textonormal" bgcolor="#DCEDF7">Só Ativas</td>
+                                <td class="textonormal">
+                                    <input type="checkbox" name="situacao_ata" value="A" {CHECK_ATIVAS}>
+                                </td>
+                            </tr>
+                        </table>
+                    </tr>
+                    <tr>
+                        <td class="textonormal" align="right">
+                            <input type="hidden" name="InicioPrograma" value="1" />
+                            <input type="button" name="Selecionar" value="Pesquisar" class="botao" onclick="javascript:enviar('Pesquisar')" />
+                            <input type="button" name="Limpar" value="Limpar" class="botao reset" />
+                            <input type="hidden" name="Botao" value="" />
+                        </td>
+                    </tr>
+                    <!-- BEGIN bloco_sem_resultado_ata -->
+                    <tr>
+                        <td>
+                            <table style="width: 100%;">
+                                <tr>
+                                    <td align="center" bgcolor="#75ADE6" colspan="5" valign="middle" class="titulo3">Ata(s) de Registro de Preço</td>
+                                </tr>
+                                <tr>
+                                    <td align="center" bgcolor="#DCEDF7" colspan="5" valign="middle" class="titulo3">
+                                        Nenhum registro encontrado.
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <!-- END bloco_sem_resultado_ata -->
+
+                    <!-- BEGIN bloco_resultado_ata -->
+                    <tr>
+                        <td>
+
+                            <table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 100%;">
+                            <tr>
+                                <td align="center" bgcolor="#75ADE6" colspan="6" valign="middle" class="titulo3">ATA(S) DE REGISTRO DE PREÇO</td>
+                            </tr>
+
+                            
+                            <!-- BEGIN bloco_sub_titulo -->
+                                <!-- BEGIN bloco_tipo_ata -->
+                                <tr>
+                                    <td align="center" bgcolor="#DCEDF7" colspan="6" valign="middle" class="titulo3">
+                                        {TIPO_ATA}
+                                    </td>
+                                </tr>
+                                <!-- END bloco_tipo_ata -->
+                                <!-- BEGIN bloco_orgao_ata -->
+                                <tr>
+                                    <td align="center" bgcolor="#75ADE6" colspan="6" valign="middle" class="titulo3">
+                                        {ORGAO_ATA}
+                                    </td>
+                                </tr>
+                                <!-- END bloco_orgao_ata -->
+                                <!-- BEGIN bloco_titulo_resultado -->
+                                <tr>
+                                    <td bgcolor="#DCEDF7" class="textonormal" align="center">
+                                        Nº ATA
+                                    </td>
+                                    <td bgcolor="#DCEDF7" class="textonormal" align="center">
+                                        FORNECEDOR
+                                    </td>
+                                    <td bgcolor="#DCEDF7" class="textonormal" align="center">
+                                        VIGÊNCIA
+                                    </td>
+                                    <td bgcolor="#DCEDF7" class="textonormal" align="center">
+                                        PROCESSO LICITATÓRIO
+                                    </td>
+                                    <td bgcolor="#DCEDF7" class="textonormal" align="center">
+                                        OBJETO
+                                    </td>
+                                    <td bgcolor="#DCEDF7" class="textonormal" align="center">
+                                        SITUAÇÃO
+                                    </td>
+                                </tr>
+                                <!-- END bloco_titulo_resultado -->
+
+                                <!-- BEGIN bloco_titulo_resultado_externo -->
+                                <tr>
+                                    <td bgcolor="#DCEDF7" class="textonormal" align="center">
+                                        Nº ATA
+                                    </td>
+                                    <td bgcolor="#DCEDF7" class="textonormal" align="center">
+                                        FORNECEDOR
+                                    </td>
+                                    <td bgcolor="#DCEDF7" class="textonormal" align="center">
+                                        VIGÊNCIA
+                                    </td>
+                                    <td bgcolor="#DCEDF7" class="textonormal" align="center">
+                                        PROCESSO LICITATÓRIO EXTERNO
+                                    </td>
+                                    <td bgcolor="#DCEDF7" class="textonormal" align="center">
+                                        OBJETO
+                                    </td>
+                                    <td bgcolor="#DCEDF7" class="textonormal" align="center">
+                                        SITUAÇÃO
+                                    </td>
+                                </tr>
+                                <!-- END bloco_titulo_resultado_externo -->
+
+                                <!-- BEGIN bloco_resultado -->
+                                <tr>
+                                    <td class="textonormal" style=" width: 15%;">
+                                        <input type="radio" value="{LINK_ATA}" name="tipoSelecionado[]">
+                                        <a href="{LINK_ATA}" style="text-decoration: none">{VALOR_NUMERO_ATA}</a>
+                                        <input type="hidden" value="{LINK_ATA}" name="linkAta[]">
+                                    </td>
+                                    <td class="textonormal" align="center">
+                                        {VALOR_FORNECEDOR}
+                                    </td>
+                                    <td class="textonormal" align="center">
+                                        {VALOR_VIGENCIA}
+                                    </td>
+                                    <td class="textonormal" align="center">
+                                        {VALOR_PROCESSO}
+                                    </td>
+                                    <td class="textonormal" align="center">
+                                        {VALOR_OBJETO}
+                                    </td>
+                                    <td class="textonormal" align="center">
+                                        {VALOR_SITUACAO}
+                                    </td>
+                                </tr>
+                                <!-- END bloco_resultado -->
+                            <!-- END bloco_sub_titulo -->
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="textonormal" align="right">
+                            <input type="button" name="extrato" value="Extrato Ata" class="botao" onclick="javascript:enviar('Extrato')" />
+                            <input type="button" name="Voltar" value="Voltar" class="botao" onclick="javascript:enviar('Voltar')" />
+                        </td>
+                    </tr>
+                    <!-- END bloco_resultado_ata -->
+                </table>
+            </td>
+        </tr>
+
+    </table>
+</form>

@@ -1,0 +1,72 @@
+   <div class="modal-title textonormal" >
+       <div class="modal-title textonormal" >
+      PESQUISAR - CLASSE MATERIAL/SERVIÇO 
+      <span class="btn-fecha-modal close" >[ X ]</span>
+      </div>
+      <div class="modal-body" style="margin-top:200px>
+      <form action="" method="post" name="CadIncluirDFD">
+      <table class="textonormal" width="70%">
+      <tr border=1>
+     <tr>
+     <td align="left" colspan="2" id="tdmensagemM">
+     <div class="mensagemM">
+     <div class="error" colspan="5">
+     Erro
+     </div>
+     <span id="mensagemErroModal" class="mensagem-textoM">
+     </span>
+     </div>
+     </td>
+     </tr>    
+     <tr>
+     <td class="textonormal" bgcolor="#DCEDF7" width="31%">Classe</td>
+     <td class="textonormal" colspan="5">
+     <select id="OpcaoPesquisaClasse" name="OpcaoPesquisaClasse" class="textonormal">
+     <option value="0">Código Reduzido</option>
+     <option value="1">Descrição contendo</option>
+     <option value="2">Descrição iniciada por</option>
+     </select>
+     <input type="text" id="ClasseDescricaoDireta" name="ClasseDescricaoDireta" value="" size="10" maxlength="10" class="textonormal">
+     <img id="lupaClasse" src="../midia/lupa.gif" border="0">
+     </td>
+     </tr>
+     <tr>
+     <td class="textonormal" bgcolor="#DCEDF7">Material</td>
+     <td class="textonormal" colspan="5">
+     <select id="OpcaoPesquisaMaterial" name="OpcaoPesquisaMaterial" class="textonormal">
+     <option value="0">Código Reduzido</option>
+     <option value="1">Descrição contendo</option>
+     <option value="2">Descrição iniciada por</option>
+     </select>
+     <input type="text" id="MaterialDescricaoDireta" name="MaterialDescricaoDireta" value="" size="10" maxlength="10" class="textonormal" >
+     <img id="lupaMaterial" src="../midia/lupa.gif" border="0">
+     </td>
+     </tr>
+     <tr>
+     <td class="textonormal" bgcolor="#DCEDF7" width="34%">Serviço</td>
+     <td class="textonormal" colspan="2">
+     <select id="OpcaoPesquisaServico" name="OpcaoPesquisaServico" class="textonormal">
+     <option value="0">Código Reduzido</option>
+     <option value="1">Descrição contendo</option>
+     <option value="2">Descrição iniciada por</option>
+     </select>
+     <input type="text" id="ServicoDescricaoDireta" name="ServicoDescricaoDireta" value="" size="10" maxlength="10" class="textonormal" >
+     <img id="lupaServico" src="../midia/lupa.gif" border="0" alt="0">
+     </td>
+     </tr>
+      </tr>
+      <tr><table width="100%" bordercolor="#75ADE6" border="1" cellspacing="0"><tbody><tr> <td colspan="3">
+       <div><input class="btn-fecha-modal botao"  name="botao_voltar" value="Voltar" type="button" style="float:right">
+      </div> </td></tr></tbody></table> </tr>
+      <tr> <td colspan="3" style="border:none"> 
+       <!-- loading -->
+       <div class="load" id="LoadPesqScc" style="display:none">
+       <div class="load-content" >
+       <img src="../midia/loading.gif" alt="Carregando">
+       <spam>Carregando...</spam>
+       </div>
+       </div>
+       <!-- Fim do loading -->
+       <div id="pesqDivModal"> 
+       </div> </td> </tr>
+      </table> </form> </div>

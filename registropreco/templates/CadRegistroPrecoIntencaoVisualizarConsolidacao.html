@@ -1,0 +1,272 @@
+<!-- 220038-- -->
+<script language="javascript" src="../import/jquery/jquery.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+    function enviar(valor){
+        var seguirSubmit = true;
+
+        if (valor == 'Excluir') {
+            seguirSubmit = confirm('Realmente deseja excluir essa intenção?\n\nAtenção:\nEssa operação não poderá ser revertida.');
+        }
+
+        if (seguirSubmit) {
+            document.CadRegistroPrecoIntencaoManter.Botao.value = valor;
+            document.CadRegistroPrecoIntencaoManter.submit();
+        }
+    }
+    function AbreJanela(url,largura,altura){
+        window.open(url,'paginadetalhe','status=no,scrollbars=yes,left=90,top=150,width='+largura+',height='+altura);
+    }
+    function AbreJanelaItem(url,largura,altura){
+        window.open(url,'paginaitem','status=no,scrollbars=yes,left=90,top=150,width='+largura+',height='+altura);
+    }
+    function ncaracteresO(valor){
+        document.CadRegistroPrecoIntencaoManter.NCaracteresO.value = '' +  document.CadRegistroPrecoIntencaoManter.Observacao.value.length;
+        if( navigator.appName == 'Netscape' && valor ){ //Netscape Only
+            document.CadRegistroPrecoIntencaoManter.NCaracteresO.focus();
+        }
+    }
+    jQuery(document).ready(function($) {
+        laguraTabelaItens = jQuery("table .item-intencao").width();
+        laguraTabelaIntencao = jQuery("table .dados-intencao").width();
+
+        if (laguraTabelaItens > laguraTabelaIntencao) {
+            jQuery("table .dados-intencao").width(laguraTabelaItens);
+        } else {
+            jQuery("table .item-intencao").width(laguraTabelaIntencao);
+        }
+    });
+
+    function clean_hex(input) {
+        input = input.toUpperCase();
+        input = input.replace(/[^A-Fa-f0-9]/g, "");
+
+        return input;
+    }
+
+    function Convert(id, nomePdf) {
+        var binValue    = $('#'+id).val();
+        var filename    = nomePdf;
+        var cleaned_hex = clean_hex(binValue);
+
+        var ia = new Array();
+
+
+        for (var i=0; i<cleaned_hex.length/2; i++) {
+            var h = cleaned_hex.substr(i*2, 2);
+            ia[i] = parseInt(h,16);
+        }
+
+        var byteArray = new Uint8Array(ia);
+
+        // create a download anchor tag
+        var downloadLink      = document.createElement('a');
+        downloadLink.target   = '_blank';
+        downloadLink.download = nomePdf;
+
+        // convert downloaded data to a Blob
+        var blob = new Blob([byteArray], { type: 'application/pdf' });
+
+        // create an object URL from the Blob
+        var URL = window.URL || window.webkitURL;
+        var downloadUrl = URL.createObjectURL(blob);
+
+        // set object URL as the anchor's href
+        downloadLink.href = downloadUrl;
+
+        // append the anchor to document body
+        document.body.appendChild(downloadLink);
+
+        // fire a click event on the anchor
+        downloadLink.click();
+
+        // cleanup: remove element and revoke object URL
+        document.body.removeChild(downloadLink);
+        URL.revokeObjectURL(downloadUrl);
+    }
+
+    $(document).ready(function() {
+        $('a').click(function() {
+            var nomePdf   = $(this).html().replace(/\<br>/g, '');
+            var nomeClass = $(this).prop('class');
+            Convert(nomeClass, nomePdf);
+        });
+    });
+
+</script>
+
+<form action="" method="post" name="CadRegistroPrecoIntencaoManter">
+    <table cellspacing="0" cellpadding="3" bordercolor="#75ADE6" border="1" bgcolor="#FFFFFF" width="100%" class="textonormal" summary="">
+        <tbody>
+            <tr colspan="8">
+                <td bgcolor="#75ADE6" valign="middle" align="center" colspan="8" class="titulo3">ACOMPANHAR – INTENÇÃO DE REGISTRO DE PREÇOS</td>
+            </tr>
+            <tr>
+                <td colspan="8" class="textonormal">
+                    <p align="justify">
+                    	As  informações  abaixo são relativas  às  intenções salvas.
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="8">
+                    <table border="0" width="100%" summary="">
+                        <tbody>
+                        	<tr>
+                                <td class="textonormal" bgcolor="#DCEDF7" width="30%">Número da intenção</td>
+                                <td class="textonormal">
+                                	{VALOR_NUMERO_INTENCAO}
+                                    <input type="hidden" name="NumeroIntencao" value="{VALOR_NUMERO_INTENCAO}" />
+                                </td>
+                            </tr>
+                        	<tr>
+                                <td class="textonormal" bgcolor="#DCEDF7" width="30%">Data de cadastramento</td>
+                                <td class="textonormal">
+                                	{VALOR_DATA_CADASTRAMENTO_INTENCAO}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="textonormal" bgcolor="#DCEDF7" width="30%">Data limite</td>
+                                <td class="textonormal">
+                            		{VALOR_DATA_LIMITE_INTENCAO}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="textonormal" bgcolor="#DCEDF7" width="30%">Objeto</td>
+                                <td class="textonormal">
+                                    {VALOR_OBJETO_INTENCAO}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="textonormal" bgcolor="#DCEDF7" width="30%">Órgãos</td>
+                                <td class="textonormal">
+                                		<!-- BEGIN BLOCO_ORGAO_INTENCAO -->
+                                		{ORGAO_INTENCAO}<br />
+                                		<!-- END BLOCO_ORGAO_INTENCAO -->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="textonormal" bgcolor="#DCEDF7" width="30%">Observação</td>
+                                <td class="textonormal" >
+                                	{VALOR_OBSERVACAO_INTENCAO}
+                                </td>
+                            </tr>
+                            <!-- BEGIN BLOCO_DOCUMENTOS -->
+                            <tr>
+                                <td class="textonormal" bgcolor="#DCEDF7" width="30%">Documentos</td>
+                                <td class="textonormal" colspan="7">
+                                    <ul>
+                                        <!-- BEGIN BLOCO_DOCUMENTO -->
+                                        <li>
+                                            <input type="hidden" value="{HEX_DOCUMENTO}" id="{VALOR_DOCUMENTO_KEY}">
+                                            <a href="#" class="{VALOR_DOCUMENTO_KEY}">{VALOR_DOCUMENTO_NOME}</a><br>
+                                        </li>
+                                        <!-- END BLOCO_DOCUMENTO -->
+                                    </ul>
+                                </td>
+                            </tr>
+                            <!-- END BLOCO_DOCUMENTOS -->
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="8">
+                    <!-- BEGIN BLOCO_ITENS_INTENCAO -->
+                    <table border="1" cellpadding="3" width="100%" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal item-intencao" bgcolor="#FFFFFF">
+                        <tbody>
+                            <tr>
+                                <td colspan="8" align="center" bgcolor="#75ADE6" valign="middle" class="titulo3">ITEM(NS) DA INTENÇÃO</td>
+                            </tr>
+
+                            <tr>
+                                <td class="textonormal" align="center" bgcolor="#DCEDF7">ORDEM</td>
+                                <td class="textonormal" align="center" bgcolor="#DCEDF7">DESCRIÇÃO MATERIAL/SERVIÇO</td>
+                                <td class="textonormal" align="center" bgcolor="#DCEDF7">DESCRIÇÃO DETALHADA</td>
+                                <td class="textonormal" align="center" bgcolor="#DCEDF7">TIPO</td>
+                                <td class="textonormal" align="center" bgcolor="#DCEDF7">COD. RED.</td>
+                                <td class="textonormal" align="center" bgcolor="#DCEDF7">VALOR TRP UNITÁRIO</td>
+                                <td class="textonormal" align="center" bgcolor="#DCEDF7">VALOR EST. UNITÁRIO</td>
+                                <td class="textonormal" align="center" bgcolor="#DCEDF7">QTDE CONSOLIDADA</td>
+                            </tr>
+
+                            <!-- BEGIN BLOCO_ITEM_INTENCAO -->
+                            <!-- BEGIN BLOCO_ITEM -->
+                            <tr>
+                                <td class="textonormal" align="center">{VALOR_ITEM_ORDEM}</td>
+
+                                <td class="textonormal" align="left">                
+                                    <a href="javascript:AbreJanela('../estoques/CadItemDetalhe.php?ProgramaOrigem=CadRegistroPrecoIntencaoManter&TipoGrupo={VALOR_TIPO_GRUPO}&Material={VALOR_ITEM_CODIGO_MATERIAL_SERVICO}',700,510);">
+                                        <font color="#000000">
+                                            {VALOR_ITEM_DESCRICAO}
+                                        </font>
+                                    </a>                
+                                </td>
+                                
+                                <td class="textonormal" align="center">{VALOR_ITEM_DESCRICAO_DETALHADA}</td>
+                                <td class="textonormal" align="center">{VALOR_ITEM_TIPO}</td>
+                                <td class="textonormal" align="center">{VALOR_ITEM_CODIGO_REDUZIDO}</td>
+                                <td class="textonormal" align="center">{VALOR_ITEM_TRP_UNITARIO}</td>
+                                <td class="textonormal" align="center">{VALOR_ITEM_ESTIMADO_UNITARIO}</td>
+                                <td class="textonormal" align="center">{VALOR_ITEM_QUANTIDADE_CONSOLIDADA}</td>
+                            </tr>
+                            <tr>
+                                <td class="textonormal" align="center" bgcolor="#DCEDF7" colspan="7" >ÓRGÃOS</td>
+                                <td class="textonormal" align="center" bgcolor="#DCEDF7" >QUANTIDADE INFORMADA</td>
+                            </tr>
+                            <!-- END BLOCO_ITEM -->
+
+                            <!-- BEGIN BLOCO_ORGAO_ITEM -->
+                            <tr>
+                                <td class="textonormal" align="center" colspan="7">{VALOR_ORGAO_ITEM}</td>
+                                <td class="textonormal" align="center">{VALOR_QUANTIDADE_ITEM_ORGAO}</td>
+                            </tr>
+                            <!-- END BLOCO_ORGAO_ITEM -->
+
+                            <tr>
+                                <td bgcolor="#DCEDF7" colspan="8" style="padding-top: 0 !important; padding-bottom: 0 !important;"></td>                                
+                            </tr>
+                            <!-- END BLOCO_ITEM_INTENCAO -->
+
+                            <tr>
+                                <td class="textonormal" align="center" bgcolor="#DCEDF7" colspan="8">
+                                    <span style="float: left;">TOTAL ESTIMADO</span>
+                                    <span style="float: right;">R$ {VALOR_TOTAL_ESTIMADO}</span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="textonormal" align="right" colspan="8">
+                                    <input type="button" name="ImprimirResumo" value="Imprimir resumo" class="botao" onClick="javascript:enviar('ImprimirResumo');" />
+                                    <input type="button" name="ImprimirCompleto" value="Imprimir completo" class="botao" onClick="javascript:enviar('ImprimirCompleto');" />
+                                    <input type="button" name="Voltar" value="Voltar" class="botao" onClick="javascript:enviar('Voltar');" />
+                                    <input type="hidden" name="Botao" value="" />
+                                    <input type="hidden" name="NumeroIntencaoAcessada" value="{VALOR_NUMERO_INTENCAO}" />
+                                    <input type="hidden" name="SituacaoAtualIntencao" value="{VALOR_SITUACAO_ATUAL_INTENCAO}" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- END BLOCO_ITENS_INTENCAO -->
+
+                    <!-- BEGIN BLOCO_NAO_RESPOSTAS_INTENCAO -->
+                    NÂO EXISTE RESPOSTAS PARA A INTENÇÃO
+                    <!-- END BLOCO_NAO_RESPOSTAS_INTENCAO -->
+                </td>
+            </tr>
+
+            <!-- BEGIN BLOCO_BOTAO_VOLTAR -->
+            <tr>
+                <td class="textonormal" align="right" colspan="8">
+                    <input type="hidden" name="InicioPrograma" value="1" />
+                    <input type="button" name="Voltar" value="Voltar" class="botao" onClick="javascript:enviar('Voltar');" />
+                    <input type="hidden" name="Botao" value="" />
+                    <input type="hidden" name="NumeroIntencaoAcessada" value="{VALOR_NUMERO_INTENCAO}" />
+                    <input type="hidden" name="SituacaoAtualIntencao" value="{VALOR_SITUACAO_ATUAL_INTENCAO}" />
+                </td>
+            </tr>
+            <!-- END BLOCO_BOTAO_VOLTAR -->
+        </tbody>
+    </table>
+</form>

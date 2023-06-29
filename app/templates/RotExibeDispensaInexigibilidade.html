@@ -1,0 +1,114 @@
+<!--
+    =============================================================
+    CR#234889
+    Autor: Eliakim Ramos de Souza
+    Tarefa: Uma despesa por dispensa em que houve vários credores, 
+     mas só aparece em nome de um com todo o valor atribuído ao conjunto.
+     Data: 19/06/2020
+   =============================================================
+    =============================================================
+    CR#235761
+    Autor: Eliakim Ramos de Souza
+    Tarefa: Acrescentar o texto referente a pandemia do covid
+     Data: 16/07/2020
+   =============================================================
+    Autor: João Madson
+    Tarefa: CR #243182
+     Data: 27/01/2021
+   =============================================================
+-->
+<div class="content">
+    <div class="row">
+        <div class="span12">
+            <section class="box-article">
+                <header class="header">
+                    <h1>Dispensa / Inexigibilidade - Resultado</h1>
+                </header>
+                <div class="body">
+                    <ul class="breadcrumb">
+                        <li><a href="{BASE_URL}home.php">Início</a><span class="divider"><i class="arrow-right"></i></span></li>
+                         <!-- Eliakim Ramos 29052020 -->
+                        <!-- <li><a href="{BASE_URL}Licitacoes.php">Licitações</a><span class="divider"><i class="arrow-right"></i></span></li> -->
+                        <!-- <li class="active">Anos Anteriores</li> -->
+                        <li class="active">Dispensa/Inexigibilidade - Resultado</li>
+                    </ul>
+                    <article class="article">
+                        <header class="article-header">
+                            <h1>Dispensa / Inexigibilidade - Resultado</h1>
+                        </header>
+                    </article>
+                    <article class="article">
+                        <!-- <div class="alert">
+                            <button data-dismiss="alert" class="close" type="button">×</button>
+                            <strong>Atenção!</strong> FORNECEDOR INABILITADO DATA DE VALIDADE DO BALANÇO EXPIRADA, DATA CERTIDÃO NEGATIVA EXPIRADA.
+                        </div> -->
+                        <section class="article-detail row-border">
+                            <p>Para visualizar mais informações sobre a Dispensa/Inexigibilidade, clique no número do Processo desejado. Para realizar uma nova pesquisa, selecione o botão "Nova Pesquisa" </p>
+                            <p>Para executar pesquisas específicas de Dispensas/Inexigibilidades relacionadas com a pandemia <strong>COVID</strong>, basta colocar no campo <strong>OBJETO</strong> abaixo a palavra-chave <strong>COVID</strong> OU <strong>IMUNIZAÇÃO</strong> .</p>
+                        </section>
+                        <!-- BEGIN BLOCO_MENSAGEM -->
+                        <div class="alert {TIPOALERT}">
+                            <button class="close" data-dismiss="alert" type="button">×</button>
+                            {MENSAGEM}
+                        </div>
+                        <!-- END BLOCO_MENSAGEM -->
+                        <div class="btn-toolbar pagination-right">
+                            <button class="btn btn-primary" type="button" onclick="location.href='{BASE_URL}ConsDispensaInexigibilidadePesquisar.php'">Nova Pesquisa</button>
+                        </div>
+                        <section class="article-detail">
+                            <table class="table table-report table-striped">
+                                <!-- BEGIN BLOCO_CORPO -->
+                                <!-- BEGIN BLOCO_GRUPO -->
+                                <thead>
+                                    <tr>
+                                        <th colspan="5">
+                                            <span class="text-center">{GRUPO_DESCRICAO}</span>
+                                            <span class="separator"></span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <!-- END BLOCO_GRUPO -->
+                                <tbody>
+                                    <!-- BEGIN BLOCO_MODALIDADE -->
+                                    <tr {CANCELADA}>
+                                        <td colspan="5">{MODALIDADE_DESCRICAO}</td>
+                                    </tr>
+                                    <!-- END BLOCO_MODALIDADE -->
+                                    <!-- BEGIN BLOCO_COMISSAO -->
+                                    <tr {CANCELADA}>
+                                     <td colspan="5" class="table-report-head">{COMISSAO_DESCRICAO}</td>
+                                 </tr>
+                                 <!-- END BLOCO_COMISSAO -->
+                                 <!-- BEGIN BLOCO_CABECALHO -->
+                                 <tr {CANCELADA}>
+                                     <td><strong>NÚMERO/ANO</strong></td>
+                                     <td><strong>OBJETO</strong></td>
+                                     <td><strong>DATA DE PUBLICAÇÃO</strong></td>
+                                 </tr>
+                                 <!-- END BLOCO_CABECALHO -->
+                                 <!-- BEGIN BLOCO_VALORES -->
+                                 <tr {CANCELADA}>
+                                    <td>{NUMEROANO}</td>
+                                    <td>{OBJETO}</td>
+                                    <td>{DATA_PUBLICACAO}</td>
+                                </tr>
+                                <!-- END BLOCO_VALORES -->
+                                <!-- BEGIN BLOCO_SEPARATOR -->
+                                <tr>
+                                    <td colspan="5"><span class="separator"></span></td>
+                                </tr>
+                                <!-- END BLOCO_SEPARATOR -->
+                            </tbody>
+                            <!-- END BLOCO_CORPO -->
+                        </table>
+                            <!-- <div class=" btn-toolbar pagination-right">
+                                <button class="btn btn-primary" type="button">Imprimir</button>
+                                <button class="btn" type="button">Voltar</button>
+                            </div> -->
+                        </section>
+                    </article>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>

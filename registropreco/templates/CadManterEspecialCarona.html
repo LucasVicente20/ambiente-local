@@ -1,0 +1,285 @@
+<!-- 220038-- -->
+<script type="text/javascript">
+	function enviar(valor) {
+	    document.{NOMEPROGRAMA}.Botao.value = valor;
+	    document.{NOMEPROGRAMA}.submit();
+	}
+
+	function validarValor() {
+		var valorInput = document.{NOMEPROGRAMA}.vigencia.value;
+
+	 	if (valorInput < 1) {
+			document.{NOMEPROGRAMA}.vigencia.value = 0;
+	 	}
+	}
+
+	function inserirFile(valor) {
+		document.{NOMEPROGRAMA}.file.value = document.{NOMEPROGRAMA}.fileArquivo.value;
+		document.{NOMEPROGRAMA}.submit();
+	}
+
+	function AbreJanelaItem(url,largura,altura){
+		window.open(url,'paginaitem','status=no,scrollbars=yes,left=90,top=150,width='+largura+',height='+altura);
+	}
+
+	function AbreJanela(url, largura, altura) {
+		window.open(
+			url,
+			'paginadetalhe',
+			'status=no,scrollbars=yes,left=90,top=150,width='+largura+',height='+altura
+		);
+	}
+
+	// Atualiza o valor total de um material Material ou serviço, e recalcula o total de todos os itens
+	function AtualizarValorTotal(qtde,valor,idTotal){
+	    return false;
+		var quantidade = document.getElementById(qtde).value;
+		var valor = document.getElementById(valor + '_2').value;
+
+		if(valor != '') {
+            valor = moeda2float(valor);
+            quantidade = (moeda2float(quantidade));
+            var totalItem = quantidade - valor;
+            
+            document.getElementById(idTotal).innerHTML = float2moeda(totalItem);            
+		}
+
+		//calcularTotalAta();
+	}
+
+	function AtualizarValorSaldoTotal(index, qtdUtilizadoDb) {
+	    return false;
+		var els = document.getElementsByClassName('qtd_total_item_'+index);
+        var els_db = document.getElementsByClassName('qtd_total_item_db_'+index);
+		var saldo_atual = moeda2float(document.getElementById("inputSaldoTotal_"+index).value);
+        var qtd_utilizado = moeda2float(document.getElementById("inputQtdUtilizado_"+index).value);
+        saldo_atual -= qtd_utilizado;
+        subtotalItens = 0;
+        subtotalItensDb = 0;
+        
+		for(var x=0; x<els.length; x++){
+			if( els[x].value != '' ){
+                subtotalItens += moeda2float(els[x].value)
+			}
+		}
+
+        // Somar os valores do banco
+        for(var x=0; x<els_db.length; x++){
+            subtotalItensDb += moeda2float(els_db[x].value)
+        }
+
+        if(subtotalItens > subtotalItensDb) {
+            saldo_atual -= (subtotalItens - subtotalItensDb);
+        } else if (subtotalItens < subtotalItensDb) {
+            saldo_atual += (subtotalItensDb - subtotalItens);
+        }
+
+		document.getElementById("saldoTotalItem_"+index).innerHTML = float2moeda(saldo_atual);
+	}
+    
+
+	$(document).ready(function() {
+		$(".ajustarSelecao").change(function() {
+			$(".ajustarSelecao").prop("checked", false);
+			$(this).prop("checked", true);
+		});
+
+		$('.removerDocumento').click(function(e){
+            e.preventDefault();
+            $('#documentoExcluir').val($(this).attr('doc'));
+            $('#Botao').val('RetirarDocumento');
+            $("#{NOMEPROGRAMA}").submit();
+        });
+	});
+</script>
+
+
+<!-- BEGIN BLOCO_LICITACAO -->
+<div class="col-md-12 col-lg-12 text-defalt">
+    <div class="row">
+        <div class="col-md-2 text-left background-td">
+            Nº da Ata Interna*
+        </div>
+        <div class="col-md-10">
+            {NUM_ATA}
+        </div>
+    </div>
+</div>
+<div class="col-md-12 col-lg-12 main-title-table">
+    <div class="text-center">
+        <strong>QUANTITATIVOS DOS ITENS DA ATA POR ÓRGÃOS CARONA</strong>
+    </div>
+</div>
+<!-- END BLOCO_LICITACAO -->
+
+<form action="{NOMEPROGRAMA}.php?tipo={TIPO}&ano={ANO}&processo={PROCESSO}&orgao={ORGAO}&ata={ATA}&fornecedor={FORNECEDOR}&codigocomissao={CODIGOCOMISSAO}&codigoGrupo={CODIGOGRUPO}" method="post" name="{NOMEPROGRAMA}" id="{NOMEPROGRAMA}" enctype="multipart/form-data">
+    <div class="col-md-12 col-lg-12 tableFixHead">
+        <div class="row">
+            <table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF">
+                <thead>
+                    <tr>
+                        <th class="textoabason text-center" bgcolor="#DCEDF7" align="center" rowspan="2">LOTE</th>
+                        <th class="textoabason text-center" bgcolor="#DCEDF7" align="center" rowspan="2">ORD.</th>
+                        <th class="textoabason text-center" bgcolor="#DCEDF7" align="center" rowspan="2">TIPO</th>
+                        <th class="textoabason text-center" bgcolor="#DCEDF7" align="center" rowspan="2">COD. REDUZIDO</th>
+                        <th class="textoabason text-center" bgcolor="#DCEDF7" align="center" colspan="2" rowspan="2">DESCRIÇÃO</th>
+                        <th class="textoabason text-center" bgcolor="#DCEDF7" align="center" colspan="2" rowspan="2">DESCRIÇÃO DETALHADA</th>
+                        <th class="textoabason text-center" bgcolor="#DCEDF7" align="center" rowspan="2">UND.</th>
+                        <th class="textoabason text-center" bgcolor="#DCEDF7" align="center" rowspan="2">SITUAÇÃO</th>
+
+                        <!-- BEGIN BLOCO_ITEM_COLUNA_TR -->
+                        <th class="textoabason text-center" bgcolor="#DCEDF7" align="center" rowspan="2">QUANTIDADE TOTAL DA ATA</th>
+                        <th class="textoabason text-center" bgcolor="#DCEDF7" align="center" rowspan="2">QUANTIDADE MÁXIMA CARONA</th>
+                        <th class="textoabason text-center" bgcolor="#DCEDF7" align="center" colspan="5">QUANTIDADE UTILIZADA</th>
+
+                        <!-- END BLOCO_ITEM_COLUNA_TR -->
+
+                        <!-- BEGIN BLOCO_ITEM_COLUNA_TR_1 -->
+                        <th class="textoabason text-center" bgcolor="#DCEDF7" align="center" rowspan="2">VALOR TOTAL DA ATA</th>
+                        <th class="textoabason text-center" bgcolor="#DCEDF7" align="center" rowspan="2">VALOR MÁXIMO CARONA</th>
+                        <th class="textoabason text-center" bgcolor="#DCEDF7" align="center" colspan="5">VALOR UTILIZADO</th>
+                        <!-- END BLOCO_ITEM_COLUNA_TR_1 -->
+
+                        <th class="textoabason  text-center" bgcolor="#DCEDF7" align="center" rowspan="2">SALDO</th>
+
+                        <!-- BEGIN BLOCO_ORGAO_ITEM_COLUNA -->
+                        <th class="textoabason text-center" bgcolor="#DCEDF7" align="center" colspan="{VALOR_COLSPAN}">
+                            <input name="columnOrgao[{ID_ORGAO_COLUMN}][coluna_orgao]" type="radio" />
+                            <input type="hidden" id="columnOrgao[{ID_ORGAO_COLUMN}][novo_orgao]" name="columnOrgao[{ID_ORGAO_COLUMN}][novo_orgao]" value="{NOVO_ORGAO}" />
+                            {NOME_ORGAO} - {STATUS}
+                        </th>
+                        <!-- END BLOCO_ORGAO_ITEM_COLUNA -->
+                    </tr>
+
+                    <tr>
+                        <th class="textoabason text-center" bgcolor="#DCEDF7" align="center">CARONA INTERNO INCLUSÃO DIRETA</th>
+                        <th class="textoabason text-center" bgcolor="#DCEDF7" align="center">CARONA INTERNO SCC</th>
+                        <th class="textoabason text-center" bgcolor="#DCEDF7" align="center">CARONA EXTERNA</th>
+                        <th class="textoabason text-center" bgcolor="#DCEDF7" align="center">TOTAL ATA ANTERIOR</th>
+                        <th class="textoabason text-center" bgcolor="#DCEDF7" align="center">TOTAL</th>
+
+                        <!-- BEGIN BLOCO_ORGAO_ITEM_COLUNA_TR -->
+                        <th class="textoabason text-center" bgcolor="#DCEDF7" align="center">QTD UTILIZADA - INCLUSÃO DIRETA</th>
+                        <th class="textoabason text-center" bgcolor="#DCEDF7" align="center">QTD UTILIZADA - SCC</th>
+                        <th class="textoabason text-center" bgcolor="#DCEDF7" align="center">QTD UTILIZADA - ATA ANTERIOR</th>
+                        <th class="textoabason text-center" bgcolor="#DCEDF7" align="center">SALDO</th>
+                        <!-- END BLOCO_ORGAO_ITEM_COLUNA_TR -->
+
+                        <!-- BEGIN BLOCO_ORGAO_ITEM_COLUNA_TR_1 -->
+                        <th class="textoabason text-center" bgcolor="#DCEDF7" align="center">VALOR UTILIZADO - INCLUSÃO DIRETA</th>
+                        <th class="textoabason text-center" bgcolor="#DCEDF7" align="center">VALOR UTILIZADO - SCC</th>
+                        <th class="textoabason text-center" bgcolor="#DCEDF7" align="center">VALOR UTILIZADO - ATA ANTERIOR</th>
+                        <th class="textoabason text-center" bgcolor="#DCEDF7" align="center">SALDO</th>
+                        <!-- END BLOCO_ORGAO_ITEM_COLUNA_TR_1 -->
+                    </tr>
+                </thead>
+
+                {TR_LAYOUT}
+
+                <!--BEGIN BLOCO_ITEM_TOTAL -->
+                    <!-- BEGIN BLOCO_RESULTADO_ATAS -->
+                        <!-- BEGIN BLOCO_ITEM -->
+                            <tr>
+                                <td class="textonormal" align="center">{VALOR_LOTE}</td>
+                                <td class="textonormal" align="center">{VALOR_ORD}</td>
+                                <td class="textonormal" align="center">{VALOR_TIPO}</td>
+                                <td class="textonormal" align="center">{VALOR_CADUS}</td>
+                                <td class="textonormal" align="center" colspan="2">{VALOR_DESCRICAO}</td>
+                                <td class="textonormal" align="center" colspan="2"> {VALOR_DESCRICAO_DETALHADA} </td>
+                                <td class="textonormal" align="center" title="{DESCRICAO_LINHA}">{VALOR_UND}</td>
+                                <td class="textonormal" align="center" title="{DESCRICAO_LINHA}">{VALOR_SITUACAO}</td>
+                                <td class="textonormal" align="center" title="{DESCRICAO_LINHA}">{VALOR_QTD_TOTAL}</td>
+                                <input type="hidden" name="itemOrgao[{VALOR_SEQITEM}][qtd_total_item]" value="{VALOR_QTD_TOTAL}" class="dinheiro4casas" size="5" id="itemOrgao[{VALOR_SEQITEM}][qtd_total_item]" />
+
+                                <td class="textonormal" align="center" title="{DESCRICAO_LINHA}">{VALOR_QTD_MAX_CARONA}</td>
+                                <input type="hidden" value="{VALOR_QTD_MAX_CARONA}" id="inputSaldoTotal_{VALOR_SEQITEM}" size="5" />
+                                <input type="hidden" name="itemOrgao[{VALOR_SEQITEM}][qtd_total_max_carona]" value="{VALOR_QTD_MAX_CARONA}" class="dinheiro4casas" size="5" />
+                                <input type="hidden" name="itemOrgao[{VALOR_SEQITEM}][tipoControle]" value="{TIPO_CONTROLE}" />
+
+                                <td class="textonormal" align="center" title="{DESCRICAO_LINHA}">
+                                    <input type="hidden" id="inputQtdUtilizado_{VALOR_SEQITEM}" value="{VALOR_CARONA_INTERNO}" class="dinheiro4casas" size="5" />
+                                    {VALOR_CARONA_INTERNO}
+                                </td>
+
+                                <td align="center" title="{DESCRICAO_LINHA}">{VALOR_CARONA_SCC}</td>
+
+                                <td align="center" title="{DESCRICAO_LINHA}">{VALOR_CARONA_EXTERNA}</td>
+                                <td align="center" title="{DESCRICAO_LINHA}">{VALOR_TOTAL_ATA_A}</td>
+                                <td align="center" title="{DESCRICAO_LINHA}">{VALOR_TOTAL}</td>
+
+                                <td class="textonormal" align="center" title="{DESCRICAO_LINHA}">
+                                    <span id="saldoTotalItem_{VALOR_SEQITEM}">
+                                        {SALDO}
+                                    </span>
+                                </td>
+
+                                <input type="hidden" name="itemOrgao[{VALOR_SEQITEM}][saldoItem]" value="{SALDO}" class="dinheiro4casas" size="5" />
+                                <input type="hidden" name="itemOrgao[{VALOR_SEQITEM}][saldoGeral]" value="{SALDO}" class="dinheiro4casas" size="5" />
+                                <input type="hidden" name="itemOrgao[{VALOR_SEQITEM}][totalAta]" value="{VALOR_QTD_TOTAL}" class="dinheiro4casas" size="5" />
+                                <input type="hidden" id="itemOrgao[{VALOR_SEQITEM}]][apiarpqtat]" name="itemOrgao[{VALOR_SEQITEM}][apiarpqtat]" value="{QTD_PARTICIPANTE_ITEM}" class="dinheiro4casas" size="5" />
+                                <input type="hidden" id="itemOrgao[{VALOR_SEQITEM}][aitarpqtor]" name="itemOrgao[{VALOR_SEQITEM}][aitarpqtor]" value="{QTD_PARTICIPANTE_ITEM_ORG}" class="dinheiro4casas" size="5" />
+                                <input type="hidden" id="itemOrgao[{VALOR_SEQITEM}][{ID_ORGAO}][ordemTela]" name="itemOrgao[{VALOR_SEQITEM}][{ID_ORGAO}][ordemTela]" value="{VALOR_ORD}" />
+                                <input type="hidden" id="itemOrgao[{VALOR_SEQITEM}][{ID_ORGAO}][lote]" name="itemOrgao[{VALOR_SEQITEM}][{ID_ORGAO}][lote]" value="{VALOR_LOTE}" />
+
+                                <!-- BEGIN BLOCO_ORGAO_ITEM_TD -->
+                                <td class="textonormal" align="center" title="{DESCRICAO_LINHA_TD}">
+                                    <input id="itemOrgao[{VALOR_SEQITEM}][{ID_ORGAO}][apiarpqtut]_2" type="hidden" value="{QTD_PARTICIPANTE_ITEM_UTILIZADA_2}" class="dinheiro4casas qtd_total_item_db_{VALOR_SEQITEM}" size="5" />
+                                    <input id="itemOrgao[{VALOR_SEQITEM}][{ID_ORGAO}][apiarpqtut]" name="itemOrgao[{VALOR_SEQITEM}][{ID_ORGAO}][apiarpqtut]" value="{QTD_PARTICIPANTE_ITEM_UTILIZADA}" class="dinheiro4casas qtd_total_item_{VALOR_SEQITEM}" size="5" onblur="javascript:AtualizarValorTotal('itemOrgao[{VALOR_SEQITEM}][qtd_total_item]','itemOrgao[{VALOR_SEQITEM}][{ID_ORGAO}][apiarpqtut]','totalUnitarioItem[{VALOR_SEQITEM}][{ID_ORGAO}]'); AtualizarValorSaldoTotal({VALOR_SEQITEM}, 'inputQtdUtilizadoDb_[{VALOR_SEQITEM}][{ID_ORGAO}][utilizadoDb]')"  />
+                                </td>
+                                <td align="center" title="{DESCRICAO_LINHA_TD}">
+                                    <input name="itemOrgao[{VALOR_SEQITEM}][{ID_ORGAO}][scc]" type="hidden" value="{VALOR_SCC}" class="dinheiro4casas" />
+                                    {VALOR_SCC}
+                                </td>
+                                <td align="center" title="{DESCRICAO_LINHA_TD}">
+                                    <input name="itemOrgao[{VALOR_SEQITEM}][{ID_ORGAO}][ata_anterior]" type="hidden" value="{VALOR_ORGAO_AA}" class="dinheiro4casas" />
+                                    {VALOR_ORGAO_AA}
+                                </td>
+                                <td class="textonormal totalUnitario" title="{DESCRICAO_LINHA_TD}" width="50px" align="center" id="totalUnitarioItem[{VALOR_SEQITEM}][{ID_ORGAO}]" name="totalUnitarioItem[]">
+                                    {QTD_SALDO_BLOCO}
+                                </td>
+                                <!-- END BLOCO_ORGAO_ITEM_TD -->
+
+                                <!-- BEGIN BLOCO_ORGAO_ITEM_TD_1 -->
+                                <td class="textonormal" align="center" title="{DESCRICAO_LINHA_TD}">
+                                    <input id="itemOrgao[{VALOR_SEQITEM}][{ID_ORGAO}][vitcrpvuti]_2"  type="hidden" value="{QTD_PARTICIPANTE_ITEM_UTILIZADA_2}" class="dinheiro4casas qtd_total_item_db_{VALOR_SEQITEM}" size="5" />
+                                    <input id="itemOrgao[{VALOR_SEQITEM}][{ID_ORGAO}][vitcrpvuti]" name="itemOrgao[{VALOR_SEQITEM}][{ID_ORGAO}][vitcrpvuti]" value="{QTD_PARTICIPANTE_ITEM_UTILIZADA}" class="dinheiro4casas qtd_total_item_{VALOR_SEQITEM}" size="5" onblur="javascript:AtualizarValorTotal('itemOrgao[{VALOR_SEQITEM}][qtd_total_item]','itemOrgao[{VALOR_SEQITEM}][{ID_ORGAO}][vitcrpvuti]','totalUnitarioItem[{VALOR_SEQITEM}][{ID_ORGAO}]'); AtualizarValorSaldoTotal({VALOR_SEQITEM}, 'inputQtdUtilizadoDb_[{VALOR_SEQITEM}][{ID_ORGAO}][utilizadoDb]')"  />
+                                </td>
+                                <td align="center" title="{DESCRICAO_LINHA_TD}">
+                                    <input name="itemOrgao[{VALOR_SEQITEM}][{ID_ORGAO}][scc]" type="hidden" value="{VALOR_SCC}" class="dinheiro4casas" />
+                                    {VALOR_SCC}
+                                </td>
+                                <td align="center" title="{DESCRICAO_LINHA_TD}">
+                                    <input name="itemOrgao[{VALOR_SEQITEM}][{ID_ORGAO}][ata_anterior]" type="hidden" value="{VALOR_ORGAO_AA}" class="dinheiro4casas" />
+                                    {VALOR_ORGAO_AA}
+                                </td>
+                                <td class="textonormal totalUnitario" title="{DESCRICAO_LINHA_TD}" width="50px" align="center" id="totalUnitarioItem[{VALOR_SEQITEM}][{ID_ORGAO}]" name="totalUnitarioItem[]">
+                                    {QTD_SALDO_BLOCO}
+                                </td>
+                                <!-- END BLOCO_ORGAO_ITEM_TD_1 -->
+                            </tr>
+                        <!-- END BLOCO_ITEM -->
+                    <!-- END BLOCO_RESULTADO_ATAS -->
+                <!-- END BLOCO_ITEM_TOTAL -->
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="pull-right buttons-action-table ">
+                <input type="button" name="adicionarParticipante" value="Adicionar Carona" class="botao" onclick="javascript:AbreJanelaItem('../registropreco/CadIncluirIGrupoParticipante.php?ProgramaOrigem={NOMEPROGRAMA}&PesqApenas=C&ata={ATA}', 550, 350);" />
+
+                <!--<input type="button" name="adicionarParticipante" value="Adicionar Participante" class="botao" onclick="javascript:enviar('AdicionarParticipante')" />-->
+
+                <input type="button" name="retirarCarona" value="Retirar Carona" class="botao" onclick="javascript:enviar('retirarCarona')" />
+
+                <input type="button" name="ativarCarona" value="Ativar Carona" class="botao" onclick="javascript:enviar('ativarCarona')" />
+
+                <input type="button" name="inativarCarona" value="Inativar Carona" class="botao" onclick="javascript:enviar('inativarCarona')" />
+
+                <input type="button" name="salvar" value="Salvar" class="botao" onclick="javascript:enviar('Salvar')" />
+                <input type="button" name="voltar" value="Voltar" class="botao" onclick="javascript:window.close()" />
+                <input type="hidden" name="Botao" value="" id="Botao" />
+            </div>
+        </div>
+    </div>
+</form>

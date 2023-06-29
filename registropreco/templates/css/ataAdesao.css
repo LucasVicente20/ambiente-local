@@ -1,0 +1,128 @@
+#divretorno{
+    display: flex;
+    margin-top: 9%;
+    max-width: 46%;
+    margin-left: 11%;
+}
+
+.textonormal {
+    font-family: Verdana,sans-serif,Arial;
+    font-size: 8pt;
+    font-weight: normal;
+    font-variant: normal;
+    color: #000000;
+    font-style: normal;
+    line-height: normal;
+    text-decoration: none;
+}
+
+.titulo3 {
+    font-family: Verdana,sans-serif,Arial;
+    font-size: 8pt;
+    font-style: normal;
+    font-weight: bold;
+    color: #000000;
+    text-decoration: none;
+}
+form {
+    font-family: Verdana,sans-serif,Arial;
+    font-size: 8pt;
+    font-weight: normal;
+    font-variant: normal;
+    color: #000000;
+    font-style: normal;
+    line-height: normal;
+    text-decoration: none;
+    margin-top: 3%;
+}
+
+/* table thead tr th {
+    background-color: #75ADE6;
+} */
+
+#orgaoGestor{
+    width: 300px;
+}
+
+#tabelaresultado{
+    min-width: 800px;
+}
+
+.mensagem {
+    float: left;
+    margin-left: 0;
+    margin-top: 10px;
+    width: 100%;
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.mensagem div.error {
+    font-family: Verdana,sans-serif,Arial;
+    font-size: 8pt;
+    font-style: normal;
+    color: red;
+    background-color: rgb(220, 237, 247);
+    font-weight: bolder;
+    position: relative;
+    width: 100%;
+}
+
+.mensagem span.mensagem-texto {
+    color: #007fff;
+    font-weight: bolder;
+    font-family: Verdana,sans-serif,Arial;
+    font-size: 8pt;
+    font-style: normal;
+}
+
+.botao {
+    border-width: 1;
+    border-style: solid;
+    border-color: #c0c0c0;
+    background: #75ade6;
+    font-family: Verdana,sans-serif,Arial;
+    font-size: 9pt;
+    font-weight: bold;
+    font-variant: normal;
+    color: #FFFFFF;
+    font-style: normal;
+    line-height: normal;
+    text-decoration: none;
+}
+
+@media screen and (max-width: 1600px) {
+    #divretorno{
+        display: flex;
+        margin-top: 10%;
+        max-width: 53%;
+        margin-left: 13%;
+    }
+}
+
+@media screen and (max-width: 1400px) {
+    #divretorno{
+        display: flex;
+        margin-top: 15%;
+        max-width: 63%;
+        margin-left: 14%;
+    }
+}
+
+@media screen and (max-width: 1080px) {
+    #divretorno{
+        display: flex;
+        margin-top: 19%;
+        max-width: 79%;
+        margin-left: 18%;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    #divretorno{
+        display: flex;
+        margin-top: 26%;
+        max-width: 100%;
+        margin-left: 25%;
+    }
+}

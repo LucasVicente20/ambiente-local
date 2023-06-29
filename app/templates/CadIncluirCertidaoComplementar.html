@@ -1,0 +1,77 @@
+<script language="javascript" type="text/javascript">
+function enviar() {
+	opener.document.{PROGRAMA_ORIGEM}.Certidao.value = document.FornecedorCertidao.Certidao.value;
+	opener.document.{PROGRAMA_ORIGEM}.Origem.value = 'B';
+	opener.document.{PROGRAMA_ORIGEM}.Destino.value = 'B';
+	opener.document.{PROGRAMA_ORIGEM}.submit();
+	self.close();
+}
+
+function voltar() {
+	self.close();
+}
+</script>
+
+<div class="content">
+	<div class="row">
+		<div class="span12">
+			<section class="box-article">
+				<header class="header">
+					<h1>Incluir - Certidão Complementar</h1>
+				</header>
+				<div class="body">
+				    <article class="article">
+                        <header class="article-header">
+                            <h1>Incluir - Certidão Complementar</h1>
+                        </header>
+                    </article>
+					<article class="article">
+						<section class="article-detail row-border">
+							<p>
+								Para incluir uma certidão fiscal complementar,
+								selecione a certidão desejada e clique no botão "Incluir".
+								Para voltar para a tela anterior clique no botão "Voltar".
+							</p>
+						</section>
+
+						<div class="tabbable">
+							<div style="padding-bottom: 9px; border-bottom: 1px solid #ddd;"
+								class="tab-content">
+								<div id="tab1" class="tab-pane active">
+
+									<form style="margin: 0;" method="post"
+										action="{BASE_URL}CadIncluirAutorizacao.php" name="FornecedorCertidao"
+										id="formularioAutorizacao">
+
+										<div class="well">
+											<div class="row-fluid">
+												<div class="span12">
+													<label class="big">Certidões*</label>
+													<select name="Certidao" class="span12">
+														<!-- BEGIN BLOCO_OPCOES_CERTIDAO -->
+						                                <option value="{COD}" {SELECIONADO}>{DESCRICAO}</option>
+						                                <!-- END BLOCO_OPCOES_CERTIDAO -->
+													</select>
+												</div>
+											</div>
+										</div>
+
+										<div class="pagination-right">
+											<input type="hidden" name="Autoriza" value="{Autoriza}">
+											<input type="hidden" name="Critica" value="{Critica}">
+
+											<button class="btn btn-primary" type="button" onclick="javascript:enviar();">Incluir</button>
+											<button class="btn btn-primary" type="button" onclick="self.close();">Voltar</button>
+											<input type="hidden" name="Botao" value="">
+											<input type="hidden" name="ProgramaOrigem" value="{PROGRAMA_ORIGEM}">
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</article>
+				</div>
+			</section>
+		</div>
+	</div>
+</div>

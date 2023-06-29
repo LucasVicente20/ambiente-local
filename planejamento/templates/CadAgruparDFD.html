@@ -1,0 +1,189 @@
+<!-- 220038-- -->
+<script type="text/javascript">
+	function enviar(valor) {
+		var valida = false;
+			if(valor == "Agrupar"){
+				var checkBoxes = document.querySelectorAll(".checkbox");
+				var selecionados = 0;
+				checkBoxes.forEach(function(el) {
+					
+					if(el.checked) {
+						valida = true;
+						selecionados++;
+					}
+					
+				});
+			var motivo = document.querySelector("#motivoAgrupamento");
+			var unidade = document.querySelector("#UnidadeCodigo");
+
+			if(valida && motivo.value && unidade.value && selecionados>1){
+				var confirma = confirm("Tem certeza que deseja Agrupar os DFD(s) Selecionados?");
+					if(confirma != true){
+						return false;
+					}else{
+						wto = setTimeout(function() {
+							if(valor){
+								document.CadAgruparDFD.Botao.value = valor;
+							}else{
+								document.CadAgruparDFD.Botao.value = '';
+							}
+							document.CadAgruparDFD.submit();
+							document.CadAgruparDFD.submit();
+						}, 1000);
+					}
+				}else{
+					document.CadAgruparDFD.Botao.value = 'Valida';
+					document.CadAgruparDFD.submit();
+				}
+		}
+				
+	}
+ 	function voltar(){
+		window.location.href='CadSelecionarAgruparDFD.php';
+	}
+	$(document).ready(function(){
+		$('.checkbox').live('click', function(){
+			$('#op').val('orgaosAgrupar');
+			$.post('PostDadosConsultaDFD.php', $("#CadAgruparDFD").serialize(), function(data){
+				const response  =  JSON.parse(data); 
+				if(response.status == true){
+					$("#UnidadeCodigo").html(response.html);
+				}
+			})
+		})
+		$('button[name="Agrupar"]').live('click', function() {
+			// Caso o botão agrupar seja clicado ele vai ser desabilitado pera evitar duplicação.
+			$('button[name="Agrupar"]').prop('disabled', true);
+		});
+	})
+</script>
+<style>
+	.mensagem-texto-fim {
+		color: #007fff;
+		font-weight: bolder;
+		font-family: Verdana,sans-serif,Arial;
+		font-size: 8pt;
+		font-style: normal;
+	}
+	#labels{
+		width: 200px;
+		background-color:#DCEDF7;
+    }
+
+</style>
+
+
+<!-- BEGIN BLOCO_ERROR -->
+<table id="tableError" cellpadding="3" cellspacing="0"
+		summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 800px;">
+<tr>
+	<td  colspan="2" id="mensagemFinal">
+		<div class="mensagem">
+			<div class="mensagem" width="600px;">
+				<div class="error">
+				Error
+				</div>
+				<span class="mensagem-texto-fim">
+					{MENSAGEM_ERROR}
+				</span>
+			</div>
+	</td>
+</tr>
+</table>
+<!-- END BLOCO_ERROR -->
+
+<form action="CadAgruparDFD.php" method="post" id="CadAgruparDFD" name="CadAgruparDFD">
+<input type="hidden" name="op" id="op">
+<tr>
+	<table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6"
+		summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 900px;">
+		<tr>
+			<td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3"
+				colspan="9">AGRUPAR DFD</td>
+		</tr>
+		<tr>
+			<td>
+				<table border="0" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 633px;">
+					<tr>
+						<td>Selecione os DFD´s que participarão do agupamento, informe os dados obrigatórios e clique no botão 'Agrupar'. Caso deseje voltar para a tela de Pesquisa, clique no botão 'Voltar'.</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tbody>
+			<tr id="labels">
+				<td colspan="8">
+				Ano do PCA:  2024   
+			</td>
+		</tr>
+			<tr id="labels">
+				<td>
+					Situação:	Encaminhado, Analisado, Aprovado, Devolvido pela autoridade competente.
+				</td>
+			</tr>
+			
+		</tbody>
+		
+		
+        <!-- BEGIN BLOCO_RESULTADO -->
+        
+			
+                    <!-- BEGIN BLOCO_DADOS -->
+					<tr id="resultadoHTML">
+						{RESULTADO}
+					</tr>
+                    <!-- END BLOCO_DADOS -->
+                     
+			<!-- BEGIN BLOCO_ORGAO_LICITANTE -->
+			
+				<tr>
+				<td>
+					<table>
+						<td class="textonormal" id="labels">Área Requisitante Responsável*:</td>
+						<td>
+					<select id="UnidadeCodigo" class="textonormal" name="UnidadeCodigo" style="font-size: 10.6667px;">
+							<option value="">Selecione a Área Requisitante...</option>
+						<!-- BEGIN BLOCO_ITEM_ORGAO_LICITANTE -->
+							<!-- <option value="{VALOR_ID_ORGAO_LICITANTE}"{VALOR_ORGAO_SELECTED}>{VALOR_NOME_ORGAO_LICITANTE}</option> -->
+						<!-- END BLOCO_ITEM_ORGAO_LICITANTE -->
+					</select>
+				</td>
+					</table>
+				</td>
+				</tr>
+			
+				<tr>
+				<td>
+					<table>
+						<td class="textonormal" id="labels">Motivo do Agrupamento*:</td>
+							<td><textarea name="motivoAgrupamento" id="motivoAgrupamento"  style=" width: 600px; font-size: 10.6667px; text-transform: uppercase;"></textarea></td>
+						</td>
+					</table>
+					</td>
+					
+				</tr>
+				
+		
+			<!-- END BLOCO_ORGAO_LICITANTE -->
+        <!-- END BLOCO_RESULTADO -->
+
+	
+		<tr style="display:none;">
+			<td class="textonormal" align="right"> 
+				<input type="hidden" name="Botao" value="" />
+				<input type="hidden" name="valorAuxiliar" value="" />
+			</td>
+		</tr>
+		<!-- BEGIN BOTAO_ENCAMINHAR -->
+		<tr>
+			<td class="textonormal" align="right"> 
+				<input type="button" name="Agrupar" value="Agrupar" class="botao" onclick="javascript:enviar('Agrupar')">
+				<input type="button" name="Voltar" value="Voltar" class="botao" onclick="voltar();">
+			</td>
+		</tr>
+		<!-- END BOTAO_ENCAMINHAR -->
+		
+	</table>
+</tr>
+</form>

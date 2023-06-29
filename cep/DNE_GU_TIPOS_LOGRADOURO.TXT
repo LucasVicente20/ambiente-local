@@ -1,0 +1,229 @@
+﻿C V1.8   03 FEV 2003    © COPYRIGHT CORREIOS DO BRASIL       TIPOS DE LOGRADOURO               
+D645645ACAMPAMENTO                                                             ACAMP           
+D001001ACESSO                                                                  AC              
+D667667ACESSO LOCAL                                                            AC LOC          
+D002002ADRO                                                                    AD              
+D501501AEROPORTO                                                               AER             
+D004004ALAMEDA                                                                 AL              
+D005005ALTO                                                                    AT              
+D674674ANTIGA ESTRADA                                                          ANT EST         
+D472472AREA                                                                    A               
+D654654AREA ESPECIAL                                                           AE              
+D465465ARTERIA                                                                 ART             
+D007007ATALHO                                                                  ATL             
+D008008AVENIDA                                                                 AV              
+D651651AVENIDA CONTORNO                                                        AV CONT         
+D677677AVENIDA MARGINAL                                                        AV MARG         
+D680680AVENIDA MARGINAL DIREITA                                                AV MARG DIR     
+D679679AVENIDA MARGINAL ESQUERDA                                               AV MARG ESQ     
+D678678AVENIDA VELHA                                                           AV VA           
+D015015BAIXA                                                                   BX              
+D470470BALAO                                                                   BLO             
+D009009BALNEARIO                                                               BAL             
+D011011BECO                                                                    BC              
+D010010BELVEDERE                                                               BELV            
+D012012BLOCO                                                                   BL              
+D687687BLOCOS                                                                  BLS             
+D013013BOSQUE                                                                  BSQ             
+D014014BOULEVARD                                                               BVD             
+D689689BULEVAR                                                                 BLV             
+D496496BURACO                                                                  BCO             
+D016016CAIS                                                                    C               
+D571571CALCADA                                                                 CALC            
+D017017CAMINHO                                                                 CAM             
+D023023CAMPO                                                                   CPO             
+D495495CANAL                                                                   CAN             
+D481481CHACARA                                                                 CH              
+D019019CHAPADAO                                                                CHAP            
+D688688CICLOVIA                                                                CICL            
+D479479CIRCULAR                                                                CIRC            
+D021021COLONIA                                                                 COL             
+D503503COMPLEXO VIARIO                                                         CMP VR          
+D485485CONDOMINIO                                                              COND            
+D020020CONJUNTO                                                                CJ              
+D664664CONJUNTO MUTIRAO                                                        CJ MUT          
+D686686CONTORNO                                                                CONT            
+D022022CORREDOR                                                                COR             
+D024024CORREGO                                                                 CRG             
+D478478DESCIDA                                                                 DSC             
+D027027DESVIO                                                                  DSV             
+D028028DISTRITO                                                                DT              
+D468468ELEVADA                                                                 EVD             
+D573573ENTRADA PARTICULAR                                                      ENT PART        
+D652652ENTRE QUADRA                                                            EQ              
+D030030ESCADA                                                                  ESC             
+D690690ESCADARIA                                                               ESCAD           
+D474474ESPLANADA                                                               ESP             
+D032032ESTACAO                                                                 ETC             
+D564564ESTACIONAMENTO                                                          ESTC            
+D033033ESTADIO                                                                 ETD             
+D498498ESTANCIA                                                                ETN             
+D031031ESTRADA                                                                 EST             
+D682682ESTRADA ANTIGA                                                          EST ANT         
+D675675ESTRADA DE LIGACAO                                                      EST LIG         
+D676676ESTRADA ESTADUAL                                                        EST ESTD        
+D650650ESTRADA MUNICIPAL                                                       EST MUN         
+D681681ESTRADA PARTICULAR                                                      EST PART        
+D671671ESTRADA VELHA                                                           EST VELHA       
+D036036FAVELA                                                                  FAV             
+D037037FAZENDA                                                                 FAZ             
+D040040FEIRA                                                                   FRA             
+D038038FERROVIA                                                                FER             
+D039039FONTE                                                                   FNT             
+D043043FORTE                                                                   FTE             
+D045045GALERIA                                                                 GAL             
+D046046GRANJA                                                                  GJA             
+D486486HABITACIONAL                                                            HAB             
+D050050ILHA                                                                    IA              
+D052052JARDIM                                                                  JD              
+D473473JARDINETE                                                               JDE             
+D053053LADEIRA                                                                 LD              
+D499499LAGO                                                                    LG              
+D055055LAGOA                                                                   LGA             
+D054054LARGO                                                                   LRG             
+D056056LOTEAMENTO                                                              LOT             
+D477477MARINA                                                                  MNA             
+D497497MODULO                                                                  MOD             
+D060060MONTE                                                                   MTE             
+D059059MORRO                                                                   MRO             
+D500500NUCLEO                                                                  NUC             
+D067067PARADA                                                                  PDA             
+D471471PARADOURO                                                               PDO             
+D062062PARALELA                                                                PAR             
+D072072PARQUE                                                                  PRQ             
+D663663PARQUE MUNICIPAL                                                        PRQ MUNIC       
+D665665PARQUE RESIDENCIAL                                                      PRQ RES         
+D074074PASSAGEM                                                                PSG             
+D696696PASSAGEM DE PEDESTRES                                                   PSG PED         
+D502502PASSAGEM SUBTERRANEA                                                    PSG-SUB         
+D073073PASSARELA                                                               PSA             
+D063063PASSEIO                                                                 PAS             
+D064064PATIO                                                                   PAT             
+D483483PONTA                                                                   PNT             
+D076076PONTE                                                                   PTE             
+D469469PORTO                                                                   PTO             
+D065065PRACA                                                                   PC              
+D504504PRACA DE ESPORTES                                                       PC-ESP          
+D070070PRAIA                                                                   PR              
+D691691PRIMEIRA LADEIRA                                                        1A LD           
+D071071PROLONGAMENTO                                                           PRL             
+D077077QUADRA                                                                  Q               
+D694694QUARTA LADEIRA                                                          4A LD           
+D079079QUINTA                                                                  QTA             
+D695695QUINTA LADEIRA                                                          5A LD           
+D475475QUINTAS                                                                 QTAS            
+D082082RAMAL                                                                   RAM             
+D482482RAMPA                                                                   RMP             
+D087087RECANTO                                                                 REC             
+D662662RECREIO                                                                 RCR             
+D487487RESIDENCIAL                                                             RES             
+D089089RETA                                                                    RET             
+D088088RETIRO                                                                  RER             
+D091091RETORNO                                                                 RTN             
+D569569RODO ANEL                                                               ROD-AN          
+D090090RODOVIA                                                                 ROD             
+D506506ROTATORIA                                                               RTT             
+D476476ROTULA                                                                  ROT             
+D081081RUA                                                                     R               
+D653653RUA DE LIGACAO                                                          R LIG           
+D566566RUA DE PEDESTRE                                                         R-PED           
+D670670RUA INTEGRACAO                                                          R INTEG         
+D669669RUA PARTICULAR                                                          R PART          
+D672672RUA VELHA                                                               R VELHA         
+D692692SEGUNDA LADEIRA                                                         2A LD           
+D094094SERVIDAO                                                                SRV             
+D095095SETOR                                                                   ST              
+D092092SITIO                                                                   SIT             
+D096096SUBIDA                                                                  SUB             
+D693693TERCEIRA LADEIRA                                                        3A LD           
+D098098TERMINAL                                                                TER             
+D100100TRAVESSA                                                                TV              
+D570570TRAVESSA PARTICULAR                                                     TV-PART         
+D673673TRAVESSA VELHA                                                          TV VELHA        
+D452452TRECHO                                                                  TR              
+D099099TREVO                                                                   TRV             
+D097097TRINCHEIRA                                                              TCH             
+D567567TUNEL                                                                   TUN             
+D480480UNIDADE                                                                 UNID            
+D565565VALA                                                                    VAL             
+D106106VALE                                                                    VLE             
+D568568VARIANTE                                                                VRTE            
+D453453VEREDA                                                                  VER             
+D101101VIA                                                                     V               
+D668668VIA COLETORA                                                            V COLET         
+D572572VIA DE ACESSO                                                           V-AC            
+D484484VIA DE PEDESTRE                                                         V-PED           
+D505505VIA ELEVADO                                                             V-EVD           
+D646646VIA EXPRESSA                                                            V-EXP           
+D685685VIA LITORANEA                                                           V LIT           
+D666666VIA LOCAL                                                               V LOCAL         
+D103103VIADUTO                                                                 VD              
+D105105VIELA                                                                   VLA             
+D104104VILA                                                                    VL              
+D108108ZIGUE-ZAGUE                                                             ZIG-ZAG         
+D5235231O ALTO                                                                 1O AT           
+D6556551A AVENIDA                                                              1A AV           
+D5285281O BECO                                                                 1O BC           
+D5335331A PARALELA                                                             1A PAR          
+D5495491O PARQUE                                                               1O PRQ          
+D5525521A RUA                                                                  1A R            
+D5385381A SUBIDA                                                               1A SUB          
+D5075071A TRAVESSA                                                             1A TV           
+D5445441A VILA                                                                 1A VL           
+D56156110A RUA                                                                 10A R           
+D51651610A TRAVESSA                                                            10A TV          
+D56256211A RUA                                                                 11A R           
+D51751711A TRAVESSA                                                            11A TV          
+D56356312A RUA                                                                 12A R           
+D51851812A TRAVESSA                                                            12A TV          
+D51951913A TRAVESSA                                                            13A TV          
+D52052014A TRAVESSA                                                            14A TV          
+D52152115A TRAVESSA                                                            15A TV          
+D52252216A TRAVESSA                                                            16A TV          
+D65965918A TRAVESSA                                                            18A TV          
+D66066019A TRAVESSA                                                            19A TV          
+D5245242O ALTO                                                                 2O AT           
+D6566562A AVENIDA                                                              2A AV           
+D5295292O BECO                                                                 2O BC           
+D5345342A PARALELA                                                             2A PAR          
+D5505502O PARQUE                                                               2O PRQ          
+D5535532A RUA                                                                  2A R            
+D5395392A SUBIDA                                                               2A SUB          
+D5085082A TRAVESSA                                                             2A TV           
+D5455452A VILA                                                                 2A VL           
+D5255253O ALTO                                                                 3O AT           
+D6576573A AVENIDA                                                              3A AV           
+D5305303O BECO                                                                 3O BC           
+D5355353A PARALELA                                                             3A PAR          
+D5515513O PARQUE                                                               3O PRQ          
+D5545543A RUA                                                                  3A R            
+D5405403A SUBIDA                                                               3A SUB          
+D5095093A TRAVESSA                                                             3A TV           
+D5465463A VILA                                                                 3A VL           
+D5265264O ALTO                                                                 4O AT           
+D6586584A AVENIDA                                                              4A AV           
+D5315314O BECO                                                                 4O BC           
+D5365364A PARALELA                                                             4A PAR          
+D5565564A RUA                                                                  4A R            
+D5415414A SUBIDA                                                               4A SUB          
+D5105104A TRAVESSA                                                             4A TV           
+D5475474A VILA                                                                 4A VL           
+D5275275O ALTO                                                                 5O AT           
+D6616615A AVENIDA                                                              5A AV           
+D5325325O BECO                                                                 5O BC           
+D5375375A PARALELA                                                             5A PAR          
+D5555555A RUA                                                                  5A R            
+D5425425A SUBIDA                                                               5A SUB          
+D5115115A TRAVESSA                                                             5A TV           
+D5485485A VILA                                                                 5A VL           
+D6836836A AVENIDA                                                              6A AV           
+D5575576A RUA                                                                  6A R            
+D5435436A SUBIDA                                                               6A SUB          
+D5125126A TRAVESSA                                                             6A TV           
+D5585587A RUA                                                                  7A R            
+D5135137A TRAVESSA                                                             7A TV           
+D5595598A RUA                                                                  8A R            
+D5145148A TRAVESSA                                                             8A TV           
+D5605609A RUA                                                                  9A R            
+D5155159A TRAVESSA                                                             9A TV           
+#

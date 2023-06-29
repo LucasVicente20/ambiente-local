@@ -1,0 +1,94 @@
+<form action="ConsSancoesSelecionar.php" method="post" name="CadGestaoFornecedorExcluido">
+    <div class="content">
+        <div class="row-fluid">
+            <section class="box-article">
+                <header class="header">
+                    <h1>Acompanhamento de Fornecedores - Fornecedor Excluído</h1>
+                </header>
+                <div class="body">
+                  <ul class="breadcrumb">
+                    <li><a href="{BASE_URL}home.php">Início</a><span class="divider"><i class="arrow-right"></i></span></li>
+                    <li><a href="{BASE_URL}Fornecedores.php">Fornecedores</a><span class="divider"><i class="arrow-right"></i></span>
+                        <li><li class="active">Acompanhamento</li>
+                    </ul>
+                    <article class="article">
+	                    <header class="article-header">
+		                     <h1>Acompanhamento de Fornecedores - Fornecedor Excluído</h1>
+	                    </header>
+                    </article>
+                    <section class="article-detail row-border">
+                        <!-- Genérico - texto explicativo-->
+                        <p>Os dados abaixo referem-se ao fornecedor que foi excluído. Para voltar a tela anterior, clique no botão "voltar". </p>
+
+
+
+                    </section>
+                    <div class="clearfix">&nbsp;</div>
+                    <article class="article">
+	                    <header class="article-header">
+	                       <h2>Fornecedor Excluído</h2>
+	                    </header>
+                    </article>
+                    <section class="article-detail">
+                        <table class="table table-report table-striped">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <span>CNPJ</span>
+                                        <span class="separator"></span>
+                                    </th>
+                                    <th>
+                                        <span>RAZÃO SOCIAL/NOME</span>
+                                        <span class="separator"></span>
+                                    </th>
+                                    <th>
+                                        <span>SITUAÇÃO</span>
+                                        <span class="separator"></span>
+                                    </th>
+                                    <th>
+                                        <span>DATA SITUAÇÃO</span>
+                                        <span class="separator"></span>
+                                    </th>
+                                    <th>
+                                        <span>MOTIVO</span>
+                                        <span class="separator"></span>
+                                    </th>
+                                    <th>
+                                        <span>DATA CADASTRO</span>
+                                        <span class="separator"></span>
+                                    </th>
+                                    <th>
+                                        <span>DATA SITUAÇÃO</span>
+                                        <span class="separator"></span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr>
+                                    <td>{VALOR_CNPJ}</td>
+                                    <td>{VALOR_RAZAO_SOCIAL_NOME}</td>
+                                    <td>{VALOR_SITUACAO}</td>
+                                    <td>{VALOR_DATA_SITUACAO}</td>
+                                    <td>{VALOR_MOTIVO}</td>
+                                    <td>{VALOR_DATA_CADASTRO}</td>
+                                    <td>{VALOR_DATA_SITUACAO}</td>
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+                    </section>
+                    <section class="article-detail row-border">
+                        <div class="btn-toolbar pagination-right">
+                            <button class="btn" type="button" onClick="javascript:enviar('Voltar')">Voltar</button>
+                            <input type="hidden" name="Sequencial" value="{VALOR_SEQUENCIAL}">
+                            <input type="hidden" name="Mensagem" value="{VALOR_MENSAGEM}">
+                            <input type="hidden" name="BotaoAcao">
+                        </div>
+                    </section>
+                </div>
+            </section>
+        </div>
+    </div>
+</form>

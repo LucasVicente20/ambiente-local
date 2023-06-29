@@ -1,0 +1,6 @@
+.idea/
+.vscode/
+/geral/config.php
+/geral/funcoesGui.php
+/geral/funcoesBanco.php
+menu.js

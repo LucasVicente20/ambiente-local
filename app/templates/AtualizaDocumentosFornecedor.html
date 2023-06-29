@@ -1,0 +1,157 @@
+<script language="javascript" type="">
+
+    function enviar(valor){
+        document.AtualizaDocumentosFornecedor.Botao.value = valor;
+        document.AtualizaDocumentosFornecedor.submit();
+    }
+	function enviarForm(valor) {
+		document.AtualizaDocumentosFornecedor.Botao.value = valor;
+		document.AtualizaDocumentosFornecedor.submit();
+	}
+    function baixarArquivo(cod){
+        document.AtualizaDocumentosFornecedor.CodDownload.value = cod;
+        enviar('Download');
+    }
+	function preencheTipoDocDesc(){
+		$('#tipoDocDesc').val($('#tipoDoc option:selected').text());
+	}
+</script>
+<form style="margin: 0;" method="post" action="{BASE_URL}AtualizaDocumentos{ORIGEM}.php" name="AtualizaDocumentosFornecedor" id="formularioDoc" enctype="multipart/form-data">
+    <div class="content">
+        <div class="row">
+            <div class="span12">
+                <section class="box-article">
+                    <header class="header">
+                        <h1> Atualização de Documentos do Fornecedor </h1>
+                    </header>
+                    <div class="body">
+                        <ul class="breadcrumb">
+                            <li><a href="{BASE_URL}home.php">Início</a><span class="divider"><i class="arrow-right"></i></span></li>
+                            <li><a href="{BASE_URL}Fornecedores.php">Fornecedores</a><span class="divider"><i class="arrow-right"></i></span></li>
+                            <li class="active">Atualização de Documentos</li>
+                        </ul>
+                        <article class="article">
+                            <header class="article-header">
+                                <h1>Atualização de Documentos</h1>
+                            </header>
+                        </article>
+                        <article class="article">
+                            <section class="article-detail row-border">
+                            <!-- BEGIN BLOCO_MENSAGEM -->
+                                <div class="alert {TIPOALERT}">
+                                    <button class="close" data-dismiss="alert" type="button">×</button>
+                                    {MENSAGEM}
+                                </div>
+                            <!-- END BLOCO_MENSAGEM -->
+                            </section><!-- fim section article-->
+                           
+
+
+
+                            <section class="article-detail">
+<!-- BEGIN bloco_documentos -->
+
+    <div class="well">
+        <div class="row-fluid">
+            <div class="span3">
+                <label for="" class="big">{CPFCNPJDESCRICAOCAMPO}</label>
+                <span class="help-block">{CPFCNPJ}</span>
+            </div>
+            <div class="span6">
+                <label for="" class="big">{DESCRCAMPRAZAOSOC}</label>
+                <span class="help-block">{NOME}</span>
+                <input type="hidden" name="Origem" value="E"> 
+                <input type="hidden" name="Destino">
+            </div>
+        </div>
+    </div>
+
+    <div class="well">
+        <div class="row-fluid">
+            <div class="span4">
+                <label for="" class="big" style="display:initial">Documento*</label><span style="font-style:italic; font-size:10px;"> (Tamanho máximo: 5 MB)</span>
+                <span class="help-block">
+                    <input type="file" name="Documentacao" class="textonormal" />
+                </span>
+            </div>
+            <div class="span4">
+                <label for="" class="big">Tipo de Documento*</label>
+                <span class="help-block">
+                    <select name="tipoDoc" id="tipoDoc" class="tamanho_campo textonormal" onchange="preencheTipoDocDesc()">
+                            <option value="0">Selecione um tipo de documento...</option>
+                            {htmlTipoDoc}
+                        </select>
+                        <input type="hidden" id="tipoDocDesc" name="tipoDocDesc" value="{tipoDocDesc}">
+                </span>
+            </div>
+            <div class="span4">
+                    <label for="" class="big">Observação</label>
+                    <span class="help-block">
+                        <textarea id="obsDocumento" name="obsDocumento" maxlength="500" cols="50" rows="4" onkeyup="javascript:CaracteresObservacao(1)" onblur="javascript:CaracteresObservacao(0)" onselect="javascript:CaracteresObservacao(1)" class="textonormal">{obsDocumento}</textarea>
+                        <br>
+                        <font class="textonormal">máximo de 500 caracteres</font>
+                        <input type="text" name="NCaracteres" disabled="" readonly="" size="1"  value="0" class="textonormal" style="width:30px;">
+                        <script language="javascript" type="">
+                        function CaracteresObservacao(valor){
+                            AtualizaDocumentosFornecedor.NCaracteres.value = '' +  AtualizaDocumentosFornecedor.obsDocumento.value.length;
+                        }
+                        </script>
+                    </span>
+            </div>
+            
+        </div>
+
+            
+        <div class="row-fluid">
+            <div class="text-center">
+                    <input class="btn" type="button" value="Incluir Documento" onclick="javascript:enviarForm('IncluirDocumento');">
+                    
+            </div>
+        </div>
+        <br>
+        <div class="row-fluid">
+            <div class="span12">
+                {htmlDoc}
+            </div>
+            
+            
+        </div><br>
+        {htmlBotaoRetirarDoc}
+
+        
+    </div>
+
+
+<!-- END bloco_documentos-->
+
+
+
+
+                                        <hr>
+                                        <div class="btn-toolbar pagination-right">
+                                            <input type="hidden" name="Sequencial" value="{SEQUENCIAL}">
+                                            <input type="hidden" name="Mensagem" value="{MENSAGEM}">
+                                            <input type="hidden" name="Critica" size="1" value="2">
+                                            <input type="hidden" name="CodDownload" id="CodDownload" >
+                                            <button class="btn btn-primary" value="Atualizar" type="button" onclick="javascript:enviarForm('Atualizar');">
+                                            Atualizar
+                                            </button>
+                                            <input type="button" value="Voltar" class="botao btn btn-primary" onclick="javascript:enviar('Voltar');">
+                                            <input type="hidden" name="Botao" value="">
+
+
+
+                                        </div>
+
+                                    </div> <!-- fim div row fluid -->
+                                </div><!-- fim div well -->
+
+                            </section> <!-- fim section article detail -->
+                        </article><!-- fim article -->
+
+                    </div><!-- fim body -->
+                </section><!-- fim body box article -->
+            </div><!-- fim span12 -->
+        </div><!-- row -->
+    </div><!-- content -->
+</form>

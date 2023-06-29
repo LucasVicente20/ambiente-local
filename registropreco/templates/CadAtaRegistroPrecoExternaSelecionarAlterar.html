@@ -1,0 +1,441 @@
+<!-- 220038
+ * Alterado: Eliakim Ramos
+ * Data:     22/11/2019
+ * Objetivo: Tarefa Redmine 226849
+ *---------------------------------------------------------------------------------------- 
+ * Alterado: João Madson
+ * Data:     06/07/2020
+ * Objetivo: CR #226853
+ * ----------------------------------------------------------------------------------------  
+ * Alterado: Marcello Albuquerque
+ * Data:     08/05/2021
+ * Objetivo: CR #248031
+ * ----------------------------------------------------------------------------------------  
+ */
+ ---->
+
+<br><form action="{NOMEPROGRAMA}.php?processo={SEQ_PROCESSO}&ano={ANO_ATA_EXTERNA}" method="post" name="{NOMEPROGRAMA}" id="{NOMEPROGRAMA}" enctype="multipart/form-data">
+    <table cellspacing="0" cellpadding="3" bordercolor="#75ADE6" border="1" bgcolor="#FFFFFF" style="width: 633px;" class="textonormal" summary="">
+        <tbody>
+            <tr>
+                <td bgcolor="#75ADE6" valign="middle" align="center" colspan="16" class="titulo3">MANTER ATA EXTERNA</td>
+            </tr>
+            <tr>
+                <td colspan="16">
+                    <table border="0" width="100%" summary="">
+                        <tbody>
+                            <tr>
+                                <td class="textonormal" bgcolor="#DCEDF7" width="30%">Nº da Ata Externa *</td>
+                                <td class="textonormal">
+                                    <input value="{NUMERO_ATA_EXTERNA}" type="text" name="NumeroAta" {DISABLED}>
+                                    <input value="{SITUACAO_ATA_EXTERNA}" type="hidden" name="SituacaoAta">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="textonormal" bgcolor="#DCEDF7" width="30%">Ano da Ata Externa</td>
+                                <td class="textonormal">
+                                     <select id="anoAta" name="anoAta" class="textonormal" {DISABLED}>
+                                        <!-- BEGIN BLOCO_ANO -->
+                                         <option  value="{ANO_VALUE}" {ANO_SELECTED}>{ANO_TEXT}</option>
+                                        <!-- END BLOCO_ANO -->
+                                     </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="textonormal" bgcolor="#DCEDF7" width="30%">Processo Licitatório Externo *</td>
+                                <td class="textonormal">
+                                    <input value="{PROCESSO_ATA_EXTERNA}" type="text" name="processoAta" {DISABLED}>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="textonormal" bgcolor="#DCEDF7" width="30%">Modalidade</td>
+                                <td>
+                                    <select name="modalidadeAta" {DISABLED}>
+                                        <!-- BEGIN BLOCO_MODALIDADE -->
+                                        <option  value="{MODALIDADE_VALUE}" {MODALIDADE_SELECTED}>{MODALIDADE_TEXT}</option>
+                                        <!-- END BLOCO_MODALIDADE -->
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="textonormal" bgcolor="#DCEDF7" width="40%">Órgão Gestor da Ata Externa*</td>
+                                <td class="textonormal">
+                                    <input value="{ORGAO_ATA_EXTERNA}" type="text" name="orgaoAta" size="50" maxlength="500" {DISABLED}>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="textonormal" bgcolor="#DCEDF7" width="30%">Objeto*</td>
+                                <td class="textonormal"> <font class="textonormal">máximo de 200 caracteres</font>
+                                    <input type="text" size="3" value="{VALOR_NCARACATERES0}" class="textonormal objetoAta" disabled>
+                                    <br>
+                                    <textarea name="objetoAta" cols="62" rows="5" class="textonormal contarCaracteres" maxlength="200" {DISABLED}>{OBJETO_ATA_EXTERNA}</textarea>
+                                </td>
+                            </tr>
+                            <tr>
+								<td class="textonormal" bgcolor="#DCEDF7" width="40%"
+									align="left">Documento(s)*</td>
+								<td class="textonormal">
+
+									
+
+									<input type="file" name="fileArquivo" value="{VALOR_DOCUMENTO}" {DISABLED}/>
+									<input type="submit" name="inserir" value="Incluir" class="botao" onclick="javascript:enviar('InserirDocumento')" {DISABLED}/>
+
+									
+                                    <!-- BEGIN BLOCO_FILE -->
+                                        <ul {DISABLED}>{VALOR_DOCUMENTOS_ATA}</ul>
+                                    <!-- END BLOCO_FILE -->
+
+								</td>
+							</tr>
+                            <tr>
+                                <td class="textonormal" bgcolor="#DCEDF7" width="30%">Data Inicial*</td>
+                                <td class="textonormal">
+                                    <input type="text" name="dataInicialAta" id="dataInicialAta" size="10" maxlength="10" value="{DATA_ATA_EXTERNA}" {DISABLED}>
+                                    <a href="javascript:janela('../calendario.php?Formulario={NOMEPROGRAMA}&Campo=dataInicialAta','Calendario',220,170,1,0)">
+                                        <img src="../midia/calendario.gif" border="0" alt=""></a> dd/mm/aaaa
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="textonormal" bgcolor="#DCEDF7" width="30%">Vigência*</td>
+                                <td class="textonormal">
+                                    <input value="{VIGENCIA_ATA_EXTERNA}" type="text" name="vigenciaAta" style="width: 50px" {DISABLED}>&nbsp;MESES
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="textonormal" bgcolor="#DCEDF7" width="30%">Fornecedor Original*</td>
+                                <td class="textonormal">
+                                    <input type="radio" name="fornecedorOrigDoc" id="fornceOrgiCnPJ" value="CNPJ" onchange="javascript:radioClicked('CNPJ','fornecedorOriginalProcesso');">
+                                    <label for="orange" {DISABLED}>CNPJ</label>
+                                    <input type="radio" name="fornecedorOrigDoc" id="fornceOrgiCPF" value="CPF"  onchange="javascript:radioClicked('CPF','fornecedorOriginalProcesso');">
+                                    <label for="orange" {DISABLED}>CPF</label>
+                                    &nbsp;
+                                    <input value="{FORNECEDOR_ORIGINAL_ATA_EXTERNA}" type="text" name="fornecedorOriginalProcesso" id="fornecedorOriginalProcesso" {DISABLED}>
+                                    <a href="javascript:enviar('original');" {DISABLED}><img src="../midia/lupa.gif" border="0"></a>
+                                    <br/>{VALOR_DESCRITIVO_FORNECEDOR_ORIGINAL}<BR/>
+                                    {VALOR_DESCRITIVO_FORNECEDOR_LOGRADOURO}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="textonormal" bgcolor="#DCEDF7" width="30%">Forncedor Atual</td>
+                                <td class="textonormal">
+                                    <input type="radio" name="fornecedorAtualdoc" id="fornceAtualCnPJ" value="CNPJ" onchange="javascript:radioClicked('CNPJ','fornecedorAtualProcesso');" {DISABLED>
+                                    <label for="orange">CNPJ</label>
+                                    <input type="radio" name="fornecedorAtualdoc" id="fornceAtualCPF" value="CPF" onchange="javascript:radioClicked('CPF','fornecedorAtualProcesso');" {DISABLED>
+                                    <input type="hidden" value="{CODIGO_FORNECEDOR_ORIGINAL}" name="codigoFornecedor">
+                                    <label for="orange">CPF</label>
+                                    &nbsp;
+                                    <input value="{FORNECEDOR_ATUAL_ATA_EXTERNA}" type="text" name="fornecedorAtualProcesso" id="fornecedorAtualProcesso" {DISABLED}>
+                                    <a href="javascript:enviar('atual');"><img src="../midia/lupa.gif" border="0" {DISABLED}></a>
+                                    <input type="hidden" value="{CODIGO_FORNECEDOR_ATUAL}" name="codigoFornecedorAtual" {DISABLED}>
+                                    <br/>{VALOR_DESCRITIVO_FORNECEDOR_ATUAL}<br/>
+                                    {VALOR_DESCRITIVO_FORNECEDOR_ATUAL_LOGRADOURO}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="textonormal" bgcolor="#DCEDF7" width="30%">Situação da Ata Externa </td>
+                                <td class="textonormal">{TEXTO}
+                                    
+                                    <select name="situacaoAtaExterna" class="textonormal" {HIDDEN}>
+                                        <!-- BEGIN BLOCO_SITUACAO_ATA_EXTERNA -->
+                                        <option  value="{SITUACAO_ATA_EXTERNA}" {SITUACAO_ATA_SELECTED}>{SITUACAO_ATA_TEXT}</option>
+                                        <!-- END BLOCO_SITUACAO_ATA_EXTERNA -->
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="textonormal" bgcolor="#DCEDF7" width="30%">Tipo de Controle *</td>
+                                <td class="textonormal">
+                                  <select name="TipoControle" id="TipoControle" class="textonormal">
+                                        <!-- BEGIN BLOCO_TIPOCONTROLE -->
+                                        <option value="{VALOR_CONTROLE}" {VALOR_CONTROLE_SELECIONADO} {DISABLED}>{DESCRICAO_CONTROLE}</option>
+                                        <!-- END BLOCO_TIPOCONTROLE -->
+                                    </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td bgcolor="#75ADE6" valign="middle" align="center" class="titulo3 itens_material" colspan="16">ITENS DA ATAS</td>
+            </tr>
+            <!-- Headers ITENS DA SOLICITAÇÃO DE MATERIAL  -->
+            <tr class="head_principal">
+                <td bgcolor="#DCEDF7" align="center" class="textoabason">ORD.</td>
+                <td bgcolor="#DCEDF7" align="center" class="textoabason">TIPO</td>
+                <td bgcolor="#DCEDF7" align="center" class="textoabason">CÓD. REDUZIDO</td>
+                <td bgcolor="#DCEDF7" align="center" class="textoabason">DESCRIÇÃO</td>
+                <td bgcolor="#DCEDF7" align="center" class="textoabason">DESCRIÇÃO DETALHADA</td>
+                <td bgcolor="#DCEDF7" align="center" class="textoabason">UND.</td>
+                <td bgcolor="#DCEDF7" align="center" class="textoabason">QTD ORIGINAL</td>
+                <td bgcolor="#DCEDF7" align="center" class="textoabason">VALOR ORIGINAL UNIT.</td>
+                <td bgcolor="#DCEDF7" align="center" class="textoabason">VALOR TOTAL</td>
+                <td bgcolor="#DCEDF7" align="center" class="textoabason">LOTE</td>
+                <td bgcolor="#DCEDF7" align="center" class="textoabason">QTD. ATUAL</td>
+                <td bgcolor="#DCEDF7" align="center" class="textoabason">VALOR UNITÁRIO ATUAL</td>
+                <td bgcolor="#DCEDF7" align="center" class="textoabason">VALOR TOTAL ATUAL</td>
+                <td bgcolor="#DCEDF7" align="center" class="textoabason">MARCA</td>
+                <td bgcolor="#DCEDF7" align="center" class="textoabason">MODELO</td>
+                <td bgcolor="#DCEDF7" align="center" class="textoabason">SITUAÇÃO</td>
+            </tr>
+            <!-- FIM Headers ITENS DA SOLICITAÇÃO DE MATERIAL  -->
+            <!-- BEGIN BLOCO_ITEM -->
+            <tr>
+                <input type="hidden" value="{VALOR_GENERICO}" name="generico[]" {DISABLED}>
+                <!--  Coluna 1 = ORD.-->
+                <td class="textonormal" align="center">
+                	<input type="checkbox" name="CheckItem[]" value="{ORD_ITEM}-{ITESEQ}" {DISABLED}/>
+                	{ORD_ITEM}
+                    <input type="hidden" value="{ORD_ITEM}" name="ordem[]">
+                    <input type="hidden" value="{ITESEQ}" name="seq[]">
+                </td>
+                <!--  Coluna 2 = TIPO = CADUS/CADUM-->
+                <td class="textonormal" align="center">{DESC_TIPO}
+                    <input type="hidden" value="{VALOR_TIPO}" name="valorTipo[]" />
+                </td>
+
+                <!--   CÓDIGO REDUZIDO-->
+                <td class="textonormal" align="center">{CADUS_ITEM}
+                    <input type="hidden" value="{CADUS_ITEM}" name="tipo[]" />
+                </td>
+                <!--  Coluna 3 = DESCRICAO.-->
+                <td class="textonormal" align="left">{DESCRICAO_ITEM}
+                    <textarea style="display:none" name="descricao[]" {DISABLED}>{DESCRICAO_ITEM}</textarea>
+                </td>
+                <!--  Coluna 4 = DESCRICAO DETALHADA-->
+                <td class="textonormal" align="center" {DISABLED}>
+                    {DESCRICAO_DETALHADA}
+                </td>
+                <!--  Coluna 5 = UND-->
+                <td class="textonormal" align="center">
+                    {UND_ITEM}
+                    <input type="hidden" value="{UND_ITEM}" name="unidade[]" />
+                </td>
+                <!--  Coluna 6 = QTD ORIGINAL -->
+                <td class="textonormal">
+                    <input value="{ORIGINAL_ITEM}" type="text" id="orginalItem[{ORD_ITEM}]" name="orginalItem[]"  size="7" maxlength="16" class="quantidadeItem dinheiro4casas" onblur="javascript:AtualizarValorTotal('orginalItem[{ORD_ITEM}]','valororginalItem[{ORD_ITEM}]','totalorginalItem[{ORD_ITEM}]');" {DISABLED}/>
+                </td>
+                <!--  Coluna 7 = VALOR ORIGINAL UNIT. -->
+                <td class="textonormal">
+                    <input value="{VALOR_ORGINAL_ITEM}" type="text" id="valororginalItem[{ORD_ITEM}]" name="valororginalItem[]" size="7" maxlength="16" class="valorItem dinheiro4casas" onblur="javascript:AtualizarValorTotal('orginalItem[{ORD_ITEM}]','valororginalItem[{ORD_ITEM}]','totalorginalItem[{ORD_ITEM}]');" {DISABLED}/>
+                </td>
+                <!--  Coluna 8 = VALOR TOTAL.-->
+                <td class="textonormal">
+                    <span name="totalorginalItem[]" id="totalorginalItem[{ORD_ITEM}]" class="totalValorItem dinheiro4casas" {DISABLED}>{TOTAL_ITEM}</span>
+                </td>
+                <!--  Coluna 9 = LOTE TOTAL.-->
+                <td class="textonormal">
+                    <input value="{LOTE_ITEM}" type="text" name="loteItem[]" size="3" maxlength="5" {DISABLED}/>
+                </td>
+                <!--  Coluna 10 = QTD. ATUAL.-->
+                <td class="textonormal">
+                    <input value="{QTD_ATUAL_ITEM}" type="text" id="quantidadeItem[{ORD_ITEM}]" name="quantidadeItem[]" size="7" maxlength="16" class="quantidadeItemAtual dinheiro4casas" onblur="javascript:AtualizarValorTotal('quantidadeItem[{ORD_ITEM}]','valorUnitarioItem[{ORD_ITEM}]','totalUnitarioItem[{ORD_ITEM}]');" {DISABLED}/>
+                </td>
+                <!--  Coluna 11 = VALOR UNITÁRIO ATUAL-->
+                <td class="textonormal">
+                    <input value="{VALOR_UNITARIO_ITEM}" type="text" id="valorUnitarioItem[{ORD_ITEM}]" name="valorUnitarioItem[]" size="7" maxlength="16" class="valorUnitario dinheiro4casas" onblur="javascript:AtualizarValorTotal('quantidadeItem[{ORD_ITEM}]','valorUnitarioItem[{ORD_ITEM}]','totalUnitarioItem[{ORD_ITEM}]');" {DISABLED}/>
+                </td>
+                <!--  Coluna 12 = VALOR TOTAL ATUAL-->
+                <td class="textonormal">
+                    <span id="totalUnitarioItem[{ORD_ITEM}]" name="totalUnitarioItem[]" class="totalUnitario" align="right">{VALOR_TOTAL_ITEM}</span>
+                </td>
+                <!--  Coluna 13 = MARCA-->
+                <td class="textonormal" align="left">
+                    <input value="{VALOR_MARCA}" type="text" name="Marca[]"  size="10" {DISABLED}/>
+                </td>
+                <!--  Coluna 14 = MODELO -->
+                <td class="textonormal" align="left">
+                    <input value="{VALOR_MODELO}" type="text" name="Modelo[]"  size="10" {DISABLED}/>
+                </td>
+                <!--  Coluna 15 = SITUAÇÃO-->
+                <td>
+                    <select name="situacaoAta[]" class="textonormal" id="SITUACAO[{ORD_ITEM}]">
+                        <!-- BEGIN BLOCO_SITUACAO -->
+                        <option  value="{SITUACAO_VALUE}" {SITUACAO_SELECTED} {DISABLED}>{SITUACAO_TEXT}</option>
+                        <!-- END BLOCO_SITUACAO -->
+                    </select>
+                </td>
+            </tr>
+            <!-- END BLOCO_ITEM -->
+            <tr>
+                <td class="titulo3 itens_material menosum" colspan="12">TOTAL DA ATA</td>
+                <td align="right" class="textonormal">
+                    <span id="valorTotal">{TOTAL_ATA}</span>
+                </td>
+                <td align="right" class="textonormal" colspan="3"></td>
+            </tr>
+            <tr>
+                <td align="center" class="textonormal" colspan="16">
+                    <input value="Incluir Item" type="button" class="botao" name="IncluirItem" onclick="javascript:AbreJanelaItem('../estoques/CadIncluirItem.php?ProgramaOrigem=CadAtaRegistroPrecoExternaSelecionarAlterar&PesqApenas=C',800,450);" {DISABLED}>
+                    <input value="Remover Item" type="button" class="botao" name="removerItem" onclick="javascript:enviar('RemoverItem')" {DISABLED}>
+                </td>
+            </tr>
+            <tr>
+                <td class="textonormal" align="right" colspan="16">
+                    <input type="button" id="salvar" name="salvar" value="Salvar" class="botao" onClick="javascript:enviar('Salvar');" {DISABLED}/>
+                    <input type="button" id="imprimir" name="imprimir" value="Imprimir" class="botao" onClick="javascript:enviar('Imprimir');" />
+                    <input type="button" id="excluirAta" name="excluirAta" value="Excluir" class="botao" onClick="javascript:enviar('ExcluirAta');" {DISABLED}/>
+                    <!-- BEGIN BLOCO_BOTAO_ATIVAR -->
+                    <input type="button" id="ativar" name="ativar" value="Ativar" class="botao" onClick="javascript:enviar('Ativar');" onblur="javascript:mudarSituacao(this.id, 'A')"/>
+                    <!-- END BLOCO_BOTAO_ATIVAR -->
+                    <!-- BEGIN BLOCO_BOTAO_INATIVAR -->
+                    <input type="button" id="inativar" name="inativar" value="Inativar" class="botao" onClick="javascript:enviar('Inativar');" onblur="javascript:mudarSituacao(this.id, 'I')" />
+                    <!-- END BLOCO_BOTAO_INATIVAR -->
+                    <input type="button" id="voltar" name="voltar" value="Voltar" class="botao" onClick="javascript:enviar('Voltar');" />
+                    <input type="hidden" id="Botao" name="Botao" value="" />
+                    <input type="hidden" id="ATA" name="ATA" value ="{ATA}">
+                    <input type="hidden" id="carpnosequ" name="carpnosequ" value="{VALOR_CARPNOSEQU}" />
+                    <input type="hidden" id="documentoExcluir" name="documentoExcluir" value="" />
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>
+<script type="text/javascript">
+    function enviar(valor){
+        var seguirSubmit = true;
+
+        if (valor === 'InserirDocumento' || valor === 'Salvar') {
+            sessionStorage.setItem("dataInicialAta", $('#dataInicialAta').val());
+        }
+
+        if (valor == 'Excluir') {
+            seguirSubmit = confirm('Realmente deseja excluir essa intenção?\n\nAtenção:\nEssa operação não poderá ser revertida.');
+        }
+        if (valor == 'ExcluirAta') {
+            seguirSubmit = confirm('Realmente deseja excluir esta ata?\n\nAtenção:\nEssa operação não poderá ser revertida.');
+        }
+
+        if (seguirSubmit) {
+            document.CadAtaRegistroPrecoExternaSelecionarAlterar.Botao.value = valor;
+            document.CadAtaRegistroPrecoExternaSelecionarAlterar.submit();
+        }
+    }
+    function AbreJanela(url,largura,altura){
+        window.open(url,'paginadetalhe','status=no,scrollbars=yes,left=90,top=150,width='+largura+',height='+altura);
+    }
+
+    function AbreJanelaItem(url,largura,altura){
+        window.open(url,'paginaitem','status=no,scrollbars=yes,left=90,top=150,width='+largura+',height='+altura);
+    }
+
+    function radioClicked(tipo,name) {
+        if(tipo =="CNPJ"){
+            $("#"+name).mask("99.999.999/9999-99");
+        } else{
+            $("#"+name).mask("999.999.999-99");
+        }
+    }
+
+    function calcularTotalAta() {
+    	var total = 0;
+    	$(".totalValorItem").each(function(){
+    	    total += moeda2float($( this ).text());
+    	});
+
+    	$("#valorTotal").text(float2moeda(total));
+
+    }
+ 	// Atualiza o valor total de um material Material ou serviço, e recalcula o total de todos os itens
+    function AtualizarValorTotal(qtde,valor,idTotal){
+
+        var quantidade = document.getElementById(qtde).value;
+        var valor = document.getElementById(valor).value;
+
+        var totalItem = moeda2float(quantidade) * moeda2float(valor);
+
+        document.getElementById(idTotal).innerHTML = float2moeda(totalItem);
+
+        calcularTotalAta();
+    }
+
+    function float2moeda(num) {
+        num = parseFloat(num); // garantindo que o número vindo é float
+        // tratando fração para 4 dígitos
+        noDigitos =4;
+        numeroMoeda = number_format (num, noDigitos, ',','.');
+        return numeroMoeda;
+    }
+
+    function desabilitarBotoesSituacao(){
+        var valorSituacao = document.CadAtaRegistroPrecoExternaSelecionarAlterar.SituacaoAta.value;
+
+
+        if(valorSituacao == "A"){
+        	if ($("#ativar").length) {
+            	document.CadAtaRegistroPrecoExternaSelecionarAlterar.ativar.disabled = true;
+        	}
+        	if ($("#inativar").length) {
+            	document.CadAtaRegistroPrecoExternaSelecionarAlterar.inativar.disabled = false;
+        	}
+
+        }else{
+        	if ($("#ativar").length) {
+            	document.CadAtaRegistroPrecoExternaSelecionarAlterar.ativar.disabled = false;
+        	}
+
+        	if ($("#inativar").length) {
+            	document.CadAtaRegistroPrecoExternaSelecionarAlterar.inativar.disabled = true;
+        	}
+
+        }
+
+    }
+    function mudarSituacao(id,situacao){
+        var conect = '#'+id+' option:selected'
+        alert(conect);
+        $(conect).val(situacao);
+    }
+
+    $(document).ready(function() {
+
+        var dataSessao = sessionStorage.getItem('dataInicialAta');
+
+        if (dataSessao === "null" || dataSessao === null) {
+            $('#dataInicialAta').val("{DATA_ATA_EXTERNA}");
+        } else {
+            $('#dataInicialAta').val(dataSessao);
+            sessionStorage.setItem("dataInicialAta", null);
+        }
+
+    	var valorFornecedorOriginal = $('#fornecedorOriginalProcesso').val();
+        var valorFornecedorAtual = $('#fornecedorAtualProcesso').val();
+
+        if (String(valorFornecedorOriginal).length == 11) {
+            radioClicked("CPF","fornecedorOriginalProcesso");
+            $("#fornceOrgiCPF").prop("checked", true);
+        } else {
+            $("#fornceOrgiCnPJ").prop("checked", true);
+            radioClicked("CNPJ","fornecedorOriginalProcesso");
+        }
+
+        if (String(valorFornecedorAtual).length == 14) {
+            $("#fornceAtualCnPJ").prop("checked", true);
+            radioClicked("CNPJ","fornecedorAtualProcesso");
+        } else {
+            if (String(valorFornecedorAtual).length > 0) {
+                $("#fornceAtualCPF").prop("checked", true);
+                radioClicked("CPF","fornecedorAtualProcesso");
+            }
+        }
+        desabilitarBotoesSituacao();
+
+        $('.contarCaracteres').keyup(function() {
+            var panelContador = $(this).prop('name');
+            $('.'+panelContador).val($(this).val().length);
+        });
+
+        $('.contarCaracteres').each(function() {
+            var panelContador = $(this).prop('name');
+            $('.'+panelContador).val($(this).val().length);
+        });
+
+        $('.removerDocumento').click(function(e){
+            e.preventDefault();
+            $('#documentoExcluir').val($(this).attr('doc'));
+            $('#Botao').val('RemoverDocumento');
+            $("#{NOMEPROGRAMA}").submit();
+        });
+    });
+</script>

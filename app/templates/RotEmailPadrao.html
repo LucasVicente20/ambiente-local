@@ -1,0 +1,90 @@
+                <div class="content">
+                    <div class="row">
+                        <!-- <div class="span3">
+                            <nav class="side-menu">
+                                <ul class="nav nav-list">
+                                    <li><a href="home.php">Início</a></li>
+                                    <li class="submenu">
+                                        <a href="#">Receitas <i class="arrow-down"></i></a>
+                                        <ul>
+                                            <li><a href="#">Receita Total</a></li>
+                                            <li><a href="#">Receita Detalhada</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="submenu">
+                                        <a href="#">Despesas <i class="arrow-down"></i></a>
+                                        <ul>
+                                            <li><a href="#">Despesa Total</a></li>
+                                            <li><a href="#">Despesa Detalhada</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="#">Convênios</a></li>
+                                    <li><a href="#">Licitações e Contratos</a></li>
+                                    <li><a href="#">Remuneração dos Servidores</a></li>
+                                    <li><a href="#">Demonstrativos, Balanços e Balancetes</a></li>
+                                    <li><a href="#">Planejamento Orçamentário</a></li>
+                                    <li><a href="#">Demonstrativos Fiscais - LRF</a></li>
+                                    <li><a href="#">Dados da Gestão</a></li>
+                                </ul>
+                            </nav>
+                        </div> -->
+                        <div class="span12">
+                            <section class="box-article">
+                                <header class="header">
+                                    <h1>Enviar E-mail</h1>
+                                </header>
+                                <div class="body">
+                                    <ul class="breadcrumb">
+                                        <li><a href="{BASE_URL}home.php">Início</a><span class="divider"><i class="arrow-right"></i></span>
+                                        <li class="active">Enviar e-mail </li>
+                                    </ul>
+				                    <article class="article">
+				                        <header class="article-header">
+				                            <h1>Enviar E-mail</h1>
+				                        </header>
+				                    </article>
+                                    <article class="article">
+                                        <div class="clearfix">&nbsp;</div>
+                                    <section>
+                                        <div class="row-fluid">
+                                            <div class="well span6 offset3">
+                                                    <p>Para enviar um e-mail para {PESSOA} preencha os seus dados abaixo e clique no botão "Enviar".</p>
+                                               <!-- BEGIN BLOCO_MENSAGEM -->
+                                                <div class="alert {TIPOALERT}">
+                                                    <button class="close" data-dismiss="alert" type="button">×</button>
+                                                    {MENSAGEM}
+                                                </div>
+                                                <!-- END BLOCO_MENSAGEM -->
+                                                <form class="formSubmit" method="post" action="{BASE_URL}RotEmailPadrao.php" name="RotEmailPadrao">
+                                                    <div class="row-fluid">
+                                                        <div class="span12">
+                                                            <label for="txtnome" class="big">Nome*</label>
+                                                            <input name="txtnome" type="text" class="span12" id="txtnome" value="{NOME}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row-fluid">
+                                                        <div class="span12">
+                                                            <label for="txtemail" class="big">Email*</label>
+                                                            <input name="txtemail" type="text" class="span12" id="txtemail" value="{EMAIL}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row-fluid">
+                                                        <div class="span12">
+                                                            <label for="txtmensagem" class="big">Mensagem*</label>
+                                                            <textarea name="txtmensagem" rows="4" class="span12" id="txtmensagem">{TEXTO_MENSAGEM}</textarea>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                    <div class="btn-toolbar pagination-right">
+                                                        <button class="btn btn-primary">Enviar</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    </article>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>

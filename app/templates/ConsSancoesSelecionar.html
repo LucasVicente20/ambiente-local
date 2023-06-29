@@ -1,0 +1,133 @@
+	<form action="ConsSancoesSelecionar.php" method="post" name="ConsSancoesPesquisar">
+		<div class="site-body">
+			<div class="container">
+				<div class="content">
+					<div class="row">
+						<input type="hidden" name="BotaoAcao" id="botaoAcao"/>
+						<div class="span12">
+							<section class="box-article">
+								<header class="header">
+									<h1>Fornecedores com Sanções no Sicref</h1>
+								</header>
+								<div class="body">
+									<ul class="breadcrumb">
+										<li>Você está em:</li>
+										<li><a href="{BASE_URL}home.php">Início</a><span class="divider"><i class="arrow-right"></i></span></li><!--
+										--><li><a href="{BASE_URL}Fornecedores.php">Fornecedores</a><span class="divider"><i class="arrow-right"></i></span></li><!--
+										--><li class="active">Sanções</li>
+									</ul>
+				                    <article class="article">
+				                        <header class="article-header">
+				                            <h1>Fornecedores com Sanções no Sicref</h1>
+				                        </header>
+				                    </article>
+									<article class="article">
+										<section class="article-detail row-border">
+											<p>Marque o tipo de fornecedor desejado, preencha o argumento da pesquisa e clique no botão "Pesquisar".
+                                               Para limpar a pesquisa, clique no botão "Limpar".</p>
+										</section>
+										
+										<!-- BEGIN BLOCO_MENSAGEM -->
+										<div class="alert {TIPOALERT}">
+											<button class="close" data-dismiss="alert" type="button">×</button>
+											{MENSAGEM}
+										</div>
+										<!-- END BLOCO_MENSAGEM -->
+										
+										<div class="clearfix">&nbsp;</div>
+										<section>
+											<div class="well">
+												<div class="row-fluid">
+													<div class="span3">
+														<label for="ddlPesquisa" class="big">Pesquisa*</label>
+														<select id="ddlPesquisa" class="span12" name="ItemPesquisa">
+															<option value="RAZAO">Razão Social/Nome</option>
+															<option value="CNPJ" {CNPJ_SELECTED}>CNPJ</option>
+															<option value="CPF" {CPF_SELECTED}>CPF</option>
+														</select>
+													</div>
+												</div>
+												<div class="row-fluid">
+													<label for="txtArgumento" class="big">Argumento*</label>
+													<div class="form-inline">
+														<input type="text" class="span3" name="Argumento" id="Argumento" value="{VALOR_ARGUMENTO}">
+														<label class="checkbox">
+															<input type="checkbox" name="Palavra" {PALAVRA_CHECKED}> Palavra Exata &nbsp;
+														</label>
+														<label class="checkbox">
+															<input type="checkbox" name="Todos" {TODOS_CHECKED}> Todos
+														</label>
+													</div>
+												</div>
+												<div class="btn-toolbar pagination-right">
+													<button class="btn btn-primary" type="button" onClick="javascript:enviar('Pesquisar','BotaoAcao')">Pesquisar</button>
+													<div class="btn-group">
+                                                        <button type="button" class="btn btn-primary dropdown-toggle"
+                                                            data-toggle="dropdown" aria-haspopup="true"
+                                                            aria-expanded="false">
+                                                            Exportar <span class="caret"></span>
+                                                        </button>
+                                                        <ul class="dropdown-menu">
+                                                            <li><a
+                                                                    onclick="javascript:exportar('Exportar', 'csv');">CSV</a>
+                                                            </li>
+                                                            <li><a
+                                                                    onclick="javascript:exportar('Exportar', 'txt');">TXT</a>
+                                                            </li>
+                                                            <li><a
+                                                                    onclick="javascript:exportar('Exportar', 'xls');">XLS</a>
+                                                            </li>
+                                                            <li><a
+                                                                    onclick="javascript:exportar('Exportar', 'ods');">ODS</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+													<button class="btn btn-primary" type="button" onClick="javascript:enviar('LimparTela','BotaoAcao')">Limpar</button>
+												</div>
+											</div>
+											<!-- BEGIN BLOCK_CABECALHO_PESQUISA -->
+											<header class="article-header">
+												<h1>Resultado da Pesquisa</h1>
+											</header>
+											<!-- END BLOCK_CABECALHO_PESQUISA -->
+											<!-- BEGIN BLOCK_SITUACAO -->
+											<table class="table table-report">
+												<thead>
+													<tr>
+														<th colspan="5">
+															<span>{VALOR_SITUACAO}</span>
+															<span class="separator"></span>
+														</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td width="13%"><strong>CNPJ/CPF</strong></td>
+														<td width="26%"><strong>RAZÃO SOCIAL/NOME</strong></td>
+														<td width="9%"><strong>DATA DA SITUAÇÃO</strong></td>
+														<td width="35%"><strong>MOTIVO DA SITUAÇÃO</strong></td>
+														<td width="10%"><strong>DATA DA EXPIRAÇÃO</strong></td>
+													</tr>
+													<!-- BEGIN BLOCK_LINHA -->
+													<tr>
+													<!-- <td><a href="http://{VALOR_SESSION_URL}/app/ConsAcompFornecedorSelecionar2.php?Sequencial={VALOR_SEQUENCIAL}">{VALOR_CADASTRO}</a></td> -->
+	  													<td>{VALOR_CADASTRO}</td>
+	  													<td>{VALOR_RAZAO}</td>
+														<td>{VALOR_DATA_SITUACAO}</td>
+														<td>{VALOR_MOTIVO_SITUACAO}</td>
+														<td>{VALOR_DATA_EXPIRACAO}</td>
+													<tr>
+													<!-- END BLOCK_LINHA -->
+												</tbody>
+											</table>
+											<!-- END BLOCK_SITUACAO -->
+										</section>
+									</article>
+								</div>
+							</section>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>

@@ -1,0 +1,184 @@
+<div class="container">
+
+    <div class="content">
+
+
+
+        <section class="box-article">
+            <header class="header">
+                <h1>Fornecedores</h1>
+            </header>
+            <div class="body">
+                <ul class="breadcrumb">
+                    <li>Você está em:</li>
+                    <li><a href="{BASE_URL}home.php">Início</a><span class="divider"><i class="arrow-right"></i></span></li>
+                    <li class="active">Fornecedores<span class="divider"><i class="arrow-right"></i></span></li>
+                </ul>
+                <article class="article">
+                    <header class="article-header">
+                        <h1>Fornecedores</h1>
+                    </header>
+                    <ul>
+                        <a href="{BASE_URL}ConsInformacaoFornecedores.php">Informação</a><br />
+                        <a href="{BASE_URL}ConsDocumentacaoFornecedores.php">Documentação</a><br />
+                        <a href="{BASE_URL}CadInscritoIncluir.php">Inscrição</a><br />
+                        <a href="{BASE_URL}ConsInscritoDireciona.php">Consulta</a><br />
+                        <a href="{BASE_URL}AtualizaDocumentoDireciona.php">Atualização de Documentos</a><br />
+                        <a href="{BASE_URL}ConsSancoesSelecionar.php">Sanções</a><br />
+                        <a href="{BASE_URL}ConsAcompFornecedorDireciona.php">Acompanhamento</a><br />
+                        <a href="{BASE_URL}EmissaoCHFDireciona.php">Emissão de CHF</a><br />
+                    </ul>
+                </article>
+            </div>
+        </section>
+    </div>
+
+
+</div>
+
+<style>
+/* MODAL */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    margin-left:0;
+  }
+  
+  /* Modal Content/Box */
+  .modal-content {
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    background-color: #fefefe;
+    margin: 7% auto; /* 15% from the top and centered sobe ou desce o lightbox */
+    border:0px;
+    padding: 0px;
+    overflow:hidden;
+    
+    width: 88%; /* Could be more or less, depending on screen size */
+    height: 68%; /* Aumenta ou diminui a altura da tela */
+  }
+  
+  .modal-title {
+    -webkit-border-top-left-radius: 10px;
+    -webkit-border-top-right-radius: 10px;
+    -moz-border-radius-topleft: 10px;
+    -moz-border-radius-topright: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-color: #0e4f9e;
+    float:left;
+    height: 30px; 
+    width: 100%; 
+    text-align: center;
+    color: #fff;
+    font-weight: bold;
+    padding-top:10px;
+  }
+
+  .modal-inside-content {
+    background-color: #fefefe;
+    padding: 15px;
+    overflow:auto;
+    height: 88%;
+  }
+
+  .close {
+    color: #fff;
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+    margin-right:10px;
+    opacity: 0.5;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+</style>
+
+<!--MODAL--> 
+<div id="myModal" class="modal">
+
+        <!-- Conteudo do Modal -->
+    <div class="modal-content">
+        <div class="modal-title"><span align="center">Mensagem aos Fornecedores - Sicref</span><span class="close" align="right" style="height:20px;width:20px;padding:0px;color:#0e4f9e;background-color:#fff;text-align:center;font-size: 20px;">&times;</span></div>   
+        <div class="modal-inside-content">
+            O Cadastro de Fornecedores da Prefeitura do Recife, buscando trazer mais celeridade e eficiência às contratações da Administração Municipal,
+            agora permite que durante o pré-cadastro feito pelo fornecedor via internet possam ser inclusos os documentos e certidões cujo envio antes era por via postal
+            ou entrega no edifício sede da prefeitura do Recife. Somada a essa mudança, passa também a ser possível a atualização das certidões vencidas durante o
+            período de validade do CHF (Certificado de Habilitação do Fornecedor) também por meio digital no portal de compras, conforme será especificado adiante.
+            <br><br>
+            Em relação ao primeiro cadastro, o procedimento para anexação da documentação será feito por meio da adição de uma aba ao fim do já vigente sistema de cadastro
+            feito via Portal de Compras > Fornecedores > <b>Inscrição</b>. Nessa nova funcionalidade, o fornecedor poderá anexar seus documentos em formato DIGITAL e exclusivamente
+            em arquivos na forma de PDF, limitados ao tamanho de 5 Mb (por arquivo).
+            <br><br>
+            Na aba <b>“Documentação”</b> aberta, o fornecedor irá clicar no espaço <b>“escolher arquivo”</b>, por meio do qual irá selecionar os documentos exigidos que estejam salvos em seu computador
+            e clicar em “abrir” na janela aberta. Depois, o fornecedor irá selecionar qual o <b>“tipo de documento”</b> que o mesmo está incluindo, podendo ainda ser feitas algumas observações
+            referentes ao documento adicionado pelo fornecedor no campo <b>“Observação”</b>. Feito tal procedimento, o fornecedor irá clicar no campo <b>“Incluir documento”</b> e repetirá o mesmo
+            procedimento para todos os documentos e certidões que incluir no Sistema. Ao final da anexação de todos os arquivos, o fornecedor deverá clicar no campo <b>“Incluir”</b> (em azul escuro)
+            abaixo do último documento.
+            <br><br>
+            Os documentos anexados pelo fornecedor irão ingressar no sistema com o status <b>“EM ANÁLISE”</b>, que será modificado à medida que a administração municipal conferir a autenticidade dos documentos incluídos,
+            passando a ter o status de <b>“APROVADO”</b>.
+            A administração tem o prazo regular de 3 dias úteis para analisar, caso não haja pendências na documentação entregue.
+            <br><br>
+            O procedimento para atualização das certidões de fornecedores já cadastrados será bastante semelhante. Ao acessar Portal de Compras > Fornecedores > <b>Atualização de Documentos</b> e,
+            de posse da senha de acesso pelo Login, <b>o fornecedor irá acessar uma tela em que</b> irá clicar no espaço “escolher arquivo”, por meio do qual irá selecionar os documentos exigidos
+            que estejam salvos em seu computador e clicar em “abrir” na janela aberta. Depois, o fornecedor irá selecionar que <b>“Tipo de documento”</b> que mesmo está incluindo, podendo ainda ser
+            feitas algumas observações referentes ao documento adicionado pelo fornecedor no campo “Observação”. Feito tal procedimento, o fornecedor irá clicar no campo <b>“Incluir documento”</b> e
+            repetirá o procedimento para todos os documentos e certidões que incluir no Sistema.
+            Ao final da anexação de todos os arquivos, o fornecedor deverá clicar no campo <b>“Incluir”</b> (em azul escuro) abaixo do último documento.
+            <br><br>
+            OBS1: Tamanho dos documentos - Tendo em vista o limite máximo de 5 Mb por documento no formato PDF, é recomendável que o fornecedor reparta os arquivos maiores de modo
+            que cada repartição feita encaixe no limite, podendo o fornecedor especificar as divisões feitas no documento no campo <b>“Observação”</b>. Geralmente, os documentos referentes às
+            demonstrações contábeis e o contrato social irão, pelo número de páginas, exceder o limite. Caso isso ocorra, o fornecedor pode proceder da forma acima descrita.
+            <br><br>
+            OBS2: Em relação a documentação Contábil enviada digitalmente, a sua aceitação será condicionada à possibilidade de Administração poder conferir a autenticidade em sítio
+            eletrônico, o que se dá no caso do <b>Sped Contábil</b>, chamado também de ECD (Escrituração <b>Contábil</b> Digital), de <b>Livros Diários que possuam autenticação digital passível de
+            verificação via internet</b>, bem como os que possuírem selo de autenticação de Cartórios Digitais. Caso não haja essa possibilidade, a aceitação do documento digital ficará
+            condicionada à apresentação física dos documentos originais no 11º andar do prédio da Prefeitura, Av. Cais do Apolo, 925 - Recife, PE ou ao envio da cópia da documentação
+            autenticada ao mesmo endereço.
+            <br><br>
+            OBS3: Em relação ao <b>Contrato Social enviado digitalmente</b>, a sua aceitação será condicionada à possibilidade de Administração poder conferir a veracidade do documento em sítio eletrônico por <b>meio do 
+            código de verificação de autenticidade junto ao site do respectivo órgão competente, bem como os que possuírem selo de autenticação de Cartórios Digitais.</b> Caso não haja essa possibilidade, a aceitação 
+            do documento digital ficará condicionada à apresentação física dos documentos originais no 11º andar do prédio da Prefeitura, Av. Cais do Apolo, 925 - Recife, PE ou ao envio da cópia da documentação autenticada ao mesmo endereço. 
+            <br><br>
+            OBS4: Para os fornecedores que desejam renovar o Cadastro, caso o CHF esteja vencido ou perto de vencer, será necessária a anexação de toda documentação exigida no ato de cadastro e o
+            <b>envio de mensagem eletrônica</b> indicando a intenção de renovar o CHF para o seguinte email: <a href="mailto:sicref@recife.pe.gov.br">sicref@recife.pe.gov.br</a>.
+        </div>    
+    </div>
+
+</div>
+<!--MODAL END-->
+ 
+<script>
+
+    var modal = document.getElementById('myModal');
+    var span = document.getElementsByClassName("close")[0];
+
+    modal.style.display = "block";
+
+    // Quando clicar em <span> (x), fecha o modal
+    span.onclick = function() {
+    modal.style.display = "none";
+    }
+
+    // Quando clicar fora fecha o modal
+    window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+    }
+</script>

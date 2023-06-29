@@ -1,0 +1,59 @@
+<div class="content">
+    <div class="row">
+        <div class="span12">
+            <section class="box-article">
+                <header class="header">
+                    <h1>Consulta das Comissões de Licitação</h1>
+                </header>
+                <div class="body">
+                    <ul class="breadcrumb">
+                        <li>Você está em:</li>
+                        <li><a href="{BASE_URL}home.php">Início</a><span class="divider"><i class="arrow-right"></i></span></li>
+                        <li><a href="{BASE_URL}Licitacoes.php">Licitações</a><span class="divider"><i class="arrow-right"></i></span></li>
+                        <li class="active">Consultar Comissão<span class="divider"></span></li>
+                    </ul>
+                    <article class="article">
+                        <header class="article-header">
+                            <h1>Consulta das Comissões de Licitação</h1>
+                        </header>
+                    </article>
+                    <section class="article-detail">
+                        <table class="table table-report table-striped">
+                            <!-- BEGIN TABELA_CORPO -->
+                            <!-- BEGIN TABELA_COMISSAO -->
+                            <thead>
+                                <tr>
+                                    <th colspan="6" class="abc">
+                                        <span class="text-center">{GRUPO}</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <!-- END TABELA_COMISSAO -->
+                            <!-- BEGIN TABELA_CABECALHO -->
+                            <tr>
+                                <td><strong>COMISSÃO</strong></td>
+                                <td><strong>PRESIDENTE</strong></td>
+                                <td><strong>E-MAIL</strong></td>
+                                <td><strong>LOCALIZAÇÃO</strong></td>
+                                <td><strong>TELEFONE</strong></td>
+                                <td><strong>FAX</strong></td>
+                            </tr>
+                            <!-- END TABELA_CABECALHO -->
+                            <!-- BEGIN TABELA_VALORES -->
+                            <tr>
+                                <td>{COMISSAO}</td>
+                                <td>{PRESIDENTE}</td>
+                                {MAIL}
+                                <td>{LOCALIZACAO}</td>
+                                <td>{TELEFONE}</td>
+                                <td>{FAX}</td>
+                            </tr>
+                            <!-- END TABELA_VALORES -->
+                            <!-- END TABELA_CORPO -->
+                        </table>
+                    </section>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

@@ -1,0 +1,193 @@
+<!-- 220038-- -->
+<script type="text/javascript">
+
+function enviar(valor){
+    document.{NOME_PROGRAMA}.Botao.value = valor;    
+    document.{NOME_PROGRAMA}.submit();
+}
+
+function AbreJanela(url,largura,altura){
+    window.open(url,'paginadetalhe','status=no,scrollbars=yes,left=90,top=150,width='+largura+',height='+altura);
+}
+function AbreJanelaItem(url,largura,altura){
+    window.open(url,'paginaitem','status=no,scrollbars=yes,left=90,top=150,width='+largura+',height='+altura);
+}
+jQuery(document).ready(function($) {
+       jQuery(".reset").click(function (event) {
+           event.preventDefault();
+
+           jQuery(":text").each(function () {
+               jQuery(this).val("");
+           });
+
+           jQuery(":password").each(function () {
+               jQuery(this).val("");
+           });
+
+           jQuery(":checkbox").each(function () {
+               jQuery(this).prop({ checked: false });
+           });
+
+           jQuery("select").each(function () {
+               jQuery(this).val("");
+           });
+       });
+       
+});       
+
+</script>
+<form action="{NOME_PROGRAMA}.php" method="post" name="{NOME_PROGRAMA}">
+	<table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6"
+		summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 700px;">
+       <tr>
+			<td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3" colspan="11">
+                <b>{TITULO_SUPERIOR}</b>
+            </td>
+       </tr>
+       <tr>
+			<td colspan="12">
+				<table class="textonormal" border="0px" align="left" width="100%" summary="">					
+                    <tr>
+                      <td colspan="12">
+                        <table cellspacing="1" border="0" summary="" class="textonormal" bgcolor="#FFFFFF" style="border-collapse: collapse; ">
+                            
+                            <tr style="border-bottom:3px solid white;">
+                                <td class="textonormal" bgcolor="#DCEDF7" width="30%" style="padding: 5px;">Nº da Ata</td>
+                                <td class="textonormal" colspan="6" style="padding-left: 5px;">{NUMEROATA}</td>
+                            </tr>
+                            <tr style="border-bottom:3px solid white;">
+                                    <td class="textonormal" bgcolor="#DCEDF7" width="30%" style="padding: 5px;">Lote</td>
+                                    <td class="textonormal" style="padding-left: 5px;">{LOTE}</td>
+                                </tr>                                                          
+                            <tr style="border-bottom:3px solid white;">
+                                <td class="textonormal" bgcolor="#DCEDF7" width="30%" style="padding: 5px;">Ordem do Item</td>
+                                <td class="textonormal" style="padding-left: 5px;">{ORDEM}</td>
+                            </tr> 
+                             <tr style="border-bottom:3px solid white;">
+                                <td class="textonormal" bgcolor="#DCEDF7" width="30%" style="padding: 5px;">{TIPOMATERIAL}</td>
+                                <td class="textonormal" style="padding-left: 5px;">{TIPOMATERIALVALUE}</td>
+                            </tr> 
+                             <tr style="border-bottom:3px solid white;">
+                                <td class="textonormal" bgcolor="#DCEDF7" width="30%" style="padding: 5px;">Descrição</td>
+                                <td class="textonormal" style="padding-left: 5px;">{DESCRICAO}</td>
+                            </tr> 
+                             <tr style="border-bottom:3px solid white; {SHOWDESCRICAOCOMPLETA}">
+                                <td class="textonormal"  bgcolor="#DCEDF7" width="30%" style="padding: 5px;">Descrição Completa</td>
+                                <td class="textonormal" style="padding-left: 5px;">{DESCRICAOCOMPLETA}</td>
+                            </tr> 
+                             <tr style="border-bottom:3px solid white; {DISPLAY_QUANTIDADE}">
+                                <td class="textonormal" bgcolor="#DCEDF7" style="padding: 5px;">Quantidade</td>
+                                <td class="textonormal" style="padding-left: 5px;">{QUANTIDADE}</td>
+                            </tr> 
+                            <tr style="border-bottom:3px solid white;{EXIBIR_VALOR_ATA_ANTERIOR}">
+                                <td class="textonormal" bgcolor="#DCEDF7" style="padding: 5px;">Quantidade Utilizada - Ata Anterior</td>
+                                <td class="textonormal" style="padding-left: 5px;">{QUANTIDADE_ATA_ANTERIOR}</td>
+                            </tr> 
+                            <tr style="border-bottom:3px solid white; {DISPLAY_QUANTIDADE}">
+                                <td class="textonormal" bgcolor="#DCEDF7" style="padding: 5px;">Quantidade Utilizada Gestor/Participante</td>
+                                <td class="textonormal" style="padding-left: 5px;">{QTDGESTORPARTICIPANTE}</td>
+                            </tr>                             
+                             <tr style="border-bottom:3px solid white; {DISPLAY_QUANTIDADE}">
+                                <td class="textonormal" bgcolor="#DCEDF7" style="padding: 5px;">Saldo da Quantidade Gestor/Participante</td>
+                                <td class="textonormal" style="padding-left: 5px;">{SALDOGESTORPARTICIPANTE}</td>
+                            </tr> 
+
+                            <tr style="border-bottom:3px solid white; {DISPLAY_VALOR}">
+                                <td class="textonormal" bgcolor="#DCEDF7" style="padding: 5px;">Valor Total da Ata</td>
+                                <td class="textonormal" style="padding-left: 5px;">{VALOR_TOTAL_ATA}</td>
+                            </tr> 
+                            <tr style="border-bottom:3px solid white; {DISPLAY_VALOR}">
+                                <td class="textonormal" bgcolor="#DCEDF7" width="30%" style="padding: 5px;">Valor Utilizada Gestor/Participante</td>
+                                <td class="textonormal" style="padding-left: 5px;">{VALOR_UTILIZADO_GP}</td>
+                            </tr>                             
+                            <tr style="border-bottom:3px solid white; {DISPLAY_VALOR}">
+                                <td class="textonormal" bgcolor="#DCEDF7" width="30%" style="padding: 5px;">Saldo do Valor do Gestor/Participante</td>
+                                <td class="textonormal" style="padding-left: 5px;">{SALDO_VALOR_GP}</td>
+                            </tr> 
+                        </table>  
+                      </td>
+                    </tr>
+
+                    <!-- BEGIN bloco_orgao -->
+                    <tr>
+                        <td>
+                            <table  border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 700px;">
+                                <thead>
+                                    <tr>
+                                        <th align="left" bgcolor="#75ADE6" valign="middle" class="titulo3" colspan="1" width="70%">
+                                            {ORGAO}
+                                        </th>
+                                        <th align="center" bgcolor="#75ADE6" valign="middle" class="titulo3" colspan="2" width="30%">
+                                            SALDO DISPONÍVEL: {VALOR_SALDO_DISPONIVEL}
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- BEGIN bloco_tr_resultado_orgao -->
+                                    <tr bgcolor="#DCEDF7" style="{EXIBIR_SCC}">
+                                        <td width="55%">Nº da SCC</td>
+                                        <td width="15%">DATA SCC</td>
+                                        <td width="30%">QUANTIDADE UTILIZADA</td>
+                                    </tr>
+                                    <!-- END bloco_tr_resultado_orgao --> 
+
+                                    <!-- BEGIN bloco_resultado_orgao -->
+                                    <tr >
+                                        <td><a href='../compras/ConsAcompSolicitacaoCompra.php?SeqSolicitacao={IDSOLIC}&ProgramaOrigem={NOME_PROGRAMA}-{ATA}-{ATATIPO}-{ORGAOURL}-{ITEM}-{TIPOITEM}-{SEQITEM}&ata={ATA}&tipo={TIPO}&orgao={ORGAO}&item={ITEM}&tipoItem={TIPOITEM}'>{NUMEROSCC}</a></td> 
+                                        <td>{DATASCC}</td> 
+                                        <td>{QTDUTILIZADA}</td> 
+                                    </tr>
+                                    <!-- END bloco_resultado_orgao --> 
+                                    
+                                    <!-- BEGIN bloco_resultado_qtd_utilizado -->
+                                    <tr>
+                                        <td colspan="3">{RESULTADO_QTD_UTILIZADA}</td>
+                                    </tr>
+                                    <!-- END bloco_resultado_qtd_utilizado --> 
+
+                                    <!-- BEGIN bloco_total_utilizado_solicitado_processo -->
+                                    <tr>
+                                        <td colspan="3">TOTAL QUANTIDADE UTILIZADA: {VALOR_QUANTIDADE_UTILIZADA}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border:0"> QUANTIDADE SOLICITADA NO PROCESSO: {VALOR_QUANTIDADE_SOLICITADA}</td>
+                                    </tr>                            
+                                    <!-- END bloco_total_utilizado_solicitado_processo -->
+
+                                    <!-- BEGIN bloco_valores -->
+                                    <tr>
+                                        <td colspan="3">VALOR UTILIZADO - INCLUSÃO DIRETA: {VALOR_UTILIZADO}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3"> TOTAL VALOR UTILIZADO: {VALOR_TOTAL_UTILIZADO}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border:0"> VALOR SOLICITADO NO PROCESSO: {VALOR_SOLICITADO_PROCESSO}</td>
+                                    </tr>
+                                    <!-- END bloco_valores -->
+                               </tbody>
+                            </table>    
+                        </td>
+                    </tr>
+                    <!-- END bloco_orgao -->
+                    <tr>
+                      <td>&nbsp;</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td align="right">
+              <input name="imprimir" onclick="javascript:enviar('Imprimir')" type="button" class="botao" value="Imprimir">
+              <input name="Voltar" onClick="{BOTAO_VOLTAR}" type="button" class="botao" value="Voltar">
+              <input name="Botao" type="hidden" >
+              <input name="ata" type="hidden" value="{ATA}">
+              <input name="tipo" type="hidden" value="{TIPO}">
+              <input name="orgao" type="hidden" value="{ORGAO}">
+              <input name="item" type="hidden" value="{ITEM}">
+              <input name="tipoItem" type="hidden" value="{TIPOITEM}">
+              <input name="window" type="hidden" value="{WINDOW}">
+            </td>
+        </tr>
+    </table>
+</form>

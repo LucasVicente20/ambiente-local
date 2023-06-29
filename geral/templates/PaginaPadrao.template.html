@@ -1,0 +1,48 @@
+<html>
+	{LAYOUT}
+	<script language="javascript" type="">
+		<!--
+			{MENU}
+		//-->
+	</script>
+	<link rel="stylesheet" type="text/css" href="../estilo.css">
+	<body background="../midia/bg.gif" marginwidth="0" marginheight="0">
+		<script language="JavaScript" src="../menu.js" ></script>
+		<script language="JavaScript">Init();</script>
+	
+<br><br><br><br><br>
+<table cellpadding="3" border="0" summary="">
+  <!-- Caminho -->
+  <tr>
+    <td width="100"><img border="0" src="../midia/linha.gif" alt=""></td>
+    <td align="left" class="textonormal" colspan="2">
+		  <font class="titulo2">|</font>
+		  <a href="../index.php"><font color="#000000">Página Principal</font></a> > {ACESSO}
+		</td>
+  </tr>
+  <!-- Fim do Caminho-->
+
+	<!-- BEGIN BLOCO_ERRO -->
+	<tr>
+	  <td width='100'></td>
+	  <td align='left' colspan='2'>{MENSAGEM_ERRO}</td>
+	</tr>
+	<!-- END BLOCO_ERRO -->
+	<!-- Corpo -->
+	<tr>
+		<td width="100"></td>
+		<td class="textonormal">
+      <table  border="0" cellspacing="0" cellpadding="3" summary="">
+        <tr>
+	      	<td class="textonormal">
+		{CORPO}
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<!-- Fim do Corpo -->
+</table>
+
+	</body>
+</html>

@@ -1,0 +1,187 @@
+<!-- 220038-- -->
+<script type="text/javascript">
+	function enviar(valor) {
+	    document.{FORMPOST}.Botao.value = valor;
+	    document.{FORMPOST}.submit();
+	}
+
+	function verificaSituacao(situacao) {
+		if (situacao == 'ATIVA') {
+			document.{FORMPOST}.ativar.disabled = true;
+			document.{FORMPOST}.inativar.disabled = false;
+		} else {
+			document.{FORMPOST}.ativar.disabled = false; 
+			document.{FORMPOST}.inativar.disabled = true;
+		}
+	}
+
+	function capturarNumeroDaAta(valor) {
+	    document.{FORMPOST}.NAta.value = valor;
+	}
+
+function clean_hex(input) {
+    input = input.toUpperCase();
+    input = input.replace(/[^A-Fa-f0-9]/g, "");
+
+    return input;
+}
+
+function Convert(id, nomePdf) {
+    var binValue    = $('#'+id).val();
+    var filename    = nomePdf;
+    var cleaned_hex = clean_hex(binValue);
+
+
+    var ia = new Array();
+        
+
+    for (var i=0; i<cleaned_hex.length/2; i++) {
+        var h = cleaned_hex.substr(i*2, 2);
+        ia[i] = parseInt(h,16);
+    }
+
+    var byteArray = new Uint8Array(ia);
+
+    // create a download anchor tag
+    var downloadLink      = document.createElement('a');
+    downloadLink.target   = '_blank';
+    downloadLink.download = nomePdf;
+
+    // convert downloaded data to a Blob
+    var blob = new Blob([byteArray], { type: 'application/pdf' }); 
+
+    // create an object URL from the Blob
+    var URL = window.URL || window.webkitURL;
+    var downloadUrl = URL.createObjectURL(blob);
+
+    // set object URL as the anchor's href
+    downloadLink.href = downloadUrl;
+
+    // append the anchor to document body
+    document.body.appendChild(downloadLink);
+
+    // fire a click event on the anchor
+    downloadLink.click();
+
+    // cleanup: remove element and revoke object URL
+    document.body.removeChild(downloadLink);
+    URL.revokeObjectURL(downloadUrl);
+
+
+}
+
+$(document).ready(function() {
+    $('a').click(function() {
+        var nomePdf   = $(this).html().replace(/\<br>/g, '');
+        var nomeClass = $(this).prop('class');
+        Convert(nomeClass, nomePdf);
+    });
+});
+</script>
+
+<form action="{FORMPOST}.php" method="post" name="{FORMPOST}">
+	<!-- BEGIN BLOCO_RESULTADO_PEQUISA -->
+	<table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 633px;">
+		<tr>
+			<td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3" colspan="9">{TITULO_PROGRAMA}</td>
+		</tr>
+		<tr>
+			<td colspan="4">
+				<table
+					class="textonormal"
+					colspan="4"
+				>
+					<!-- BEGIN BLOCO_LICITACAO -->
+					<tr>
+						<td class="textonormal" bgcolor="#DCEDF7" width="20%" align="left">Comissão</td>
+						<td class="textonormal" width="80%" align="left">{VALOR_COMISSAO}</td>
+					</tr>
+					<tr>
+						<td class="textonormal" bgcolor="#DCEDF7" width="20%" align="left">Processo</td>
+						<td class="textonormal" width="80%" align="left">{VALOR_PROCESSO}</td>
+					</tr>
+					<tr>
+						<td class="textonormal" bgcolor="#DCEDF7" width="20%" align="left">Ano</td>
+						<td class="textonormal" width="80%" align="left">{VALOR_ANO}</td>
+					</tr>
+					<tr>
+						<td class="textonormal" bgcolor="#DCEDF7" width="20%" align="left">Modalidade</td>
+						<td class="textonormal" width="80%" align="left">{VALOR_MODALIDADE}</td>
+					</tr>
+					<tr>
+						<td class="textonormal" bgcolor="#DCEDF7" width="20%" align="left">Licitação</td>
+						<td class="textonormal" width="80%" align="left">{VALOR_LICITACAO}</td>
+					</tr>
+					<tr>
+						<td class="textonormal" bgcolor="#DCEDF7" width="20%" align="left">Ano Licitação</td>
+						<td class="textonormal" width="80%" align="left">{VALOR_ANO_LICITACAO}</td>
+					</tr>
+					<tr>
+						<td class="textonormal" bgcolor="#DCEDF7" width="20%" align="left">Órgão Licitante</td>
+						<td class="textonormal" width="80%" align="left">{VALOR_ORG_LIMITE}</td>
+					</tr>
+					<tr>
+						<td class="textonormal" bgcolor="#DCEDF7" width="20%" align="left">Participantes do Processo</td>
+						<td class="textonormal" width="80%" align="left">{VALOR_PARTICIPANTES}</td>
+					</tr>
+					<tr>
+						<td class="textonormal" bgcolor="#DCEDF7" width="20%" align="left">Objeto</td>
+						<td class="textonormal" width="80%" align="left">{VALOR_OBJETO}</td>
+					</tr>
+					<!-- END BLOCO_LICITACAO -->
+				</table>
+			</td>
+		</tr>
+	</table>
+	<!-- END BLOCO_RESULTADO_PEQUISA -->
+
+	<table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 633px;">
+		<tr>
+			<td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3">{TITULO_ATAS}</td>
+		</tr>
+
+		<tr>
+			<td>
+				<table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF">
+					<tr>
+						<td class="textoabason" bgcolor="#DCEDF7" width="300px" align="center">Nº ATA</td>
+						<td class="textoabason" bgcolor="#DCEDF7" width="279px" align="center">VIGÊNCIA</td>
+						<td class="textoabason" bgcolor="#DCEDF7" width="427px" align="center">DOCUMENTO</td>
+						<td class="textoabason" bgcolor="#DCEDF7" width="506px" align="center">DATA ÚLTIMA ALTERAÇÃO</td>
+						<td class="textoabason" bgcolor="#DCEDF7" width="127px" align="center">SITUAÇÃO</td>
+					</tr>
+					<!-- BEGIN BLOCO_RESULTADO_ATAS -->
+					<tr>
+						<td class="textonormal" align="center">
+							<input type="radio" name="ata" value="{VALOR_SEQ_ATA}" onclick="javascript:capturarNumeroDaAta('{VALOR_SEQ_ATA}');" />
+							{VALOR_ATA}<br />
+						</td>
+
+						<td class="textonormal" align="center">{VALOR_VIGENCIA}</td>
+						<td class="textonormal" align="center">
+							<!-- BEGIN BLOCO_DOCUMENTOS -->
+                            <input type="hidden" value="{HEX_DOCUMENTO}" id="{VALOR_DOCUMENTO_KEY}">
+                            <a href="#" class="{VALOR_DOCUMENTO_KEY}">{VALOR_DOCUMENTO}</a><br>
+                        <!-- END BLOCO_DOCUMENTOS -->					
+						</td>
+						<td class="textonormal" align="center">{VALOR_DATA}</td>
+						<td class="textonormal" align="center">{VALOR_SITUACAO}</td>
+					</tr>
+					<!-- END BLOCO_RESULTADO_ATAS -->
+				</table>
+			</td>
+		</tr>
+
+		<tr>
+			<td class="textonormal" align="right">
+				<!-- BEGIN BLOCO_BOTAO_ATAS_ALTERAR -->
+				<input type="button" name="{ACAO_ALTERAR}" value="{VALUE_ALTERAR}" class="botao" onclick="javascript:enviar('{ENVIAR_ALTERAR}')">
+				<!-- END BLOCO_BOTAO_ATAS_ALTERAR -->
+
+				<input type="hidden" name="NAta" />
+				<input type="button" name="voltar" value="Voltar" class="botao" onclick="javascript:enviar('Voltar')" />
+				<input type="hidden" name="Botao" />
+			</td>
+		</tr>
+	</table>
+</form>

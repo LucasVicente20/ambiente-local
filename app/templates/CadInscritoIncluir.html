@@ -1,0 +1,881 @@
+<script type="text/javascript">
+	function Submete(Destino) {
+	 	document.CadInscritoIncluir.Destino.value = Destino;
+	 	document.CadInscritoIncluir.submit();
+	}
+
+	function removerSocio(valor) {
+		document.CadInscritoIncluir.SocioSelecionado.value=valor;
+		enviarForm('RemoverSocio');
+	}
+
+	function enviarForm(valor) {
+		document.CadInscritoIncluir.Botao.value = valor;
+		document.CadInscritoIncluir.submit();
+	}
+
+	function preencheTipoDocDesc(){
+		$('#tipoDocDesc').val($('#tipoDoc option:selected').text());
+	}
+
+	function janela( pageToLoad, winName, width, height, center, barra) {
+		xposition=0;
+		yposition=0;
+		if ((parseInt(navigator.appVersion) >= 4 ) && (center)){
+			xposition = (screen.width - width) / 2;
+			yposition = (screen.height - height) / 2;
+		}
+		args = "width=" + width + ","
+		+ "height=" + height + ","
+		+ "location=0,"
+		+ "menubar=0,"
+		+ "resizable=0,"
+		+ "scrollbars=" + barra + ","
+		+ "status=0,"
+		+ "titlebar=no,"
+		+ "toolbar=0,"
+		+ "hotkeys=0,"
+		+ "z-lock=1," //Netscape Only
+		+ "screenx=" + xposition + "," //Netscape Only
+		+ "screeny=" + yposition + "," //Netscape Only
+		+ "left=" + xposition + "," //Internet Explore Only
+		+ "top=" + yposition; //Internet Explore Only
+		window.open( pageToLoad,winName,args );
+	}
+
+	$(document).ready(function() {
+		$("li.active a").attr("onclick", "");
+		document.getElementById('certidaoEstrang').style.display = 'none';
+		//$("#cpfcnpj").mask("999.999.999-99"); //Inicia o campo como CPF
+		var radio = $("input[name=TipoCnpjCpfInscrito]:checked");
+		$('#cpfcnpjInscrito').unmask(); //Remove a mascara
+
+		if(radio.val() == "CPF") {
+			$("#cpfcnpjInscrito").mask("999.999.999-99");
+		} else if(radio.val() == "CNPJ") {//Acaso seja Cnpj
+			$("#cpfcnpjInscrito").mask("99.999.999/9999-99");
+		}else{
+			document.getElementById('cpfcnpjInscrito').style.display = 'none';
+			document.getElementById('certidaoEstrang').style.display = 'block';
+		}
+		$("#cpfcontato").mask("999.999.999-99");
+		$("#CEP").mask("99.999-999");
+	});
+</script>
+<div class="content">
+	<div class="row container" style="width: 1500px !important;">
+		<div class="span12">
+			<section class="box-article">
+				<header class="header">
+					<h1>INCLUIR - INSCRIÇÃO DE FORNECEDOR</h1>
+				</header>
+				<div class="body">
+					<ul class="breadcrumb">
+						<li>Você está em:</li>
+						<li>
+							<a href="{BASE_URL}home.php">Início</a>
+							<span class="divider">
+								<i class="arrow-right"></i>
+							</span>
+						</li>
+						<li>
+							<a href="{BASE_URL}Fornecedores.php">Novos Fornecedores</a>
+							<span class="divider">
+								<i class="arrow-right"></i>
+							</span>
+						</li>
+						<li class="active">Cadastro</li>
+					</ul>
+					<article class="article">
+						<section class="article-detail row-border">
+							<p>
+								<!-- BEGIN BLOCO_TEXTO_HABILITACAO -->
+								Para fazer a Inscrição de um Fornecedor, informe os dados abaixo. Os itens obrigatórios estão com *.<br/>
+								Para preencher o endereço digite o CEP e clique no botão "Preencher Endereço".<br/><br/>
+								Se você não possui o Acrobat Reader, clique
+								<a href="javascript:janela('pdf.php','Relatorio',450,580,1,0)" class="titulo2">AQUI</a>
+								para fazer o download. Para este rotina funcionar bem,
+								desabilite o bloqueador de janelas suspensas (Pop up) do seu navegador para este endereço.
+								<!-- END BLOCO_TEXTO_HABILITACAO -->
+
+								<!-- BEGIN BLOCO_TEXTO_REGULARIDADE_FISCAL -->
+								Para continuar a Inscrição, informe os dados abaixo,
+								as datas de todas as certidões fiscais obrigatórias e informe as certidões Complementares,
+								se existirem com suas respectivas datas. Os itens obrigatórios estão com *.
+								Deverá ser informada a Inscrição Municipal de Recife ou a Inscrição de Outro Município.
+								<br>
+								Parar retirar uma ou mais certidão fiscal complementar selecione a(s) certidão(ões) e
+								clique no botão "Retirar Complementar".
+								<!-- END BLOCO_TEXTO_REGULARIDADE_FISCAL -->
+
+								<!-- BEGIN BLOCO_TEXTO_QUALIFICACAO_FINANCEIRA -->
+								Informe os itens obrigatórios que estão marcados com *.
+								O Índice de Liquidez Corrente e Liquidez Geral não pode ser menor que 1.
+								<!-- END BLOCO_TEXTO_QUALIFICACAO_FINANCEIRA -->
+
+								<!-- BEGIN BLOCO_TEXTO_QUALIFICACAO_TECNICA -->
+		        	    		Para informar a(s) autorização(ões) específica clique no botão "Incluir Autorização".
+		        	    		Se desejar eliminar uma autorização específica já informada, marque a(s) autorização(ões) desejada(s) e
+		        	    		clique no botão "Retirar Autorizações Marcadas".<br>
+		        	    		Para informar os grupos de fornecimento clique no botão "Incluir Grupos".
+		        	    		Se desejar eliminar um grupo de fornecimento já informado, marque o(s) grupo(s) desejado(s) e
+		        	    		clique no botão "Retirar Grupos".
+	        	    			Para este rotina funcionar bem, desabilite o bloqueador de janelas suspensas (Pop up) do
+	        	    			seu navegador para este endereço.
+								<!-- END BLOCO_TEXTO_QUALIFICACAO_TECNICA -->
+
+								<!-- BEGIN BLOCO_TEXTO_DOCUMENTOS -->
+								Informe os dados abaixo e clique no botão "Incluir".<br>
+								<!-- END BLOCO_TEXTO_DOCUMENTOS -->
+							</p>
+						</section>
+						<div class="clearfix">&nbsp;</div>
+							<!-- BEGIN BLOCO_MENSAGEM -->
+							<div class="alert {TIPOALERT}">
+								<button class="close" data-dismiss="alert" type="button">×</button>
+								{MENSAGEM}
+							</div>
+							<!-- END BLOCO_MENSAGEM -->
+						<section class="article-detail">
+							<div class="tabbable">
+								<ul class="nav nav-tabs">
+									<li class="{ACTIVEHABI}">
+										<a data-toggle="tab" onclick="javascript:enviar('A','Destino')">
+											Habilitação Jurídica
+										</a>
+									</li>
+									<li class="{ACTIVEREG}">
+										<a data-toggle="tab" onclick="javascript:enviar('B','Destino');">
+											Regularidade Fiscal
+										</a>
+									</li>
+									<li class="{ACTIVEQUALECO}">
+										<a data-toggle="tab" onclick="javascript:enviar('C','Destino');">
+											Qualif. Econ. Finan.
+										</a>
+									</li>
+									<li class="{ACTIVEQUALITEC}">
+										<a data-toggle="tab" onclick="javascript:enviar('D','Destino');">
+											Qualif. Técnica
+										</a>
+									</li>
+									<li class="{ACTIVEDOC}">
+										<a data-toggle="tab" onclick="javascript:enviar('E','Destino');">
+											Documentos
+										</a>
+									</li>
+								</ul>
+								<!-- BEGIN BLOCO_ABA_HABILITACAO -->
+								<div style="padding-bottom: 9px; border-bottom: 1px solid #ddd;" class="tab-content">
+									<div id="tab1" class="tab-pane active">
+										<form style="margin: 0;" method="post" action="{BASE_URL}CadInscritoIncluir.php" name="CadInscritoIncluir" id="formularioHabitacao">
+											<div class="well">
+												<div class="row-fluid">
+													<div class="span2">
+														<!-- BEGIN BLOCO_AJUSTA_MARGEM_TOPO_RADIO -->
+														<label class="big">&nbsp;</label>
+														<!-- END BLOCO_AJUSTA_MARGEM_TOPO_RADIO -->
+														<!-- BEGIN bloco_radio -->
+														<label class="radio inline">
+															<input type="radio" value="CPF" id="cpf" name="TipoCnpjCpfInscrito" onclick="document.CadInscritoIncluir.Critica.value=1;document.CadInscritoIncluir.submit();"{CHECKCPF}>
+															CPF*
+														</label>
+														<label class="radio inline">
+															<input type="radio" value="CNPJ" id="cnpj" name="TipoCnpjCpfInscrito" onclick="document.CadInscritoIncluir.Critica.value=1;document.CadInscritoIncluir.submit();"{CHECKCNPJ}>
+															CNPJ*
+														</label>
+														<label class="radio inline">
+															<input type="radio" value="ESTRANGEIRO" id="ESTRANGEIRO" name="TipoCnpjCpfInscrito" onclick="document.CadInscritoIncluir.Critica.value=1;document.CadInscritoIncluir.submit();"{CERTIDAO_ESTRANGEIRA}>
+															ESTRANGEIRO*
+														</label>
+														<!-- END bloco_radio -->
+													</div>
+													<div class="span4">
+														<!-- BEGIN BLOCO_AJUSTA_MARGEM_TOPO_VALOR -->
+														<label class="big">&nbsp;</label>
+														<!-- END BLOCO_AJUSTA_MARGEM_TOPO_VALOR -->
+														<input type="text" maxlength="14" name="CPF_CNPJ" id="cpfcnpjInscrito" class="span12" value="{CPFCNPJ}">
+														<input type="text" maxlength="14" name="ESTRANG" id="certidaoEstrang" class="span12" value="{VALUE_ESTRANG}">
+													</div>
+													<!-- BEGIN bloco_empresa -->
+													<div class="span6">
+														<label class="big">{DESCRIPORTEEMPRETITULO}</label>
+														{COMBOPORTEEMPRESA}
+													</div>
+													<!-- END bloco_empresa -->
+												</div>
+												<div class="row-fluid">
+													<!-- BEGIN bloco_dados_empresa -->
+													<div class="span6">
+														<label for="tipoHab" class="big">Tipo de Natureza Jurídica*</label>
+														<select class="span12"  id="tipoHab" name="TipoNatureza">
+															<option value=""{SELECTED_NATUREZA}>SELECIONE</option>
+															<!-- BEGIN bloco_natureza -->
+															<option value="{VALUE_NATUREZA}"{SELECTED_NATUREZA}>{DESCRICAO_NATUREZA}</option>
+															<!-- END bloco_natureza -->
+														</select>
+													</div>
+														<div class="span6">
+															<label for="tipoHab" class="big">Tipo de Habilitação*</label>
+															<select class="span12"  id="tipoHab" name="TipoHabilitacao">
+																<!-- BEGIN bloco_tipo_habitacao -->
+																<option value="{VALUE}"{SELECTED}>{DESCRICAO}</option>
+																<!-- END bloco_tipo_habitacao -->
+															</select>
+														</div>
+														<div class="span4">
+															<!-- BEGIN bloco_identidade -->
+															<label for="identidade" class="big">{DESCCAMPOIDENTIDADE}</label>
+															<input type="text" class="span12" maxlength="10" value="{IDENTIDADE}" id="identidade" name="Identidade">
+															<!-- END bloco_identidade -->
+														</div>
+														<div class="span2">
+															<label for="uf" class="big">{DESCRCAMPOUFORGAO}</label>
+															<input type="text" class="span12" maxlength="10" name="OrgaoUF" id="uf" value="{UFORGAO}">
+														</div>
+													<!-- END bloco_dados_empresa -->
+												</div>
+												<div class="row-fluid">
+													<div class="span6">
+														<!-- BEGIN bloco_razao_social -->
+														<label for="nome" class="big">{DESCRCAMPRAZAOSOC}</label>
+														<input type="text" class="span12" maxlength="120" value="{NOME}" name="RazaoSocial" id="nome"> <input type="hidden" name="Critica" size="1" value="2">
+														<input type="hidden" name="Origem" value="A">
+														<input type="hidden" name="Destino">
+														<!-- END bloco_razao_social -->
+													</div>
+													<div class="span6">
+														<label for="nomefanta" class="big">Nome Fantasia</label>
+														<input type="text" class="span12" maxlength="80" value="{FANTASIA}" name="NomeFantasia" id="nomefanta">
+													</div>
+												</div>
+												<hr>
+												<div class="row-fluid">
+													<div class="span6">
+														<label for="CEP" class="big">CEP*</label>
+														<div class="input-append">
+															<input type="text" id="CEP" class="span4 numero" name="CEP" value="{CEP}">
+															<input type="hidden" id="CEP" class="span4" name="CEPAntes" value="{CEPANTES}">
+															<button type="button" class="btn" onclick="javascript:enviar('Preencher','Botao')">Preencher Endereço</button>
+														</div>
+													</div>
+													<div class="span6">
+														<!-- BEGIN bloco_logradouro -->
+														<label for="logradouro" class="big">Logradouro*</label>
+														<input type="text" class="span12" maxlength="100" value="{LOGRADOURO}" name="Logradouro" id="logradouro"{ACAOLOGRADOURO}>
+														<!-- END bloco_logradouro -->
+													</div>
+												</div>
+												<div class="row-fluid">
+													<div class="span2">
+														<label for="numero" class="big">Número</label>
+														<input type="text" class="span12 numero" maxlength="9" value="{NUMERO}" name="Numero" id="numero">
+													</div>
+													<div class="span4">
+														<label for="complemento" class="big">Complemento</label>
+														<input type="text" class="span12" maxlength="20" value="{COMPLEMENTO}" name="Complemento" id="complemento">
+													</div>
+													<div class="span6">
+														<!-- BEGIN bloco_bairro -->
+														<label for="bairro" class="big">Bairro*</label>
+														<input type="text" class="span12" maxlength="60" value="{BAIRRO}" name="Bairro" id="bairro"{ACAOBAIRRO}>
+														<!-- END bloco_bairro -->
+													</div>
+												</div>
+												<div class="row-fluid">
+													<div class="span5">
+														<label for="cidade" class="big">Cidade*</label>
+														<input type="text" class="span12" maxlength="100" value="{CIDADE}" name="Cidade" id="cidade" {ACAO_CIDADE}>
+													</div>
+													<div class="span1">
+														<label for="uf" class="big">UF*</label>
+														<input type="text" class="span12" maxlength="2" value="{UF}" name="UF" id="uf" {ACAO_UF}>
+													</div>
+													<div class="span2">
+														<label for="ddd" class="big">DDD</label>
+														<input type="text" class="span8 numero" maxlength="3" value="{DDD}" name="DDD" id="ddd">
+													</div>
+													<div class="span4">
+														<label for="tel" class="big">Telefone(s)</label>
+														<input type="text" class="span12 telefone" maxlength="9" value="{TELEFONE}" name="Telefone" id="tel">
+													</div>
+												</div>
+												<div class="row-fluid">
+													<div class="span6">
+														<label for="email" class="big">Email*</label>
+														<input type="text" class="span12" maxlength="60" value="{EMAIL}" name="Email" id="email">
+													</div>
+													<div class="span6">
+														<label for="email2" class="big">Email 2</label>
+														<input type="text" class="span12" maxlength="60" value="{EMAIL2}" name="Email2" id="email2">
+													</div>
+												</div>
+												<div class="row-fluid">
+													<div class="span6">
+														<label for="email2" class="big">Fax</label>
+														<input type="text" class="span12 telefone" size="27" maxlength="25" value="{Fax}" name="Fax" id="fax">
+													</div>
+												</div>
+												<hr>
+												<div class="row-fluid">
+													<div class="span6">
+														<!-- BEGIN bloco_registro_junta_comercial -->
+														<label for="regjuntacom" class="big">Registro Junta Comercial ou Cartório{OBRIGAREGISTRO}</label>
+														<input type="text" class="span12 numero" maxlength="11" value="{REGIJUNTCOMER}" name="RegistroJunta" id="regjuntacom">
+														<!-- END bloco_registro_junta_comercial -->
+													</div>
+													<div class="span4">
+														<!-- BEGIN bloco_data_reg -->
+														<label for="datareg" class="big">Data Reg. Junta Comercial ou Cartório{OBRIGADATAJUNTA}</label>
+														<div class="input-append">
+															<input id="datareg" class="span8 datepicker" size="16" type="text" value="{DATAJUNTCOMERCIAL}" name="DataRegistro">
+															<label class="add-on" for="datareg">
+																<i class="icon-calendar"></i>
+															</label>
+														</div>
+														<!-- END bloco_data_reg -->
+													</div>
+													<div class="span2">
+														<label for="cpfcontato" class="big">CPF do Contato</label>
+														<input type="text" class="span12 numero" maxlength="11" value="{CPFCONTATO}" name="CPFContato" id="cpfcontato">
+													</div>
+												</div>
+												<div class="row-fluid">
+													<div class="span12">
+														<label for="nomecontato" class="big">Nome do Contato</label>
+														<input type="text" class="span12" maxlength="60" value="{NOMECONTATO}" name="NomeContato" id="nomecontato">
+													</div>
+												</div>
+												<div class="row-fluid">
+													<div class="span2">
+														<label for="dddcontato" class="big">DDD do Contato</label>
+														<input type="text" class="span8 numero" maxlength="3" value="{DDDCONTATO}" name="DDDContato" id="dddcontato">
+													</div>
+													<div class="span4">
+														<label for="cpfcontato" class="big">Telefone do Contato</label>
+														<input type="text" class="span12 telefone" maxlength="11" value="{TELEFONECONTATO}" name="TelefoneContato" id="telcontato">
+													</div>
+												</div>
+											</div>
+											<!-- BEGIN bloco_mostra_socios -->
+											<dt>&nbsp;SÓCIOS</dt>
+											<div class="well">
+												<!-- BEGIN bloco_valores_socios -->
+												<div class="row-fluid valor-socios">
+													<div class="span6">
+														{SociosNome}
+													</div>
+													<div class="span4">
+														{SociosCPF_CNPJ}
+													</div>
+													<div class="span2">
+													 	<input type="hidden" name="SociosNome[{POSICAO}]" value="{SociosNomePosicao}" >
+	              							          	<input type="hidden" name="SociosCPF_CNPJ[{POSICAO}]" value="{SociosCPF_CNPJPosicao}" >
+	              							          	<button class="btn btn-primary" type="button" onclick="javascript:removerSocio('{POSICAO}');">Remover</button>
+													</div>
+												</div>
+												<!-- END bloco_valores_socios -->
+												<div class="row-fluid">
+													<!-- BEGIN bloco_CAMPOS_socios -->
+													<div class="span8">
+														<label for="nomeSocio" class="big">Nome</label>
+														<input type="text" class="span12" maxlength="50" value="" name="SocioNovoNome" id="sd">
+													</div>
+													<div class="span2">
+														<label for="cpfSocio" class="big">CPF / CNPJ</label>
+														<input type="text" class="span12 numero" maxlength="14" value="" name="SocioNovoCPF" id="cpfSocio">
+													</div>
+													<div class="span2">
+														<label>&nbsp;</label>
+														<button class="btn btn-primary" type="button" onclick="javascript:enviar('AdicionarSocio','Botao');">Adicionar</button>
+														<input type="hidden" name="SocioSelecionado" value="-1">
+	              							            <input type="hidden" name="NoSocios" value="{NoSocios}">
+													</div>
+													<!-- END bloco_CAMPOS_socios -->
+												</div>
+											</div>
+											<!-- END bloco_mostra_socios -->
+											<input type="hidden" name="Destino">
+											<input type="hidden" name="Botao" value="">
+										</form>
+										<div class="pagination-right">
+											<button class="btn btn-primary" type="button" onclick="javascript:enviar('B','Destino');">Próxima Aba</button>
+											<button class="btn btn-primary" type="button" onclick="javascript:enviar('Limpar','Botao');">Limpar</button>
+										</div>
+									</div>
+									<!-- END BLOCO_ABA_HABILITACAO -->
+									<!-- BEGIN BLOCO_ABA_REGULARIDADE -->
+									<div style="padding-bottom: 9px; border-bottom: 1px solid #ddd;" class="tab-content">
+										<div id="tab1" class="tab-pane active">
+											<form style="margin: 0;" method="post" action="{BASE_URL}CadInscritoIncluir.php" name="CadInscritoIncluir" id="formulario">
+												<div class="well">
+													<div class="row-fluid">
+														<!-- BEGIN bloco_reg_cpfcnpj -->
+														<div class="span3">
+															<label for="" class="big">{CPFCNPJDESCRICAOCAMPO}</label>
+															<span class="help-block">{CPFCNPJ}</span>
+														</div>
+														<!-- END bloco_reg_cpfcnpj -->
+														<!-- BEGIN bloco_reg_nomerazao -->
+														<div class="span6">
+															<label for="" class="big">{DESCRCAMPRAZAOSOC}</label>
+															<span class="help-block">{RazaoSocial}</span>
+														</div>
+														<!-- END bloco_reg_nomerazao -->
+													</div>
+													<div class="row-fluid">
+														<div class="span3">
+															<label for="txtInscMerc" class="big">Inscrição Municipal Recife{OBRIGATORIEDADEINCRI}</label>
+															<input type="text" class="span12 numero" maxlength="9" value="{InscMercantil}" name="InscMercantil" id="txtInscMerc">
+															<input type="hidden" name="Origem" value="B">
+															<input type="hidden" name="Destino">
+														</div>
+														<div class="span3">
+															<label for="txtInscOutroMun" class="big">Inscrição Outro Município{INCRIOUTROMUNIOBRI}</label>
+															<input type="text" class="span12 numero" maxlength="9" value="{InscOMunic}" name="InscOMunic" id="txtInscOutroMun">
+														</div>
+														<div class="span3">
+															<label for="txtInscEstadual" class="big">Inscrição Estadual</label>
+															<input type="text" class="span12 numero" maxlength="9" value="{InscEstadual}" name="InscEstadual" id="txtInscEstadual">
+														</div>
+													</div>
+												</div>
+												<h1>CERTIDÃO FISCAL</h1>
+												<dt>OBRIGATÓRIAS</dt>
+												<div class="well">
+													<div class="row-fluid">
+														<label for="txtInscMerc" class="big span8">Nome da Certidão</label>
+														<label for="txtInscMerc" class="big span2">Data de Validade</label>
+													</div>
+													<!-- BEGIN blocoTabelaCertidao -->
+													<div class="row-fluid">
+														<span class="help-block span8">{DESCRICAOCERTIDAO}</span>
+														{INPUT_HIDDEN}
+														<div class="span2">
+															<div class="input-append">
+																<input id="dataval{ID}" class="span12 datepicker" size="16" type="text" value="{DATAVALIDADECERTIDAO}" name="DataCertidaoOb[{ID}]">
+																<label class="add-on" for="dataval{ID}">
+																	<i class="icon-calendar"></i>
+																</label>
+															</div>
+														</div>
+													</div>
+													<!-- END blocoTabelaCertidao -->
+												</div>
+												<dt>COMPLEMENTARES</dt>
+												<div class="well">
+													<!-- BEGIN BLOCO_HEADER_COMPLEMENTARES -->
+													<div class="row-fluid">
+														<label for="txtInscMerc" class="big span8">Nome da Certidão</label>
+														<label for="txtInscMerc" class="big span2">Data de Validade</label>
+													</div>
+													<!-- END BLOCO_HEADER_COMPLEMENTARES -->
+													<!-- BEGIN BLOCO_CERTIDOES_COMPLEMENTARES -->
+													<div class="row-fluid">
+														<span class="help-block span8">
+															<label class="checkbox inline">
+																<input type="checkbox" name="CheckComplementar[{ORDEM_CERTIDAO}]" value="{CODIGO_CERTIDAO}" class="ckb-certidoes-complementares">
+															</label>
+															{DESCRICAO_CERTIDAO_COMPLEMENTAR}
+														</span>
+														<div class="span2">
+															<div class="input-append">
+																<input id="data-comp-val{CODIGO_CERTIDAO}" class="span12 datepicker" size="16" type="text" value="{DATA_VALIDADE_CERTIDAO_COMPLEMENTAR}" name="DataCertidaoComp[{ORDEM_CERTIDAO}]">
+																<label class="add-on" for="data-comp-val{CODIGO_CERTIDAO}"><i class="icon-calendar"></i></label>
+															</div>
+														</div>
+													</div>
+													<!-- END BLOCO_CERTIDOES_COMPLEMENTARES -->
+													<div class="text-center">
+														<button class="btn" type="button" onclick="javascript:AbreJanela('CadIncluirCertidaoComplementar.php?ProgramaOrigem=CadInscritoIncluir',800,400)">Incluir Complementar</button>
+														<button class="btn" type="button" onclick="javascript:enviar('RetirarComplementar','Botao');">Retirar Complementar</button>
+														<input type="hidden" name="Certidao" value="{Certidao}">
+														<input type="hidden" name="Botao" value="">
+													</div>
+												</div>
+												<input type="hidden" name="Destino">
+											</form>
+											<div class="pagination-right">
+												<button class="btn btn-primary" type="button" onclick="javascript:enviar('C','Destino');">Próxima Aba</button>
+												<button class="btn btn-primary reset" type="button" onclick="javascript:enviar('Limpar','Botao');">Limpar</button>
+											</div>
+										</div>
+										<!-- /tab1 -->
+										<div id="tab2" class="tab-pane">
+											<p>Regularidade Fiscal</p>
+										</div>
+										<!-- / tab2 -->
+										<div id="tab3" class="tab-pane">
+											<p>Qualif. Econ. Finan.</p>
+										</div>
+										<!-- / tab3 -->
+										<div id="tab4" class="tab-pane">
+											<p>Qualif.Tec.</p>
+										</div>
+										<!-- / tab4 -->
+									</div>
+									<!-- END BLOCO_ABA_REGULARIDADE -->
+									<!-- BEGIN bloco_regularidade_financeira -->
+									<form style="margin: 0;" method="post" action="{BASE_URL}CadInscritoIncluir.php" name="CadInscritoIncluir" id="formularioRegularidade">
+										<div class="well">
+											<div class="row-fluid">
+												<div class="span3">
+													<label for="" class="big">{CPFCNPJDESCRICAOCAMPO}</label>
+													<span class="help-block">{CPFCNPJ}</span>
+												</div>
+												<div class="span6">
+													<label for="" class="big">{DESCRCAMPRAZAOSOC}</label>
+													<span class="help-block">{RazaoSocial}</span>
+													<input type="hidden" name="Origem" value="C">
+													<input type="hidden" name="Destino">
+												</div>
+											</div>
+										</div>
+										<!-- BEGIN bloco_tipo_habilitacao -->
+										<div class="well">
+											<div class="row-fluid">
+												<div class="span4">
+													<label for="" class="big">Capital Social Subscrito*</label>
+													<input type="text" class="span12 dinheiro4casas" id="capitalSocial" name="CapSocial" value="{CapSocial}" maxlength="16">
+												</div>
+												<div class="span4">
+													<label for="" class="big">Capital Integralizado</label>
+													<input type="text" class="span12 dinheiro4casas" id="capitalInte" name="CapIntegralizado" value="{CapIntegralizado}" maxlength="16">
+												</div>
+												<div class="span4">
+													<label for="" class="big">Patrimônio Líquido{OBRIGATORIOPATRI}</label>
+													<input type="text" class="span12 dinheiro4casas" id="patriLiqui" name="Patrimonio" value="{Patrimonio}" maxlength="16">
+												</div>
+											</div>
+											<div class="row-fluid">
+												<div class="span4">
+													<label for="" class="big">Índice de Liquidez Corrente</label>
+													<input type="text" class="span12 dinheiro4casas" id="indiceLiqui" name="IndLiqCorrente" value="{IndLiqCorrente}" maxlength="16">
+												</div>
+												<div class="span4">
+													<label for="" class="big">Índice de Liquidez Geral</label>
+													<input type="text" class="span12 dinheiro4casas" id="indiceLiqGeral" name="IndLiqGeral" value="{IndLiqGeral}" maxlength="16"/>
+												</div>
+												<div class="span4">
+													<label for="" class="big">Índice de Endividamento</label>
+													<input type="text" class="span12 dinheiro4casas" id="indiceEnd" name="IndEndividamento" value="{IndEndividamento}" maxlength="16"/>
+												</div>
+											</div>
+											<div class="row-fluid">
+												<div class="span4">
+													<label for="" class="big">Índice de Solvência Geral</label>
+													<input type="text" class="span12 dinheiro4casas" id="indiceSolv" name="IndSolvencia" value="{IndSolvencia}" maxlength="16"/>
+												</div>
+												<div class="span4">
+													<label for="" class="big">Data de última alteração de contrato ou estatuto</label>
+													<div class="input-append">
+														<input type="text" class="span11 datepicker" id="dataulti" name="DataContratoEstatuto" value="{DataContratoEstatuto}">
+														<label class="add-on" for="dataulti">
+															<i class="icon-calendar"></i>
+														</label>
+													</div>
+												</div>
+												<div class="span4">
+													<label for="" class="big">Data de validade do balanço{OBRIGATORIODATA}</label>
+													<div class="input-append">
+														<input type="text" class="span11 datepicker" id="dataVali" name="DataBalanco" value="{DataBalanco}">
+														<label class="add-on" for="dataVali">
+															<i class="icon-calendar"></i>
+														</label>
+													</div>
+												</div>
+											</div>
+											<div class="row-fluid">
+												<div class="span4">
+													<label for="" class="big">Data de Certidão Negativa de Falência ou Concordata*</label>
+													<div class="input-append">
+														<input type="text" class="span11 datepicker" id="dataCerti" name="DataNegativa" value="{DataNegativa}">
+														<label class="add-on" for="dataCerti">
+															<i class="icon-calendar"></i>
+														</label>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!-- END bloco_tipo_habilitacao -->
+										<div class="well">
+											<div class="row-fluid">
+												<div class="span12">
+													<table class="table table-report">
+														<tbody>
+															<tr>
+																<td width="9%"><strong>BANCO</strong></td>
+																<td width="13%"><strong>AGÊNCIA</strong></td>
+																<td width="26%"><strong>CONTA CORRENTE</strong></td>
+															</tr>
+															<tr>
+																<td>
+																	<input type="text" maxlength="3" class="span6 numero" id="dataulti" name="Banco1" value="{Banco1}">
+																</td>
+																<td>
+																	<input type="text" maxlength="8" class="span6" id="dataulti" name="Agencia1" value="{Agencia1}">
+																</td>
+																<td>
+																	<input type="text" maxlength="9" class="span6" id="dataulti" name="ContaCorrente1" value="{ContaCorrente1}">
+																</td>
+															<tr>
+															<tr>
+																<td>
+																	<input type="text" maxlength="3" class="span6 numero" id="dataulti" name="Banco2" value="{Banco2}">
+																</td>
+																<td>
+																	<input type="text" maxlength="8" class="span6" id="dataulti" name="Agencia2" value="{Agencia2}">
+																</td>
+																<td>
+																	<input type="text" maxlength="9" class="span6" id="dataulti" name="ContaCorrente2" value="{ContaCorrente2}">
+																</td>
+															<tr>
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+										<div class="pagination-right">
+											<button class="btn btn-primary" type="button" onclick="javascript:enviar('D','Destino');">Próxima Aba</button>
+											<button class="btn btn-primary reset" type="button" onclick="javascript:enviar('Limpar','Botao');">Limpar</button>
+										</div>
+									</form>
+									<!-- END bloco_regularidade_financeira -->
+									<!-- BEGIN bloco_qualificacao_tecnica -->
+									<form style="margin: 0;" method="post" action="{BASE_URL}CadInscritoIncluir.php" name="CadInscritoIncluir" id="formularioQuali">
+										<div class="well">
+											<div class="row-fluid">
+												<div class="span3">
+													<label for="" class="big">{CPFCNPJDESCRICAOCAMPO}</label>
+													<span class="help-block">{CPFCNPJ}</span>
+												</div>
+												<div class="span6">
+													<label for="" class="big">{DESCRCAMPRAZAOSOC}</label>
+													<span class="help-block">{RazaoSocial}</span>
+													<input type="hidden" name="Origem" value="D"> 
+													<input type="hidden" name="Destino">
+												</div>
+											</div>
+										</div>
+										<!-- BEGIN bloco_dados_relativo -->
+										<dt>ENTIDADE PROFISSIONAL COMPETENTE</dt>
+										<div class="well">
+											<div class="row-fluid ">
+												<div class="span3">
+													<label for="" class="big">Nome da Entidade</label>
+													<input type="text" class="span12" id="NomeEntidade" size="25" maxlength="10" name="NomeEntidade" value="{NOME_ENTIDADE}">
+												</div>
+												<div class="span3">
+													<label for="" class="big">Registro ou Inscrição</label>
+													<input type="text" class="span12 numero" id="RegistroEntidade" name="RegistroEntidade" value="{REGISTRO_INSCRICAO}"  size="10" maxlength="9">
+												</div>
+												<div class="span3">
+													<label for="" class="big">Data Vigência</label>
+													<div class="input-append">
+														<input type="text" class="span11 datepicker" id="DataVigencia" name="DataVigencia" size="10" maxlength="10" value="{DATA_VIGENCIA_PROFISSIONAL}">
+														<label class="add-on" for="DataVigencia">
+															<i class="icon-calendar"></i>
+														</label>
+													</div>
+												</div>
+												<div class="span3">
+													<label for="" class="big">Registro ou Inscrição do Técnico</label>
+													<input type="text" class="span12 numero" id="RegistroTecnico" name="RegistroTecnico" size="10" maxlength="9" value="{REGISTRO_INSCRICAO_TECNICO}">
+												</div>
+											</div>
+										</div>
+										<!-- END bloco_dados_relativo -->
+										<dt>AUTORIZAÇÃO ESPECÍFICA</dt>
+										<div class="well">
+											<!-- BEGIN bloco_autorizacao_especifica -->
+												<div class="row-fluid">
+													<label class="big span6" for="txtInscMerc">NOME DA ENTIDADE EMISSORA</label>
+													<label class="big span4" for="txtInscMerc">REGISTRO OU INSCRIÇÃO</label>
+													<label class="big span2" for="txtInscMerc">DATA DE VIGÊNCIA</label>
+												</div>
+												<!-- BEGIN bloco_tabela_tec -->
+												<div class="row-fluid">
+													<span class="help-block span6">
+														<label class="checkbox inline">
+															<input class="ckb-certidoes-complementares" type="checkbox" name="{NAME_TEC}" value={VALOR_TEC}>
+														</label>
+														{AUTORIZACAONOME}
+														<input type="hidden" name="AutorizaNome[]" value="{AutorizaNome}">
+													</span>
+													<span class="help-block span4">
+														{AUTORIZACAOREGISTRO}
+														<input type="hidden" name="AutorizaRegistro[]" value="{AutorizaRegistro}">
+													</span>
+													<span class="help-block span2">
+														{AUTORIZACAODATA}
+														<input type="hidden" name="AutorizaData[]" value="{AutorizaData}">
+													</span>
+												</div>
+												<!-- END bloco_tabela_tec -->
+											<!-- END bloco_autorizacao_especifica -->
+											<div class="text-center">
+												<input class="btn" type="button" value="Incluir Autorização" onclick="javascript:AbreJanela('{URL}',768,360);">
+												<input class="btn" type="button" value="Retirar Autorizações Marcadas" onclick="javascript:enviarForm('RetirarAutorizacao');">
+												<input type="hidden" name="Destino">
+											</div>
+										</div>
+										<dt>GRUPOS DE FORNECIMENTO (OBJETO SOCIAL)</dt>
+										<div class="well">
+											<!-- BEGIN BLOCO_GRUPO_FORNECIMENTO_MATERIAL -->
+												<div class="row-fluid">
+													<label class="big span8" for="txtInscMerc">MATERIAIS</label>
+												</div>
+												<!-- BEGIN bloco_tabela_materias -->
+												<div class="row-fluid">
+													<span class="help-block span8">
+														<label class="checkbox inline">
+															<input type="checkbox" class="ckb-grupo-fornecimento" name="{CHECKMATERIAL}" value="{MATERIAIS}">
+														</label>
+														{DESCRICAOGRUPO}
+													</span>
+												</div>
+												<!-- END bloco_tabela_materias -->
+											<!-- END BLOCO_GRUPO_FORNECIMENTO_MATERIAL -->
+											<!-- BEGIN BLOCO_GRUPO_FORNECIMENTO_SERVICO -->
+												<div class="row-fluid">
+													<label class="big span8" for="txtInscMerc">SERVIÇOS</label>
+												</div>
+												<!-- BEGIN bloco_tabela_servicos -->
+												<div class="row-fluid">
+													<span class="help-block span8">
+														<label class="checkbox inline">
+															<input type="checkbox" class="ckb-grupo-fornecimento" name="{CHECKSERVICO}" value="{SERVICOS}">
+														</label>
+														{DESCRICAOGRUPO}
+													</span>
+												</div>
+												<!-- END bloco_tabela_servicos -->
+											<!-- END BLOCO_GRUPO_FORNECIMENTO_SERVICO -->
+											<div class="text-center">
+												<input class="btn" type="button" value="Incluir Grupos" onclick="javascript:AbreJanela('{URLGRUPOS}',800,580);">
+												<input class="btn" type="button" value="Retirar Grupos Marcados" onclick="javascript:enviarForm('RetirarGrupos');">
+											</div>
+										</div>
+										<dt>CUMPRIMENTO DA LEI</dt>
+										<div class="well">
+											<div class="row-fluid">
+												<div class="span8">
+													<p>
+														O fornecedor declara que cumpre o disposto no Inc.
+														XXXIII do Art. 7º da Constituição Federal. "Sim" ou "Não"?
+													</p>
+												</div>
+												<div class="span4 resposta-cumprimento">
+													<label class="radio inline">
+														<input type="radio" name="Cumprimento" value="S" {SIMCHECKED}>
+														Sim
+													</label>
+													<label class="radio inline">
+														<input type="radio" name="Cumprimento" value="N" {NAOCHECKED}>
+														Não
+													</label>
+												</div>
+											</div>
+										</div>
+										<div class="pagination-right">
+											<input type="hidden" name="EmailPopup" value="{EmailPopup}">
+											<input type="hidden" name="Botao" value="">
+											<button class="btn btn-primary" type="button" onclick="javascript:enviar('E','Destino');">Próxima Aba</button>
+											<button class="btn btn-primary reset" type="button" onclick="javascript:enviar('Limpar','Botao');">Limpar</button>
+										</div>
+									</form>
+						<!-- END bloco_qualificacao_tecnica -->
+						<!-- BEGIN bloco_documentos -->
+						<form style="margin: 0;" method="post" action="{BASE_URL}CadInscritoIncluir.php" name="CadInscritoIncluir" id="formularioDoc" enctype="multipart/form-data">
+							<div class="well">
+								<div class="row-fluid">
+									<div class="span3">
+										<label for="" class="big">{CPFCNPJDESCRICAOCAMPO}</label>
+										<span class="help-block">{CPFCNPJ}</span>
+									</div>
+									<div class="span6">
+										<label for="" class="big">{DESCRCAMPRAZAOSOC}</label>
+										<span class="help-block">{RazaoSocial}</span>
+										<input type="hidden" name="Origem" value="E"> 
+										<input type="hidden" name="Destino">
+									</div>
+								</div>
+							</div>
+
+							<div class="well">
+								<div class="row-fluid">
+									<div class="span4">
+										<label for="" class="big" style="display:initial">Documento*</label><span style="font-style:italic; font-size:10px;"> (Tamanho máximo: 5 MB)</span>
+										<span class="help-block">
+											<input type="file" name="Documentacao" class="textonormal" />
+										</span>
+									</div>
+									<div class="span4">
+										<label for="" class="big">Tipo de Documento*</label>
+										<span class="help-block">
+											<select name="tipoDoc" id="tipoDoc" class="tamanho_campo textonormal" onchange="preencheTipoDocDesc()">
+													<option value="0">Selecione um tipo de documento...</option>
+													{htmlTipoDoc}
+												</select>
+												<input type="hidden" id="tipoDocDesc" name="tipoDocDesc" value="{tipoDocDesc}">
+										</span>
+									</div>
+									<div class="span4">
+											<label for="" class="big">Observação</label>
+											<span class="help-block">
+												<font class="textonormal">máximo de 500 caracteres</font>
+												<input type="text" name="NCaracteres" disabled="" readonly="" size="1"  value="0" class="textonormal" style="width:30px;"><br>
+												<textarea id="obsDocumento" name="obsDocumento" maxlength="500" cols="50" rows="4" onkeyup="javascript:CaracteresObservacao(1)" onblur="javascript:CaracteresObservacao(0)" onselect="javascript:CaracteresObservacao(1)" class="textonormal">{obsDocumento}</textarea>
+												<script language="javascript" type="">
+												function CaracteresObservacao(valor){
+													CadInscritoIncluir.NCaracteres.value = '' +  CadInscritoIncluir.obsDocumento.value.length;
+												}
+												</script>
+											</span>
+									</div>
+									
+								</div>
+
+									
+								<div class="row-fluid">
+									<div class="text-center">
+											<input class="btn" type="button" value="Incluir Documento" onclick="javascript:enviarForm('IncluirDocumento');">
+											
+									</div>
+								</div>
+								<br>
+								<div class="row-fluid">
+									<div class="span12">
+										{htmlDoc}
+									</div>
+									
+									
+								</div><br>
+								{htmlBotaoRetirarDoc}
+
+								
+							</div>
+
+					
+							<div class="pagination-right">
+								<input type="hidden" name="EmailPopup" value="{EmailPopup}">
+								<input type="hidden" name="Critica" size="1" value="2">
+								<input type="hidden" name="Origem" value="E">
+								<input type="hidden" name="Destino">
+								<input type="hidden" name="Botao" value="">
+								<button class="btn btn-primary" value="Incluir" type="button" onclick="javascript:enviarForm('Incluir');">
+									Incluir
+								</button>
+								<button class="btn btn-primary reset" value="" type="button" onclick="javascript:enviarForm('Limpar');">
+									Limpar
+								</button>
+							</div>
+						</form>
+						<!-- END bloco_documentos-->
+						</section>
+					</article>
+				</div>
+			</section>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,103 @@
+<div class="content">
+	<div class="row">
+		<div class="span12">
+			<section class="box-article">
+				<header class="header">
+					<h1>Consulta de Ata de Registro de Preço - Resultado</h1>
+				</header>
+				<div class="body">
+					<ul class="breadcrumb">
+						<li>Você está em:</li>
+                        <li>
+                            <a href="{BASE_URL}home.php">Início</a><span class="divider"><i class="arrow-right"></i></span>
+                        </li>
+                        <li><a href="{BASE_URL}ConsRegistroPrecoPesquisar.php">Registro de Preço</a><span class="divider"><i class="arrow-right"></i></span></li>
+                        <li class="active">Consulta</li>
+                    </ul>
+					<article class="article">
+						<header class="article-header">
+							<h1>Consulta de Ata de Registro de Preço - Resultado</h1>
+						</header>
+					</article>
+					<article class="article">
+						<section class="article-detail row-border">
+							<p>Para consulta de atas anteriores, clique <a href="{BASE_URL}ConsRegistroPrecoPesquisar2017.php">aqui</a></p>
+						</section>
+						<div class="clearfix">&nbsp;</div>
+						<!-- BEGIN BLOCO_MENSAGEM -->
+						<div class="alert {TIPOALERT}">
+							<button class="close" data-dismiss="alert" type="button">×</button>
+							{MENSAGEM}
+						</div>
+						<!-- END BLOCO_MENSAGEM -->
+						<div class="btn-toolbar pagination-right">
+							<button class="btn btn-primary" type="button"
+								onClick="location.href='{BASE_URL}ConsRegistroPrecoPesquisar.php'">Nova
+								Pesquisa</button>
+						</div>
+						<section class="article-detail">
+							<table class="table table-report table-striped">
+								<!-- BEGIN BLOCO_CORPO -->
+								<!-- BEGIN BLOCO_GRUPO -->
+								<thead>
+									<tr>
+										<th colspan="5"><span class="text-center">{GRUPO_DESCRICAO}</span>
+									</tr>
+								</thead>
+								<!-- END BLOCO_GRUPO -->
+								<!-- BEGIN BLOCO_COMISSAO -->
+								<thead>
+									<tr>
+										<th colspan="5" class="table-report-head">
+                                            <span class="separator"></span>
+                                            <span class="text-center separator">{COMISSAO_DESCRICAO}</span> 
+                                            <span class="separator"></span>
+                                        </th>
+									</tr>
+								</thead>
+								<!-- END BLOCO_COMISSAO -->
+								<!-- BEGIN BLOCO_CABECALHO -->
+								<tr>
+									<td><strong>Nº DA ATA</strong></td>
+									<td><strong>PROCESSO</strong></td>							
+									<td><strong>OBJETO</strong></td>
+									<td><strong>VIGÊNCIA</strong></td>
+									<td><strong>ÓRGÃO GESTOR</strong></td>
+								</tr>
+								<!-- END BLOCO_CABECALHO -->
+								<!-- BEGIN BLOCO_VALORES -->
+								
+								<tr>
+									<td>
+										<a href="{BASE_URL}ConsRegistroPrecoDetalhes.php?GrupoCodigo={CODIGO_GRUPO}&Processo={CODIGO_PROCESSO}&ProcessoAno={ANO_PROCESSO}&ComissaoCodigo={CODIGO_COMISSAO}&OrgaoLicitanteCodigo={CODIGO_ORGAO}&ItemObjeto={ITEM_OBJETO}&ItemComissao={ITEM_COMISSAO}&ItemOrgao={ITEM_ORGAO}&ata={CODIGO_ATA}" target="_blank">
+											{NUMERO_ATA} 
+										</a>
+									</td>
+									<td>
+                                        {PROCESSO}
+                                    </td>								
+									<td style = "text-transform: uppercase;">{OBJETO}</td>
+									<td>{VIGENCIA}</td>
+									<td>{ORGAO_LICITANTE}</td>
+								</tr>
+								<!-- END BLOCO_VALORES -->
+								<!-- BEGIN BLOCO_SEPARATOR -->
+								<tr>
+									<td colspan="5"><span class="separator"></span></td>
+								</tr>
+								<!-- END BLOCO_SEPARATOR -->
+								<!-- END BLOCO_CORPO -->
+							</table>
+							<!-- <div class=" btn-toolbar pagination-right">
+
+                            <button class="btn btn-primary" type="button">Imprimir</button>
+                            <button class="btn" type="button">Voltar</button>
+
+                        </div> -->
+						</section>
+					</article>
+				</div>
+			</section>
+		</div>
+	</div>
+</div>

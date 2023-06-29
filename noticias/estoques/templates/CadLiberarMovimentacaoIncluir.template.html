@@ -1,0 +1,95 @@
+<script type="text/javascript">
+function enviar(valor){
+	var seguirSubmit = true;
+
+	if (valor == 'Excluir') {
+		seguirSubmit = confirm('Realmente deseja excluir essa intenção?\n\nAtenção:\nEssa operação não poderá ser revertida.');
+	}
+
+	if (seguirSubmit) {
+	    document.liberarMovimentacaoPesquisar.Botao.value = valor;
+	    document.liberarMovimentacaoPesquisar.submit();
+	}
+}
+
+function AbreJanela(url,largura,altura){
+    window.open(url,'paginadetalhe','status=no,scrollbars=yes,left=90,top=150,width='+largura+',height='+altura);
+}
+
+function AbreJanelaItem(url,largura,altura){
+    window.open(url,'paginaitem','status=no,scrollbars=yes,left=90,top=150,width='+largura+',height='+altura);
+}
+
+jQuery(document).ready(function($) {
+	jQuery(".reset").click(function (event) {
+		event.preventDefault();
+		window.location = 'CadLiberarMovimentacaoIncluir.php';
+
+		jQuery(":text").each(function () {
+			jQuery(this).val("");
+        });
+
+		jQuery(":radio").each(function () {
+        	jQuery(this).prop({ checked: false })
+        });
+
+		jQuery(":checkbox").each(function () {
+        	jQuery(this).prop({ checked: false })
+        });
+
+		jQuery("select").each(function () {
+			jQuery(this).val("");
+        });
+	});
+});
+</script>
+
+<form action="" method="post" name="liberarMovimentacaoPesquisar">
+    <table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" style="width: 566px">
+        <tr>
+            <td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3">INCLUIR – LIBERAR MOVIMENTAÇÃO</td>
+        </tr>
+        <tr>
+            <td class="textonormal">
+                <p align="justify">
+                	Preencha os dados abaixo para efetuar a pesquisa.
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table class="textonormal" border="0" align="left" summary="">
+                	<tr>
+                        <td class="textonormal" height="20" bgcolor="#DCEDF7" width="30%">Órgão*</td>
+                        <td class="textonormal">
+                        	<select name="Orgao" class="textonormal">
+                        		<!-- BEGIN BLOCO_LISTA_ORGAO -->
+                                <option value="{ID_ORGAO}" {ORGAO_SELECIONADO}>{NOME_ORGAO}</option>
+                                <!-- END BLOCO_LISTA_ORGAO -->
+                        	</select>
+                        </td>
+                    </tr>
+
+                	<tr>
+                        <td class="textonormal" height="20" bgcolor="#DCEDF7" width="30%">Período*</td>
+                        <td class="textonormal">
+                        	<input type="text" name="DataIni" size="10" maxlength="10" value="{DATA_INICIAL}" class="textonormal data">
+							<a href="javascript:janela('../calendario.php?Formulario=liberarMovimentacaoPesquisar&Campo=DataIni','Calendario',220,170,1,0)"><img src="../midia/calendario.gif" border="0" alt=""></a>
+							&nbsp;a&nbsp;
+							<input type="text" name="DataFim" size="10" maxlength="10" value="{DATA_FINAL}" class="textonormal data">
+							<a href="javascript:janela('../calendario.php?Formulario=liberarMovimentacaoPesquisar&Campo=DataFim','Calendario',220,170,1,0)"><img src="../midia/calendario.gif" border="0" alt=""></a>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        
+        <tr>
+            <td class="textonormal" align="right" colspan="2">
+                <input type="button" name="Incluir" value="Incluir" class="botao" onClick="javascript:enviar('Incluir');" />
+                <input type="button" name="Limpar" value="Limpar" class="botao reset" />
+                <input type="hidden" name="Botao" value="" />
+            </td>
+        </tr>
+    </table>	
+</form>

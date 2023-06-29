@@ -1,0 +1,104 @@
+<div class="content">
+	<div class="row">
+		<div class="span12">
+			<section class="box-article">
+				<header class="header">
+					<h1>Consulta de Ata de Registro de Preço - Resultado</h1>
+				</header>
+				<div class="body">
+					<ul class="breadcrumb">
+                                                                        <li>
+                                                                            <a href="{BASE_URL}home.php">Início</a><span class="divider"><i class="arrow-right"></i></span>
+                                                                        </li>
+                                                                        <li><a href="{BASE_URL}ConsRegistroPrecoPesquisar.php">Registro de Preço</a><span class="divider"><i class="arrow-right"></i></span></li>
+                                                                        <li class="active">Consulta</li>
+                                                                    </ul>
+					<article class="article">
+						<header class="article-header">
+							<h1>Consulta de Ata de Registro de Preço - Resultado</h1>
+						</header>
+					</article>
+					<article class="article">
+						<section class="article-detail row-border">
+							<p>Para visualizar mais informações, clique no número do
+								Processo desejado. Para realizar uma nova pesquisa, selecione o
+								botão "Nova Pesquisa". Só serão exibidos os Processos
+								Licitatórios do Tipo Registro de Preço já Homologado</p>
+						</section>
+						<div class="clearfix">&nbsp;</div>
+						<!-- BEGIN BLOCO_MENSAGEM -->
+						<div class="alert {TIPOALERT}">
+							<button class="close" data-dismiss="alert" type="button">×</button>
+							{MENSAGEM}
+						</div>
+						<!-- END BLOCO_MENSAGEM -->
+						<div class="btn-toolbar pagination-right">
+							<button class="btn btn-primary" type="button"
+								onClick="location.href='{BASE_URL}ConsRegistroPrecoPesquisar2017.php'">Nova
+								Pesquisa</button>
+						</div>
+						<section class="article-detail">
+							<table class="table table-report table-striped">
+								<!-- BEGIN BLOCO_CORPO -->
+								<!-- BEGIN BLOCO_GRUPO -->
+								<thead>
+									<tr>
+										<th colspan="5"><span class="text-center">{GRUPO_DESCRICAO}</span>
+											<span class="separator"></span></th>
+									</tr>
+								</thead>
+								<!-- END BLOCO_GRUPO -->
+								<!-- BEGIN BLOCO_MODALIDADE -->
+								<tr>
+									<td colspan="5">{MODALIDADE_DESCRICAO}</td>
+								</tr>
+								<!-- END BLOCO_MODALIDADE -->
+								<!-- BEGIN BLOCO_COMISSAO -->
+								<thead>
+									<tr>
+										<th colspan="5" class="table-report-head"><span
+											class="text-center">{COMISSAO_DESCRICAO}</span> <span
+											class="separator"></span></th>
+									</tr>
+								</thead>
+								<!-- END BLOCO_COMISSAO -->
+								<!-- BEGIN BLOCO_CABECALHO -->
+								<tr>
+									<td><strong>PROCESSO</strong></td>
+									<td><strong>LICITAÇÃO</strong></td>
+									<td><strong>OBJETO</strong></td>
+									<td><strong>DATA/HORA ABERTURA</strong></td>
+									<td><strong>ÓRGÃO GERENCIADOR</strong></td>
+								</tr>
+								<!-- END BLOCO_CABECALHO -->
+								<!-- BEGIN BLOCO_VALORES -->
+								<tr>
+									<td><a
+										href="{BASE_URL}ConsRegistroPrecoDetalhes2017.php?GrupoCodigo={CODIGO_GRUPO}&Processo={CODIGO_PROCESSO}&ProcessoAno={ANO_PROCESSO}&ComissaoCodigo={CODIGO_COMISSAO}&OrgaoLicitanteCodigo={CODIGO_ORGAO}&ItemObjeto={ITEM_OBJETO}&ItemComissao={ITEM_COMISSAO}&ItemOrgao={ITEM_ORGAO}" target="_blank">
+											{PROCESSO} </a></td>
+									<td>{LICITACAO}</td>
+									<td>{OBJETO}</td>
+									<td>{DATA_HORA_ABERTURA}</td>
+									<td>{ORGAO_LICITANTE}</td>
+								</tr>
+								<!-- END BLOCO_VALORES -->
+								<!-- BEGIN BLOCO_SEPARATOR -->
+								<tr>
+									<td colspan="5"><span class="separator"></span></td>
+								</tr>
+								<!-- END BLOCO_SEPARATOR -->
+								<!-- END BLOCO_CORPO -->
+							</table>
+							<!-- <div class=" btn-toolbar pagination-right">
+
+                            <button class="btn btn-primary" type="button">Imprimir</button>
+                            <button class="btn" type="button">Voltar</button>
+
+                        </div> -->
+						</section>
+					</article>
+				</div>
+			</section>
+		</div>
+	</div>
+</div>

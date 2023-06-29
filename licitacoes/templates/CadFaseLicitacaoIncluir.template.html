@@ -1,0 +1,107 @@
+<form action="CadFaseLicitacaoIncluir.php" method="post" name="FaseLicitacao" id="FaseLicitacao">
+	        	<table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" width="100%" class="textonormal" bgcolor="#FFFFFF" summary="">
+	          	<tr>
+	            	<td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3">
+		    					INCLUIR - FASE LICITAÇÃO
+		          	</td>
+		        	</tr>
+	  	      	<tr>
+	    	      	<td class="textonormal">
+	      	    		<p align="justify">
+	      	    			{DESCRICAO}
+	          	   	</p>
+	          		</td>
+		        	</tr>
+		        	<tr>
+	  	        	<td>
+	    	      		<table class="textonormal" border="0" width="100%" summary="">
+										<tr>
+	            	   		<td class="textonormal" bgcolor="#DCEDF7" width="30%">Processo* </td>
+			                <td class="textonormal">
+			                  <select name="ProcessoAnoComissaoOrgao" class="textonormal" onChange="javascript:enviar('Fase');">
+			                  	<option value="">Selecione um Processo Licitatório...</option>
+			                  	<!-- BEGIN BLOCO_LICITACAO_ITEM -->
+			                  		<option value="{LICITACAO_ITEM_VALOR}" {LICITACAO_ITEM_ATRIBUTOS} >{LICITACAO_ITEM}</option>
+			                  	<!-- END BLOCO_LICITACAO_ITEM -->
+			                  </select>
+											</td>
+										</tr>
+										<tr>
+	            	   		<td class="textonormal" bgcolor="#DCEDF7">Fase* </td>
+	            	   		<td class="textonormal">
+												<select name="FaseCodigoDesc" class="textonormal" onChange="javascript:enviar('Fase');">
+												<option value="">Selecione uma Fase...</option>
+		                  	<!-- BEGIN BLOCO_FASE_ITEM -->
+		                  		<option value="{FASE_ITEM_VALOR}" {FASE_ITEM_ATRIBUTOS} >{FASE_ITEM}</option>
+		                  	<!-- END BLOCO_FASE_ITEM -->
+												</select>
+											</td>
+										</tr>
+					          <tr>
+				              <td class="textonormal" bgcolor="#DCEDF7">Data da Fase* </td>
+				              <td class="textonormal">
+												<input type="text" name="DataFase" size="10" maxlength="10" value="{DATA_FASE}" class="textonormal">
+												<a href="javascript:janela('../calendario.php?Formulario=FaseLicitacao&Campo=DataFase','Calendario',220,170,1,0)"><img src="../midia/calendario.gif" border="0" alt=""></a>
+												<font class="textonormal">dd/mm/aaaa</font>
+					      			</td>
+				            </tr>
+				           	<tr>
+				           		<td class="textonormal" bgcolor="#DCEDF7">Detalhe{DETALHE_OBRIGATORIO}</td>              
+				              <td class="textonormal">{DETALHE_CAMPO}</td>
+				            </tr>
+				            <!-- BEGIN BLOCO_HOMOLOGACAO -->
+ 				           	<tr>
+				              <td class="textonormal" bgcolor="#DCEDF7">Total Geral Estimado*<br>(Itens que Lograram Êxito) </td>
+				              <td class="textonormal">
+				              	<input  type="text" name="TotalGeralEstimado" size="17" maxlength="16" value="{TOTAL_LOGRADO}" class="dinheiro" {TOTAL_LOGRADO_ATRIBUTO} />
+						          </td>
+				            </tr>
+				              	
+				            
+				           	<tr>
+				              <td class="textonormal" bgcolor="#DCEDF7">Valor Homologado*<br>(Itens que Lograram Êxito)</td>
+				              <td class="textonormal">
+				                <input type="text" name="ValorHomologado" size="17" maxlength="16" value="{TOTAL_HOMOLOGADO}" class="dinheiro" {TOTAL_HOMOLOGADO_ATRIBUTO} />
+						          </td>
+				            </tr>
+				            <!-- END BLOCO_HOMOLOGACAO -->				            
+	      	      	</table>
+		          	</td>
+		        	</tr>
+	  	      	<tr>
+   	  	  			<td class="textonormal" align="right">
+									<input type="hidden" name="Critica" value="1">
+	                	<input type="hidden" name="Processo" value="{PROCESSO}">
+						<input type="hidden" name="ProcessoAno" value="{PROCESSO_ANO}">
+						<input type="hidden" name="ComissaoCodigo" value="{COMISSAO}">
+						<input type="hidden" name="OrgaoLicitanteCodigo" value="{ORGAO}">
+	  	   			    <input type="hidden" name="ModalidadeCodigo" value="{MODALIDADE}">
+	  	   			    <input type="hidden" name="RegistroPreco" value="{REGISTRO_PRECO}">
+	  	   			    <input type="hidden" name="QtdBloqueios" value="{QTD_BLOQUEIOS}">
+				          <input type="hidden" name="Homologacao" value="{HOMOLOGACAO}">
+	  	            <input type="hidden" name="FaseCodigo" value="{FASE}">
+    	            <input type="button" value="Incluir" class="botao" onclick="javascript:enviar('{BOTAO_INCLUIR_ACAO}')">
+    	            <input type="hidden" name="Botao" value="">
+		          	</td>
+		        	</tr>
+    	  	  </table>
+</form>
+<script language="javascript" type="">
+<!--
+function ncaracteres(valor){
+	document.FaseLicitacao.NCaracteres.value = document.FaseLicitacao.FaseLicitacaoDetalhe.value.length;
+	if( navigator.appName == 'Netscape' && valor ) {  //Netscape Only
+		document.FaseLicitacao.NCaracteres.focus();
+	}
+}
+function enviar(valor){
+	document.FaseLicitacao.Botao.value=valor;
+	document.FaseLicitacao.submit();
+}
+
+document.FaseLicitacao.ProcessoAnoComissaoOrgao.focus();
+if( document.FaseLicitacao.Homologacao.value == 'S' && document.FaseLicitacao.FaseCodigo.value == 13 ){ //13 = homologacao
+	window.open('{URL_CONFIRMAR}','pagina','status=no,scrollbars=no,left=270,top=150,width=375,height=220');
+}
+//-->
+</script>

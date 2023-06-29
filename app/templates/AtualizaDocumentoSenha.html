@@ -1,0 +1,151 @@
+<div class="content">
+    <div class="row-fluid">
+        <section class="box-article">
+            <header class="header">
+                <h1>Atualização de Documentos - Login</h1>
+            </header>
+            <div class="body">
+                <ul class="breadcrumb">
+                    <li>Você está em:</li>
+                    <li><a href="{BASE_URL}home.php">Início</a><span
+                        class="divider"><i class="arrow-right"></i></span></li>
+                    <li><a href="{BASE_URL}Fornecedores.php">Fornecedores</a><span
+                        class="divider"><i class="arrow-right"></i></span>
+                    <li>
+                    <li class="active">Atualização de Documentos</li>
+                </ul>
+                <article class="article">
+                    <header class="article-header">
+                        <h1>Atualização de Documentos - Login</h1>
+                    </header>
+                </article>
+                <article class="article">
+                    <!-- Genérico - texto explicativo-->
+                </article>
+                <div class="clearfix">&nbsp;</div>
+
+                <!-- BEGIN BLOCO_MENSAGEM -->
+                <div class="alert {TIPOALERT}">
+                    <button class="close" data-dismiss="alert" type="button">×</button>
+                    {MENSAGEM}
+                </div>
+                <!-- END BLOCO_MENSAGEM -->
+
+                <article class="article">
+                    <section>
+                        <div class="row-fluid">
+                            <div class="well span6 offset3">
+                                <p>
+                                    Preencha os dados abaixo e clique no botão "Confimar".
+                                    Para limpar os dados, clique no botão "Limpar".
+                                </p>
+
+                                <form class="formSubmit" method="post" action="{BASE_URL}AtualizaDocumentoSenha.php" name="AtualizaDocumentoSenha">
+                                    <div class="row-fluid">
+                                        <div class="span4">
+                                            <label class="radio inline">
+                                                <input type="radio" id="CPF" name="TipoCnpjCpf" value="CPF" onclick="javascript:radioOptions()" {CHECKED_CPF}> CPF *
+                                            </label>
+                                            <label class="radio inline">
+                                                <input type="radio" name="TipoCnpjCpf"  id ="CNPJ" onclick="javascript:radioOptions()" value="CNPJ" {CHECKED_CNPJ}> CNPJ *
+                                            </label>
+                                            <label class="radio inline">
+                                                <input type="radio" name="TipoCnpjCpf" onclick="javascript:radioOptions()" value="ESTRANG"{VALOR_CNPJ_SELECTED}> ESTRANGEIRO*
+                                            </label>
+                                        </div>
+                                        <div class="span8">
+                                            <input type="text" class="span12"  id="cpfcnpj" name="CPF_CNPJ" maxlength="14" value={CPF_CNPJ}>
+                                            <input type="text" maxlength="14" name="CERTIDAO_ESTRANG" id="estrang" class="span12" value="{VALOR_ESTRANG}">
+                                        </div>
+                                    </div>
+
+                                    <div class="row-fluid">
+                                        <div class="span12">
+                                            <label for="Senha" class="big">Senha*</label>
+                                            <input type="password" class="span12" name="Senha" id="txtsenha" maxlength="8" value="">
+                                        </div>
+                                    </div>
+
+                                    <div class="row-fluid">
+                                        <div class="span9">
+                                            <label for="Codigo" class="big">Código*</label>
+                                            <input type="text" class="span12" name="Codigo" maxlength="8" value="">
+                                        </div>
+
+                                        <div class="span3">
+                                            <label for="Img" class="big">&nbsp;</label>
+                                            <img src="{URI_CAPTCHA}">
+                                        </div>
+                                    </div>
+
+                                    <hr>
+
+                                    <div class="btn-toolbar pagination-right">
+                                        <button type="button" id="btnConfirmarAcompFornecedorSenha" class="btn btn-primary">Confirmar</button>
+                                        <input type="button" value="Limpar" class="botao reset btn btn-primary">
+                                        <input type="hidden" name="Botao" id="Botao" />
+                                        <input type="hidden" name="Hash" id="Hash" />
+                                    </div>
+                                    <div class="pagination-left">
+                                        <a href="../app/RotGerarNovaSenha.php">Esqueci minha senha</a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </section>
+                </article>
+            </div>
+        </section>
+    </div>
+</div>
+<script type="text/javascript">
+function radioOptions(){
+            document.getElementById('estrang').style.display = 'none';
+            var radio = $("input[name=TipoCnpjCpf]:checked");
+            $('#cpfcnpj').unmask(); //Remove a mascara
+                if(radio.val() == "CPF") {
+                    $("#cpfcnpj").mask("999.999.999-99");
+                    document.getElementById('cpfcnpj').style.display = 'block';
+                } else if(radio.val() == "CNPJ") {//Acaso seja Cnpj
+                    $("#cpfcnpj").mask("99.999.999/9999-99");
+                    document.getElementById('cpfcnpj').style.display = 'block';
+                }else{
+                document.getElementById('cpfcnpj').style.display = 'none';
+                document.getElementById('estrang').style.display = 'block';
+            }
+        }
+$(document).ready(function() {
+    $("#btnConfirmarAcompFornecedorSenha").click(function(event) {
+        event.preventDefault();
+        var inputCNPJCPF = $("#cpfcnpj").val();
+        var inputSenha = $("#txtsenha").val();
+
+
+        var retorno = null;
+        $.ajax({
+            type: "POST",
+            url: "HashPortalComprasFornecedor.php",
+            dataType: 'json',
+            async: false,
+            beforeSend: function(xhr){ //Observe o parâmetro na função
+                xhr.setRequestHeader('X-CnpjCpf', inputCNPJCPF);
+            }
+        }).success(function(data) {
+            retorno = data.emac;
+        }).error(function(data) {
+            retorno = false;
+        });
+
+        if (retorno != false) {
+            var hashed = inputSenha + retorno;
+            var inputBlowfish = $().crypt({method:"b64enc",source:hashed});
+            $("#txtsenha").val(inputBlowfish);
+            $("#Hash").val(retorno);
+            $("#Botao").val("Confirmar");
+            $("form[name=AtualizaDocumentoSenha]").submit();
+       }
+
+    });
+
+});
+</script>

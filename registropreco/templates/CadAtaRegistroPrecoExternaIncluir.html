@@ -1,0 +1,479 @@
+<!-- 220038-- -->
+<script type="text/javascript">
+
+function enviar(valor){
+    document.{NOME_PROGRAMA}.Botao.value = valor;
+    document.{NOME_PROGRAMA}.submit();
+}
+
+// Atualiza o valor total de um material Material ou servico, e recalcula o total de todos os itens
+function AtualizarValorTotal(qtde,valor,idTotal){
+
+    var quantidade = document.getElementById(qtde).value;
+    var valor = document.getElementById(valor).value;
+
+    var totalItem = moeda2float(quantidade) * moeda2float(valor);
+
+    document.getElementById(idTotal).innerHTML = float2moeda(totalItem);
+
+    calcularTotalAta();
+}
+
+function calcularTotalAta() {
+    	var total = 0;
+    	$(".totalValorItem").each(function(){
+    	    total += moeda2float($( this ).text());
+    	});
+
+    	$("#valorTotal").text(float2moeda(total));
+
+    }
+
+function AbreJanela(url,largura,altura){
+    window.open(url,'paginadetalhe','status=no,scrollbars=yes,left=90,top=150,width='+largura+',height='+altura);
+}
+function AbreJanelaItem(url,largura,altura){
+    window.open(url,'paginaitem','status=no,scrollbars=yes,left=90,top=150,width='+largura+',height='+altura);
+}
+function ncaracteresO(valor){
+    document.{NOME_PROGRAMA}.NCaracteresO.value = '' +  document.{NOME_PROGRAMA}.Objeto.value.length;
+}
+
+function inserirFile(valor){
+      document.{NOME_PROGRAMA}.fileArquivo.value = valor;
+      document.{NOME_PROGRAMA}.Botao.value = 'Inserir';
+      document.{NOME_PROGRAMA}.submit();
+
+}
+
+function calculaTotalOriginal(){
+
+    quantidade = document.{NOME_PROGRAMA}.valorUnidade.value;
+    valor = document.{NOME_PROGRAMA}.qtdCarona.value;
+    document.{NOME_PROGRAMA}.totalOriginal.value = moeda2float(quantidade) * moeda2float(valor);
+
+}
+
+function float2moeda(num) {
+        num = parseFloat(num);
+        noDigitos =4;
+        numeroMoeda = number_format (num, noDigitos, ',','.');
+        return numeroMoeda;
+    }
+
+$(document).ready(function(){
+
+    cnpjChecked = $('#cnpjFornecedorId').is(':checked');
+    cpfChecked = $('#cpfFornecedorId').is(':checked');
+
+    if((cnpjChecked)||(!cnpjChecked && !cpfChecked)){
+        $('#cnpjFornecedorId').attr('checked', 'checked');
+        $("#FornecedorOriginal").mask("99.999.999/9999-99");
+    }
+    else{
+        $('#cpfFornecedorId').attr('checked', 'checked');
+        $("#FornecedorOriginal").mask("999.999.999-99");
+    }
+
+    cnpjCheckedAtual = $('#CNPJFornecedorAtual').is(':checked');
+    cpfCheckedAtual = $('#CPFFornecedorAtual').is(':checked');
+
+    if((cnpjCheckedAtual)||(!cnpjCheckedAtual && !cpfCheckedAtual)){
+        $('#CNPJFornecedorAtual').attr('checked', 'checked');
+        $("#FornecedorAtual").mask("99.999.999/9999-99");
+    }
+    else{
+        $('#CPFFornecedorAtual').attr('checked', 'checked');
+        $("#FornecedorAtual").mask("999.999.999-99");
+    }
+
+    $('.removerDocumento').click(function(e){
+        e.preventDefault();
+        $('#documentoExcluir').val($(this).attr('doc'));
+        $('#Botao').val('Remover');
+        $("#CadAtaRegistroPrecoExternaIncluir").submit();
+    });
+});
+
+function mascaraCNPJ(){
+    $("#FornecedorOriginal").mask("99.999.999/9999-99");
+}
+function mascaraCPF(){
+   $("#FornecedorOriginal").mask("999.999.999-99");
+}
+
+function mascaraCNPJAtual(){
+    $("#FornecedorAtual").mask("99.999.999/9999-99");
+}
+function mascaraCPFAtual(){
+    $("#FornecedorAtual").mask("999.999.999-99");
+}
+
+//-->
+
+</script>
+<form action="{NOME_PROGRAMA}.php" method="post" id="{NOME_PROGRAMA}" name="{NOME_PROGRAMA}" enctype="multipart/form-data">
+    <table border="1" cellpadding="3" cellspacing="0" bordercolor="#75ADE6" summary="" class="textonormal" bgcolor="#FFFFFF" width="100%" >
+        <tr>
+            <td align="center" bgcolor="#75ADE6" valign="middle" class="titulo3">{SUPER_TITULO}</td>
+        </tr>
+
+        <tr>
+            <td>
+                <table class="textonormal" border="0" align="left" summary="">
+                    <tr>
+                        <td class="textonormal" bgcolor="#DCEDF7" width="30%">Nº da Ata Externa *</td>
+                        <td class="textonormal">
+                            <input type="text" name="NrAtaExterna" id="NrAtaExterna" size="20" maxlength="9" value="{VALOR_NR_ATA_EXTERNA}" class="textonormal" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="textonormal" bgcolor="#DCEDF7" width="30%">Ano da Ata Externa *</td>
+                        <td class="textonormal">
+                            <input type="text" name="AnoAtaExterna" id="AnoAtaExterna" size="6" maxlength="4" value="{VALOR_ANO_ATA_EXTERNA}" class="textonormal" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="textonormal" bgcolor="#DCEDF7" width="30%">Processo Licitatório Externo *</td>
+                        <td class="textonormal">
+                            <input type="text" name="ProcessoLicitatorioExterno" id="ProcessoLicitatorioExterno" size="30" maxlength="30" value="{VALOR_PROCESSO_LICITATORIO}" class="textonormal" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="textonormal" bgcolor="#DCEDF7" width="30%">Modalidade *</td>
+                        <td class="textonormal">
+                          <select name="Modalidade" id="Modalidade" class="textonormal">
+                                <option value=""> Selecione uma Modalidade</option>
+                                <!-- BEGIN BLOCO_MODALIDADE -->
+                                <option value="{VALOR_MODALIDADE}" {VALOR_MODALIDADE_SELECIONADO}>{DESCICAO_MODALIDADE}</option>
+                                <!-- END BLOCO_MODALIDADE -->
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="textonormal" bgcolor="#DCEDF7" width="40%">Órgão Gestor da Ata Externa *</td>
+                        <td class="textonormal">
+                            <input type="text" name="OrgaoGestorAtaExterna" id="OrgaoGestorAtaExterna" size="30" maxlength="500" value="{VALOR_ORGAO_ATA_EXTERNA}" class="textonormal" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="textonormal" bgcolor="#DCEDF7">Objeto</td>
+                        <td class="textonormal"> <font class="textonormal">máximo de 200 caracteres</font>
+                            <input type="text" name="NCaracteresO" size="3" value="{VALOR_NCARACATERES0}" OnFocus="javascript:document.CadAtaRegistroPrecoExternaIncluir.Objeto.focus();" class="textonormal">
+                            <br>
+                            <textarea name="Objeto" cols="62" rows="5" OnKeyUp="javascript:ncaracteresO(1)" OnBlur="javascript:ncaracteresO(0)" OnSelect="javascript:ncaracteresO(1)" class="textonormal" maxlength="200">{VALOR_OBJETO}</textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="textonormal" bgcolor="#DCEDF7" width="40%">Documento(s) *</td>
+                        <td class="textonormal">
+                           <!-- <input type="file" name="Documentos[]" id="Documentos[]" size="30" maxlength="30" value="{VALOR_DOCUMENTOS}" class="textonormal" /> -->
+
+                             <!-- BEGIN BLOCO_FILE -->
+                              <input type="file" accept="application/pdf" name="fileArquivo" value="{VALOR_DOCUMENTO}" />
+                              <input type="submit" name="inserir" value="Incluir" class="botao" onclick="javascript:enviar('InserirDocumento')" />
+                              <!-- END BLOCO_FILE -->
+
+                              <ul>
+                              <!-- BEGIN BLOCO_DOCUMENTO -->
+                                 <li>
+                                   {NOME_DOCUMENTO}
+                                   <input type="button" name="remover[]" value="Remover" class="botao removerDocumento"  doc="{ID_DOCUMENTO}"/>
+                                 </li>
+                              <!-- END BLOCO_DOCUMENTO -->
+                              </ul>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="textonormal" bgcolor="#DCEDF7" width="30%">Data Inicial*</td>
+                        <td class="textonormal">
+                            <input type="text" name="DataInicial" id="DataInicial" size="10" maxlength="10" value="{VALOR_DATA_INICIAL}" class="textonormal">
+                            <a href="javascript:janela('../calendario.php?Formulario=CadAtaRegistroPrecoExternaIncluir&Campo=DataInicial','Calendario',220,170,1,0)">
+                                <img src="../midia/calendario.gif" border="0" alt=""></a> <font class="textonormal">dd/mm/aaaa</font>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="textonormal" bgcolor="#DCEDF7" width="40%">Vigência *</td>
+                        <td class="textonormal">
+                            <input type="text" name="Vigencia" id="Vigencia" size="4" maxlength="4" value="{VALOR_VIGENCIA}" class="textonormal" /> meses
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="textonormal" bgcolor="#DCEDF7" width="40%">Fornecedor Original *</td>
+                        <td class="textonormal">
+                            <input type="radio" name="CNPJCPFFornecedorOriginal" id="cnpjFornecedorId" value="1" onclick="javascript:mascaraCNPJ()" {CNPJ_ORIGINAL_CHECKED}>CNPJ
+                            <input type="radio" name="CNPJCPFFornecedorOriginal" id="cpfFornecedorId" value="2" onclick="javascript:mascaraCPF()" {CPF_ORIGINAL_CHECKED}>CPF
+                            <input type="text" name="FornecedorOriginal" id="FornecedorOriginal" size="20" maxlength="20" value="{VALOR_FORNECEDOR_ORIGINAL}" class="textonormal" />
+
+                            <input type="hidden" id="codigoFornecedorOriginal" name="codigoFornecedorOriginal" value="{CODIGO_FORNECEDOR_ORIGINAL}" />
+                            <a id="FornecedorOriginalLink_" onclick="javascript:enviar('FornecedorOriginal')">
+                                <img border="0" src="../midia/lupa.gif" />
+                            </a>
+                            <br/>
+                            <!-- BEGIN BLOCO_CODIGO_FORNECEDOR_ORIGINAL -->
+                            {VALORES_AUXILIARES_FORNECEDOR_ORIGINAL}
+                            <!-- END BLOCO_CODIGO_FORNECEDOR_ORIGINAL -->
+
+
+                            <!-- BEGIN BLOCO_EXISTE_FORNECEDOR_ORIGINAL -->
+                            <p>{DETALHES_FORNECEDOR_ORIGINAL}</p>
+                            <!-- END BLOCO_EXISTE_FORNECEDOR_ORIGINAL -->
+
+                            <!-- BEGIN BLOCO_NAO_EXISTE_FORNECEDOR_ORIGINAL -->
+                                 <p>{MENSAGEM_NAO_EXISTE_FORNECEDOR_ORIGINAL}</p>
+                            <!-- END BLOCO_NAO_EXISTE_FORNECEDOR_ORIGINAL -->
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="textonormal" bgcolor="#DCEDF7" width="40%">Fornecedor Atual</td>
+                        <td class="textonormal">
+                            <input type="radio" name="CNPJCPFFornecedorAtual" id="CNPJFornecedorAtual" onclick="javascript:mascaraCNPJAtual()" value="1" {CNPJ_ATUAL_CHECKED}>CNPJ
+                            <input type="radio" name="CNPJCPFFornecedorAtual" id="CPFFornecedorAtual" onclick="javascript:mascaraCPFAtual()" value="2" {CPF_ATUAL_CHECKED}>CPF
+                            <input type="text" name="FornecedorAtual" id="FornecedorAtual" size="20" maxlength="20" value="{VALOR_FORNECEDOR_ATUAL}" class="textonormal" />
+
+                            <input type="hidden" id="codigoFornecedorAtual" name="codigoFornecedorAtual" value="{CODIGO_FORNECEDOR_ATUAL}" />
+
+
+                            <a id="FornecedorAtualLink" onclick="javascript:enviar('FornecedorAtual')">
+                                <img border="0" src="../midia/lupa.gif" />
+                            </a>
+                            <!-- BEGIN BLOCO_EXISTE_FORNECEDOR_ATUAL -->
+                            <P>{DETALHES_FORNECEDOR_ATUAL}</p>
+                            <!-- END BLOCO_EXISTE_FORNECEDOR_ATUAL -->
+                            <!-- BEGIN BLOCO_NAO_EXISTE_FORNECEDOR_ATUAL -->
+                            <p>{MENSAGEM_NAO_EXISTE_FORNECEDOR_ATUAL}</p>
+                            <!-- END BLOCO_NAO_EXISTE_FORNECEDOR_ATUAL -->
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="textonormal" bgcolor="#DCEDF7" width="30%">Tipo de Controle *</td>
+                        <td class="textonormal">
+                          <select name="TipoControle" id="TipoControle" class="textonormal">
+                                <!-- BEGIN BLOCO_TIPOCONTROLE -->
+                                <option value="{VALOR_CONTROLE}" {VALOR_CONTROLE_SELECIONADO}>{DESCRICAO_CONTROLE}</option>
+                                <!-- END BLOCO_TIPOCONTROLE -->
+                            </select>
+                        </td>
+                    </tr>
+
+                    <!-- BEGIN BLOCO_CARONA -->
+                       <tr>
+                         <td bgcolor="#DCEDF7">
+                           Número da Ata Interna
+                         </td>
+                         <td>
+                          {SEQUENCIAL_ATA}
+                          <input type="hidden" value="{VALOR_PROCESSO}" name="processo">
+                         </td>
+                       </tr>
+                       <tr>
+                         <td bgcolor="#DCEDF7">
+                           Processo Licitatório
+                         </td>
+                         <td>
+                           {PROCESSO_LICITATORIO}
+                         </td>
+                       </tr>
+                       <tr>
+                         <td bgcolor="#DCEDF7">
+                         Órgão Externo Solicitante da Carona
+                         </td>
+                         <td>
+                             <input type="text" name="orgaoCarona" value="{ORGAO_EXTERNO}" maxlength="100" required>
+                         </td>
+                       </tr>
+                    <!-- END BLOCO_CARONA -->
+
+                    <tr>
+                        <td class="textonormal" colspan="12">
+                            <table border="1" cellpadding="3" cellspacing="0"  bgcolor="#bfdaf2" bordercolor="#75ADE6" width="100%" summary="">
+                                <tr>
+                                    <td align="center" bgcolor="#75ADE6" valign="middle"
+                                        class="titulo3" colspan="15">
+                                        <font color="white">{TITULO_TABELA}</font>
+                                    </td>
+                                </tr>
+                                <!-- BEGIN BLOCO_LISTAGEM_CARONA -->
+
+                                <tr class="head_principal">
+                                    <td bgcolor="#DCEDF7" align="center" class="textoabason" id="ordem">ORDEM</th>
+                                    <td bgcolor="#DCEDF7" align="center" class="textoabason" id="codred">CADUS/CADUM</th>
+                                    <td bgcolor="#DCEDF7" align="center" class="textoabason" id="descricao">DESCRIÇÃO</th>
+                                    <td bgcolor="#DCEDF7" align="center" class="textoabason" id="descricao_detalhada">DESCRIÇÃOO DETALHADA</th>
+                                    <td bgcolor="#DCEDF7" align="center" class="textoabason" id="unidade">UNIDADE</th>
+                                    <td bgcolor="#DCEDF7" align="center" class="textoabason" id="quantidade_ata">QTDE ATA</th>
+                                    <td bgcolor="#DCEDF7" align="center" class="textoabason" id="valor_unit">VALOR UNIT.</th>
+                                    <td bgcolor="#DCEDF7" align="center" class="textoabason" id="valor_total">VALOR TOTAL</th>
+                                    <td bgcolor="#DCEDF7" align="center" class="textoabason" id="lote">LOTE</th>
+                                    <td bgcolor="#DCEDF7" align="center" class="textoabason" id="saldo_qnt_carona">SALDO QTDE CARONA</th>
+                                    <td bgcolor="#DCEDF7" align="center" class="textoabason" id="qnt_solicitada">QTDE SOLICITADA</th>
+                                    <td bgcolor="#DCEDF7" align="center" class="textoabason" id="valor_total_atual">VALOR TOTAL ATUAL</th>
+                                    <td bgcolor="#DCEDF7" align="center" class="textoabason" id="marca">MARCA</th>
+                                    <td bgcolor="#DCEDF7" align="center" class="textoabason" id="modelo">MODELO</th>
+                                </tr>
+                                 <!-- END BLOCO_LISTAGEM_CARONA -->
+
+                                 <!-- BEGIN BLOCO_LISTAGEM_EXTERNA -->
+                                <tr>
+                                    <td bgcolor="#DCEDF7" align="center" class="textoabason" colspan="1" id="ordem">ORDEM</th>
+                                    <td bgcolor="#DCEDF7" align="center" class="textoabason" colspan="1" id="codred">{VALOR_TIPO}</th>
+                                    <td bgcolor="#DCEDF7" align="center" class="textoabason" colspan="2" id="descricao">DESCRIÇÃO</th>
+                                    <td bgcolor="#DCEDF7" align="center" class="textoabason" colspan="1" id="descricao_detalhada">DESCRIÇÃO DETALHADA</th>
+                                    <td bgcolor="#DCEDF7" align="center" class="textoabason" colspan="1" id="unidade">UND.</th>
+                                    <td bgcolor="#DCEDF7" align="center" class="textoabason" colspan="1" id="quantidade_ata">QTDE ORIGINAL</th>
+                                    <td bgcolor="#DCEDF7" align="center" class="textoabason" colspan="1" id="valor_unit">VALOR ORIGINAL UNIT.</th>
+                                    <td bgcolor="#DCEDF7" align="center" class="textoabason" colspan="1" id="valor_total">VALOR TOTAL</th>
+                                    <td bgcolor="#DCEDF7" align="center" class="textoabason" colspan="1" id="lote">LOTE</th>
+                                    <td bgcolor="#DCEDF7" align="center" class="textoabason" colspan="1" id="saldo_qnt_carona">QTD ATUAL</th>
+                                    <td bgcolor="#DCEDF7" align="center" class="textoabason" colspan="1" id="qnt_solicitada">VALOR UNITÁRIO ATUAL</th>
+                                    <td bgcolor="#DCEDF7" align="center" class="textoabason" colspan="1" id="valor_total_atual">VALOR TOTAL ATUAL</th>
+                                    <td bgcolor="#DCEDF7" align="center" class="textoabason" colspan="1" id="marca">MARCA</th>
+                                    <td bgcolor="#DCEDF7" align="center" class="textoabason" colspan="1" id="modelo">MODELO</th>
+                                </tr>
+                                <!-- END BLOCO_LISTAGEM_EXTERNA -->
+
+                                <!-- BEGIN BLOCO_LISTAGEM_ITEM_EXTERNA -->
+                                <tr>
+                                    <input type="hidden" value="{VALOR_GENERICO}" name="generico[]">
+                                    <td headers="ordem" class="textonormal" align="center">
+                                        <input type="checkbox" name="CheckItem[]" value="{VALOR_ITEM}"/>
+                                        {VALOR_ITEM}
+                                        <input type="hidden" name="Item[]" value="{VALOR_ITEM}" />
+                                        <input type="hidden" name="Material[]" value="{VALOR_MATERIAL}"/>
+
+                                    </td>
+                                    <td headers="codred" class="textonormal" align="center" colspan="1">
+                                        {VALOR_CODIGO_REDUZIDO}
+                                        <input type="hidden" name="Item[]" value="{VALOR_ITEM}"/>
+                                        <input type="hidden" name="Material[]" value="{VALOR_MATERIAL}"/>
+                                        <input type="hidden" name="CodigoReduzido[]" value="{VALOR_CODIGO_REDUZIDO}"/>
+                                        <input type="hidden" name="TipoItem[]" value="{TIPO_ITEM}"/>
+
+                                    </td>
+                                    <td headers="descricao" class="textonormal" align="center" colspan="2">
+                                        <input type="hidden" value="{VALOR_DESCRICAO}" name="descricaoMat[]">
+                                        <a href="javascript:AbreJanela('../estoques/CadItemDetalhe.php?ProgramaOrigem=CadAtaRegistroPrecoExternaIncluir&Material={VALOR_CODIGO_REDUZIDO}&TipoGrupo={VALOR_TIPO_GRUPO}',700,370);">
+                                           <font color="#000000"> {VALOR_DESCRICAO} </font>
+                                        </a>
+                                    </td>
+                                    <td headers="descricao" class="textonormal" align="center" colspan="1">                                        
+                                        {VALOR_DESCRICAO_DETALHADA}
+                                    </td>
+                                    <td headers="unidade" class="textonormal" align="center" >
+                                        <input value="{VALOR_UNIDADE}" name="Unidade[]" type="hidden">
+                                        {VALOR_UNIDADE}
+                                    </td>
+                                    <td headers="quantidade_ata" class="textonormal" align="center" >
+                                        <input type="text" class="dinheiro4casas" name="QtdOriginal[]" size="10" maxlength="16" id="QtdOriginal[{VALOR_ITEM}]" value="{VALOR_QTD_ORIGINAL}" onblur="javascript:AtualizarValorTotal('QtdOriginal[{VALOR_ITEM}]','ValorOriginalUnitario[{VALOR_ITEM}]','totalOriginal[{VALOR_ITEM}]');"/>
+                                    </td>
+                                    <td headers="valor_unit" class="textonormal" align="center">
+                                        <input type="text" class="dinheiro4casas" maxlength="16" size="10" id="ValorOriginalUnitario[{VALOR_ITEM}]" name="ValorOriginalUnitario[]" value="{VALOR_ORIGINAL_UNIT}" onblur="javascript:AtualizarValorTotal('QtdOriginal[{VALOR_ITEM}]','ValorOriginalUnitario[{VALOR_ITEM}]','totalOriginal[{VALOR_ITEM}]');"/>
+                                    </td>
+
+                                    <td headers="valor_total" class="textonormal" width="5%" align="center" id="totalOriginal[{VALOR_ITEM}]" >
+                                     {VALOR_TOTAL_ORIGINAL}
+                                    </td>
+
+                                    <td headers="lote" class="textonormal" align="center">
+                                        <input type="text" name="Lote[]" value="{VALOR_LOTE}" size="3" maxlength="5" />
+                                    </td>
+
+                                    <td headers="qnt_solicitada" class="textonormal" align="center" >
+                                        <input type="text" class="dinheiro4casas" maxlength="16" size="10" name="QtdAtual[]" value="{VALOR_QTD_ATUAL}" id="QtdAtual[{VALOR_ITEM}]" onblur="javascript:AtualizarValorTotal('QtdAtual[{VALOR_ITEM}]','ValorAtualUnitario[{VALOR_ITEM}]','totalAtual[{VALOR_ITEM}]')"/>
+                                    </td>
+                                    <td headers="saldo_qnt_carona" class="textonormal" align="center" >
+                                        <input type="text" class="dinheiro4casas" maxlength="16" size="10" name="ValorAtualUnitario[]" id="ValorAtualUnitario[{VALOR_ITEM}]" value="{VALOR_ATUAL_UNIT}" onblur="javascript:AtualizarValorTotal('QtdAtual[{VALOR_ITEM}]','ValorAtualUnitario[{VALOR_ITEM}]','totalAtual[{VALOR_ITEM}]');"/>
+                                    </td>
+                                    <td headers="valor_total_atual" class="textonormal totalValorItem" align="center"  id="totalAtual[{VALOR_ITEM}]" >
+                                        {VALOR_TOTAL_ATUAL}
+                                    </td>
+                                    <td headers="marca" class="textonormal" align="center"  id="marca[{VALOR_MARCA}]" >
+                                        <input type="text" name="Marca[]" value="{VALOR_MARCA}" size="10" />
+                                    </td>
+                                    <td headers="modelo" class="textonormal" align="center"  id="modelo[{VALOR_MODELO}]" >
+                                        <input type="text" name="Modelo[]" value="{VALOR_MODELO}" size="10" />
+                                    </td>
+                                </tr>
+                                <!-- END BLOCO_LISTAGEM_ITEM_EXTERNA -->
+
+
+                                   <!-- BEGIN BLOCO_LISTAGEM_ITEM_CARONA -->
+                                <tr>
+                                    <td  headers="ordem" class="textonormal" align="center" >
+                                        {VALOR_ITEM}
+                                        <input type="hidden" name="Item[]" value="{VALOR_ITEM}" />
+                                        <input type="hidden" name="CodigoItem[]" value="{VALOR_CODIGO_ITEM}" />
+                                        <input type="hidden" name="CodigoAta[]" value="{VALOR_CODIGO_ATA}" />
+                                    </td>
+                                    <td headers="codred" class="textonormal" align="center">
+                                        {VALOR_CODIGO_REDUZIDO}
+                                    </td>
+                                    <td class="textonormal">
+                                        {VALOR_DESCRICAO}
+                                   </td>
+                                    <td class="textonormal" align="center">
+                                        {VALOR_UNIDADE}
+                                    </td>
+                                    <td class="textonormal" align="center">
+                                        {VALOR_QTD_ORIGINAL}
+                                        <input type="hidden" name="qtdCarona[]" value="{VALOR_QTD_ORIGINAL}">
+                                    </td>
+                                    <td headers="valor_unit" class="textonormal" align="center">
+                                        {VALOR_UNIT}
+                                        <input type="hidden" name="valorUnidade[]" id="valorUnidade[{VALOR_ITEM}]" value="{VALOR_UNIT}">
+                                    </td>
+                                    <td headers="valor_total" class="textonormal" align="center">
+                                       {VALOR_TOTAL_ORIGINAL}
+                                       <input type="hidden" name="totalOriginal" value="VALOR_TOTAL_ORIGINAL">
+                                    </td>
+                                    <td headers="lote" class="textonormal" align="center">
+                                        {VALOR_LOTE}
+                                    </td>
+                                    <td headers="saldo_qnt_carona" class="textonormal" align="center">
+                                        {VALOR_QTD_CARONA}
+                                    <td class="textonormal" align="center">
+                                        <input type="number" class="textonormal" name="ValorAtualSaldo[{VALOR_ITEM}]" id="ValorAtualSaldo[{VALOR_ITEM}]" value="{VALOR_QTD_ATUAL}" maxlength="25" required/>
+                                    </td>
+                                    <td headers="qnt_solicitada" class="textonormal" align="center">
+                                       {VALOR_ATUAL_UNIT}
+                                        <input type="hidden" class="textonormal" name="ValorAtualUnitario[]" id="ValorAtualUnitario[{VALOR_ITEM}]" value="{VALOR_ATUAL_UNIT}" />
+                                    </td>
+                                </tr>
+                                <!-- END BLOCO_LISTAGEM_ITEM_CARONA -->
+                               <tr>
+                                    <td class="textonormal" colspan="14" align="left">TOTAL DA ATA</td>
+                                    <td align="center" class="textonormal" colspan="11">
+                                        <span id="valorTotal">{TOTAL_ATA}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="textonormal" colspan="15" align="center">
+		                                <!-- BEGIN BLOCO_INCLUIR_ITEM -->
+                                        <input type="button" name="IncluirItem" value="Incluir Item" class="botao"
+                                        onclick="javascript:AbreJanelaItem('../estoques/CadIncluirItem.php?ProgramaOrigem=CadAtaRegistroPrecoExternaIncluir&PesqApenas=C',700,350);" />
+		                                <!-- END BLOCO_INCLUIR_ITEM -->
+                                        <!-- BEGIN BLOCO_RETIRAR_ITEM -->
+                                        <input type="button" name="Retirar" value="Retirar Item" class="botao" onClick="javascript:enviar('RetirarItem');" />
+                                        <!-- END BLOCO_RETIRAR_ITEM -->
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td class="textonormal" align="right">
+                 <input type="hidden" id="documentoExcluir" name="documentoExcluir" value="" />
+                <input type="hidden" name="InicioPrograma" value="1" />
+                <input type="button" name="Incluir" value="Salvar" class="botao" onClick="javascript:enviar('{ACAO_SALVAR}');" />
+                <!-- BEGIN bloco_voltar -->
+                <input type="button" name="Voltar" value="Voltar" class="botao" onClick="javascript:enviar('Voltar');" />
+                <!-- END bloco_voltar -->
+                <input type="hidden" name="Botao" id="Botao" value="" />
+            </td>
+        </tr>
+    </table>
+</form>

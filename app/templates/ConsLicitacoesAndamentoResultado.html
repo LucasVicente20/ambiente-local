@@ -1,0 +1,176 @@
+<!--
+ * Alterado: Lucas Vicente
+ * Data:     04/11/2022
+ * Objetivo: CR 270290 - Mover botão de Exportar para tela de Resultados
+ * -----------------------------------------------------------------------------
+-->
+
+<script>
+	function carregaProcesso(valor) {
+		document.Acomp.Botao.value = 'carregaProcesso';
+		document.Acomp.carregaProcesso.value = valor;
+		document.Acomp.submit();
+	}
+</script>
+
+
+<div class="content">
+	<div class="row">
+		<div class="span12">
+			<section class="box-article">
+				<header class="header">
+					<h1>Licitações em Andamento - Resultado</h1>
+				</header>
+				<div class="body">
+					<ul class="breadcrumb">
+						<li><a href="{BASE_URL}home.php">Início</a><span class="divider"><i
+									class="arrow-right"></i></span></li>
+						<li><a href="{BASE_URL}Licitacoes.php">Licitações</a><span class="divider"><i
+									class="arrow-right"></i></span></li>
+						<li class="active">Licitações em andamento</li>
+					</ul>
+					<article class="article">
+						<header class="article-header">
+							<h1>Licitações em Andamento - Resultado</h1>
+						</header>
+					</article>
+					<form name="ConsLicitacoesAndamento" action="{BASE_URL}ConsLicitacoesAndamentoResultado.php"
+						method="post" class="formSubmit">
+						<button class="btn btn-primary" type="button"
+							onClick="location.href='{BASE_URL}ConsLicitacoesAndamento.php'">Nova Pesquisa</button>
+
+						<input type="hidden" name="Botao" value="">
+
+						<!-- CAIO MELQUIADES -ADICIONADO INPUT HIDDEN 'BotaoExport' -->
+						<input type="hidden" name="BotaoExport" value="">
+
+						<!-- CAIO MELQUIADES -ADICIONADO INPUT HIDDEN 'FormatoExport', PARA PASSAR O FORMATO DE EXPORTACAO COMO PARAMETRO -->
+						<input type="hidden" name="FormatoExport" value="">
+
+						<!-- CAIO MELQUIADES - BOTAO EXPORTAR -->
+						<div class="btn-group">
+							<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+								aria-haspopup="true" aria-expanded="false">
+								Exportar <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu">
+								<li><a onClick="javascript:exportar('Exportar', 'csv');">CSV</a></li>
+								<li><a onClick="javascript:exportar('Exportar', 'txt');">TXT</a></li>
+								<li><a onClick="javascript:exportar('Exportar', 'xls');">XLS</a></li>
+								<li><a onClick="javascript:exportar('Exportar', 'ods');">ODS</a></li>
+							</ul>
+						</div>
+					</form>
+					<section class="article-detail">
+						<table class="table table-report">
+							<thead>
+								<th colspan="12">
+									<span class="text-center"> CRITÉRIOS DE PESQUISA </span>
+								</th>
+							</thead>
+							<tbody>
+								<!-- BEGIN BLOCO_SEARCH -->
+								<tr>
+									<td colspan="4" style="text-align: left"> {NAME_SEARCH}</td>
+									<td colspan="8" style="text-align: left"> {VALUE_SEARCH}</td>
+								</tr>
+								<!-- END BLOCO_SEARCH -->
+							</tbody>
+						</table>
+					</section>
+
+					<section class="article-detail">
+						<table class="table table-report">
+							<!-- BEGIN BLOCO_CORPO -->
+							<!-- BEGIN BLOCO_TITULO -->
+							<!-- BEGIN BLOCO_GRUPO -->
+							<thead>
+								<tr>
+									<th colspan="10" class="abc">
+										<span class="text-center">{GRUPO_DESCRICAO}</span>
+									</th>
+								</tr>
+							</thead>
+							<!-- END BLOCO_GRUPO -->
+							<tbody>
+
+								<!-- BEGIN BLOCO_ORGAO -->
+								<tr>
+									<td colspan="10">
+										<article class="article">
+											<header class="article-header">
+												<h3>{ORGAO_DESCRICAO}</h3>
+											</header>
+										</article>
+
+									</td>
+								</tr>
+								<!-- END BLOCO_ORGAO -->
+
+								<!-- BEGIN BLOCO_CABECALHO -->
+								<tr>
+									<td style="vertical-align:middle;text-align:center;"><strong>OBJETO</strong></td>
+									<td style="vertical-align:middle;text-align:center;"><strong>DATA/HORA
+											ABERTURA</strong></td>
+									<td style="vertical-align:middle;text-align:center;"><strong>FASE</strong></td>
+									<td style="vertical-align:middle;text-align:center;"><strong>PROCESSO</strong></td>
+									<td style="vertical-align:middle;text-align:center;"><strong>MODALIDADE</strong>
+									</td>
+									<td style="vertical-align:middle;text-align:center;"><strong>COMISSÃO
+											LICITAÇÃO</strong></td>
+									<td style="vertical-align:middle;text-align:center;"><strong>LICITAÇÃO</strong></td>
+									<td style="vertical-align:middle;text-align:center;"><strong>Nº SOLICITAÇÃO DE
+											COMPRA</strong></td>
+									<td style="vertical-align:middle;text-align:center;"><strong>VALOR ESTIMADO
+											TOTAL</strong></td>
+								</tr>
+								<!-- END BLOCO_CABECALHO -->
+								<!-- END BLOCO_TITULO -->
+
+								<!-- BEGIN BLOCO_VALORES -->
+								<tr>
+									<td style="vertical-align:middle;text-align:justify;"><a
+											href="javascript:carregaProcesso('{URL}');">{OBJETO}</a></td>
+									<td style="vertical-align:middle;text-align:center;">{DATA_HORA_ABERTURA}</td>
+									<td style="vertical-align:middle;text-align:center;">{FASE}</td>
+									<td style="vertical-align:middle;text-align:center;">{PROCESSO}</td>
+									<td style="vertical-align:middle;text-align:center;">{MODALIDADE_DESCRICAO}</td>
+									<td style="vertical-align:middle;text-align:center;">{COMISSAO_LICITACAO}</td>
+									<td style="vertical-align:middle;text-align:center;">{LICITACAO}</td>
+									<td style="vertical-align:middle;text-align:center;">{SCC}</td>
+									<td title="{HINT_VALOR}" style="vertical-align:middle;text-align:center;">
+										{VALOR_TOTAL}</td>
+								</tr>
+								<!-- END BLOCO_VALORES -->
+								<!-- BEGIN BLOCO_SEPARATOR -->
+								<tr>
+									<td colspan="7"><span class="separator"></span></td>
+								</tr>
+								<!-- END BLOCO_SEPARATOR -->
+							</tbody>
+							<!-- END BLOCO_CORPO -->
+
+						</table>
+					</section>
+				</div>
+			</section>
+			<form name="Acomp" method="post">
+				<input type="hidden" name="carregaProcesso" value="">
+				<input type="hidden" name="Botao" value="">
+			</form>
+		</div>
+	</div>
+</div>
+
+<script>
+	//CAIO MELQUIADES - FUNCAO PARA EXPORTAR DADOS
+	function exportar(valor, formato) {
+		document.ConsLicitacoesAndamento.BotaoExport.value = valor;
+		document.ConsLicitacoesAndamento.FormatoExport.value = formato;
+		document.ConsLicitacoesAndamento.action = "{BASE_URL}ConsLicitacoesAndamentoExport.php";
+		document.ConsLicitacoesAndamento.submit();
+		document.ConsLicitacoesAndamento.action = "{BASE_URL}ConsLicitacoesAndamentoResultado.php";
+		document.ConsLicitacoesAndamento.BotaoExport.value = "";
+		document.ConsLicitacoesAndamento.FormatoExport.value = "";
+	}
+</script>
